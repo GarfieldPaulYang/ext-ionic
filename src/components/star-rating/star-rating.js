@@ -1,11 +1,6 @@
-import { Component, Input, forwardRef, ElementRef } from '@angular/core';
+import { Component, Input, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _ from 'lodash';
-export var STAR_RATING_VALUE_ACCESSOR = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(function () { return StarRatingCmp; }),
-    multi: true
-};
 var StarRatingCmp = (function () {
     function StarRatingCmp(elementRef) {
         this.elementRef = elementRef;
@@ -109,7 +104,7 @@ StarRatingCmp.decorators = [
     { type: Component, args: [{
                 selector: 'ion-star-rating',
                 template: "\n    <ul class=\"rating\">\n      <li *ngFor=\"let r of range; let i = index\" tappable (click)=\"rate(i + 1)\" attr.index=\"{{i + 1}}\">\n        <ion-icon [name]=\"setIcon(r)\"></ion-icon>\n      </li>\n    </ul>\n  ",
-                providers: [STAR_RATING_VALUE_ACCESSOR]
+                providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: StarRatingCmp, multi: true }]
             },] },
 ];
 /** @nocollapse */

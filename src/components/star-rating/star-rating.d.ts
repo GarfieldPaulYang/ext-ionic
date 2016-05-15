@@ -1,6 +1,5 @@
 import { OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-export declare const STAR_RATING_VALUE_ACCESSOR: any;
 export declare class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
     private elementRef;
     max: number;

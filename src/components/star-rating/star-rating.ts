@@ -1,12 +1,6 @@
-import { Component, OnInit, OnDestroy, Input, forwardRef, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ElementRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _ from 'lodash';
-
-export const STAR_RATING_VALUE_ACCESSOR: any = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => StarRatingCmp),
-  multi: true
-};
 
 @Component({
   selector: 'ion-star-rating',
@@ -17,7 +11,7 @@ export const STAR_RATING_VALUE_ACCESSOR: any = {
       </li>
     </ul>
   `,
-  providers: [STAR_RATING_VALUE_ACCESSOR]
+  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: StarRatingCmp, multi: true }]
 })
 export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() max: number = 5;
