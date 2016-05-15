@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Page } from 'ionic-angular/navigation/nav-util';
 
 export interface NavButton {
@@ -96,7 +96,8 @@ export interface NavButton {
         <label>{{item.label}}</label>
       </div>
     </div>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavButtonBar {
   @Input()
