@@ -4,6 +4,7 @@
   "description": "ionic2 扩展库",
   "main": "index.js",
   "scripts": {
+    "build": "./node_modules/.bin/tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
