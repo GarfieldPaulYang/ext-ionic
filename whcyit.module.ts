@@ -5,6 +5,7 @@ import { OpenUrlModalCmp } from './src/components/open-url-modal/open-url-modal-
 import { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
 
 export { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
+export { MapToIterable } from './src/pipes/map-to-iterable';
 
 @NgModule({
   imports: [
