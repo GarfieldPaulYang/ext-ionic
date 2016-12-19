@@ -13,6 +13,7 @@
     "target": "es5"
   },
   "include": [
+    "./*.ts",
     "./src/**/*.ts"
   ],
   "exclude": [

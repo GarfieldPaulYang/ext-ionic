@@ -10,9 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
-var open_url_modal_component_1 = require('./components/open-url-modal/open-url-modal-component');
-var open_url_modal_1 = require('./components/open-url-modal/open-url-modal');
-var open_url_modal_2 = require('./components/open-url-modal/open-url-modal');
+var open_url_modal_component_1 = require('./src/components/open-url-modal/open-url-modal-component');
+var open_url_modal_1 = require('./src/components/open-url-modal/open-url-modal');
+var open_url_modal_2 = require('./src/components/open-url-modal/open-url-modal');
 exports.OpenUrlModalController = open_url_modal_2.OpenUrlModalController;
 var WhcyitModule = (function () {
     function WhcyitModule() {
