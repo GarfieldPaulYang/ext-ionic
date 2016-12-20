@@ -2,13 +2,37 @@
   position: fixed;
   right: 0;
   display: flex;
-  flex-flow: column;
+  flex-direction: column;
+  justify-content: space-around;
   z-index: 50000;
 }
 
 .ion-alpha-sidebar li {
   flex: 1 1 auto;
   list-style: none;
-  width: 15px;
+  width: 20px;
   text-align: center;
+}
+
+.ion-alpha-letter-indicator {
+  -webkit-transition: opacity 150ms ease-in-out;
+  transition: opacity 150ms ease-in-out;
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  color: white;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-size: 3em;
+}
+
+.ion_alpha_sidebar li {
+  color: #cccccc;
+}
+
+.alpha-active {
+  color: darkkhaki !important;
 }

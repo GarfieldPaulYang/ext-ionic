@@ -13,9 +13,14 @@ var common_1 = require("@angular/common");
 var ionic_angular_1 = require('ionic-angular');
 var angular2_dynamic_component_1 = require('angular2-dynamic-component');
 var map_to_iterable_1 = require('./src/pipes/map-to-iterable');
+var order_by_1 = require('./src/pipes/order-by');
 var alpha_scroll_1 = require('./src/components/alpha-scroll/alpha-scroll');
 var open_url_modal_component_1 = require('./src/components/open-url-modal/open-url-modal-component');
 var open_url_modal_1 = require('./src/components/open-url-modal/open-url-modal');
+var map_to_iterable_2 = require('./src/pipes/map-to-iterable');
+exports.MapToIterable = map_to_iterable_2.MapToIterable;
+var order_by_2 = require('./src/pipes/order-by');
+exports.OrderBy = order_by_2.OrderBy;
 var alpha_scroll_2 = require('./src/components/alpha-scroll/alpha-scroll');
 exports.AlphaScroll = alpha_scroll_2.AlphaScroll;
 var open_url_modal_2 = require('./src/components/open-url-modal/open-url-modal');
@@ -29,10 +34,16 @@ var WhcyitPipeModule = (function () {
                 common_1.CommonModule
             ],
             exports: [
-                map_to_iterable_1.MapToIterable
+                map_to_iterable_1.MapToIterable,
+                order_by_1.OrderBy
             ],
             declarations: [
-                map_to_iterable_1.MapToIterable
+                map_to_iterable_1.MapToIterable,
+                order_by_1.OrderBy
+            ],
+            providers: [
+                map_to_iterable_1.MapToIterable,
+                order_by_1.OrderBy
             ]
         }), 
         __metadata('design:paramtypes', [])
