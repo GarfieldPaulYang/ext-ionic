@@ -10,22 +10,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
+var ng_dynamic_1 = require('ng-dynamic');
+var map_to_iterable_1 = require('./src/pipes/map-to-iterable');
+var alpha_scroll_1 = require('./src/components/alpha-scroll/alpha-scroll');
 var open_url_modal_component_1 = require('./src/components/open-url-modal/open-url-modal-component');
 var open_url_modal_1 = require('./src/components/open-url-modal/open-url-modal');
 var open_url_modal_2 = require('./src/components/open-url-modal/open-url-modal');
 exports.OpenUrlModalController = open_url_modal_2.OpenUrlModalController;
+var map_to_iterable_2 = require('./src/pipes/map-to-iterable');
+exports.MapToIterable = map_to_iterable_2.MapToIterable;
 var WhcyitModule = (function () {
     function WhcyitModule() {
     }
     WhcyitModule = __decorate([
         core_1.NgModule({
             imports: [
-                ionic_angular_1.IonicModule
+                ionic_angular_1.IonicModule,
+                ng_dynamic_1.DynamicComponentModule.forRoot({
+                    imports: [ionic_angular_1.IonicModule],
+                    declarations: [map_to_iterable_1.MapToIterable]
+                })
+            ],
+            exports: [
+                alpha_scroll_1.AlphaScroll
             ],
             declarations: [
-                open_url_modal_component_1.OpenUrlModalCmp
-            ],
-            entryComponents: [
+                alpha_scroll_1.AlphaScroll,
                 open_url_modal_component_1.OpenUrlModalCmp
             ],
             providers: [
