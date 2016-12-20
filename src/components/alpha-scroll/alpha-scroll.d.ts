@@ -1,9 +1,8 @@
-import { ElementRef, ViewContainerRef, SimpleChange } from '@angular/core';
+import { OnInit, OnChanges, ElementRef, SimpleChange } from '@angular/core';
 import { Content } from 'ionic-angular';
-export declare class AlphaScroll {
+export declare class AlphaScroll implements OnInit, OnChanges {
     private _content;
     private _elementRef;
-    private vcRef;
     listData: any;
     key: string;
     itemTemplate: string;
@@ -14,7 +13,7 @@ export declare class AlphaScroll {
     alphabet: any;
     ionAlphaScrollRef: this;
     alphaScrollTemplate: string;
-    constructor(_content: Content, _elementRef: ElementRef, vcRef: ViewContainerRef);
+    constructor(_content: Content, _elementRef: ElementRef);
     ngOnInit(): void;
     ngOnChanges(changes: {
         [propertyName: string]: SimpleChange;

@@ -9,8 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var common_1 = require("@angular/common");
 var ionic_angular_1 = require('ionic-angular');
-var ng_dynamic_1 = require('ng-dynamic');
+var angular2_dynamic_component_1 = require('angular2-dynamic-component');
 var map_to_iterable_1 = require('./src/pipes/map-to-iterable');
 var alpha_scroll_1 = require('./src/components/alpha-scroll/alpha-scroll');
 var open_url_modal_component_1 = require('./src/components/open-url-modal/open-url-modal-component');
@@ -19,21 +20,37 @@ var alpha_scroll_2 = require('./src/components/alpha-scroll/alpha-scroll');
 exports.AlphaScroll = alpha_scroll_2.AlphaScroll;
 var open_url_modal_2 = require('./src/components/open-url-modal/open-url-modal');
 exports.OpenUrlModalController = open_url_modal_2.OpenUrlModalController;
-var map_to_iterable_2 = require('./src/pipes/map-to-iterable');
-exports.MapToIterable = map_to_iterable_2.MapToIterable;
+var WhcyitPipeModule = (function () {
+    function WhcyitPipeModule() {
+    }
+    WhcyitPipeModule = __decorate([
+        core_1.NgModule({
+            imports: [
+                common_1.CommonModule
+            ],
+            exports: [
+                map_to_iterable_1.MapToIterable
+            ],
+            declarations: [
+                map_to_iterable_1.MapToIterable
+            ]
+        }), 
+        __metadata('design:paramtypes', [])
+    ], WhcyitPipeModule);
+    return WhcyitPipeModule;
+}());
 var WhcyitModule = (function () {
     function WhcyitModule() {
     }
     WhcyitModule = __decorate([
         core_1.NgModule({
             imports: [
+                WhcyitPipeModule,
                 ionic_angular_1.IonicModule,
-                ng_dynamic_1.DynamicComponentModule.forRoot({
-                    imports: [ionic_angular_1.IonicModule],
-                    declarations: [map_to_iterable_1.MapToIterable]
-                })
+                angular2_dynamic_component_1.DynamicComponentModuleFactory.buildModule([ionic_angular_1.IonicModule, WhcyitPipeModule])
             ],
             exports: [
+                WhcyitPipeModule,
                 alpha_scroll_1.AlphaScroll
             ],
             declarations: [

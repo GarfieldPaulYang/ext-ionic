@@ -1,0 +1,14 @@
+.ion-alpha-sidebar {
+  position: fixed;
+  right: 0;
+  display: flex;
+  flex-flow: column;
+  z-index: 50000;
+}
+
+.ion-alpha-sidebar li {
+  flex: 1 1 auto;
+  list-style: none;
+  width: 15px;
+  text-align: center;
+}

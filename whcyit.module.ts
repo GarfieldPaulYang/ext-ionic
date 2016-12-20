@@ -1,25 +1,37 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from "@angular/common";
 import { IonicModule } from 'ionic-angular';
-import { DynamicComponentModule } from 'ng-dynamic';
+import { DynamicComponentModuleFactory } from 'angular2-dynamic-component';
 
-import { MapToIterable } from './src/pipes/map-to-iterable'; 
+import { MapToIterable } from './src/pipes/map-to-iterable';
 import { AlphaScroll } from './src/components/alpha-scroll/alpha-scroll';
 import { OpenUrlModalCmp } from './src/components/open-url-modal/open-url-modal-component';
 import { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
 
 export { AlphaScroll } from './src/components/alpha-scroll/alpha-scroll';
 export { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
-export { MapToIterable } from './src/pipes/map-to-iterable';
 
 @NgModule({
   imports: [
-    IonicModule,
-    DynamicComponentModule.forRoot({
-      imports: [IonicModule],
-      declarations: [MapToIterable]
-    })
+    CommonModule
   ],
   exports: [
+    MapToIterable
+  ],
+  declarations: [
+    MapToIterable
+  ]
+})
+class WhcyitPipeModule { }
+
+@NgModule({
+  imports: [
+    WhcyitPipeModule,
+    IonicModule,
+    DynamicComponentModuleFactory.buildModule([IonicModule, WhcyitPipeModule])
+  ],
+  exports: [
+    WhcyitPipeModule,
     AlphaScroll
   ],
   declarations: [
@@ -33,4 +45,4 @@ export { MapToIterable } from './src/pipes/map-to-iterable';
     OpenUrlModalController
   ]
 })
-export class WhcyitModule {}
+export class WhcyitModule { }

@@ -1,10 +1,10 @@
 import {
   Component,
+  OnInit,
+  OnChanges,
   Host,
   Input,
   ElementRef,
-  ViewChild,
-  ViewContainerRef,
   SimpleChange
 } from '@angular/core';
 import { Content, Scroll } from 'ionic-angular';
@@ -13,10 +13,10 @@ import * as _ from 'lodash';
 @Component({
   selector: 'ion-alpha-scroll',
   template: `
-    <div *dynamicComponent="alphaScrollTemplate; context: ionAlphaScrollRef;"></div>
+    <template dynamic-component [componentTemplate]="alphaScrollTemplate" [componentContext]="ionAlphaScrollRef"></template>
   `
 })
-export class AlphaScroll {
+export class AlphaScroll implements OnInit, OnChanges {
   @Input() listData: any;
   @Input() key: string;
   @Input() itemTemplate: string;
@@ -28,28 +28,11 @@ export class AlphaScroll {
   ionAlphaScrollRef = this;
   alphaScrollTemplate: string;
 
-  constructor(@Host() private _content: Content, private _elementRef: ElementRef, private vcRef: ViewContainerRef) {
+  constructor( @Host() private _content: Content, private _elementRef: ElementRef) {
   }
 
   ngOnInit() {
     this.alphaScrollTemplate = `
-      <style>
-        .ion-alpha-sidebar {
-          position: fixed;
-          right: 0;
-          display: flex;
-          flex-flow: column;
-          z-index: 50000;
-        }
-
-        .ion-alpha-sidebar li {
-          flex: 1 1 auto;
-          list-style: none;
-          width: 15px;
-          text-align: center;
-        }
-      </style>
-      
       <ion-scroll class="ion-alpha-scroll" [ngStyle]="ionAlphaScrollRef.calculateScrollDimensions()" scrollX="false" scrollY="true">
         <ion-item-group class="ion-alpha-list-outer">
           <div *ngFor="let items of ionAlphaScrollRef.sortedItems | mapToIterable; trackBy:ionAlphaScrollRef.trackBySortedItems">

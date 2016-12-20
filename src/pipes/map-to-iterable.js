@@ -29,7 +29,7 @@ var MapToIterable = (function () {
     };
     MapToIterable = __decorate([
         core_1.Pipe({
-            name: 'map-to-iterable'
+            name: 'mapToIterable'
         }),
         core_1.Injectable(), 
         __metadata('design:paramtypes', [])

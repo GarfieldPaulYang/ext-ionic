@@ -15,17 +15,16 @@ var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var _ = require('lodash');
 var AlphaScroll = (function () {
-    function AlphaScroll(_content, _elementRef, vcRef) {
+    function AlphaScroll(_content, _elementRef) {
         this._content = _content;
         this._elementRef = _elementRef;
-        this.vcRef = vcRef;
         this.sortedItems = {};
         this.alphabet = [];
         this.ionAlphaScrollRef = this;
     }
     AlphaScroll.prototype.ngOnInit = function () {
         var _this = this;
-        this.alphaScrollTemplate = "\n      <style>\n        .ion-alpha-sidebar {\n          position: fixed;\n          right: 0;\n          display: flex;\n          flex-flow: column;\n          z-index: 50000;\n        }\n\n        .ion-alpha-sidebar li {\n          flex: 1 1 auto;\n          list-style: none;\n          width: 15px;\n          text-align: center;\n        }\n      </style>\n      \n      <ion-scroll class=\"ion-alpha-scroll\" [ngStyle]=\"ionAlphaScrollRef.calculateScrollDimensions()\" scrollX=\"false\" scrollY=\"true\">\n        <ion-item-group class=\"ion-alpha-list-outer\">\n          <div *ngFor=\"let items of ionAlphaScrollRef.sortedItems | mapToIterable; trackBy:ionAlphaScrollRef.trackBySortedItems\">\n            <ion-item-divider id=\"scroll-letter-{{items.key}}\">{{items.key}}</ion-item-divider>\n            <div *ngFor=\"let item of items.value\">\n              " + this.itemTemplate + "\n            </div>\n          </div>\n        </ion-item-group>\n      </ion-scroll>\n      <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"ionAlphaScrollRef.calculateDimensionsForSidebar()\">\n        <li *ngFor=\"let letter of ionAlphaScrollRef.alphabet\" tappable (click)=\"ionAlphaScrollRef.alphaScrollGoToList(letter)\">\n        <a>{{letter}}</a>\n        </li>\n      </ul>\n   ";
+        this.alphaScrollTemplate = "\n      <ion-scroll class=\"ion-alpha-scroll\" [ngStyle]=\"ionAlphaScrollRef.calculateScrollDimensions()\" scrollX=\"false\" scrollY=\"true\">\n        <ion-item-group class=\"ion-alpha-list-outer\">\n          <div *ngFor=\"let items of ionAlphaScrollRef.sortedItems | mapToIterable; trackBy:ionAlphaScrollRef.trackBySortedItems\">\n            <ion-item-divider id=\"scroll-letter-{{items.key}}\">{{items.key}}</ion-item-divider>\n            <div *ngFor=\"let item of items.value\">\n              " + this.itemTemplate + "\n            </div>\n          </div>\n        </ion-item-group>\n      </ion-scroll>\n      <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"ionAlphaScrollRef.calculateDimensionsForSidebar()\">\n        <li *ngFor=\"let letter of ionAlphaScrollRef.alphabet\" tappable (click)=\"ionAlphaScrollRef.alphaScrollGoToList(letter)\">\n        <a>{{letter}}</a>\n        </li>\n      </ul>\n   ";
         setTimeout(function () {
             _this._scrollEle = _this._elementRef.nativeElement.querySelector('.scroll-content');
             _this.setupHammerHandlers();
@@ -124,10 +123,10 @@ var AlphaScroll = (function () {
     AlphaScroll = __decorate([
         core_1.Component({
             selector: 'ion-alpha-scroll',
-            template: "\n    <div *dynamicComponent=\"alphaScrollTemplate; context: ionAlphaScrollRef;\"></div>\n  "
+            template: "\n    <template dynamic-component [componentTemplate]=\"alphaScrollTemplate\" [componentContext]=\"ionAlphaScrollRef\"></template>\n  "
         }),
         __param(0, core_1.Host()), 
-        __metadata('design:paramtypes', [ionic_angular_1.Content, core_1.ElementRef, core_1.ViewContainerRef])
+        __metadata('design:paramtypes', [ionic_angular_1.Content, core_1.ElementRef])
     ], AlphaScroll);
     return AlphaScroll;
 }());
