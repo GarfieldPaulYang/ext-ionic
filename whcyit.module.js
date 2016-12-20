@@ -40,6 +40,9 @@ var WhcyitModule = (function () {
                 alpha_scroll_1.AlphaScroll,
                 open_url_modal_component_1.OpenUrlModalCmp
             ],
+            entryComponents: [
+                open_url_modal_component_1.OpenUrlModalCmp
+            ],
             providers: [
                 open_url_modal_1.OpenUrlModalController
             ]

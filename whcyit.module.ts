@@ -26,6 +26,9 @@ export { MapToIterable } from './src/pipes/map-to-iterable';
     AlphaScroll,
     OpenUrlModalCmp
   ],
+  entryComponents: [
+    OpenUrlModalCmp
+  ],
   providers: [
     OpenUrlModalController
   ]
