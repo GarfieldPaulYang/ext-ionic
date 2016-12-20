@@ -7,6 +7,7 @@ import { AlphaScroll } from './src/components/alpha-scroll/alpha-scroll';
 import { OpenUrlModalCmp } from './src/components/open-url-modal/open-url-modal-component';
 import { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
 
+export { AlphaScroll } from './src/components/alpha-scroll/alpha-scroll';
 export { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
 export { MapToIterable } from './src/pipes/map-to-iterable';
 
