@@ -1,10 +1,10 @@
-import { Injectable, Pipe } from '@angular/core';
+import { Injectable, Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'map-to-iterable'
 })
 @Injectable()
-export class MapToIterable {
+export class MapToIterable implements PipeTransform {
   transform(value, args) {
     let result: Array<any> = [];
 
