@@ -1,6 +1,5 @@
 # whcyit-ionic
 ionic2 扩展库
-- 打开外部链接
 
 # demo
 https://github.com/squallliu/whcyit-demo
@@ -24,7 +23,7 @@ import { WhcyitModule } from 'whcyit-ionic';
 })
 ```
 
-# Components
+# 组件
 
 ## 打开外部链接
 ```ts
@@ -48,7 +47,7 @@ export class HomePage {
   }
 }
 ```
-## AlphaScroll
+## AlphaScroll 通讯录样式的列表(首字母索引)
 alpha-scroll.html
 
 ```html
@@ -108,6 +107,6 @@ export class AlphaScrollPage {
 }
 ```
 
-# Pipes
+## 管道(全部管道可注入使用)
 - mapToIterable 把 Map、Object 转成数组
 - orderBy 排序"items | orderBy:'-'"，对象数组"items | orderBy: ['-prop1', 'prop2']"，'-'号为DESC，默认为ASC
