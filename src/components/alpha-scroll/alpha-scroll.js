@@ -20,13 +20,13 @@ var AlphaScroll = (function () {
         this._content = _content;
         this._elementRef = _elementRef;
         this.orderBy = orderBy;
-        this.sortedItems = {};
+        this.sortedItems = [];
         this.alphabet = [];
         this.ionAlphaScrollRef = this;
     }
     AlphaScroll.prototype.ngOnInit = function () {
         var _this = this;
-        this.alphaScrollTemplate = "\n      <ion-scroll class=\"ion-alpha-scroll\" [ngStyle]=\"ionAlphaScrollRef.calculateScrollDimensions()\" scrollX=\"false\" scrollY=\"true\">\n        <ion-item-group class=\"ion-alpha-list-outer\">\n          <div *ngFor=\"let items of ionAlphaScrollRef.sortedItems | mapToIterable\">\n            <ion-item-divider id=\"scroll-letter-{{items.key}}\">{{items.key}}</ion-item-divider>\n            <div *ngFor=\"let item of items.value\">\n              " + this.itemTemplate + "\n            </div>\n          </div>\n        </ion-item-group>\n      </ion-scroll>\n      <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"ionAlphaScrollRef.calculateDimensionsForSidebar()\">\n        <li *ngFor=\"let alpha of ionAlphaScrollRef.alphabet\" [class]=\"alpha.isActive ? 'ion-alpha-active' : 'ion-alpha-invalid'\" tappable (click)=\"ionAlphaScrollRef.alphaScrollGoToList(alpha.letter)\">\n        <a>{{alpha.letter}}</a>\n        </li>\n      </ul>\n      <div class=\"ion-alpha-letter-indicator\"></div>\n   ";
+        this.alphaScrollTemplate = "\n      <ion-scroll class=\"ion-alpha-scroll\" [ngStyle]=\"ionAlphaScrollRef.calculateScrollDimensions()\" scrollX=\"false\" scrollY=\"true\">\n        <ion-item-group class=\"ion-alpha-list-outer\">\n          <div *ngFor=\"let item of ionAlphaScrollRef.sortedItems\">\n            <ion-item-divider id=\"scroll-letter-{{item.letter}}\" *ngIf=\"item.isDivider\">{{item.letter}}</ion-item-divider>\n            <div *ngIf=\"!item.isDivider\">\n            " + this.itemTemplate + "\n            </div>\n          </div>\n        </ion-item-group>\n      </ion-scroll>\n      <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"ionAlphaScrollRef.calculateDimensionsForSidebar()\">\n        <li *ngFor=\"let alpha of ionAlphaScrollRef.alphabet\" [class]=\"alpha.isActive ? 'ion-alpha-active' : 'ion-alpha-invalid'\" tappable (click)=\"ionAlphaScrollRef.alphaScrollGoToList(alpha.letter)\">\n        <a>{{alpha.letter}}</a>\n        </li>\n      </ul>\n      <div class=\"ion-alpha-letter-indicator\"></div>\n   ";
         setTimeout(function () {
             _this._scrollEle = _this._elementRef.nativeElement.querySelector('.scroll-content');
             _this._letterIndicatorEle = _this._elementRef.nativeElement.querySelector('.ion-alpha-letter-indicator');
@@ -37,8 +37,9 @@ var AlphaScroll = (function () {
     };
     AlphaScroll.prototype.ngOnChanges = function () {
         var sortedListData = this.orderBy.transform(this.listData, [this.key]);
-        this.sortedItems = this.groupItems(sortedListData);
-        this.alphabet = this.iterateAlphabet(this.sortedItems);
+        var groupItems = this.groupItems(sortedListData);
+        this.sortedItems = this.unwindGroup(groupItems);
+        this.alphabet = this.iterateAlphabet(groupItems);
     };
     AlphaScroll.prototype.ngOnDestroy = function () {
         this._letterIndicatorEle.remove();
@@ -91,6 +92,13 @@ var AlphaScroll = (function () {
                 }
             }
         });
+    };
+    AlphaScroll.prototype.unwindGroup = function (groupItems) {
+        var result = [];
+        for (var letter in groupItems) {
+            result = result.concat([{ isDivider: true, letter: letter }].concat(groupItems[letter]));
+        }
+        return result;
     };
     AlphaScroll.prototype.iterateAlphabet = function (alphabet) {
         var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

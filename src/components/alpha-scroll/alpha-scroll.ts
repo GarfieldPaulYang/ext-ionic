@@ -28,7 +28,7 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   private _letterIndicatorEle: HTMLElement;
   private _indicatorHeight: number;
   private _indicatorWidth: number;
-  sortedItems: any = {};
+  sortedItems: any = [];
   alphabet: any = [];
   ionAlphaScrollRef = this;
   alphaScrollTemplate: string;
@@ -40,10 +40,10 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     this.alphaScrollTemplate = `
       <ion-scroll class="ion-alpha-scroll" [ngStyle]="ionAlphaScrollRef.calculateScrollDimensions()" scrollX="false" scrollY="true">
         <ion-item-group class="ion-alpha-list-outer">
-          <div *ngFor="let items of ionAlphaScrollRef.sortedItems | mapToIterable">
-            <ion-item-divider id="scroll-letter-{{items.key}}">{{items.key}}</ion-item-divider>
-            <div *ngFor="let item of items.value">
-              ${this.itemTemplate}
+          <div *ngFor="let item of ionAlphaScrollRef.sortedItems">
+            <ion-item-divider id="scroll-letter-{{item.letter}}" *ngIf="item.isDivider">{{item.letter}}</ion-item-divider>
+            <div *ngIf="!item.isDivider">
+            ${this.itemTemplate}
             </div>
           </div>
         </ion-item-group>
@@ -67,8 +67,9 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges() {
     let sortedListData: Array<any> = this.orderBy.transform(this.listData, [this.key]);
-    this.sortedItems = this.groupItems(sortedListData);
-    this.alphabet = this.iterateAlphabet(this.sortedItems);
+    let groupItems: any = this.groupItems(sortedListData);
+    this.sortedItems = this.unwindGroup(groupItems);
+    this.alphabet = this.iterateAlphabet(groupItems);
   }
 
   ngOnDestroy() {
@@ -131,7 +132,15 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  private iterateAlphabet(alphabet: any) {
+  private unwindGroup(groupItems: any): Array<any> {
+    let result: Array<any> = [];
+    for (let letter in groupItems) {
+      result = result.concat([{ isDivider: true, letter: letter }].concat(groupItems[letter]));
+    }
+    return result;
+  }
+
+  private iterateAlphabet(alphabet: any): Array<any> {
     let str: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let result: Array<any> = [];
 

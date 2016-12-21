@@ -32,6 +32,7 @@ export declare class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     };
     alphaScrollGoToList(letter: any): void;
     private setupHammerHandlers();
+    private unwindGroup(groupItems);
     private iterateAlphabet(alphabet);
     private groupItems(sortedListData);
 }
