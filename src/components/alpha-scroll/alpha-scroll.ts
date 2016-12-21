@@ -40,7 +40,7 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     this.alphaScrollTemplate = `
       <ion-scroll class="ion-alpha-scroll" [ngStyle]="ionAlphaScrollRef.calculateScrollDimensions()" scrollX="false" scrollY="true">
         <ion-item-group class="ion-alpha-list-outer">
-          <div *ngFor="let items of ionAlphaScrollRef.sortedItems | mapToIterable; trackBy:ionAlphaScrollRef.trackBySortedItems">
+          <div *ngFor="let items of ionAlphaScrollRef.sortedItems | mapToIterable">
             <ion-item-divider id="scroll-letter-{{items.key}}">{{items.key}}</ion-item-divider>
             <div *ngFor="let item of items.value">
               ${this.itemTemplate}
@@ -91,17 +91,10 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   }
 
   alphaScrollGoToList(letter: any) {
-    if (!this.groupItems[letter]) {
-      return;
-    }
-
     let ele: any = this._elementRef.nativeElement.querySelector(`#scroll-letter-${letter}`);
-    let offsetY = ele.offsetTop;
-    this._scrollEle.scrollTop = offsetY;
-  }
-
-  trackBySortedItems(index: number, item: any): number {
-    return index;
+    if (ele) {
+      this._scrollEle.scrollTop = ele.offsetTop;
+    }
   }
 
   private setupHammerHandlers() {
@@ -116,12 +109,6 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
       ]
     });
 
-    mcHammer.on('panstart', (e: any) => {
-      this._letterIndicatorEle.style.top = ((this._content.getContentDimensions().contentHeight - this._indicatorHeight) / 2) + 'px';
-      this._letterIndicatorEle.style.left = ((window.innerWidth - this._indicatorWidth) / 2) + 'px';
-      this._letterIndicatorEle.style.visibility = 'visible';
-    });
-
     mcHammer.on('panend', (e: any) => {
       this._letterIndicatorEle.style.visibility = 'hidden';
     });
@@ -131,6 +118,11 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
       if (closestEle && ['LI', 'A'].indexOf(closestEle.tagName) > -1) {
         let letter = closestEle.innerText;
         this._letterIndicatorEle.innerText = letter;
+        if (this._letterIndicatorEle.style.visibility != 'visible') {
+          this._letterIndicatorEle.style.top = ((this._content.getContentDimensions().contentHeight - this._indicatorHeight) / 2) + 'px';
+          this._letterIndicatorEle.style.left = ((window.innerWidth - this._indicatorWidth) / 2) + 'px';
+          this._letterIndicatorEle.style.visibility = 'visible';
+        }
         let letterDivider: any = this._elementRef.nativeElement.querySelector(`#scroll-letter-${letter}`);
         if (letterDivider) {
           this._scrollEle.scrollTop = letterDivider.offsetTop;

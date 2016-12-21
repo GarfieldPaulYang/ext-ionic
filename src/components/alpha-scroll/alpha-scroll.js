@@ -26,7 +26,7 @@ var AlphaScroll = (function () {
     }
     AlphaScroll.prototype.ngOnInit = function () {
         var _this = this;
-        this.alphaScrollTemplate = "\n      <ion-scroll class=\"ion-alpha-scroll\" [ngStyle]=\"ionAlphaScrollRef.calculateScrollDimensions()\" scrollX=\"false\" scrollY=\"true\">\n        <ion-item-group class=\"ion-alpha-list-outer\">\n          <div *ngFor=\"let items of ionAlphaScrollRef.sortedItems | mapToIterable; trackBy:ionAlphaScrollRef.trackBySortedItems\">\n            <ion-item-divider id=\"scroll-letter-{{items.key}}\">{{items.key}}</ion-item-divider>\n            <div *ngFor=\"let item of items.value\">\n              " + this.itemTemplate + "\n            </div>\n          </div>\n        </ion-item-group>\n      </ion-scroll>\n      <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"ionAlphaScrollRef.calculateDimensionsForSidebar()\">\n        <li *ngFor=\"let alpha of ionAlphaScrollRef.alphabet\" [class]=\"alpha.isActive ? 'ion-alpha-active' : 'ion-alpha-invalid'\" tappable (click)=\"ionAlphaScrollRef.alphaScrollGoToList(alpha.letter)\">\n        <a>{{alpha.letter}}</a>\n        </li>\n      </ul>\n      <div class=\"ion-alpha-letter-indicator\"></div>\n   ";
+        this.alphaScrollTemplate = "\n      <ion-scroll class=\"ion-alpha-scroll\" [ngStyle]=\"ionAlphaScrollRef.calculateScrollDimensions()\" scrollX=\"false\" scrollY=\"true\">\n        <ion-item-group class=\"ion-alpha-list-outer\">\n          <div *ngFor=\"let items of ionAlphaScrollRef.sortedItems | mapToIterable\">\n            <ion-item-divider id=\"scroll-letter-{{items.key}}\">{{items.key}}</ion-item-divider>\n            <div *ngFor=\"let item of items.value\">\n              " + this.itemTemplate + "\n            </div>\n          </div>\n        </ion-item-group>\n      </ion-scroll>\n      <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"ionAlphaScrollRef.calculateDimensionsForSidebar()\">\n        <li *ngFor=\"let alpha of ionAlphaScrollRef.alphabet\" [class]=\"alpha.isActive ? 'ion-alpha-active' : 'ion-alpha-invalid'\" tappable (click)=\"ionAlphaScrollRef.alphaScrollGoToList(alpha.letter)\">\n        <a>{{alpha.letter}}</a>\n        </li>\n      </ul>\n      <div class=\"ion-alpha-letter-indicator\"></div>\n   ";
         setTimeout(function () {
             _this._scrollEle = _this._elementRef.nativeElement.querySelector('.scroll-content');
             _this._letterIndicatorEle = _this._elementRef.nativeElement.querySelector('.ion-alpha-letter-indicator');
@@ -57,15 +57,10 @@ var AlphaScroll = (function () {
         };
     };
     AlphaScroll.prototype.alphaScrollGoToList = function (letter) {
-        if (!this.groupItems[letter]) {
-            return;
-        }
         var ele = this._elementRef.nativeElement.querySelector("#scroll-letter-" + letter);
-        var offsetY = ele.offsetTop;
-        this._scrollEle.scrollTop = offsetY;
-    };
-    AlphaScroll.prototype.trackBySortedItems = function (index, item) {
-        return index;
+        if (ele) {
+            this._scrollEle.scrollTop = ele.offsetTop;
+        }
     };
     AlphaScroll.prototype.setupHammerHandlers = function () {
         var _this = this;
@@ -77,11 +72,6 @@ var AlphaScroll = (function () {
                 [Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }],
             ]
         });
-        mcHammer.on('panstart', function (e) {
-            _this._letterIndicatorEle.style.top = ((_this._content.getContentDimensions().contentHeight - _this._indicatorHeight) / 2) + 'px';
-            _this._letterIndicatorEle.style.left = ((window.innerWidth - _this._indicatorWidth) / 2) + 'px';
-            _this._letterIndicatorEle.style.visibility = 'visible';
-        });
         mcHammer.on('panend', function (e) {
             _this._letterIndicatorEle.style.visibility = 'hidden';
         });
@@ -90,6 +80,11 @@ var AlphaScroll = (function () {
             if (closestEle && ['LI', 'A'].indexOf(closestEle.tagName) > -1) {
                 var letter = closestEle.innerText;
                 _this._letterIndicatorEle.innerText = letter;
+                if (_this._letterIndicatorEle.style.visibility != 'visible') {
+                    _this._letterIndicatorEle.style.top = ((_this._content.getContentDimensions().contentHeight - _this._indicatorHeight) / 2) + 'px';
+                    _this._letterIndicatorEle.style.left = ((window.innerWidth - _this._indicatorWidth) / 2) + 'px';
+                    _this._letterIndicatorEle.style.visibility = 'visible';
+                }
                 var letterDivider = _this._elementRef.nativeElement.querySelector("#scroll-letter-" + letter);
                 if (letterDivider) {
                     _this._scrollEle.scrollTop = letterDivider.offsetTop;
