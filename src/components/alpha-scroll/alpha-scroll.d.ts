@@ -1,23 +1,27 @@
-import { OnInit, OnChanges, ElementRef, SimpleChange } from '@angular/core';
+import { OnInit, OnChanges, OnDestroy, ElementRef } from '@angular/core';
 import { Content } from 'ionic-angular';
-export declare class AlphaScroll implements OnInit, OnChanges {
+import { OrderBy } from '../../pipes/order-by';
+export declare class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     private _content;
     private _elementRef;
+    private orderBy;
     listData: any;
     key: string;
     itemTemplate: string;
     currentPageClass: any;
     triggerChange: any;
     private _scrollEle;
+    private _letterIndicatorEle;
+    private _indicatorHeight;
+    private _indicatorWidth;
     sortedItems: any;
     alphabet: any;
     ionAlphaScrollRef: this;
     alphaScrollTemplate: string;
-    constructor(_content: Content, _elementRef: ElementRef);
+    constructor(_content: Content, _elementRef: ElementRef, orderBy: OrderBy);
     ngOnInit(): void;
-    ngOnChanges(changes: {
-        [propertyName: string]: SimpleChange;
-    }): void;
+    ngOnChanges(): void;
+    ngOnDestroy(): void;
     calculateScrollDimensions(): {
         height: string;
         width: string;
@@ -27,7 +31,8 @@ export declare class AlphaScroll implements OnInit, OnChanges {
         height: string;
     };
     alphaScrollGoToList(letter: any): void;
-    iterateAlphabet(alphabet: any): any[];
-    setupHammerHandlers(): void;
     trackBySortedItems(index: number, item: any): number;
+    private setupHammerHandlers();
+    private iterateAlphabet(alphabet);
+    private groupItems(sortedListData);
 }

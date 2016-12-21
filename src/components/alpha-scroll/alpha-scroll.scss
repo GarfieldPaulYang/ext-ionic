@@ -8,7 +8,7 @@
 }
 
 .ion-alpha-sidebar li {
-  flex: 1 1 auto;
+  line-height: 1.1;
   list-style: none;
   width: 20px;
   text-align: center;
@@ -23,16 +23,18 @@
   width: 100px;
   height: 100px;
   color: white;
-  display: none;
+  display: flex;
+  visibility: hidden;
   justify-content: center;
   align-items: center;
   font-size: 3em;
+  z-index: 999;
 }
 
-.ion_alpha_sidebar li {
+.ion-alpha-invalid a {
   color: #cccccc;
 }
 
-.alpha-active {
+.ion-alpha-active a {
   color: darkkhaki !important;
 }
