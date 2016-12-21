@@ -117,7 +117,7 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     });
 
     mcHammer.on('panstart', (e: any) => {
-      this._letterIndicatorEle.style.top = ((window.innerHeight - this._indicatorHeight) / 2) + 'px';
+      this._letterIndicatorEle.style.top = ((this._content.getContentDimensions().contentHeight - this._indicatorHeight) / 2) + 'px';
       this._letterIndicatorEle.style.left = ((window.innerWidth - this._indicatorWidth) / 2) + 'px';
       this._letterIndicatorEle.style.visibility = 'visible';
     });

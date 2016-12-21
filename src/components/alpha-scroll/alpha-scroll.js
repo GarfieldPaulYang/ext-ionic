@@ -78,7 +78,7 @@ var AlphaScroll = (function () {
             ]
         });
         mcHammer.on('panstart', function (e) {
-            _this._letterIndicatorEle.style.top = ((window.innerHeight - _this._indicatorHeight) / 2) + 'px';
+            _this._letterIndicatorEle.style.top = ((_this._content.getContentDimensions().contentHeight - _this._indicatorHeight) / 2) + 'px';
             _this._letterIndicatorEle.style.left = ((window.innerWidth - _this._indicatorWidth) / 2) + 'px';
             _this._letterIndicatorEle.style.visibility = 'visible';
         });
