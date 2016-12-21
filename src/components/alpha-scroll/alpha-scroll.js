@@ -23,13 +23,15 @@ var AlphaScroll = (function () {
         this.sortedItems = [];
         this.alphabet = [];
         this.ionAlphaScrollRef = this;
+        this._letterIndicatorEle = document.createElement("div");
+        this._letterIndicatorEle.className = 'ion-alpha-letter-indicator';
+        var body = document.getElementsByTagName('body')[0];
+        body.appendChild(this._letterIndicatorEle);
     }
     AlphaScroll.prototype.ngOnInit = function () {
         var _this = this;
-        this.alphaScrollTemplate = "\n      <ion-scroll class=\"ion-alpha-scroll\" [ngStyle]=\"ionAlphaScrollRef.calculateScrollDimensions()\" scrollX=\"false\" scrollY=\"true\">\n        <ion-item-group class=\"ion-alpha-list-outer\">\n          <div *ngFor=\"let item of ionAlphaScrollRef.sortedItems\">\n            <ion-item-divider id=\"scroll-letter-{{item.letter}}\" *ngIf=\"item.isDivider\">{{item.letter}}</ion-item-divider>\n            <div *ngIf=\"!item.isDivider\">\n            " + this.itemTemplate + "\n            </div>\n          </div>\n        </ion-item-group>\n      </ion-scroll>\n      <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"ionAlphaScrollRef.calculateDimensionsForSidebar()\">\n        <li *ngFor=\"let alpha of ionAlphaScrollRef.alphabet\" [class]=\"alpha.isActive ? 'ion-alpha-active' : 'ion-alpha-invalid'\" tappable (click)=\"ionAlphaScrollRef.alphaScrollGoToList(alpha.letter)\">\n        <a>{{alpha.letter}}</a>\n        </li>\n      </ul>\n      <div class=\"ion-alpha-letter-indicator\"></div>\n   ";
+        this.alphaScrollTemplate = "\n      <ion-list class=\"ion-alpha-list\">\n        <ion-item-group class=\"ion-alpha-item-group\">\n          <div *ngFor=\"let item of ionAlphaScrollRef.sortedItems\">\n            <ion-item-divider id=\"scroll-letter-{{item.letter}}\" *ngIf=\"item.isDivider\">{{item.letter}}</ion-item-divider>\n            <div *ngIf=\"!item.isDivider\">\n            " + this.itemTemplate + "\n            </div>\n          </div>\n        </ion-item-group>\n      </ion-list>\n      <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"ionAlphaScrollRef.calculateDimensionsForSidebar()\">\n        <li *ngFor=\"let alpha of ionAlphaScrollRef.alphabet\" [class]=\"alpha.isActive ? 'ion-alpha-active' : 'ion-alpha-invalid'\" tappable (click)=\"ionAlphaScrollRef.alphaScrollGoToList(alpha.letter)\">\n        <a>{{alpha.letter}}</a>\n        </li>\n      </ul>\n      <div class=\"ion-alpha-letter-indicator\"></div>\n   ";
         setTimeout(function () {
-            _this._scrollEle = _this._elementRef.nativeElement.querySelector('.scroll-content');
-            _this._letterIndicatorEle = _this._elementRef.nativeElement.querySelector('.ion-alpha-letter-indicator');
             _this._indicatorWidth = _this._letterIndicatorEle.offsetWidth;
             _this._indicatorHeight = _this._letterIndicatorEle.offsetHeight;
             _this.setupHammerHandlers();
@@ -44,23 +46,16 @@ var AlphaScroll = (function () {
     AlphaScroll.prototype.ngOnDestroy = function () {
         this._letterIndicatorEle.remove();
     };
-    AlphaScroll.prototype.calculateScrollDimensions = function () {
-        var dimensions = this._content.getContentDimensions();
-        return {
-            height: dimensions.scrollHeight + 'px',
-            width: (dimensions.contentWidth - 20) + 'px'
-        };
-    };
     AlphaScroll.prototype.calculateDimensionsForSidebar = function () {
         return {
             top: this._content.contentTop + 'px',
-            height: (this._content.getContentDimensions().contentHeight - 24) + 'px'
+            height: (this._content.getContentDimensions().contentHeight - 28) + 'px'
         };
     };
     AlphaScroll.prototype.alphaScrollGoToList = function (letter) {
         var ele = this._elementRef.nativeElement.querySelector("#scroll-letter-" + letter);
         if (ele) {
-            this._scrollEle.scrollTop = ele.offsetTop;
+            this._content.scrollTo(0, ele.offsetTop);
         }
     };
     AlphaScroll.prototype.setupHammerHandlers = function () {
@@ -81,14 +76,14 @@ var AlphaScroll = (function () {
             if (closestEle && ['LI', 'A'].indexOf(closestEle.tagName) > -1) {
                 var letter = closestEle.innerText;
                 _this._letterIndicatorEle.innerText = letter;
+                _this._letterIndicatorEle.style.top = ((window.innerHeight - _this._indicatorHeight) / 2) + 'px';
+                _this._letterIndicatorEle.style.left = ((window.innerWidth - _this._indicatorWidth) / 2) + 'px';
                 if (_this._letterIndicatorEle.style.visibility != 'visible') {
-                    _this._letterIndicatorEle.style.top = ((_this._content.getContentDimensions().contentHeight - _this._indicatorHeight) / 2) + 'px';
-                    _this._letterIndicatorEle.style.left = ((window.innerWidth - _this._indicatorWidth) / 2) + 'px';
                     _this._letterIndicatorEle.style.visibility = 'visible';
                 }
                 var letterDivider = _this._elementRef.nativeElement.querySelector("#scroll-letter-" + letter);
                 if (letterDivider) {
-                    _this._scrollEle.scrollTop = letterDivider.offsetTop;
+                    _this._content.scrollTo(0, letterDivider.offsetTop);
                 }
             }
         });

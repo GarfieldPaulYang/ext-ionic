@@ -10,7 +10,6 @@ export declare class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     itemTemplate: string;
     currentPageClass: any;
     triggerChange: any;
-    private _scrollEle;
     private _letterIndicatorEle;
     private _indicatorHeight;
     private _indicatorWidth;
@@ -22,10 +21,6 @@ export declare class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     ngOnInit(): void;
     ngOnChanges(): void;
     ngOnDestroy(): void;
-    calculateScrollDimensions(): {
-        height: string;
-        width: string;
-    };
     calculateDimensionsForSidebar(): {
         top: string;
         height: string;

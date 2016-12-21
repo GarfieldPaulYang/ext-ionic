@@ -24,7 +24,6 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   @Input() itemTemplate: string;
   @Input() currentPageClass: any;
   @Input() triggerChange: any;
-  private _scrollEle: HTMLElement;
   private _letterIndicatorEle: HTMLElement;
   private _indicatorHeight: number;
   private _indicatorWidth: number;
@@ -34,12 +33,16 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   alphaScrollTemplate: string;
 
   constructor( @Host() private _content: Content, private _elementRef: ElementRef, private orderBy: OrderBy) {
+    this._letterIndicatorEle = document.createElement("div");
+    this._letterIndicatorEle.className = 'ion-alpha-letter-indicator';
+    let body = document.getElementsByTagName('body')[0];
+    body.appendChild(this._letterIndicatorEle);
   }
 
   ngOnInit() {
     this.alphaScrollTemplate = `
-      <ion-scroll class="ion-alpha-scroll" [ngStyle]="ionAlphaScrollRef.calculateScrollDimensions()" scrollX="false" scrollY="true">
-        <ion-item-group class="ion-alpha-list-outer">
+      <ion-list class="ion-alpha-list">
+        <ion-item-group class="ion-alpha-item-group">
           <div *ngFor="let item of ionAlphaScrollRef.sortedItems">
             <ion-item-divider id="scroll-letter-{{item.letter}}" *ngIf="item.isDivider">{{item.letter}}</ion-item-divider>
             <div *ngIf="!item.isDivider">
@@ -47,7 +50,7 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
             </div>
           </div>
         </ion-item-group>
-      </ion-scroll>
+      </ion-list>
       <ul class="ion-alpha-sidebar" [ngStyle]="ionAlphaScrollRef.calculateDimensionsForSidebar()">
         <li *ngFor="let alpha of ionAlphaScrollRef.alphabet" [class]="alpha.isActive ? 'ion-alpha-active' : 'ion-alpha-invalid'" tappable (click)="ionAlphaScrollRef.alphaScrollGoToList(alpha.letter)">
         <a>{{alpha.letter}}</a>
@@ -57,8 +60,7 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
    `;
 
     setTimeout(() => {
-      this._scrollEle = this._elementRef.nativeElement.querySelector('.scroll-content');
-      this._letterIndicatorEle = this._elementRef.nativeElement.querySelector('.ion-alpha-letter-indicator');
+      //this._letterIndicatorEle = this._elementRef.nativeElement.querySelector('.ion-alpha-letter-indicator');
       this._indicatorWidth = this._letterIndicatorEle.offsetWidth;
       this._indicatorHeight = this._letterIndicatorEle.offsetHeight;
       this.setupHammerHandlers();
@@ -76,25 +78,17 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     this._letterIndicatorEle.remove();
   }
 
-  calculateScrollDimensions() {
-    let dimensions = this._content.getContentDimensions();
-    return {
-      height: dimensions.scrollHeight + 'px',
-      width: (dimensions.contentWidth - 20) + 'px'
-    };
-  }
-
   calculateDimensionsForSidebar() {
     return {
       top: this._content.contentTop + 'px',
-      height: (this._content.getContentDimensions().contentHeight - 24) + 'px'
+      height: (this._content.getContentDimensions().contentHeight - 28) + 'px'
     }
   }
 
   alphaScrollGoToList(letter: any) {
     let ele: any = this._elementRef.nativeElement.querySelector(`#scroll-letter-${letter}`);
     if (ele) {
-      this._scrollEle.scrollTop = ele.offsetTop;
+      this._content.scrollTo(0, ele.offsetTop);
     }
   }
 
@@ -105,7 +99,6 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
 
     let mcHammer = new Hammer(sidebarEle, {
       recognizers: [
-        // RecognizerClass, [options], [recognizeWith, ...], [requireFailure, ...]
         [Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }],
       ]
     });
@@ -119,14 +112,14 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
       if (closestEle && ['LI', 'A'].indexOf(closestEle.tagName) > -1) {
         let letter = closestEle.innerText;
         this._letterIndicatorEle.innerText = letter;
+        this._letterIndicatorEle.style.top = ((window.innerHeight - this._indicatorHeight) / 2) + 'px';
+        this._letterIndicatorEle.style.left = ((window.innerWidth - this._indicatorWidth) / 2) + 'px';
         if (this._letterIndicatorEle.style.visibility != 'visible') {
-          this._letterIndicatorEle.style.top = ((this._content.getContentDimensions().contentHeight - this._indicatorHeight) / 2) + 'px';
-          this._letterIndicatorEle.style.left = ((window.innerWidth - this._indicatorWidth) / 2) + 'px';
           this._letterIndicatorEle.style.visibility = 'visible';
         }
         let letterDivider: any = this._elementRef.nativeElement.querySelector(`#scroll-letter-${letter}`);
         if (letterDivider) {
-          this._scrollEle.scrollTop = letterDivider.offsetTop;
+          this._content.scrollTo(0, letterDivider.offsetTop);
         }
       }
     });
@@ -143,13 +136,11 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   private iterateAlphabet(alphabet: any): Array<any> {
     let str: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let result: Array<any> = [];
-
     for (var i = 0; i < str.length; i++) {
       var letter = str.charAt(i);
       var isActive = alphabet[letter] ? true : false;
       result.push({ letter: letter, isActive: isActive });
     }
-
     return result;
   }
 
