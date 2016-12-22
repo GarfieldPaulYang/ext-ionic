@@ -15,7 +15,7 @@ import { OrderBy } from '../../pipes/order-by';
 @Component({
   selector: 'ion-alpha-scroll',
   template: `
-    <template dynamic-component [componentTemplate]="alphaScrollTemplate" [componentContext]="ionAlphaScrollRef"></template>
+    <DynamicComponent [componentTemplate]="alphaScrollTemplate" [componentContext]="ionAlphaScrollRef"></DynamicComponent>
   `
 })
 export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
@@ -46,7 +46,7 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
         <div *ngFor="let item of ionAlphaScrollRef.sortedItems">
           <ion-item-divider id="scroll-letter-{{item.letter}}" *ngIf="item.isDivider">{{item.letter}}</ion-item-divider>
           <div *ngIf="!item.isDivider">
-          ${this.itemTemplate}
+            ${this.itemTemplate}
           </div>
         </div>
       </ion-list>
