@@ -15,7 +15,18 @@ import { OrderBy } from '../../pipes/order-by';
 @Component({
   selector: 'ion-alpha-scroll',
   template: `
-    <DynamicComponent [componentTemplate]="alphaScrollTemplate" [componentContext]="ionAlphaScrollRef"></DynamicComponent>
+    <ion-list class="ion-alpha-list">
+      <div *ngFor="let item of sortedItems">
+        <ion-item-divider id="scroll-letter-{{item.letter}}" *ngIf="item.isDivider">{{item.letter}}</ion-item-divider>
+        <DynamicComponent [componentTemplate]="itemTemplate" [componentContext]="{'item': item}" *ngIf="!item.isDivider">
+        </DynamicComponent>
+      </div>
+    </ion-list>
+    <ul class="ion-alpha-sidebar" [ngStyle]="calculateDimensionsForSidebar()">
+      <li *ngFor="let alpha of alphabet" [class]="alpha.isActive ? 'ion-alpha-active' : 'ion-alpha-invalid'" tappable (click)="alphaScrollGoToList(alpha.letter)">
+        <a>{{alpha.letter}}</a>
+      </li>
+    </ul>
   `
 })
 export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
@@ -31,7 +42,6 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   sortedItems: any = [];
   alphabet: any = [];
   ionAlphaScrollRef = this;
-  alphaScrollTemplate: string;
 
   constructor( @Host() private _content: Content, private _elementRef: ElementRef, private orderBy: OrderBy) {
     this._letterIndicatorEle = document.createElement("div");
@@ -41,23 +51,6 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    this.alphaScrollTemplate = `
-      <ion-list class="ion-alpha-list">
-        <div *ngFor="let item of ionAlphaScrollRef.sortedItems">
-          <ion-item-divider id="scroll-letter-{{item.letter}}" *ngIf="item.isDivider">{{item.letter}}</ion-item-divider>
-          <div *ngIf="!item.isDivider">
-            ${this.itemTemplate}
-          </div>
-        </div>
-      </ion-list>
-      <ul class="ion-alpha-sidebar" [ngStyle]="ionAlphaScrollRef.calculateDimensionsForSidebar()">
-        <li *ngFor="let alpha of ionAlphaScrollRef.alphabet" [class]="alpha.isActive ? 'ion-alpha-active' : 'ion-alpha-invalid'" tappable (click)="ionAlphaScrollRef.alphaScrollGoToList(alpha.letter)">
-        <a>{{alpha.letter}}</a>
-        </li>
-      </ul>
-      <div class="ion-alpha-letter-indicator"></div>
-   `;
-
     setTimeout(() => {
       this._indicatorWidth = this._letterIndicatorEle.offsetWidth;
       this._indicatorHeight = this._letterIndicatorEle.offsetHeight;

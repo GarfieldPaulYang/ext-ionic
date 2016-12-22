@@ -17,7 +17,6 @@ export declare class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     sortedItems: any;
     alphabet: any;
     ionAlphaScrollRef: this;
-    alphaScrollTemplate: string;
     constructor(_content: Content, _elementRef: ElementRef, orderBy: OrderBy);
     ngOnInit(): void;
     ngOnChanges(): void;

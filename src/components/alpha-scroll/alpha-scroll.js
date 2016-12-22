@@ -30,7 +30,6 @@ var AlphaScroll = (function () {
     }
     AlphaScroll.prototype.ngOnInit = function () {
         var _this = this;
-        this.alphaScrollTemplate = "\n      <ion-list class=\"ion-alpha-list\">\n        <div *ngFor=\"let item of ionAlphaScrollRef.sortedItems\">\n          <ion-item-divider id=\"scroll-letter-{{item.letter}}\" *ngIf=\"item.isDivider\">{{item.letter}}</ion-item-divider>\n          <div *ngIf=\"!item.isDivider\">\n            " + this.itemTemplate + "\n          </div>\n        </div>\n      </ion-list>\n      <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"ionAlphaScrollRef.calculateDimensionsForSidebar()\">\n        <li *ngFor=\"let alpha of ionAlphaScrollRef.alphabet\" [class]=\"alpha.isActive ? 'ion-alpha-active' : 'ion-alpha-invalid'\" tappable (click)=\"ionAlphaScrollRef.alphaScrollGoToList(alpha.letter)\">\n        <a>{{alpha.letter}}</a>\n        </li>\n      </ul>\n      <div class=\"ion-alpha-letter-indicator\"></div>\n   ";
         setTimeout(function () {
             _this._indicatorWidth = _this._letterIndicatorEle.offsetWidth;
             _this._indicatorHeight = _this._letterIndicatorEle.offsetHeight;
@@ -145,7 +144,7 @@ var AlphaScroll = (function () {
     AlphaScroll = __decorate([
         core_1.Component({
             selector: 'ion-alpha-scroll',
-            template: "\n    <DynamicComponent [componentTemplate]=\"alphaScrollTemplate\" [componentContext]=\"ionAlphaScrollRef\"></DynamicComponent>\n  "
+            template: "\n    <ion-list class=\"ion-alpha-list\">\n      <div *ngFor=\"let item of sortedItems\">\n        <ion-item-divider id=\"scroll-letter-{{item.letter}}\" *ngIf=\"item.isDivider\">{{item.letter}}</ion-item-divider>\n        <DynamicComponent [componentTemplate]=\"itemTemplate\" [componentContext]=\"{'item': item}\" *ngIf=\"!item.isDivider\">\n        </DynamicComponent>\n      </div>\n    </ion-list>\n    <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"calculateDimensionsForSidebar()\">\n      <li *ngFor=\"let alpha of alphabet\" [class]=\"alpha.isActive ? 'ion-alpha-active' : 'ion-alpha-invalid'\" tappable (click)=\"alphaScrollGoToList(alpha.letter)\">\n        <a>{{alpha.letter}}</a>\n      </li>\n    </ul>\n  "
         }),
         __param(0, core_1.Host()), 
         __metadata('design:paramtypes', [ionic_angular_1.Content, core_1.ElementRef, order_by_1.OrderBy])
