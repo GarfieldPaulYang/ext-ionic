@@ -43,14 +43,12 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.alphaScrollTemplate = `
       <ion-list class="ion-alpha-list">
-        <ion-item-group class="ion-alpha-item-group">
-          <div *ngFor="let item of ionAlphaScrollRef.sortedItems">
-            <ion-item-divider id="scroll-letter-{{item.letter}}" *ngIf="item.isDivider">{{item.letter}}</ion-item-divider>
-            <div *ngIf="!item.isDivider">
-            ${this.itemTemplate}
-            </div>
+        <div *ngFor="let item of ionAlphaScrollRef.sortedItems">
+          <ion-item-divider id="scroll-letter-{{item.letter}}" *ngIf="item.isDivider">{{item.letter}}</ion-item-divider>
+          <div *ngIf="!item.isDivider">
+          ${this.itemTemplate}
           </div>
-        </ion-item-group>
+        </div>
       </ion-list>
       <ul class="ion-alpha-sidebar" [ngStyle]="ionAlphaScrollRef.calculateDimensionsForSidebar()">
         <li *ngFor="let alpha of ionAlphaScrollRef.alphabet" [class]="alpha.isActive ? 'ion-alpha-active' : 'ion-alpha-invalid'" tappable (click)="ionAlphaScrollRef.alphaScrollGoToList(alpha.letter)">
