@@ -58,8 +58,7 @@ alpha-scroll.html
 </ion-header>
 
 <ion-content>
-  <ion-alpha-scroll *ngIf="breeds" [listData]="breeds" key="name" [itemTemplate]="alphaScrollItemTemplate" [currentPageClass]="currentPageClass"
-    [triggerChange]="triggerAlphaScrollChange">
+  <ion-alpha-scroll *ngIf="breeds" [listData]="breeds" key="name" [itemTemplate]="alphaScrollItemTemplate" [currentPageClass]="currentPageClass">
   </ion-alpha-scroll>
 </ion-content>
 ```
@@ -81,7 +80,6 @@ export class AlphaScrollPage {
       <p>{{item.description}}</p>
     </ion-item>
   `;
-  triggerAlphaScrollChange: number = 0;
 
   constructor() {
     this.assignBreeds();

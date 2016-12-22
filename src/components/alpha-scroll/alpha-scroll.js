@@ -136,10 +136,6 @@ var AlphaScroll = (function () {
         core_1.Input(), 
         __metadata('design:type', Object)
     ], AlphaScroll.prototype, "currentPageClass", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], AlphaScroll.prototype, "triggerChange", void 0);
     AlphaScroll = __decorate([
         core_1.Component({
             selector: 'ion-alpha-scroll',

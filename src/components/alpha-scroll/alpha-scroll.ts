@@ -34,7 +34,6 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   @Input() key: string;
   @Input() itemTemplate: string;
   @Input() currentPageClass: any;
-  @Input() triggerChange: any;
   private _letterIndicatorEle: HTMLElement;
   private _indicatorHeight: number;
   private _indicatorWidth: number;

@@ -9,7 +9,6 @@ export declare class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     key: string;
     itemTemplate: string;
     currentPageClass: any;
-    triggerChange: any;
     private _letterIndicatorEle;
     private _indicatorHeight;
     private _indicatorWidth;
