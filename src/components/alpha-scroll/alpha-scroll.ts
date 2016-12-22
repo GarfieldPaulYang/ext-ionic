@@ -18,7 +18,7 @@ import { OrderBy } from '../../pipes/order-by';
     <ion-list class="ion-alpha-list">
       <div *ngFor="let item of sortedItems">
         <ion-item-divider id="scroll-letter-{{item.letter}}" *ngIf="item.isDivider">{{item.letter}}</ion-item-divider>
-        <DynamicComponent [componentTemplate]="itemTemplate" [componentContext]="{'item': item}" *ngIf="!item.isDivider">
+        <DynamicComponent [componentTemplate]="itemTemplate" [componentContext]="{'item': item, 'currentPageClass': currentPageClass}" *ngIf="!item.isDivider">
         </DynamicComponent>
       </div>
     </ion-list>

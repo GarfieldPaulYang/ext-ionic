@@ -37,7 +37,7 @@ class WhcyitPipeModule { }
   imports: [
     WhcyitPipeModule,
     IonicModule,
-    DynamicComponentModuleFactory.buildModule([IonicModule, WhcyitPipeModule])
+    DynamicComponentModuleFactory.buildModule([IonicModule])
   ],
   exports: [
     WhcyitPipeModule,

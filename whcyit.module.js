@@ -58,7 +58,7 @@ var WhcyitModule = (function () {
             imports: [
                 WhcyitPipeModule,
                 ionic_angular_1.IonicModule,
-                angular2_dynamic_component_1.DynamicComponentModuleFactory.buildModule([ionic_angular_1.IonicModule, WhcyitPipeModule])
+                angular2_dynamic_component_1.DynamicComponentModuleFactory.buildModule([ionic_angular_1.IonicModule])
             ],
             exports: [
                 WhcyitPipeModule,
