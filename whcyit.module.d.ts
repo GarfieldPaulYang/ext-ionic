@@ -1,3 +1,4 @@
+import './src/rxjs-extensions';
 export { MapToIterable } from './src/pipes/map-to-iterable';
 export { OrderBy } from './src/pipes/order-by';
 export { AlphaScroll } from './src/components/alpha-scroll/alpha-scroll';

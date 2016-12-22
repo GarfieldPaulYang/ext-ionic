@@ -1,0 +1,176 @@
+import { Injectable } from '@angular/core';
+
+import { baiduMapLoader } from './baidu-map-loader';
+import {
+  BaiduMapOptions,
+  GpsPoint,
+  MarkerOptions,
+  baiduMapDefaultOpts,
+  PointCollectionOptions
+} from './baidu-map-options';
+
+@Injectable()
+export class BaiduMapController {
+  private _map: any;
+
+  init(opts: BaiduMapOptions, ele: HTMLElement): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      baiduMapLoader().then(() => {
+        this._map = new BMap.Map(ele);
+        setTimeout(() => {
+          this._map.centerAndZoom(new BMap.Point(opts.center.lng, opts.center.lat), opts.zoom);
+          if (opts.navCtrl) {
+            this._map.addControl(new BMap.NavigationControl());
+          }
+          if (opts.scaleCtrl) {
+            this._map.addControl(new BMap.ScaleControl());
+          }
+          if (opts.overviewCtrl) {
+            this._map.addControl(new BMap.OverviewMapControl());
+          }
+          if (opts.enableScrollWheelZoom) {
+            this._map.enableScrollWheelZoom();
+          }
+          this._map.setCurrentCity(opts.city);
+          resolve();
+        });
+      }, () => {
+        reject();
+      });
+    });
+  }
+
+  translateGps(gpsData: Array<GpsPoint> = []): Promise<void> {
+    return new Promise<void>(resolve => {
+      let points: Array<any> = [];
+      gpsData.forEach((value, index) => {
+        points.push(new BMap.Point(value.lng, value.lat));
+      });
+
+      let convertor = new BMap.Convertor();
+      convertor.translate(points, 1, 5, resolve);
+    });
+  }
+
+  geoLocation(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      let location = new BMap.Geolocation();
+      location.getCurrentPosition(result => {
+        if (location.getStatus() === BMAP_STATUS_SUCCESS) {
+          resolve(result);
+        } else {
+          reject('不能获取位置');
+        }
+      }, () => {
+        reject('定位失败');
+      });
+    });
+  }
+
+  clearOverlays() {
+    this._map.clearOverlays();
+  }
+
+  panTo(point: any) {
+    this._map.panTo(point);
+  }
+
+  geoLocationAndCenter(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.geoLocation().then(result => {
+        this.panTo(result.point);
+        resolve(result);
+      }, function () {
+        reject('定位失败');
+      });
+    });
+  }
+
+  addMarker(markerOpts: MarkerOptions, clickHandler: Function) {
+    let marker = this.createMarker(markerOpts);
+    let infoWindow = this.createInfoWindow(markerOpts);
+    if (infoWindow) {
+      marker.addEventListener('click', () => {
+        marker.openInfoWindow(infoWindow);
+      });
+    } else if (clickHandler) {
+      marker.addEventListener('click', clickHandler);
+    }
+    this._map.addOverlay(marker);
+  }
+
+  drawMarkers(markers: Array<MarkerOptions>, clickHandler: Function): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+        //判断是否含有定位点
+        if (!markers || markers.length === 0) {
+          reject('没有传入兴趣点');
+          return;
+        }
+
+        this.clearOverlays();
+        markers.forEach(marker => {
+          this.addMarker(marker, clickHandler);
+        });
+        resolve();
+      });
+    });
+  }
+
+  drawMassPoints(markers: Array<MarkerOptions>, opts: PointCollectionOptions, clickHandler: Function): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+        if (!markers || markers.length === 0) {
+          reject('没有传入兴趣点');
+          return;
+        }
+
+        this.clearOverlays();
+
+        var points: Array<any> = [];
+        markers.forEach(marker => {
+          points.push(new BMap.Point(marker.point.lng, marker.point.lat));
+        });
+
+        var pointCollection = new BMap.PointCollection(points, Object.assign({}, baiduMapDefaultOpts.mass.options, opts));
+        if (clickHandler) {
+          pointCollection.addEventListener('click', clickHandler);
+        }
+        this._map.addOverlay(pointCollection);
+        resolve();
+      });
+    });
+  }
+
+  private createIcon(marker: MarkerOptions): any {
+    if (marker.icon) {
+      if (marker.size) {
+        return new BMap.Icon(marker.icon, new BMap.Size(marker.size.width, marker.size.height));
+      }
+      return new BMap.Icon(marker.icon);
+    }
+
+    return null;
+  }
+
+  private createInfoWindow(marker: MarkerOptions): any {
+    if (marker.infoWindow) {
+      var msg = '<p>' + marker.infoWindow.title + '</p><p>' + marker.infoWindow.content + '</p>';
+      return new BMap.InfoWindow(msg, {
+        enableMessage: !!marker.infoWindow.enableMessage,
+        enableCloseOnClick: true
+      });
+    }
+
+    return null;
+  }
+
+  private createMarker(marker: MarkerOptions): any {
+    var icon = this.createIcon(marker);
+    var pt = new BMap.Point(marker.point.lng, marker.point.lat);
+    if (icon) {
+      return new BMap.Marker(pt, { icon: icon });
+    }
+    return new BMap.Marker(pt);
+  }
+}
