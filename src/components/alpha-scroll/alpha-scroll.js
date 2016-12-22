@@ -22,7 +22,6 @@ var AlphaScroll = (function () {
         this.orderBy = orderBy;
         this.sortedItems = [];
         this.alphabet = [];
-        this.ionAlphaScrollRef = this;
         this._letterIndicatorEle = document.createElement("div");
         this._letterIndicatorEle.className = 'ion-alpha-letter-indicator';
         var body = document.getElementsByTagName('body')[0];

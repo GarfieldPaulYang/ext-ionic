@@ -41,7 +41,6 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   private _hammer: HammerManager;
   sortedItems: any = [];
   alphabet: any = [];
-  ionAlphaScrollRef = this;
 
   constructor( @Host() private _content: Content, private _elementRef: ElementRef, private orderBy: OrderBy) {
     this._letterIndicatorEle = document.createElement("div");
