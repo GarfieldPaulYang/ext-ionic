@@ -13,6 +13,7 @@ export declare class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     private _letterIndicatorEle;
     private _indicatorHeight;
     private _indicatorWidth;
+    private _hammer;
     sortedItems: any;
     alphabet: any;
     ionAlphaScrollRef: this;

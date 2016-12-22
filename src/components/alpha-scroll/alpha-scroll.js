@@ -44,7 +44,12 @@ var AlphaScroll = (function () {
         this.alphabet = this.iterateAlphabet(groupItems);
     };
     AlphaScroll.prototype.ngOnDestroy = function () {
-        this._letterIndicatorEle.remove();
+        if (this._letterIndicatorEle) {
+            this._letterIndicatorEle.remove();
+        }
+        if (this._hammer) {
+            this._hammer.destroy();
+        }
     };
     AlphaScroll.prototype.calculateDimensionsForSidebar = function () {
         return {
@@ -63,30 +68,30 @@ var AlphaScroll = (function () {
         var sidebarEle = this._elementRef.nativeElement.querySelector('.ion-alpha-sidebar');
         if (!sidebarEle)
             return;
-        var mcHammer = new Hammer(sidebarEle, {
+        this._hammer = new Hammer(sidebarEle, {
             recognizers: [
                 [Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }],
             ]
         });
-        mcHammer.on('panend', function (e) {
+        this._hammer.on('panstart', function (e) {
+            _this._letterIndicatorEle.style.top = ((window.innerHeight - _this._indicatorHeight) / 2) + 'px';
+            _this._letterIndicatorEle.style.left = ((window.innerWidth - _this._indicatorWidth) / 2) + 'px';
+            _this._letterIndicatorEle.style.visibility = 'visible';
+        });
+        this._hammer.on('panend pancancel', function (e) {
             _this._letterIndicatorEle.style.visibility = 'hidden';
         });
-        mcHammer.on('panup pandown', function (e) {
+        this._hammer.on('panup pandown', _.throttle(function (e) {
             var closestEle = document.elementFromPoint(e.center.x, e.center.y);
             if (closestEle && ['LI', 'A'].indexOf(closestEle.tagName) > -1) {
                 var letter = closestEle.innerText;
                 _this._letterIndicatorEle.innerText = letter;
-                _this._letterIndicatorEle.style.top = ((window.innerHeight - _this._indicatorHeight) / 2) + 'px';
-                _this._letterIndicatorEle.style.left = ((window.innerWidth - _this._indicatorWidth) / 2) + 'px';
-                if (_this._letterIndicatorEle.style.visibility != 'visible') {
-                    _this._letterIndicatorEle.style.visibility = 'visible';
-                }
                 var letterDivider = _this._elementRef.nativeElement.querySelector("#scroll-letter-" + letter);
                 if (letterDivider) {
                     _this._content.scrollTo(0, letterDivider.offsetTop);
                 }
             }
-        });
+        }, 50));
     };
     AlphaScroll.prototype.unwindGroup = function (groupItems) {
         var result = [];

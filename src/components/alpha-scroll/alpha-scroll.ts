@@ -27,6 +27,7 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   private _letterIndicatorEle: HTMLElement;
   private _indicatorHeight: number;
   private _indicatorWidth: number;
+  private _hammer: HammerManager;
   sortedItems: any = [];
   alphabet: any = [];
   ionAlphaScrollRef = this;
@@ -60,7 +61,6 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
    `;
 
     setTimeout(() => {
-      //this._letterIndicatorEle = this._elementRef.nativeElement.querySelector('.ion-alpha-letter-indicator');
       this._indicatorWidth = this._letterIndicatorEle.offsetWidth;
       this._indicatorHeight = this._letterIndicatorEle.offsetHeight;
       this.setupHammerHandlers();
@@ -75,7 +75,13 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._letterIndicatorEle.remove();
+    if (this._letterIndicatorEle) {
+      this._letterIndicatorEle.remove();
+    }
+
+    if (this._hammer) {
+      this._hammer.destroy();
+    }
   }
 
   calculateDimensionsForSidebar() {
@@ -97,32 +103,33 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
 
     if (!sidebarEle) return;
 
-    let mcHammer = new Hammer(sidebarEle, {
+    this._hammer = new Hammer(sidebarEle, {
       recognizers: [
         [Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }],
       ]
     });
 
-    mcHammer.on('panend', (e: any) => {
+    this._hammer.on('panstart', (e: any) => {
+      this._letterIndicatorEle.style.top = ((window.innerHeight - this._indicatorHeight) / 2) + 'px';
+      this._letterIndicatorEle.style.left = ((window.innerWidth - this._indicatorWidth) / 2) + 'px';
+      this._letterIndicatorEle.style.visibility = 'visible';
+    });
+
+    this._hammer.on('panend pancancel', (e: any) => {
       this._letterIndicatorEle.style.visibility = 'hidden';
     });
 
-    mcHammer.on('panup pandown', (e: any) => {
+    this._hammer.on('panup pandown', _.throttle((e: any) => {
       let closestEle: any = document.elementFromPoint(e.center.x, e.center.y);
       if (closestEle && ['LI', 'A'].indexOf(closestEle.tagName) > -1) {
         let letter = closestEle.innerText;
         this._letterIndicatorEle.innerText = letter;
-        this._letterIndicatorEle.style.top = ((window.innerHeight - this._indicatorHeight) / 2) + 'px';
-        this._letterIndicatorEle.style.left = ((window.innerWidth - this._indicatorWidth) / 2) + 'px';
-        if (this._letterIndicatorEle.style.visibility != 'visible') {
-          this._letterIndicatorEle.style.visibility = 'visible';
-        }
         let letterDivider: any = this._elementRef.nativeElement.querySelector(`#scroll-letter-${letter}`);
         if (letterDivider) {
           this._content.scrollTo(0, letterDivider.offsetTop);
         }
       }
-    });
+    }, 50));
   }
 
   private unwindGroup(groupItems: any): Array<any> {
