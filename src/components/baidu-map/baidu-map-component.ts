@@ -26,28 +26,44 @@ export class BaiduMap implements OnInit, OnChanges, OnDestroy {
   @Output() onMapClick: EventEmitter<any> = new EventEmitter();
   @Output() onMarkerClick: EventEmitter<any> = new EventEmitter();
 
+  private mapLoaded: boolean = false;
+
   constructor(private _elementRef: ElementRef, private baiduMapCtrl: BaiduMapController) { }
 
   ngOnInit() {
+    let opts: BaiduMapOptions = this.getOptions();
     this.baiduMapCtrl.init(
-      this.getOptions(),
+      opts,
       this._elementRef.nativeElement.querySelector('.baidu-map')
     ).then(() => {
       this.baiduMapCtrl.addEventListener('click', this.onMapClick);
+      this.reDraw(opts);
       this.onMapLoaded.emit();
+      this.mapLoaded = true;
     });
   }
 
   ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
+    if (!this.mapLoaded) {
+      return;
+    }
+
     let options: SimpleChange = changes['options'];
+    if (options.isFirstChange) {
+      return;
+    }
+
     if (options && !_.isEqual(options.previousValue, options.currentValue)) {
-      let opts: BaiduMapOptions = this.getOptions();
-      this.baiduMapCtrl.panTo(new BMap.Point(opts.center.lng, opts.center.lat));
-      this.draw(opts.markers);
+      this.reDraw(this.getOptions());
     }
   }
 
   ngOnDestroy() { }
+
+  private reDraw(opts: BaiduMapOptions) {
+    this.baiduMapCtrl.panTo(new BMap.Point(opts.center.lng, opts.center.lat));
+    this.draw(opts.markers);
+  }
 
   private draw(markers: Array<MarkerOptions>) {
     let opts: BaiduMapOptions = this.getOptions();

@@ -8,12 +8,14 @@ export declare class BaiduMap implements OnInit, OnChanges, OnDestroy {
     onMapLoaded: EventEmitter<void>;
     onMapClick: EventEmitter<any>;
     onMarkerClick: EventEmitter<any>;
+    private mapLoaded;
     constructor(_elementRef: ElementRef, baiduMapCtrl: BaiduMapController);
     ngOnInit(): void;
     ngOnChanges(changes: {
         [propertyName: string]: SimpleChange;
     }): void;
     ngOnDestroy(): void;
+    private reDraw(opts);
     private draw(markers);
     private getOptions();
 }

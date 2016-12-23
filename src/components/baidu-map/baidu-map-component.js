@@ -19,23 +19,35 @@ var BaiduMap = (function () {
         this.onMapLoaded = new core_1.EventEmitter();
         this.onMapClick = new core_1.EventEmitter();
         this.onMarkerClick = new core_1.EventEmitter();
+        this.mapLoaded = false;
     }
     BaiduMap.prototype.ngOnInit = function () {
         var _this = this;
-        this.baiduMapCtrl.init(this.getOptions(), this._elementRef.nativeElement.querySelector('.baidu-map')).then(function () {
+        var opts = this.getOptions();
+        this.baiduMapCtrl.init(opts, this._elementRef.nativeElement.querySelector('.baidu-map')).then(function () {
             _this.baiduMapCtrl.addEventListener('click', _this.onMapClick);
+            _this.reDraw(opts);
             _this.onMapLoaded.emit();
+            _this.mapLoaded = true;
         });
     };
     BaiduMap.prototype.ngOnChanges = function (changes) {
+        if (!this.mapLoaded) {
+            return;
+        }
         var options = changes['options'];
+        if (options.isFirstChange) {
+            return;
+        }
         if (options && !_.isEqual(options.previousValue, options.currentValue)) {
-            var opts = this.getOptions();
-            this.baiduMapCtrl.panTo(new BMap.Point(opts.center.lng, opts.center.lat));
-            this.draw(opts.markers);
+            this.reDraw(this.getOptions());
         }
     };
     BaiduMap.prototype.ngOnDestroy = function () { };
+    BaiduMap.prototype.reDraw = function (opts) {
+        this.baiduMapCtrl.panTo(new BMap.Point(opts.center.lng, opts.center.lat));
+        this.draw(opts.markers);
+    };
     BaiduMap.prototype.draw = function (markers) {
         var opts = this.getOptions();
         if (opts.mass.enabled) {
