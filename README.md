@@ -105,6 +105,9 @@ export class AlphaScrollPage {
 }
 ```
 
-## 管道(全部管道可注入使用)
+## 百度地图
+文档未完成
+
+# 管道(全部管道可注入使用)
 - mapToIterable 把 Map、Object 转成数组
 - orderBy 排序"items | orderBy:'-'"，对象数组"items | orderBy: ['-prop1', 'prop2']"，'-'号为DESC，默认为ASC
