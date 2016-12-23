@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 require('./src/rxjs-extensions');
 var core_1 = require('@angular/core');
 var common_1 = require("@angular/common");
@@ -30,6 +33,7 @@ var open_url_modal_2 = require('./src/components/open-url-modal/open-url-modal')
 exports.OpenUrlModalController = open_url_modal_2.OpenUrlModalController;
 var baidu_map_component_2 = require('./src/components/baidu-map/baidu-map-component');
 exports.BaiduMap = baidu_map_component_2.BaiduMap;
+__export(require('./src/components/baidu-map/baidu-map-options'));
 var WhcyitPipeModule = (function () {
     function WhcyitPipeModule() {
     }
