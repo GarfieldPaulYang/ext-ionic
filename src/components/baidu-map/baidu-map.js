@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var baidu_map_loader_1 = require('./baidu-map-loader');
-var baidu_map_options_1 = require('./baidu-map-options');
 var BaiduMapController = (function () {
     function BaiduMapController() {
     }
@@ -18,17 +17,17 @@ var BaiduMapController = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             baidu_map_loader_1.baiduMapLoader().then(function () {
-                _this._map = new BMap.Map(ele);
+                _this._map = new window['BMap'].Map(ele);
                 setTimeout(function () {
-                    _this._map.centerAndZoom(new BMap.Point(opts.center.lng, opts.center.lat), opts.zoom);
+                    _this._map.centerAndZoom(new window['BMap'].Point(opts.center.lng, opts.center.lat), opts.zoom);
                     if (opts.navCtrl) {
-                        _this._map.addControl(new BMap.NavigationControl());
+                        _this._map.addControl(new window['BMap'].NavigationControl());
                     }
                     if (opts.scaleCtrl) {
-                        _this._map.addControl(new BMap.ScaleControl());
+                        _this._map.addControl(new window['BMap'].ScaleControl());
                     }
                     if (opts.overviewCtrl) {
-                        _this._map.addControl(new BMap.OverviewMapControl());
+                        _this._map.addControl(new window['BMap'].OverviewMapControl());
                     }
                     if (opts.enableScrollWheelZoom) {
                         _this._map.enableScrollWheelZoom();
@@ -46,17 +45,17 @@ var BaiduMapController = (function () {
         return new Promise(function (resolve) {
             var points = [];
             gpsData.forEach(function (value, index) {
-                points.push(new BMap.Point(value.lng, value.lat));
+                points.push(new window['BMap'].Point(value.lng, value.lat));
             });
-            var convertor = new BMap.Convertor();
+            var convertor = new window['BMap'].Convertor();
             convertor.translate(points, 1, 5, resolve);
         });
     };
     BaiduMapController.prototype.geoLocation = function () {
         return new Promise(function (resolve, reject) {
-            var location = new BMap.Geolocation();
+            var location = new window['BMap'].Geolocation();
             location.getCurrentPosition(function (result) {
-                if (location.getStatus() === BMAP_STATUS_SUCCESS) {
+                if (location.getStatus() === window['BMAP_STATUS_SUCCESS']) {
                     resolve(result);
                 }
                 else {
@@ -131,9 +130,13 @@ var BaiduMapController = (function () {
                 _this.clearOverlays();
                 var points = [];
                 markers.forEach(function (marker) {
-                    points.push(new BMap.Point(marker.point.lng, marker.point.lat));
+                    points.push(new window['BMap'].Point(marker.point.lng, marker.point.lat));
                 });
-                var pointCollection = new BMap.PointCollection(points, Object.assign({}, baidu_map_options_1.baiduMapDefaultOpts.mass.options, opts));
+                var pointCollection = new window['BMap'].PointCollection(points, Object.assign({}, {
+                    size: window['BMAP_POINT_SIZE_SMALL'],
+                    shape: window['BMAP_POINT_SHAPE_CIRCLE'],
+                    color: '#d340c3'
+                }, opts));
                 pointCollection.addEventListener('click', function (e) {
                     clickHandler.emit(e);
                 });
@@ -145,16 +148,16 @@ var BaiduMapController = (function () {
     BaiduMapController.prototype.createIcon = function (marker) {
         if (marker.icon) {
             if (marker.size) {
-                return new BMap.Icon(marker.icon, new BMap.Size(marker.size.width, marker.size.height));
+                return new window['BMap'].Icon(marker.icon, new window['BMap'].Size(marker.size.width, marker.size.height));
             }
-            return new BMap.Icon(marker.icon);
+            return new window['BMap'].Icon(marker.icon);
         }
         return null;
     };
     BaiduMapController.prototype.createInfoWindow = function (marker) {
         if (marker.infoWindow) {
             var msg = '<p>' + marker.infoWindow.title + '</p><p>' + marker.infoWindow.content + '</p>';
-            return new BMap.InfoWindow(msg, {
+            return new window['BMap'].InfoWindow(msg, {
                 enableMessage: !!marker.infoWindow.enableMessage,
                 enableCloseOnClick: true
             });
@@ -163,11 +166,11 @@ var BaiduMapController = (function () {
     };
     BaiduMapController.prototype.createMarker = function (marker) {
         var icon = this.createIcon(marker);
-        var pt = new BMap.Point(marker.point.lng, marker.point.lat);
+        var pt = new window['BMap'].Point(marker.point.lng, marker.point.lat);
         if (icon) {
-            return new BMap.Marker(pt, { icon: icon });
+            return new window['BMap'].Marker(pt, { icon: icon });
         }
-        return new BMap.Marker(pt);
+        return new window['BMap'].Marker(pt);
     };
     BaiduMapController = __decorate([
         core_1.Injectable(), 

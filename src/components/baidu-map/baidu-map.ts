@@ -17,17 +17,17 @@ export class BaiduMapController {
   init(opts: BaiduMapOptions, ele: HTMLElement): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       baiduMapLoader().then(() => {
-        this._map = new BMap.Map(ele);
+        this._map = new window['BMap'].Map(ele);
         setTimeout(() => {
-          this._map.centerAndZoom(new BMap.Point(opts.center.lng, opts.center.lat), opts.zoom);
+          this._map.centerAndZoom(new window['BMap'].Point(opts.center.lng, opts.center.lat), opts.zoom);
           if (opts.navCtrl) {
-            this._map.addControl(new BMap.NavigationControl());
+            this._map.addControl(new window['BMap'].NavigationControl());
           }
           if (opts.scaleCtrl) {
-            this._map.addControl(new BMap.ScaleControl());
+            this._map.addControl(new window['BMap'].ScaleControl());
           }
           if (opts.overviewCtrl) {
-            this._map.addControl(new BMap.OverviewMapControl());
+            this._map.addControl(new window['BMap'].OverviewMapControl());
           }
           if (opts.enableScrollWheelZoom) {
             this._map.enableScrollWheelZoom();
@@ -45,19 +45,19 @@ export class BaiduMapController {
     return new Promise<void>(resolve => {
       let points: Array<any> = [];
       gpsData.forEach((value, index) => {
-        points.push(new BMap.Point(value.lng, value.lat));
+        points.push(new window['BMap'].Point(value.lng, value.lat));
       });
 
-      let convertor = new BMap.Convertor();
+      let convertor = new window['BMap'].Convertor();
       convertor.translate(points, 1, 5, resolve);
     });
   }
 
   geoLocation(): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      let location = new BMap.Geolocation();
+      let location = new window['BMap'].Geolocation();
       location.getCurrentPosition(result => {
-        if (location.getStatus() === BMAP_STATUS_SUCCESS) {
+        if (location.getStatus() === window['BMAP_STATUS_SUCCESS']) {
           resolve(result);
         } else {
           reject('不能获取位置');
@@ -138,10 +138,16 @@ export class BaiduMapController {
 
         var points: Array<any> = [];
         markers.forEach(marker => {
-          points.push(new BMap.Point(marker.point.lng, marker.point.lat));
+          points.push(new window['BMap'].Point(marker.point.lng, marker.point.lat));
         });
 
-        var pointCollection = new BMap.PointCollection(points, Object.assign({}, baiduMapDefaultOpts.mass.options, opts));
+        var pointCollection = new window['BMap'].PointCollection(
+          points, Object.assign({}, {
+            size: window['BMAP_POINT_SIZE_SMALL'],
+            shape: window['BMAP_POINT_SHAPE_CIRCLE'],
+            color: '#d340c3'
+          }, opts)
+        );
         pointCollection.addEventListener('click', e => {
           clickHandler.emit(e);
         });
@@ -154,9 +160,9 @@ export class BaiduMapController {
   private createIcon(marker: MarkerOptions): any {
     if (marker.icon) {
       if (marker.size) {
-        return new BMap.Icon(marker.icon, new BMap.Size(marker.size.width, marker.size.height));
+        return new window['BMap'].Icon(marker.icon, new window['BMap'].Size(marker.size.width, marker.size.height));
       }
-      return new BMap.Icon(marker.icon);
+      return new window['BMap'].Icon(marker.icon);
     }
 
     return null;
@@ -165,7 +171,7 @@ export class BaiduMapController {
   private createInfoWindow(marker: MarkerOptions): any {
     if (marker.infoWindow) {
       var msg = '<p>' + marker.infoWindow.title + '</p><p>' + marker.infoWindow.content + '</p>';
-      return new BMap.InfoWindow(msg, {
+      return new window['BMap'].InfoWindow(msg, {
         enableMessage: !!marker.infoWindow.enableMessage,
         enableCloseOnClick: true
       });
@@ -176,10 +182,10 @@ export class BaiduMapController {
 
   private createMarker(marker: MarkerOptions): any {
     var icon = this.createIcon(marker);
-    var pt = new BMap.Point(marker.point.lng, marker.point.lat);
+    var pt = new window['BMap'].Point(marker.point.lng, marker.point.lat);
     if (icon) {
-      return new BMap.Marker(pt, { icon: icon });
+      return new window['BMap'].Marker(pt, { icon: icon });
     }
-    return new BMap.Marker(pt);
+    return new window['BMap'].Marker(pt);
   }
 }

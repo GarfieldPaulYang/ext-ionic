@@ -61,7 +61,7 @@ export class BaiduMap implements OnInit, OnChanges {
   }
 
   private reDraw(opts: BaiduMapOptions) {
-    this.baiduMapCtrl.panTo(new BMap.Point(opts.center.lng, opts.center.lat));
+    this.baiduMapCtrl.panTo(new window['BMap'].Point(opts.center.lng, opts.center.lat));
     this.draw(opts.markers);
   }
 
