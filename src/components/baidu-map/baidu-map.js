@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var baidu_map_loader_1 = require('./baidu-map-loader');
+var baidu_map_options_1 = require('./baidu-map-options');
 var BaiduMapController = (function () {
     function BaiduMapController() {
     }
@@ -40,7 +41,133 @@ var BaiduMapController = (function () {
             });
         });
     };
-    BaiduMapController.prototype.translateGps = function () {
+    BaiduMapController.prototype.translateGps = function (gpsData) {
+        if (gpsData === void 0) { gpsData = []; }
+        return new Promise(function (resolve) {
+            var points = [];
+            gpsData.forEach(function (value, index) {
+                points.push(new BMap.Point(value.lng, value.lat));
+            });
+            var convertor = new BMap.Convertor();
+            convertor.translate(points, 1, 5, resolve);
+        });
+    };
+    BaiduMapController.prototype.geoLocation = function () {
+        return new Promise(function (resolve, reject) {
+            var location = new BMap.Geolocation();
+            location.getCurrentPosition(function (result) {
+                if (location.getStatus() === BMAP_STATUS_SUCCESS) {
+                    resolve(result);
+                }
+                else {
+                    reject('不能获取位置');
+                }
+            }, function () {
+                reject('定位失败');
+            });
+        });
+    };
+    BaiduMapController.prototype.clearOverlays = function () {
+        this._map.clearOverlays();
+    };
+    BaiduMapController.prototype.panTo = function (point) {
+        this._map.panTo(point);
+    };
+    BaiduMapController.prototype.geoLocationAndCenter = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.geoLocation().then(function (result) {
+                _this.panTo(result.point);
+                resolve(result);
+            }, function () {
+                reject('定位失败');
+            });
+        });
+    };
+    BaiduMapController.prototype.addEventListener = function (event, handler) {
+        this._map.addEventListener(event, function (e) {
+            handler.emit(e);
+        });
+    };
+    BaiduMapController.prototype.addMarker = function (markerOpts, clickHandler) {
+        var marker = this.createMarker(markerOpts);
+        var infoWindow = this.createInfoWindow(markerOpts);
+        if (infoWindow) {
+            marker.addEventListener('click', function (e) {
+                marker.openInfoWindow(infoWindow);
+            });
+        }
+        else {
+            marker.addEventListener('click', function (e) {
+                clickHandler.emit(e);
+            });
+        }
+        this._map.addOverlay(marker);
+    };
+    BaiduMapController.prototype.drawMarkers = function (markers, clickHandler) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                if (!markers || markers.length === 0) {
+                    reject('没有传入兴趣点');
+                    return;
+                }
+                _this.clearOverlays();
+                markers.forEach(function (marker) {
+                    _this.addMarker(marker, clickHandler);
+                });
+                resolve();
+            });
+        });
+    };
+    BaiduMapController.prototype.drawMassPoints = function (markers, opts, clickHandler) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                if (!markers || markers.length === 0) {
+                    reject('没有传入兴趣点');
+                    return;
+                }
+                _this.clearOverlays();
+                var points = [];
+                markers.forEach(function (marker) {
+                    points.push(new BMap.Point(marker.point.lng, marker.point.lat));
+                });
+                var pointCollection = new BMap.PointCollection(points, Object.assign({}, baidu_map_options_1.baiduMapDefaultOpts.mass.options, opts));
+                pointCollection.addEventListener('click', function (e) {
+                    clickHandler.emit(e);
+                });
+                _this._map.addOverlay(pointCollection);
+                resolve();
+            });
+        });
+    };
+    BaiduMapController.prototype.createIcon = function (marker) {
+        if (marker.icon) {
+            if (marker.size) {
+                return new BMap.Icon(marker.icon, new BMap.Size(marker.size.width, marker.size.height));
+            }
+            return new BMap.Icon(marker.icon);
+        }
+        return null;
+    };
+    BaiduMapController.prototype.createInfoWindow = function (marker) {
+        if (marker.infoWindow) {
+            var msg = '<p>' + marker.infoWindow.title + '</p><p>' + marker.infoWindow.content + '</p>';
+            return new BMap.InfoWindow(msg, {
+                enableMessage: !!marker.infoWindow.enableMessage,
+                enableCloseOnClick: true
+            });
+        }
+        return null;
+    };
+    BaiduMapController.prototype.createMarker = function (marker) {
+        var icon = this.createIcon(marker);
+        var pt = new BMap.Point(marker.point.lng, marker.point.lat);
+        if (icon) {
+            return new BMap.Marker(pt, { icon: icon });
+        }
+        return new BMap.Marker(pt);
     };
     BaiduMapController = __decorate([
         core_1.Injectable(), 

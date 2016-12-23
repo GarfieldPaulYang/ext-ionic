@@ -11,11 +11,13 @@ import { AlphaScroll } from './src/components/alpha-scroll/alpha-scroll';
 import { OpenUrlModalCmp } from './src/components/open-url-modal/open-url-modal-component';
 import { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
 import { BaiduMapController } from './src/components/baidu-map/baidu-map';
+import { BaiduMap } from './src/components/baidu-map/baidu-map-component';
 
 export { MapToIterable } from './src/pipes/map-to-iterable';
 export { OrderBy } from './src/pipes/order-by';
 export { AlphaScroll } from './src/components/alpha-scroll/alpha-scroll';
 export { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
+export { BaiduMap } from './src/components/baidu-map/baidu-map-component';
 
 @NgModule({
   imports: [
@@ -44,11 +46,13 @@ class WhcyitPipeModule { }
   ],
   exports: [
     WhcyitPipeModule,
-    AlphaScroll
+    AlphaScroll,
+    BaiduMap
   ],
   declarations: [
     AlphaScroll,
-    OpenUrlModalCmp
+    OpenUrlModalCmp,
+    BaiduMap
   ],
   entryComponents: [
     OpenUrlModalCmp

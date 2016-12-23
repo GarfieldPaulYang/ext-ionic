@@ -18,6 +18,8 @@ var order_by_1 = require('./src/pipes/order-by');
 var alpha_scroll_1 = require('./src/components/alpha-scroll/alpha-scroll');
 var open_url_modal_component_1 = require('./src/components/open-url-modal/open-url-modal-component');
 var open_url_modal_1 = require('./src/components/open-url-modal/open-url-modal');
+var baidu_map_1 = require('./src/components/baidu-map/baidu-map');
+var baidu_map_component_1 = require('./src/components/baidu-map/baidu-map-component');
 var map_to_iterable_2 = require('./src/pipes/map-to-iterable');
 exports.MapToIterable = map_to_iterable_2.MapToIterable;
 var order_by_2 = require('./src/pipes/order-by');
@@ -26,6 +28,8 @@ var alpha_scroll_2 = require('./src/components/alpha-scroll/alpha-scroll');
 exports.AlphaScroll = alpha_scroll_2.AlphaScroll;
 var open_url_modal_2 = require('./src/components/open-url-modal/open-url-modal');
 exports.OpenUrlModalController = open_url_modal_2.OpenUrlModalController;
+var baidu_map_component_2 = require('./src/components/baidu-map/baidu-map-component');
+exports.BaiduMap = baidu_map_component_2.BaiduMap;
 var WhcyitPipeModule = (function () {
     function WhcyitPipeModule() {
     }
@@ -63,17 +67,20 @@ var WhcyitModule = (function () {
             ],
             exports: [
                 WhcyitPipeModule,
-                alpha_scroll_1.AlphaScroll
+                alpha_scroll_1.AlphaScroll,
+                baidu_map_component_1.BaiduMap
             ],
             declarations: [
                 alpha_scroll_1.AlphaScroll,
-                open_url_modal_component_1.OpenUrlModalCmp
+                open_url_modal_component_1.OpenUrlModalCmp,
+                baidu_map_component_1.BaiduMap
             ],
             entryComponents: [
                 open_url_modal_component_1.OpenUrlModalCmp
             ],
             providers: [
-                open_url_modal_1.OpenUrlModalController
+                open_url_modal_1.OpenUrlModalController,
+                baidu_map_1.BaiduMapController
             ]
         }), 
         __metadata('design:paramtypes', [])

@@ -3,8 +3,8 @@ export interface GpsPoint {
     lat: number;
 }
 export interface MarkerSize {
-    width?: number;
-    height?: number;
+    width: number;
+    height: number;
 }
 export interface MarkerInfoWindow {
     title: string;
@@ -17,14 +17,14 @@ export interface MarkerOptions {
     size?: MarkerSize;
     infoWindow?: MarkerInfoWindow;
 }
-export interface PointCollectionOption {
+export interface PointCollectionOptions {
     size?: any;
     shape?: any;
     color?: string;
 }
 export interface MassOptions {
     enabled?: boolean;
-    options?: PointCollectionOption;
+    options?: PointCollectionOptions;
 }
 export interface BaiduMapOptions {
     navCtrl?: boolean;

@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+// 封装参考官方API，http://developer.baidu.com/map/reference/index.php
+import { Injectable, EventEmitter } from '@angular/core';
 
 import { baiduMapLoader } from './baidu-map-loader';
 import {
@@ -86,20 +87,28 @@ export class BaiduMapController {
     });
   }
 
-  addMarker(markerOpts: MarkerOptions, clickHandler: Function) {
+  addEventListener(event: string, handler: EventEmitter<any>) {
+    this._map.addEventListener(event, e => {
+      handler.emit(e);
+    });
+  }
+
+  addMarker(markerOpts: MarkerOptions, clickHandler: EventEmitter<any>) {
     let marker = this.createMarker(markerOpts);
     let infoWindow = this.createInfoWindow(markerOpts);
     if (infoWindow) {
-      marker.addEventListener('click', () => {
+      marker.addEventListener('click', e => {
         marker.openInfoWindow(infoWindow);
       });
-    } else if (clickHandler) {
-      marker.addEventListener('click', clickHandler);
+    } else {
+      marker.addEventListener('click', e => {
+        clickHandler.emit(e);
+      });
     }
     this._map.addOverlay(marker);
   }
 
-  drawMarkers(markers: Array<MarkerOptions>, clickHandler: Function): Promise<void> {
+  drawMarkers(markers: Array<MarkerOptions>, clickHandler: EventEmitter<any>): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       setTimeout(() => {
         //判断是否含有定位点
@@ -117,7 +126,7 @@ export class BaiduMapController {
     });
   }
 
-  drawMassPoints(markers: Array<MarkerOptions>, opts: PointCollectionOptions, clickHandler: Function): Promise<void> {
+  drawMassPoints(markers: Array<MarkerOptions>, opts: PointCollectionOptions, clickHandler: EventEmitter<any>): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       setTimeout(() => {
         if (!markers || markers.length === 0) {
@@ -133,9 +142,9 @@ export class BaiduMapController {
         });
 
         var pointCollection = new BMap.PointCollection(points, Object.assign({}, baiduMapDefaultOpts.mass.options, opts));
-        if (clickHandler) {
-          pointCollection.addEventListener('click', clickHandler);
-        }
+        pointCollection.addEventListener('click', e => {
+          clickHandler.emit(e);
+        });
         this._map.addOverlay(pointCollection);
         resolve();
       });
