@@ -17,7 +17,11 @@ import { BaiduMapController } from './baidu-map';
 
 @Component({
   selector: 'ion-baidu-map',
-  template: '<div class="baidu-map"></div>'
+  template: `
+    <div class="offlinePanel">
+      <label>离线</label>
+    </div>
+  `
 })
 export class BaiduMap implements OnInit, OnChanges, OnDestroy {
   @Input() options: BaiduMapOptions;
@@ -34,7 +38,7 @@ export class BaiduMap implements OnInit, OnChanges, OnDestroy {
     let opts: BaiduMapOptions = this.getOptions();
     this.baiduMapCtrl.init(
       opts,
-      this._elementRef.nativeElement.querySelector('.baidu-map')
+      this._elementRef.nativeElement
     ).then(() => {
       this.baiduMapCtrl.addEventListener('click', this.onMapClick);
       this.reDraw(opts);
