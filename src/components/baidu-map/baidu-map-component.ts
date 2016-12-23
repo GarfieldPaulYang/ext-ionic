@@ -2,8 +2,6 @@ import {
   Component,
   OnInit,
   OnChanges,
-  OnDestroy,
-  Host,
   Input,
   Output,
   EventEmitter,
@@ -19,11 +17,11 @@ import { BaiduMapController } from './baidu-map';
   selector: 'ion-baidu-map',
   template: `
     <div class="offlinePanel">
-      <label>离线</label>
+      <label>正在加载地图...</label>
     </div>
   `
 })
-export class BaiduMap implements OnInit, OnChanges, OnDestroy {
+export class BaiduMap implements OnInit, OnChanges {
   @Input() options: BaiduMapOptions;
 
   @Output() onMapLoaded: EventEmitter<void> = new EventEmitter<void>();
@@ -61,8 +59,6 @@ export class BaiduMap implements OnInit, OnChanges, OnDestroy {
       this.reDraw(this.getOptions());
     }
   }
-
-  ngOnDestroy() { }
 
   private reDraw(opts: BaiduMapOptions) {
     this.baiduMapCtrl.panTo(new BMap.Point(opts.center.lng, opts.center.lat));

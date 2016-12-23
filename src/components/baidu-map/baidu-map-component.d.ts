@@ -1,7 +1,7 @@
-import { OnInit, OnChanges, OnDestroy, EventEmitter, ElementRef, SimpleChange } from '@angular/core';
+import { OnInit, OnChanges, EventEmitter, ElementRef, SimpleChange } from '@angular/core';
 import { BaiduMapOptions } from './baidu-map-options';
 import { BaiduMapController } from './baidu-map';
-export declare class BaiduMap implements OnInit, OnChanges, OnDestroy {
+export declare class BaiduMap implements OnInit, OnChanges {
     private _elementRef;
     private baiduMapCtrl;
     options: BaiduMapOptions;
@@ -14,7 +14,6 @@ export declare class BaiduMap implements OnInit, OnChanges, OnDestroy {
     ngOnChanges(changes: {
         [propertyName: string]: SimpleChange;
     }): void;
-    ngOnDestroy(): void;
     private reDraw(opts);
     private draw(markers);
     private getOptions();

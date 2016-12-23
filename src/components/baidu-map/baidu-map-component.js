@@ -24,7 +24,7 @@ var BaiduMap = (function () {
     BaiduMap.prototype.ngOnInit = function () {
         var _this = this;
         var opts = this.getOptions();
-        this.baiduMapCtrl.init(opts, this._elementRef.nativeElement.querySelector('.baidu-map')).then(function () {
+        this.baiduMapCtrl.init(opts, this._elementRef.nativeElement).then(function () {
             _this.baiduMapCtrl.addEventListener('click', _this.onMapClick);
             _this.reDraw(opts);
             _this.onMapLoaded.emit();
@@ -43,7 +43,6 @@ var BaiduMap = (function () {
             this.reDraw(this.getOptions());
         }
     };
-    BaiduMap.prototype.ngOnDestroy = function () { };
     BaiduMap.prototype.reDraw = function (opts) {
         this.baiduMapCtrl.panTo(new BMap.Point(opts.center.lng, opts.center.lat));
         this.draw(opts.markers);
@@ -78,7 +77,7 @@ var BaiduMap = (function () {
     BaiduMap = __decorate([
         core_1.Component({
             selector: 'ion-baidu-map',
-            template: '<div class="baidu-map"></div>'
+            template: "\n    <div class=\"offlinePanel\">\n      <label>\u6B63\u5728\u52A0\u8F7D\u5730\u56FE...</label>\n    </div>\n  "
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, baidu_map_1.BaiduMapController])
     ], BaiduMap);
