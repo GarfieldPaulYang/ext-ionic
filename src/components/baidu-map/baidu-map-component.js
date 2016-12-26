@@ -17,6 +17,7 @@ var BaiduMap = (function () {
         this._elementRef = _elementRef;
         this.baiduMapCtrl = baiduMapCtrl;
         this.onMapLoaded = new core_1.EventEmitter();
+        this.onMapLoadFialed = new core_1.EventEmitter();
         this.onMapClick = new core_1.EventEmitter();
         this.onMarkerClick = new core_1.EventEmitter();
         this.mapLoaded = false;
@@ -29,6 +30,8 @@ var BaiduMap = (function () {
             _this.reDraw(opts);
             _this.onMapLoaded.emit();
             _this.mapLoaded = true;
+        }, function (e) {
+            _this.onMapLoadFialed.emit(e);
         });
     };
     BaiduMap.prototype.ngOnChanges = function (changes) {
@@ -66,6 +69,10 @@ var BaiduMap = (function () {
         core_1.Output(), 
         __metadata('design:type', core_1.EventEmitter)
     ], BaiduMap.prototype, "onMapLoaded", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', core_1.EventEmitter)
+    ], BaiduMap.prototype, "onMapLoadFialed", void 0);
     __decorate([
         core_1.Output(), 
         __metadata('design:type', core_1.EventEmitter)

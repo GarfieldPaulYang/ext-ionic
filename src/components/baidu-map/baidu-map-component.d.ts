@@ -6,6 +6,7 @@ export declare class BaiduMap implements OnInit, OnChanges {
     private baiduMapCtrl;
     options: BaiduMapOptions;
     onMapLoaded: EventEmitter<void>;
+    onMapLoadFialed: EventEmitter<any>;
     onMapClick: EventEmitter<any>;
     onMarkerClick: EventEmitter<any>;
     private mapLoaded;

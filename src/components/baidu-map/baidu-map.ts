@@ -35,9 +35,7 @@ export class BaiduMapController {
           this._map.setCurrentCity(opts.city);
           resolve();
         });
-      }, () => {
-        reject();
-      });
+      }, reject);
     });
   }
 

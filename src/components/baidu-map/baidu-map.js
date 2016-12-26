@@ -35,9 +35,7 @@ var BaiduMapController = (function () {
                     _this._map.setCurrentCity(opts.city);
                     resolve();
                 });
-            }, function () {
-                reject();
-            });
+            }, reject);
         });
     };
     BaiduMapController.prototype.translateGps = function (gpsData) {

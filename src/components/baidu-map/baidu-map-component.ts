@@ -25,6 +25,7 @@ export class BaiduMap implements OnInit, OnChanges {
   @Input() options: BaiduMapOptions;
 
   @Output() onMapLoaded: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onMapLoadFialed: EventEmitter<any> = new EventEmitter<any>();
   @Output() onMapClick: EventEmitter<any> = new EventEmitter();
   @Output() onMarkerClick: EventEmitter<any> = new EventEmitter();
 
@@ -42,6 +43,8 @@ export class BaiduMap implements OnInit, OnChanges {
       this.reDraw(opts);
       this.onMapLoaded.emit();
       this.mapLoaded = true;
+    }, e => {
+      this.onMapLoadFialed.emit(e);
     });
   }
 
