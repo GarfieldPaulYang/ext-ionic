@@ -10,23 +10,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
+var util_1 = require('ionic-angular/util/util');
 var open_url_modal_component_1 = require('./open-url-modal-component');
 var OpenUrlModalController = (function () {
-    function OpenUrlModalController(modalCtrl) {
+    function OpenUrlModalController(modalCtrl, viewCtrl) {
         this.modalCtrl = modalCtrl;
+        this.viewCtrl = viewCtrl;
+        this.options = {};
     }
     OpenUrlModalController.prototype.open = function (opts, modalOpts) {
         if (opts === void 0) { opts = {}; }
         if (modalOpts === void 0) { modalOpts = {}; }
+        this.options = opts;
+        this.options.color = util_1.isPresent(this.options.color) ? this.options.color : 'light';
+        this.options.onmessage = util_1.isPresent(this.options.onmessage) ? this.options.onmessage : function (e) { };
         var modal = this.modalCtrl.create(open_url_modal_component_1.OpenUrlModalCmp, { openUrlModalOptions: opts }, modalOpts);
         modal.onDidDismiss(function (data) {
             window.removeEventListener('message', data.onmessage, false);
         });
         modal.present();
     };
+    OpenUrlModalController.prototype.close = function () {
+        this.viewCtrl.dismiss(this.options);
+    };
     OpenUrlModalController = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [ionic_angular_1.ModalController])
+        __metadata('design:paramtypes', [ionic_angular_1.ModalController, ionic_angular_1.ViewController])
     ], OpenUrlModalController);
     return OpenUrlModalController;
 }());

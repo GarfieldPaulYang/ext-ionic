@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ViewController, NavParams } from 'ionic-angular';
-import { assert, isPresent } from 'ionic-angular/util/util';
+import { assert } from 'ionic-angular/util/util';
 
 import { OpenUrlModalOptions } from './open-url-modal-options';
 
@@ -30,8 +30,6 @@ export class OpenUrlModalCmp {
     this.options = _navParams.get('openUrlModalOptions');
     assert(this.options, 'openUrlModal options must be valid');
 
-    this.options.color = isPresent(this.options.color) ? this.options.color : 'light';
-    this.options.onmessage = isPresent(this.options.onmessage) ? this.options.onmessage : (e) => {};
     this.safeUrl = sanitizer.bypassSecurityTrustResourceUrl(this.options.url);
 
     window.addEventListener('message', this.options.onmessage, false);

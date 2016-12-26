@@ -19,8 +19,6 @@ var OpenUrlModalCmp = (function () {
         this.sanitizer = sanitizer;
         this.options = _navParams.get('openUrlModalOptions');
         util_1.assert(this.options, 'openUrlModal options must be valid');
-        this.options.color = util_1.isPresent(this.options.color) ? this.options.color : 'light';
-        this.options.onmessage = util_1.isPresent(this.options.onmessage) ? this.options.onmessage : function (e) { };
         this.safeUrl = sanitizer.bypassSecurityTrustResourceUrl(this.options.url);
         window.addEventListener('message', this.options.onmessage, false);
     }
