@@ -41,8 +41,8 @@ export class BaiduMapController {
     });
   }
 
-  translateGps(gpsData: Array<GpsPoint> = []): Promise<void> {
-    return new Promise<void>(resolve => {
+  translateGps(gpsData: Array<GpsPoint> = []): Promise<any> {
+    return new Promise<any>(resolve => {
       let points: Array<any> = [];
       gpsData.forEach((value, index) => {
         points.push(new window['BMap'].Point(value.lng, value.lat));
