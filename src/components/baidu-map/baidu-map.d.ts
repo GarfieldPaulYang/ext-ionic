@@ -3,7 +3,7 @@ import { BaiduMapOptions, GpsPoint, MarkerOptions, PointCollectionOptions } from
 export declare class BaiduMapController {
     private _map;
     init(opts: BaiduMapOptions, ele: HTMLElement): Promise<void>;
-    translateGps(gpsData?: Array<GpsPoint>): Promise<void>;
+    translateGps(gpsData?: Array<GpsPoint>): Promise<any>;
     geoLocation(): Promise<any>;
     clearOverlays(): void;
     panTo(point: any): void;
