@@ -9,7 +9,7 @@ export class ImageLoaderConfig {
   display: string = 'block';
   width: string = '100%';
   height: string = '100%';
-  useImg: boolean = false;
+  useImg: boolean = true;
   fallbackUrl: string;
 
   private _cacheDirectoryName: string = 'image-loader-cache';
