@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { File, FileEntry, Transfer } from 'ionic-native';
+import { File, FileEntry, Transfer, RemoveResult, FileError } from 'ionic-native';
 
 import { ImageLoaderConfig } from "./image-loader-config";
 import { StringUtils } from "../../utils/string";
@@ -67,6 +67,10 @@ export class ImageLoaderController {
     File.removeFile(this.cacheDirectory, localPath.substr(localPath.lastIndexOf('/') + 1)).catch(e => {
       this.throwError(e);
     });
+  }
+
+  clearCache(): Promise<RemoveResult | FileError> {
+    return File.removeDir(cordova.file.cacheDirectory, this.config.cacheDirectoryName);
   }
 
   private downloadImage(imageUrl: string, localPath: string): Promise<any> {
