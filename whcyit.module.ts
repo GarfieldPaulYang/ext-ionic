@@ -12,13 +12,10 @@ import { OpenUrlModalCmp } from './src/components/open-url-modal/open-url-modal-
 import { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
 import { BaiduMapController } from './src/components/baidu-map/baidu-map';
 import { BaiduMap } from './src/components/baidu-map/baidu-map-component';
-
-export { MapToIterable } from './src/pipes/map-to-iterable';
-export { OrderBy } from './src/pipes/order-by';
-export { AlphaScroll } from './src/components/alpha-scroll/alpha-scroll';
-export { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
-export { BaiduMap } from './src/components/baidu-map/baidu-map-component';
-export * from './src/components/baidu-map/baidu-map-options';
+import { ImageLoaderSpinnerCmp } from './src/components/image-loader/image-loader-spinner-component';
+import { ImageLoaderCmp } from './src/components/image-loader/image-loader-component';
+import { ImageLoaderConfig } from './src/components/image-loader/image-loader-config';
+import { ImageLoaderController } from './src/components/image-loader/image-loader';
 
 @NgModule({
   imports: [
@@ -48,19 +45,23 @@ class WhcyitPipeModule { }
   exports: [
     WhcyitPipeModule,
     AlphaScroll,
-    BaiduMap
+    BaiduMap,
+    ImageLoaderCmp
   ],
   declarations: [
     AlphaScroll,
     OpenUrlModalCmp,
-    BaiduMap
+    BaiduMap,
+    ImageLoaderSpinnerCmp,
+    ImageLoaderCmp
   ],
   entryComponents: [
     OpenUrlModalCmp
   ],
   providers: [
     OpenUrlModalController,
-    BaiduMapController
+    BaiduMapController,
+    ImageLoaderConfig
   ]
 })
 export class WhcyitModule { }

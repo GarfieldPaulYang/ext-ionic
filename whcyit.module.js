@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
 require('./src/rxjs-extensions');
 var core_1 = require('@angular/core');
 var common_1 = require("@angular/common");
@@ -23,17 +20,9 @@ var open_url_modal_component_1 = require('./src/components/open-url-modal/open-u
 var open_url_modal_1 = require('./src/components/open-url-modal/open-url-modal');
 var baidu_map_1 = require('./src/components/baidu-map/baidu-map');
 var baidu_map_component_1 = require('./src/components/baidu-map/baidu-map-component');
-var map_to_iterable_2 = require('./src/pipes/map-to-iterable');
-exports.MapToIterable = map_to_iterable_2.MapToIterable;
-var order_by_2 = require('./src/pipes/order-by');
-exports.OrderBy = order_by_2.OrderBy;
-var alpha_scroll_2 = require('./src/components/alpha-scroll/alpha-scroll');
-exports.AlphaScroll = alpha_scroll_2.AlphaScroll;
-var open_url_modal_2 = require('./src/components/open-url-modal/open-url-modal');
-exports.OpenUrlModalController = open_url_modal_2.OpenUrlModalController;
-var baidu_map_component_2 = require('./src/components/baidu-map/baidu-map-component');
-exports.BaiduMap = baidu_map_component_2.BaiduMap;
-__export(require('./src/components/baidu-map/baidu-map-options'));
+var image_loader_spinner_component_1 = require('./src/components/image-loader/image-loader-spinner-component');
+var image_loader_component_1 = require('./src/components/image-loader/image-loader-component');
+var image_loader_config_1 = require('./src/components/image-loader/image-loader-config');
 var WhcyitPipeModule = (function () {
     function WhcyitPipeModule() {
     }
@@ -72,19 +61,23 @@ var WhcyitModule = (function () {
             exports: [
                 WhcyitPipeModule,
                 alpha_scroll_1.AlphaScroll,
-                baidu_map_component_1.BaiduMap
+                baidu_map_component_1.BaiduMap,
+                image_loader_component_1.ImageLoaderCmp
             ],
             declarations: [
                 alpha_scroll_1.AlphaScroll,
                 open_url_modal_component_1.OpenUrlModalCmp,
-                baidu_map_component_1.BaiduMap
+                baidu_map_component_1.BaiduMap,
+                image_loader_spinner_component_1.ImageLoaderSpinnerCmp,
+                image_loader_component_1.ImageLoaderCmp
             ],
             entryComponents: [
                 open_url_modal_component_1.OpenUrlModalCmp
             ],
             providers: [
                 open_url_modal_1.OpenUrlModalController,
-                baidu_map_1.BaiduMapController
+                baidu_map_1.BaiduMapController,
+                image_loader_config_1.ImageLoaderConfig
             ]
         }), 
         __metadata('design:paramtypes', [])
