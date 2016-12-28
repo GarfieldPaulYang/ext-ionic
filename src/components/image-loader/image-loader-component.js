@@ -128,8 +128,8 @@ var ImageLoaderCmp = (function () {
     ], ImageLoaderCmp.prototype, "backgroundRepeat", void 0);
     ImageLoaderCmp = __decorate([
         core_1.Component({
-            selector: 'image-loader',
-            template: '<image-loader-spinner *ngIf="spinner && isLoading"></image-loader-spinner>'
+            selector: 'ion-image-loader',
+            template: '<ion-image-loader-spinner *ngIf="spinner && isLoading"></ion-image-loader-spinner>'
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer, image_loader_1.ImageLoaderController, image_loader_config_1.ImageLoaderConfig])
     ], ImageLoaderCmp);

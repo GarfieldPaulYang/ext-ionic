@@ -3,8 +3,8 @@ import { ImageLoaderController } from "./image-loader";
 import { ImageLoaderConfig } from "./image-loader-config";
 
 @Component({
-  selector: 'image-loader',
-  template: '<image-loader-spinner *ngIf="spinner && isLoading"></image-loader-spinner>'
+  selector: 'ion-image-loader',
+  template: '<ion-image-loader-spinner *ngIf="spinner && isLoading"></ion-image-loader-spinner>'
 })
 export class ImageLoaderCmp implements OnInit {
   @Input('src') imageUrl: string;
