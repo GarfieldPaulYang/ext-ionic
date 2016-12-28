@@ -1,5 +1,4 @@
 export declare class ImageLoaderConfig {
-    debugMode: boolean;
     spinnerEnabled: boolean;
     backgroundSize: string;
     backgroundRepeat: string;
@@ -10,7 +9,6 @@ export declare class ImageLoaderConfig {
     fallbackUrl: string;
     private _cacheDirectoryName;
     cacheDirectoryName: string;
-    enableDebugMode(): void;
     enableSpinner(enable: boolean): void;
     setCacheDirectoryName(name: string): void;
     setHeight(height: string): void;

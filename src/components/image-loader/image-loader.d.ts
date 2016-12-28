@@ -1,4 +1,5 @@
 import { Platform } from 'ionic-angular';
+import { RemoveResult, FileError } from 'ionic-native';
 import { ImageLoaderConfig } from "./image-loader-config";
 export declare class ImageLoaderController {
     private config;
@@ -7,6 +8,7 @@ export declare class ImageLoaderController {
     constructor(platform: Platform, config: ImageLoaderConfig);
     getImagePath(imageUrl: string): Promise<string>;
     removeCacheFile(localPath: string): void;
+    clearCache(): Promise<RemoveResult | FileError>;
     private downloadImage(imageUrl, localPath);
     private needDownload(imageUrl);
     private initCache(replace?);

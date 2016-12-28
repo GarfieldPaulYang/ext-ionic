@@ -11,14 +11,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var ImageLoaderConfig = (function () {
     function ImageLoaderConfig() {
-        this.debugMode = false;
         this.spinnerEnabled = true;
         this.backgroundSize = 'contain';
         this.backgroundRepeat = 'no-repeat';
         this.display = 'block';
         this.width = '100%';
         this.height = '100%';
-        this.useImg = false;
+        this.useImg = true;
         this._cacheDirectoryName = 'image-loader-cache';
     }
     Object.defineProperty(ImageLoaderConfig.prototype, "cacheDirectoryName", {
@@ -32,9 +31,6 @@ var ImageLoaderConfig = (function () {
         enumerable: true,
         configurable: true
     });
-    ImageLoaderConfig.prototype.enableDebugMode = function () {
-        this.debugMode = true;
-    };
     ImageLoaderConfig.prototype.enableSpinner = function (enable) {
         this.spinnerEnabled = enable;
     };

@@ -70,6 +70,9 @@ var ImageLoaderController = (function () {
             _this.throwError(e);
         });
     };
+    ImageLoaderController.prototype.clearCache = function () {
+        return ionic_native_1.File.removeDir(cordova.file.cacheDirectory, this.config.cacheDirectoryName);
+    };
     ImageLoaderController.prototype.downloadImage = function (imageUrl, localPath) {
         var transfer = new ionic_native_1.Transfer();
         return transfer.download(imageUrl, localPath);
@@ -113,14 +116,10 @@ var ImageLoaderController = (function () {
         });
     };
     ImageLoaderController.prototype.throwError = function (error) {
-        if (this.config.debugMode) {
-            console.error('ImageLoader Error', error);
-        }
+        console.error('ImageLoader Error', error);
     };
     ImageLoaderController.prototype.throwWarning = function (error) {
-        if (this.config.debugMode) {
-            console.warn('ImageLoader Warning', error);
-        }
+        console.warn('ImageLoader Warning', error);
     };
     Object.defineProperty(ImageLoaderController.prototype, "filePluginExists", {
         get: function () {

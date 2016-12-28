@@ -120,15 +120,11 @@ export class ImageLoaderController {
   }
 
   private throwError(error: any): void {
-    if (this.config.debugMode) {
-      console.error('ImageLoader Error', error);
-    }
+    console.error('ImageLoader Error', error);
   }
 
   private throwWarning(error: any): void {
-    if (this.config.debugMode) {
-      console.warn('ImageLoader Warning', error);
-    }
+    console.warn('ImageLoader Warning', error);
   }
 
   private get filePluginExists(): boolean {

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ImageLoaderConfig {
-  debugMode: boolean = false;
   spinnerEnabled: boolean = true;
   backgroundSize: string = 'contain';
   backgroundRepeat: string = 'no-repeat';
@@ -21,10 +20,6 @@ export class ImageLoaderConfig {
 
   get cacheDirectoryName(): string {
     return this._cacheDirectoryName;
-  }
-
-  enableDebugMode(): void {
-    this.debugMode = true;
   }
 
   enableSpinner(enable: boolean): void {
