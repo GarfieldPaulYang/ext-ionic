@@ -33,7 +33,7 @@ export class ImageLoaderController {
         this.getCachedImagePath(imageUrl).then(imagePath => {
           resolve(imagePath);
         }).catch(() => {
-          let localPath = cordova.file.cacheDirectory + this.config.cacheDirectoryName + '/' + this.createFileName(imageUrl);
+          let localPath = this.cacheDirectory + '/' + this.createFileName(imageUrl);
           this.downloadImage(imageUrl, localPath).then(() => {
             resolve(localPath);
           }).catch(e => {
@@ -59,17 +59,27 @@ export class ImageLoaderController {
     });
   }
 
+  removeCacheFile(localPath: string) {
+    if (!localPath) {
+      return;
+    }
+
+    File.removeFile(this.cacheDirectory, localPath.substr(localPath.lastIndexOf('/') + 1)).catch(e => {
+      this.throwError(e);
+    });
+  }
+
+  private downloadImage(imageUrl: string, localPath: string): Promise<any> {
+    let transfer = new Transfer();
+    return transfer.download(imageUrl, localPath);
+  }
+
   private needDownload(imageUrl: string): boolean {
     return StringUtils.startsWith(imageUrl, [
       'http://',
       'https://',
       'ftp://'
     ]);
-  }
-
-  private downloadImage(imageUrl: string, localPath: string): Promise<any> {
-    let transfer = new Transfer();
-    return transfer.download(imageUrl, localPath);
   }
 
   private initCache(replace?: boolean): void {
@@ -99,9 +109,7 @@ export class ImageLoaderController {
       }
 
       let fileName = this.createFileName(url);
-      let dirPath = cordova.file.cacheDirectory + this.config.cacheDirectoryName;
-
-      File.resolveLocalFilesystemUrl(dirPath + '/' + fileName).then((fileEntry: FileEntry) => {
+      File.resolveLocalFilesystemUrl(this.cacheDirectory + '/' + fileName).then((fileEntry: FileEntry) => {
         resolve(fileEntry.nativeURL);
       }).catch(reject);
     });
@@ -131,23 +139,15 @@ export class ImageLoaderController {
     return <Promise<boolean>>File.checkDir(cordova.file.cacheDirectory, this.config.cacheDirectoryName);
   }
 
+  private get cacheDirectory(): string {
+    return cordova.file.cacheDirectory + this.config.cacheDirectoryName;
+  }
+
   private createCacheDirectory(replace: boolean = false): Promise<any> {
     return File.createDir(cordova.file.cacheDirectory, this.config.cacheDirectoryName, replace);
   }
 
   private createFileName(url: string): string {
-    return this.hashString(url).toString();
-  }
-
-  private hashString(string: string): number {
-    let hash = 0;
-    if (string.length === 0) return hash;
-
-    for (let i = 0; i < string.length; i++) {
-      let char = string.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash;
-    }
-    return hash;
+    return StringUtils.hash(url).toString();
   }
 }

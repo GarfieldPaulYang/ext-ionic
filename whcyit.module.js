@@ -23,6 +23,7 @@ var baidu_map_component_1 = require('./src/components/baidu-map/baidu-map-compon
 var image_loader_spinner_component_1 = require('./src/components/image-loader/image-loader-spinner-component');
 var image_loader_component_1 = require('./src/components/image-loader/image-loader-component');
 var image_loader_config_1 = require('./src/components/image-loader/image-loader-config');
+var image_loader_1 = require('./src/components/image-loader/image-loader');
 var WhcyitPipeModule = (function () {
     function WhcyitPipeModule() {
     }
@@ -77,6 +78,7 @@ var WhcyitModule = (function () {
             providers: [
                 open_url_modal_1.OpenUrlModalController,
                 baidu_map_1.BaiduMapController,
+                image_loader_1.ImageLoaderController,
                 image_loader_config_1.ImageLoaderConfig
             ]
         }), 

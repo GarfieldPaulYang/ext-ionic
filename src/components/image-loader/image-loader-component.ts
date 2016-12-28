@@ -67,8 +67,9 @@ export class ImageLoaderCmp implements OnInit {
       return;
     }
 
-    this.imageLoader.getImagePath(this.imageUrl).then((imageUrl: string) => this.setImage(imageUrl))
-      .catch((error: any) => this.setImage(this.fallbackUrl || this.imageUrl));
+    this.imageLoader.getImagePath(this.imageUrl).then((imageUrl: string) => {
+      this.setImage(imageUrl);
+    });
   }
 
   private setImage(imageUrl: string): void {
@@ -79,6 +80,12 @@ export class ImageLoaderCmp implements OnInit {
       this.renderer.createElement(this.element.nativeElement, 'img');
       element = <HTMLImageElement>this.element.nativeElement.getElementsByTagName('IMG')[0];
       this.renderer.setElementAttribute(element, 'src', imageUrl);
+      this.renderer.listen(element, 'error', (event) => {
+        this.imageLoader.removeCacheFile(imageUrl);
+        if (this.fallbackUrl) {
+          this.renderer.setElementAttribute(element, 'src', this.fallbackUrl);
+        }
+      });
       return;
     }
 

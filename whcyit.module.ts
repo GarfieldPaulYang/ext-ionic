@@ -61,6 +61,7 @@ class WhcyitPipeModule { }
   providers: [
     OpenUrlModalController,
     BaiduMapController,
+    ImageLoaderController,
     ImageLoaderConfig
   ]
 })

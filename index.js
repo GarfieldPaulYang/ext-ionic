@@ -18,5 +18,6 @@ var image_loader_component_1 = require('./src/components/image-loader/image-load
 exports.ImageLoaderCmp = image_loader_component_1.ImageLoaderCmp;
 var image_loader_config_1 = require('./src/components/image-loader/image-loader-config');
 exports.ImageLoaderConfig = image_loader_config_1.ImageLoaderConfig;
-__export(require('./src/utils/string'));
+var string_1 = require('./src/utils/string');
+exports.StringUtils = string_1.StringUtils;
 //# sourceMappingURL=index.js.map

@@ -6,15 +6,16 @@ export declare class ImageLoaderController {
     private isInit;
     constructor(platform: Platform, config: ImageLoaderConfig);
     getImagePath(imageUrl: string): Promise<string>;
-    private needDownload(imageUrl);
+    removeCacheFile(localPath: string): void;
     private downloadImage(imageUrl, localPath);
+    private needDownload(imageUrl);
     private initCache(replace?);
     private getCachedImagePath(url);
     private throwError(error);
     private throwWarning(error);
     private readonly filePluginExists;
     private readonly cacheDirectoryExists;
+    private readonly cacheDirectory;
     private createCacheDirectory(replace?);
     private createFileName(url);
-    private hashString(string);
 }

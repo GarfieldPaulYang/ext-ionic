@@ -52,16 +52,24 @@ var ImageLoaderCmp = (function () {
             this.isLoading = false;
             return;
         }
-        this.imageLoader.getImagePath(this.imageUrl).then(function (imageUrl) { return _this.setImage(imageUrl); })
-            .catch(function (error) { return _this.setImage(_this.fallbackUrl || _this.imageUrl); });
+        this.imageLoader.getImagePath(this.imageUrl).then(function (imageUrl) {
+            _this.setImage(imageUrl);
+        });
     };
     ImageLoaderCmp.prototype.setImage = function (imageUrl) {
+        var _this = this;
         var element;
         this.isLoading = false;
         if (this.useImg) {
             this.renderer.createElement(this.element.nativeElement, 'img');
             element = this.element.nativeElement.getElementsByTagName('IMG')[0];
             this.renderer.setElementAttribute(element, 'src', imageUrl);
+            this.renderer.listen(element, 'error', function (event) {
+                _this.imageLoader.removeCacheFile(imageUrl);
+                if (_this.fallbackUrl) {
+                    _this.renderer.setElementAttribute(element, 'src', _this.fallbackUrl);
+                }
+            });
             return;
         }
         element = this.element.nativeElement;
