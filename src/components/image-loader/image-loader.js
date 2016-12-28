@@ -9,10 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var ionic_angular_1 = require('ionic-angular');
 var ionic_native_1 = require('ionic-native');
 var image_loader_config_1 = require("./image-loader-config");
+var string_1 = require("../../utils/string");
 var ImageLoaderController = (function () {
-    function ImageLoaderController(config) {
+    function ImageLoaderController(platform, config) {
         var _this = this;
         this.config = config;
         this.isCacheReady = false;
@@ -20,28 +22,25 @@ var ImageLoaderController = (function () {
         if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
             this.isInit = true;
             this.throwWarning('You are running on a browser or using livereload, IonicImageLoader will not function, falling back to browser loading.');
+            return;
         }
-        else {
-            document.addEventListener('deviceready', function () {
-                _this.initCache();
-            }, false);
-        }
+        platform.ready().then(function () { return _this.initCache(); });
     }
     ImageLoaderController.prototype.getImagePath = function (imageUrl) {
         var _this = this;
         return new Promise(function (resolve, reject) {
+            if (!_this.needDownload(imageUrl)) {
+                resolve(imageUrl);
+                return;
+            }
             var getImage = function () {
-                _this.getCachedImagePath(imageUrl)
-                    .then(function (imagePath) {
+                _this.getCachedImagePath(imageUrl).then(function (imagePath) {
                     resolve(imagePath);
-                })
-                    .catch(function () {
+                }).catch(function () {
                     var localPath = cordova.file.cacheDirectory + _this.config.cacheDirectoryName + '/' + _this.createFileName(imageUrl);
-                    _this.downloadImage(imageUrl, localPath)
-                        .then(function () {
+                    _this.downloadImage(imageUrl, localPath).then(function () {
                         resolve(localPath);
-                    })
-                        .catch(function (e) {
+                    }).catch(function (e) {
                         reject();
                         _this.throwError(e);
                     });
@@ -51,18 +50,23 @@ var ImageLoaderController = (function () {
                 if (_this.isInit) {
                     if (_this.isCacheReady) {
                         getImage();
+                        return;
                     }
-                    else {
-                        _this.throwWarning('The cache system is not running. Images will be loaded by your browser instead.');
-                        resolve(imageUrl);
-                    }
+                    _this.throwWarning('The cache system is not running. Images will be loaded by your browser instead.');
+                    resolve(imageUrl);
+                    return;
                 }
-                else {
-                    setTimeout(function () { return check(); }, 250);
-                }
+                setTimeout(function () { return check(); }, 250);
             };
             check();
         });
+    };
+    ImageLoaderController.prototype.needDownload = function (imageUrl) {
+        return string_1.StringUtils.startsWith(imageUrl, [
+            'http://',
+            'https://',
+            'ftp://'
+        ]);
     };
     ImageLoaderController.prototype.downloadImage = function (imageUrl, localPath) {
         var transfer = new ionic_native_1.Transfer();
@@ -137,11 +141,10 @@ var ImageLoaderController = (function () {
     };
     ImageLoaderController.prototype.hashString = function (string) {
         var hash = 0;
-        var char;
         if (string.length === 0)
             return hash;
         for (var i = 0; i < string.length; i++) {
-            char = string.charCodeAt(i);
+            var char = string.charCodeAt(i);
             hash = ((hash << 5) - hash) + char;
             hash = hash & hash;
         }
@@ -149,7 +152,7 @@ var ImageLoaderController = (function () {
     };
     ImageLoaderController = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [image_loader_config_1.ImageLoaderConfig])
+        __metadata('design:paramtypes', [ionic_angular_1.Platform, image_loader_config_1.ImageLoaderConfig])
     ], ImageLoaderController);
     return ImageLoaderController;
 }());

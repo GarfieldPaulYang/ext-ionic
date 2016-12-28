@@ -7,3 +7,4 @@ export { BaiduMap } from './src/components/baidu-map/baidu-map-component';
 export * from './src/components/baidu-map/baidu-map-options';
 export { ImageLoaderCmp } from './src/components/image-loader/image-loader-component';
 export { ImageLoaderConfig } from './src/components/image-loader/image-loader-config';
+export * from './src/utils/string';
