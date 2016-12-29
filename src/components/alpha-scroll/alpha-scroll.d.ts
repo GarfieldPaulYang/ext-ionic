@@ -19,6 +19,7 @@ export declare class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     ngOnInit(): void;
     ngOnChanges(): void;
     ngOnDestroy(): void;
+    setAlphaClass(alpha: any): string;
     calculateDimensionsForSidebar(): {
         top: string;
         height: string;

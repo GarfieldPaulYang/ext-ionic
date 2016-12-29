@@ -23,7 +23,7 @@ import { OrderBy } from '../../pipes/order-by';
       </div>
     </ion-list>
     <ul class="ion-alpha-sidebar" [ngStyle]="calculateDimensionsForSidebar()">
-      <li *ngFor="let alpha of alphabet" [class]="alpha.isActive ? 'ion-alpha-active' : 'ion-alpha-invalid'" tappable (click)="alphaScrollGoToList(alpha.letter)">
+      <li *ngFor="let alpha of alphabet" [class]="setAlphaClass(alpha)" tappable (click)="alphaScrollGoToList(alpha.letter)">
         <a>{{alpha.letter}}</a>
       </li>
     </ul>
@@ -71,6 +71,10 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     if (this._hammer) {
       this._hammer.destroy();
     }
+  }
+
+  setAlphaClass(alpha: any): string {
+    return alpha.isActive ? 'ion-alpha-active' : 'ion-alpha-invalid';
   }
 
   calculateDimensionsForSidebar() {
