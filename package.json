@@ -4,8 +4,7 @@
   "description": "ionic2 扩展库",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/.bin/tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tslint ./**/*.ts -e \"[node_modules/**|./**/*.d.ts]\" -c ./tslint.json & tsc"
   },
   "repository": {
     "type": "git",
