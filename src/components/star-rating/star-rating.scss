@@ -1,0 +1,32 @@
+ion-star-rating .rating {
+  padding-left: 5px;
+  unicode-bidi: bidi-override;
+}
+
+ion-star-rating {
+  line-height: 30px;
+}
+
+ion-star-rating .rating li.star {
+  font-family: "Ionicons";
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  cursor: pointer;
+}
+
+ion-star-rating .rating li.star:before {
+  content: "\f4b2";
+  padding-right: 5px;
+  color: #777777;
+}
+
+ion-star-rating .rating li.filled:before {
+  content: "\f4b3";
+  color: #e3cf7a;
+}
+
+ion-star-rating .rating li.filled-half:before {
+  content: "\f4b1";
+  color: #e3cf7a;
+}

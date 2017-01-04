@@ -26,8 +26,8 @@ export class BaiduMap implements OnInit, OnChanges {
 
   @Output() onMapLoaded: EventEmitter<void> = new EventEmitter<void>();
   @Output() onMapLoadFialed: EventEmitter<any> = new EventEmitter<any>();
-  @Output() onMapClick: EventEmitter<any> = new EventEmitter();
-  @Output() onMarkerClick: EventEmitter<any> = new EventEmitter();
+  @Output() onMapClick: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onMarkerClick: EventEmitter<any> = new EventEmitter<any>();
 
   private mapLoaded: boolean = false;
 

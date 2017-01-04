@@ -24,6 +24,7 @@ var image_loader_spinner_component_1 = require('./src/components/image-loader/im
 var image_loader_component_1 = require('./src/components/image-loader/image-loader-component');
 var image_loader_config_1 = require('./src/components/image-loader/image-loader-config');
 var image_loader_1 = require('./src/components/image-loader/image-loader');
+var star_rating_1 = require('./src/components/star-rating/star-rating');
 var WhcyitPipeModule = (function () {
     function WhcyitPipeModule() {
     }
@@ -63,14 +64,16 @@ var WhcyitModule = (function () {
                 WhcyitPipeModule,
                 alpha_scroll_1.AlphaScroll,
                 baidu_map_component_1.BaiduMap,
-                image_loader_component_1.ImageLoaderCmp
+                image_loader_component_1.ImageLoaderCmp,
+                star_rating_1.StarRatingCmp
             ],
             declarations: [
                 alpha_scroll_1.AlphaScroll,
                 open_url_modal_component_1.OpenUrlModalCmp,
                 baidu_map_component_1.BaiduMap,
                 image_loader_spinner_component_1.ImageLoaderSpinnerCmp,
-                image_loader_component_1.ImageLoaderCmp
+                image_loader_component_1.ImageLoaderCmp,
+                star_rating_1.StarRatingCmp
             ],
             entryComponents: [
                 open_url_modal_component_1.OpenUrlModalCmp

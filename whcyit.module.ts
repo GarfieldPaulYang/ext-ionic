@@ -7,15 +7,21 @@ import { DynamicComponentModuleFactory } from 'angular2-dynamic-component';
 
 import { MapToIterable } from './src/pipes/map-to-iterable';
 import { OrderBy } from './src/pipes/order-by';
+
 import { AlphaScroll } from './src/components/alpha-scroll/alpha-scroll';
+
 import { OpenUrlModalCmp } from './src/components/open-url-modal/open-url-modal-component';
 import { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
+
 import { BaiduMapController } from './src/components/baidu-map/baidu-map';
 import { BaiduMap } from './src/components/baidu-map/baidu-map-component';
 import { ImageLoaderSpinnerCmp } from './src/components/image-loader/image-loader-spinner-component';
+
 import { ImageLoaderCmp } from './src/components/image-loader/image-loader-component';
 import { ImageLoaderConfig } from './src/components/image-loader/image-loader-config';
 import { ImageLoaderController } from './src/components/image-loader/image-loader';
+
+import { StarRatingCmp } from './src/components/star-rating/star-rating';
 
 @NgModule({
   imports: [
@@ -46,14 +52,16 @@ class WhcyitPipeModule { }
     WhcyitPipeModule,
     AlphaScroll,
     BaiduMap,
-    ImageLoaderCmp
+    ImageLoaderCmp,
+    StarRatingCmp
   ],
   declarations: [
     AlphaScroll,
     OpenUrlModalCmp,
     BaiduMap,
     ImageLoaderSpinnerCmp,
-    ImageLoaderCmp
+    ImageLoaderCmp,
+    StarRatingCmp
   ],
   entryComponents: [
     OpenUrlModalCmp
