@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ModalController, ModalOptions, Modal } from 'ionic-angular';
-import { isPresent } from 'ionic-angular/util/util';
+import { assign } from 'ionic-angular/util/util';
+
+import { ConfigManager } from '../../config/config';
 
 import { OpenUrlModalOptions } from './open-url-modal-options';
 import { OpenUrlModalCmp } from './open-url-modal-component';
@@ -10,12 +12,10 @@ export class OpenUrlModalController {
   private options: OpenUrlModalOptions = {};
   private modal: Modal;
 
-  constructor(private modalCtrl: ModalController) { }
+  constructor(private modalCtrl: ModalController, private config: ConfigManager) { }
 
   open(opts: OpenUrlModalOptions = {}, modalOpts: ModalOptions = {}) {
-    this.options = opts;
-    this.options.color = isPresent(this.options.color) ? this.options.color : 'light';
-    this.options.onmessage = isPresent(this.options.onmessage) ? this.options.onmessage : (e) => { };
+    this.options = assign({}, this.config.openUrlModalOptions, opts);
 
     this.modal = this.modalCtrl.create(OpenUrlModalCmp, { openUrlModalOptions: opts }, modalOpts);
     this.modal.onDidDismiss(data => {

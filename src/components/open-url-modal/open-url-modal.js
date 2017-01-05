@@ -11,18 +11,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var util_1 = require('ionic-angular/util/util');
+var config_1 = require('../../config/config');
 var open_url_modal_component_1 = require('./open-url-modal-component');
 var OpenUrlModalController = (function () {
-    function OpenUrlModalController(modalCtrl) {
+    function OpenUrlModalController(modalCtrl, config) {
         this.modalCtrl = modalCtrl;
+        this.config = config;
         this.options = {};
     }
     OpenUrlModalController.prototype.open = function (opts, modalOpts) {
         if (opts === void 0) { opts = {}; }
         if (modalOpts === void 0) { modalOpts = {}; }
-        this.options = opts;
-        this.options.color = util_1.isPresent(this.options.color) ? this.options.color : 'light';
-        this.options.onmessage = util_1.isPresent(this.options.onmessage) ? this.options.onmessage : function (e) { };
+        this.options = util_1.assign({}, this.config.openUrlModalOptions, opts);
         this.modal = this.modalCtrl.create(open_url_modal_component_1.OpenUrlModalCmp, { openUrlModalOptions: opts }, modalOpts);
         this.modal.onDidDismiss(function (data) {
             window.removeEventListener('message', data.onmessage, false);
@@ -34,7 +34,7 @@ var OpenUrlModalController = (function () {
     };
     OpenUrlModalController = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [ionic_angular_1.ModalController])
+        __metadata('design:paramtypes', [ionic_angular_1.ModalController, config_1.ConfigManager])
     ], OpenUrlModalController);
     return OpenUrlModalController;
 }());

@@ -5,6 +5,8 @@ import { CommonModule } from "@angular/common";
 import { IonicModule } from 'ionic-angular';
 import { DynamicComponentModuleFactory } from 'angular2-dynamic-component';
 
+import { ConfigManager } from './src/config/config';
+
 import { MapToIterable } from './src/pipes/map-to-iterable';
 import { OrderBy } from './src/pipes/order-by';
 
@@ -18,7 +20,6 @@ import { BaiduMap } from './src/components/baidu-map/baidu-map-component';
 import { ImageLoaderSpinnerCmp } from './src/components/image-loader/image-loader-spinner-component';
 
 import { ImageLoaderCmp } from './src/components/image-loader/image-loader-component';
-import { ImageLoaderConfig } from './src/components/image-loader/image-loader-config';
 import { ImageLoaderController } from './src/components/image-loader/image-loader';
 
 import { StarRatingCmp } from './src/components/star-rating/star-rating';
@@ -67,10 +68,11 @@ class WhcyitPipeModule { }
     OpenUrlModalCmp
   ],
   providers: [
+    ConfigManager,
     OpenUrlModalController,
     BaiduMapController,
-    ImageLoaderController,
-    ImageLoaderConfig
+    ImageLoaderController
   ]
 })
-export class WhcyitModule { }
+export class WhcyitModule {
+}

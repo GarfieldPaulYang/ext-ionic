@@ -9,8 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var util_1 = require('ionic-angular/util/util');
 var image_loader_1 = require("./image-loader");
-var image_loader_config_1 = require("./image-loader-config");
+var config_1 = require("../../config/config");
 var ImageLoaderCmp = (function () {
     function ImageLoaderCmp(element, renderer, imageLoader, config) {
         this.element = element;
@@ -18,33 +19,34 @@ var ImageLoaderCmp = (function () {
         this.imageLoader = imageLoader;
         this.config = config;
         this.isLoading = true;
-        if (!this.spinner && config.spinnerEnabled) {
-            this.spinner = true;
-        }
-        if (!this.fallbackUrl) {
-            this.fallbackUrl = config.fallbackUrl;
-        }
-        if (!this.useImg) {
-            this.useImg = config.useImg;
-        }
-        if (!this.width) {
-            this.width = config.width;
-        }
-        if (!this.height) {
-            this.height = config.height;
-        }
-        if (!this.display) {
-            this.display = config.display;
-        }
-        if (!this.backgroundSize) {
-            this.backgroundSize = config.backgroundSize;
-        }
-        if (!this.backgroundRepeat) {
-            this.backgroundRepeat = config.backgroundRepeat;
-        }
     }
     ImageLoaderCmp.prototype.ngOnInit = function () {
         var _this = this;
+        if (!this.spinner && this.config.imageLoaderOptions.spinnerEnabled) {
+            this.spinner = true;
+        }
+        if (!this.fallbackUrl) {
+            this.fallbackUrl = this.config.imageLoaderOptions.fallbackUrl;
+        }
+        if (util_1.isUndefined(this.useImg)) {
+            this.useImg = this.config.imageLoaderOptions.useImg;
+        }
+        this.useImg = util_1.isTrueProperty(this.useImg);
+        if (!this.width) {
+            this.width = this.config.imageLoaderOptions.width;
+        }
+        if (!this.height) {
+            this.height = this.config.imageLoaderOptions.height;
+        }
+        if (!this.display) {
+            this.display = this.config.imageLoaderOptions.display;
+        }
+        if (!this.backgroundSize) {
+            this.backgroundSize = this.config.imageLoaderOptions.backgroundSize;
+        }
+        if (!this.backgroundRepeat) {
+            this.backgroundRepeat = this.config.imageLoaderOptions.backgroundRepeat;
+        }
         if (!this.imageUrl) {
             if (this.fallbackUrl) {
                 this.setImage(this.fallbackUrl);
@@ -131,7 +133,7 @@ var ImageLoaderCmp = (function () {
             selector: 'ion-image-loader',
             template: '<ion-image-loader-spinner *ngIf="spinner && isLoading"></ion-image-loader-spinner>'
         }), 
-        __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer, image_loader_1.ImageLoaderController, image_loader_config_1.ImageLoaderConfig])
+        __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer, image_loader_1.ImageLoaderController, config_1.ConfigManager])
     ], ImageLoaderCmp);
     return ImageLoaderCmp;
 }());

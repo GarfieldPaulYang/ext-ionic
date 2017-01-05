@@ -8,6 +8,7 @@ import {
   ElementRef,
   SimpleChange
 } from '@angular/core';
+import { assign } from 'ionic-angular/util/util';
 import * as _ from 'lodash';
 
 import { BaiduMapOptions, baiduMapDefaultOpts, MarkerOptions } from './baidu-map-options';
@@ -78,6 +79,6 @@ export class BaiduMap implements OnInit, OnChanges {
   }
 
   private getOptions(): BaiduMapOptions {
-    return Object.assign({}, baiduMapDefaultOpts, this.options);
+    return assign({}, baiduMapDefaultOpts, this.options);
   }
 }

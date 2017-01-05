@@ -13,6 +13,7 @@ var core_1 = require('@angular/core');
 var common_1 = require("@angular/common");
 var ionic_angular_1 = require('ionic-angular');
 var angular2_dynamic_component_1 = require('angular2-dynamic-component');
+var config_1 = require('./src/config/config');
 var map_to_iterable_1 = require('./src/pipes/map-to-iterable');
 var order_by_1 = require('./src/pipes/order-by');
 var alpha_scroll_1 = require('./src/components/alpha-scroll/alpha-scroll');
@@ -22,7 +23,6 @@ var baidu_map_1 = require('./src/components/baidu-map/baidu-map');
 var baidu_map_component_1 = require('./src/components/baidu-map/baidu-map-component');
 var image_loader_spinner_component_1 = require('./src/components/image-loader/image-loader-spinner-component');
 var image_loader_component_1 = require('./src/components/image-loader/image-loader-component');
-var image_loader_config_1 = require('./src/components/image-loader/image-loader-config');
 var image_loader_1 = require('./src/components/image-loader/image-loader');
 var star_rating_1 = require('./src/components/star-rating/star-rating');
 var WhcyitPipeModule = (function () {
@@ -79,10 +79,10 @@ var WhcyitModule = (function () {
                 open_url_modal_component_1.OpenUrlModalCmp
             ],
             providers: [
+                config_1.ConfigManager,
                 open_url_modal_1.OpenUrlModalController,
                 baidu_map_1.BaiduMapController,
-                image_loader_1.ImageLoaderController,
-                image_loader_config_1.ImageLoaderConfig
+                image_loader_1.ImageLoaderController
             ]
         }), 
         __metadata('design:paramtypes', [])

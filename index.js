@@ -3,6 +3,7 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 __export(require('./whcyit.module'));
+__export(require('./src/config/config'));
 var map_to_iterable_1 = require('./src/pipes/map-to-iterable');
 exports.MapToIterable = map_to_iterable_1.MapToIterable;
 var order_by_1 = require('./src/pipes/order-by');
@@ -16,8 +17,6 @@ exports.BaiduMap = baidu_map_component_1.BaiduMap;
 __export(require('./src/components/baidu-map/baidu-map-options'));
 var image_loader_component_1 = require('./src/components/image-loader/image-loader-component');
 exports.ImageLoaderCmp = image_loader_component_1.ImageLoaderCmp;
-var image_loader_config_1 = require('./src/components/image-loader/image-loader-config');
-exports.ImageLoaderConfig = image_loader_config_1.ImageLoaderConfig;
 var star_rating_1 = require('./src/components/star-rating/star-rating');
 exports.StarRatingCmp = star_rating_1.StarRatingCmp;
 var string_1 = require('./src/utils/string');

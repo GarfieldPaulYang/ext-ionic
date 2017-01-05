@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { File, FileEntry, Transfer, RemoveResult, FileError } from 'ionic-native';
 
-import { ImageLoaderConfig } from "./image-loader-config";
+import { ConfigManager } from "../../config/config";
 import { StringUtils } from "../../utils/string";
 
 declare var cordova: any;
@@ -12,7 +12,7 @@ export class ImageLoaderController {
   private isCacheReady: boolean = false;
   private isInit: boolean = false;
 
-  constructor(platform: Platform, private config: ImageLoaderConfig) {
+  constructor(platform: Platform, private config: ConfigManager) {
     if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
       this.isInit = true;
       this.throwWarning('You are running on a browser or using livereload, IonicImageLoader will not function, falling back to browser loading.');
@@ -60,6 +60,10 @@ export class ImageLoaderController {
   }
 
   removeCacheFile(localPath: string) {
+    if (!this.isCacheReady) {
+      return;
+    }
+
     if (!localPath) {
       return;
     }
@@ -69,8 +73,14 @@ export class ImageLoaderController {
     });
   }
 
-  clearCache(): Promise<RemoveResult | FileError> {
-    return File.removeDir(cordova.file.cacheDirectory, this.config.cacheDirectoryName);
+  clearCache() {
+    if (!this.isCacheReady) {
+      return;
+    }
+
+    File.removeDir(cordova.file.cacheDirectory, this.config.imageLoaderOptions.cacheDirectoryName).catch(e => {
+      this.throwError(e);
+    });
   }
 
   private downloadImage(imageUrl: string, localPath: string): Promise<any> {
@@ -136,15 +146,15 @@ export class ImageLoaderController {
   }
 
   private get cacheDirectoryExists(): Promise<boolean> {
-    return <Promise<boolean>>File.checkDir(cordova.file.cacheDirectory, this.config.cacheDirectoryName);
+    return <Promise<boolean>>File.checkDir(cordova.file.cacheDirectory, this.config.imageLoaderOptions.cacheDirectoryName);
   }
 
   private get cacheDirectory(): string {
-    return cordova.file.cacheDirectory + this.config.cacheDirectoryName;
+    return cordova.file.cacheDirectory + this.config.imageLoaderOptions.cacheDirectoryName;
   }
 
   private createCacheDirectory(replace: boolean = false): Promise<any> {
-    return File.createDir(cordova.file.cacheDirectory, this.config.cacheDirectoryName, replace);
+    return File.createDir(cordova.file.cacheDirectory, this.config.imageLoaderOptions.cacheDirectoryName, replace);
   }
 
   private createFileName(url: string): string {

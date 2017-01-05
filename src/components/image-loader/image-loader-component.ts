@@ -1,6 +1,8 @@
 import { Component, Input, ElementRef, Renderer, OnInit } from '@angular/core';
+import { isUndefined, isTrueProperty } from 'ionic-angular/util/util';
+
 import { ImageLoaderController } from "./image-loader";
-import { ImageLoaderConfig } from "./image-loader-config";
+import { ConfigManager } from "../../config/config";
 
 @Component({
   selector: 'ion-image-loader',
@@ -23,42 +25,43 @@ export class ImageLoaderCmp implements OnInit {
     private element: ElementRef,
     private renderer: Renderer,
     private imageLoader: ImageLoaderController,
-    private config: ImageLoaderConfig
-  ) {
-    if (!this.spinner && config.spinnerEnabled) {
+    private config: ConfigManager
+  ) { }
+
+  ngOnInit(): void {
+    if (!this.spinner && this.config.imageLoaderOptions.spinnerEnabled) {
       this.spinner = true;
     }
 
     if (!this.fallbackUrl) {
-      this.fallbackUrl = config.fallbackUrl;
+      this.fallbackUrl = this.config.imageLoaderOptions.fallbackUrl;
     }
 
-    if (!this.useImg) {
-      this.useImg = config.useImg;
+    if (isUndefined(this.useImg)) {
+      this.useImg = this.config.imageLoaderOptions.useImg;
     }
+    this.useImg = isTrueProperty(this.useImg);
 
     if (!this.width) {
-      this.width = config.width;
+      this.width = this.config.imageLoaderOptions.width;
     }
 
     if (!this.height) {
-      this.height = config.height;
+      this.height = this.config.imageLoaderOptions.height;
     }
 
     if (!this.display) {
-      this.display = config.display;
+      this.display = this.config.imageLoaderOptions.display;
     }
 
     if (!this.backgroundSize) {
-      this.backgroundSize = config.backgroundSize;
+      this.backgroundSize = this.config.imageLoaderOptions.backgroundSize;
     }
 
     if (!this.backgroundRepeat) {
-      this.backgroundRepeat = config.backgroundRepeat;
+      this.backgroundRepeat = this.config.imageLoaderOptions.backgroundRepeat;
     }
-  }
 
-  ngOnInit(): void {
     if (!this.imageUrl) {
       if (this.fallbackUrl) {
         this.setImage(this.fallbackUrl);
