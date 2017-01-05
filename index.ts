@@ -1,6 +1,7 @@
 export * from './whcyit.module';
 
 export * from './src/config/config';
+export * from './src/utils/http/response/response-result';
 
 export { MapToIterable } from './src/pipes/map-to-iterable';
 export { OrderBy } from './src/pipes/order-by';
