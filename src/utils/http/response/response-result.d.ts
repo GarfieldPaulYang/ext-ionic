@@ -1,9 +1,8 @@
 export declare class ResponseResult<T> {
-    private genericType;
     status: number;
     msg: string;
-    data: T;
-    constructor(httpResponse: any, genericType: any);
+    data: T | any;
+    constructor(httpResponse: any);
     private isPagination(obj);
 }
 export declare class Pagination {

@@ -3,15 +3,15 @@ import { isUndefined } from 'ionic-angular/util/util';
 export class ResponseResult<T> {
   status: number;
   msg: string;
-  data: T;
+  data: T | any;
 
-  constructor(httpResponse: any, private genericType) {
+  constructor(httpResponse: any) {
     this.status = httpResponse.status;
     this.msg = httpResponse.msg;
     this.data = httpResponse.data;
 
     if (this.isPagination(this.data)) {
-      this.data = new genericType(this.data);
+      this.data = new Pagination(this.data);
     }
   }
 

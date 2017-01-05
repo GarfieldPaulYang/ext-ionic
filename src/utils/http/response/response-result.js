@@ -1,13 +1,12 @@
 "use strict";
 var util_1 = require('ionic-angular/util/util');
 var ResponseResult = (function () {
-    function ResponseResult(httpResponse, genericType) {
-        this.genericType = genericType;
+    function ResponseResult(httpResponse) {
         this.status = httpResponse.status;
         this.msg = httpResponse.msg;
         this.data = httpResponse.data;
         if (this.isPagination(this.data)) {
-            this.data = new genericType(this.data);
+            this.data = new Pagination(this.data);
         }
     }
     ResponseResult.prototype.isPagination = function (obj) {
