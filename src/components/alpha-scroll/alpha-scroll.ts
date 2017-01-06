@@ -34,24 +34,24 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   @Input() key: string;
   @Input() itemTemplate: string;
   @Input() currentPageClass: any;
-  private _letterIndicatorEle: HTMLElement;
-  private _indicatorHeight: number;
-  private _indicatorWidth: number;
-  private _hammer: HammerManager;
+  private letterIndicatorEle: HTMLElement;
+  private indicatorHeight: number;
+  private indicatorWidth: number;
+  private hammer: HammerManager;
   sortedItems: any = [];
   alphabet: any = [];
 
-  constructor( @Host() private _content: Content, private _elementRef: ElementRef, private orderBy: OrderBy) {
-    this._letterIndicatorEle = document.createElement("div");
-    this._letterIndicatorEle.className = 'ion-alpha-letter-indicator';
+  constructor( @Host() private content: Content, private elementRef: ElementRef, private orderBy: OrderBy) {
+    this.letterIndicatorEle = document.createElement("div");
+    this.letterIndicatorEle.className = 'ion-alpha-letter-indicator';
     let body = document.getElementsByTagName('body')[0];
-    body.appendChild(this._letterIndicatorEle);
+    body.appendChild(this.letterIndicatorEle);
   }
 
   ngOnInit() {
     setTimeout(() => {
-      this._indicatorWidth = this._letterIndicatorEle.offsetWidth;
-      this._indicatorHeight = this._letterIndicatorEle.offsetHeight;
+      this.indicatorWidth = this.letterIndicatorEle.offsetWidth;
+      this.indicatorHeight = this.letterIndicatorEle.offsetHeight;
       this.setupHammerHandlers();
     });
   }
@@ -64,12 +64,12 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this._letterIndicatorEle) {
-      this._letterIndicatorEle.remove();
+    if (this.letterIndicatorEle) {
+      this.letterIndicatorEle.remove();
     }
 
-    if (this._hammer) {
-      this._hammer.destroy();
+    if (this.hammer) {
+      this.hammer.destroy();
     }
   }
 
@@ -79,47 +79,47 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
 
   calculateDimensionsForSidebar() {
     return {
-      top: this._content.contentTop + 'px',
-      height: (this._content.getContentDimensions().contentHeight - 28) + 'px'
+      top: this.content.contentTop + 'px',
+      height: (this.content.getContentDimensions().contentHeight - 28) + 'px'
     }
   }
 
   alphaScrollGoToList(letter: any) {
-    let ele: any = this._elementRef.nativeElement.querySelector(`#scroll-letter-${letter}`);
+    let ele: any = this.elementRef.nativeElement.querySelector(`#scroll-letter-${letter}`);
     if (ele) {
-      this._content.scrollTo(0, ele.offsetTop);
+      this.content.scrollTo(0, ele.offsetTop);
     }
   }
 
   private setupHammerHandlers() {
-    let sidebarEle: HTMLElement = this._elementRef.nativeElement.querySelector('.ion-alpha-sidebar');
+    let sidebarEle: HTMLElement = this.elementRef.nativeElement.querySelector('.ion-alpha-sidebar');
 
     if (!sidebarEle) return;
 
-    this._hammer = new Hammer(sidebarEle, {
+    this.hammer = new Hammer(sidebarEle, {
       recognizers: [
         [Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }],
       ]
     });
 
-    this._hammer.on('panstart', (e: any) => {
-      this._letterIndicatorEle.style.top = ((window.innerHeight - this._indicatorHeight) / 2) + 'px';
-      this._letterIndicatorEle.style.left = ((window.innerWidth - this._indicatorWidth) / 2) + 'px';
-      this._letterIndicatorEle.style.visibility = 'visible';
+    this.hammer.on('panstart', (e: any) => {
+      this.letterIndicatorEle.style.top = ((window.innerHeight - this.indicatorHeight) / 2) + 'px';
+      this.letterIndicatorEle.style.left = ((window.innerWidth - this.indicatorWidth) / 2) + 'px';
+      this.letterIndicatorEle.style.visibility = 'visible';
     });
 
-    this._hammer.on('panend pancancel', (e: any) => {
-      this._letterIndicatorEle.style.visibility = 'hidden';
+    this.hammer.on('panend pancancel', (e: any) => {
+      this.letterIndicatorEle.style.visibility = 'hidden';
     });
 
-    this._hammer.on('panup pandown', _.throttle((e: any) => {
+    this.hammer.on('panup pandown', _.throttle((e: any) => {
       let closestEle: any = document.elementFromPoint(e.center.x, e.center.y);
       if (closestEle && ['LI', 'A'].indexOf(closestEle.tagName) > -1) {
         let letter = closestEle.innerText;
-        this._letterIndicatorEle.innerText = letter;
-        let letterDivider: any = this._elementRef.nativeElement.querySelector(`#scroll-letter-${letter}`);
+        this.letterIndicatorEle.innerText = letter;
+        let letterDivider: any = this.elementRef.nativeElement.querySelector(`#scroll-letter-${letter}`);
         if (letterDivider) {
-          this._content.scrollTo(0, letterDivider.offsetTop);
+          this.content.scrollTo(0, letterDivider.offsetTop);
         }
       }
     }, 50));

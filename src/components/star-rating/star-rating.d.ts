@@ -2,15 +2,15 @@ import { OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 export declare const STAR_RATING_VALUE_ACCESSOR: any;
 export declare class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
-    private _elementRef;
+    private elementRef;
     max: number;
     readonly: boolean;
     private range;
     private innerValue;
-    private _hammer;
+    private hammer;
     private onChangeCallback;
     value: number;
-    constructor(_elementRef: ElementRef);
+    constructor(elementRef: ElementRef);
     ngOnInit(): void;
     ngOnDestroy(): void;
     setIcon(r: number): string;

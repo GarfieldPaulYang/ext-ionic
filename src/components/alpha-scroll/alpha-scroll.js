@@ -16,22 +16,22 @@ var ionic_angular_1 = require('ionic-angular');
 var _ = require('lodash');
 var order_by_1 = require('../../pipes/order-by');
 var AlphaScroll = (function () {
-    function AlphaScroll(_content, _elementRef, orderBy) {
-        this._content = _content;
-        this._elementRef = _elementRef;
+    function AlphaScroll(content, elementRef, orderBy) {
+        this.content = content;
+        this.elementRef = elementRef;
         this.orderBy = orderBy;
         this.sortedItems = [];
         this.alphabet = [];
-        this._letterIndicatorEle = document.createElement("div");
-        this._letterIndicatorEle.className = 'ion-alpha-letter-indicator';
+        this.letterIndicatorEle = document.createElement("div");
+        this.letterIndicatorEle.className = 'ion-alpha-letter-indicator';
         var body = document.getElementsByTagName('body')[0];
-        body.appendChild(this._letterIndicatorEle);
+        body.appendChild(this.letterIndicatorEle);
     }
     AlphaScroll.prototype.ngOnInit = function () {
         var _this = this;
         setTimeout(function () {
-            _this._indicatorWidth = _this._letterIndicatorEle.offsetWidth;
-            _this._indicatorHeight = _this._letterIndicatorEle.offsetHeight;
+            _this.indicatorWidth = _this.letterIndicatorEle.offsetWidth;
+            _this.indicatorHeight = _this.letterIndicatorEle.offsetHeight;
             _this.setupHammerHandlers();
         });
     };
@@ -42,11 +42,11 @@ var AlphaScroll = (function () {
         this.alphabet = this.iterateAlphabet(groupItems);
     };
     AlphaScroll.prototype.ngOnDestroy = function () {
-        if (this._letterIndicatorEle) {
-            this._letterIndicatorEle.remove();
+        if (this.letterIndicatorEle) {
+            this.letterIndicatorEle.remove();
         }
-        if (this._hammer) {
-            this._hammer.destroy();
+        if (this.hammer) {
+            this.hammer.destroy();
         }
     };
     AlphaScroll.prototype.setAlphaClass = function (alpha) {
@@ -54,42 +54,42 @@ var AlphaScroll = (function () {
     };
     AlphaScroll.prototype.calculateDimensionsForSidebar = function () {
         return {
-            top: this._content.contentTop + 'px',
-            height: (this._content.getContentDimensions().contentHeight - 28) + 'px'
+            top: this.content.contentTop + 'px',
+            height: (this.content.getContentDimensions().contentHeight - 28) + 'px'
         };
     };
     AlphaScroll.prototype.alphaScrollGoToList = function (letter) {
-        var ele = this._elementRef.nativeElement.querySelector("#scroll-letter-" + letter);
+        var ele = this.elementRef.nativeElement.querySelector("#scroll-letter-" + letter);
         if (ele) {
-            this._content.scrollTo(0, ele.offsetTop);
+            this.content.scrollTo(0, ele.offsetTop);
         }
     };
     AlphaScroll.prototype.setupHammerHandlers = function () {
         var _this = this;
-        var sidebarEle = this._elementRef.nativeElement.querySelector('.ion-alpha-sidebar');
+        var sidebarEle = this.elementRef.nativeElement.querySelector('.ion-alpha-sidebar');
         if (!sidebarEle)
             return;
-        this._hammer = new Hammer(sidebarEle, {
+        this.hammer = new Hammer(sidebarEle, {
             recognizers: [
                 [Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }],
             ]
         });
-        this._hammer.on('panstart', function (e) {
-            _this._letterIndicatorEle.style.top = ((window.innerHeight - _this._indicatorHeight) / 2) + 'px';
-            _this._letterIndicatorEle.style.left = ((window.innerWidth - _this._indicatorWidth) / 2) + 'px';
-            _this._letterIndicatorEle.style.visibility = 'visible';
+        this.hammer.on('panstart', function (e) {
+            _this.letterIndicatorEle.style.top = ((window.innerHeight - _this.indicatorHeight) / 2) + 'px';
+            _this.letterIndicatorEle.style.left = ((window.innerWidth - _this.indicatorWidth) / 2) + 'px';
+            _this.letterIndicatorEle.style.visibility = 'visible';
         });
-        this._hammer.on('panend pancancel', function (e) {
-            _this._letterIndicatorEle.style.visibility = 'hidden';
+        this.hammer.on('panend pancancel', function (e) {
+            _this.letterIndicatorEle.style.visibility = 'hidden';
         });
-        this._hammer.on('panup pandown', _.throttle(function (e) {
+        this.hammer.on('panup pandown', _.throttle(function (e) {
             var closestEle = document.elementFromPoint(e.center.x, e.center.y);
             if (closestEle && ['LI', 'A'].indexOf(closestEle.tagName) > -1) {
                 var letter = closestEle.innerText;
-                _this._letterIndicatorEle.innerText = letter;
-                var letterDivider = _this._elementRef.nativeElement.querySelector("#scroll-letter-" + letter);
+                _this.letterIndicatorEle.innerText = letter;
+                var letterDivider = _this.elementRef.nativeElement.querySelector("#scroll-letter-" + letter);
                 if (letterDivider) {
-                    _this._content.scrollTo(0, letterDivider.offsetTop);
+                    _this.content.scrollTo(0, letterDivider.offsetTop);
                 }
             }
         }, 50));

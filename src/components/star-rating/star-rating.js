@@ -18,8 +18,8 @@ exports.STAR_RATING_VALUE_ACCESSOR = {
     multi: true
 };
 var StarRatingCmp = (function () {
-    function StarRatingCmp(_elementRef) {
-        this._elementRef = _elementRef;
+    function StarRatingCmp(elementRef) {
+        this.elementRef = elementRef;
         this.max = 5;
         this.readonly = false;
         this.onChangeCallback = function () { };
@@ -45,8 +45,8 @@ var StarRatingCmp = (function () {
         });
     };
     StarRatingCmp.prototype.ngOnDestroy = function () {
-        if (this._hammer) {
-            this._hammer.destroy();
+        if (this.hammer) {
+            this.hammer.destroy();
         }
     };
     StarRatingCmp.prototype.setIcon = function (r) {
@@ -82,15 +82,15 @@ var StarRatingCmp = (function () {
     };
     StarRatingCmp.prototype.setupHammerHandlers = function () {
         var _this = this;
-        var ratingEle = this._elementRef.nativeElement.querySelector('.rating');
+        var ratingEle = this.elementRef.nativeElement.querySelector('.rating');
         if (!ratingEle)
             return;
-        this._hammer = new Hammer(ratingEle, {
+        this.hammer = new Hammer(ratingEle, {
             recognizers: [
                 [Hammer.Pan, { direction: Hammer.DIRECTION_HORIZONTAL }],
             ]
         });
-        this._hammer.on('panleft panright', _.throttle(function (e) {
+        this.hammer.on('panleft panright', _.throttle(function (e) {
             var closestEle = document.elementFromPoint(e.center.x, e.center.y);
             if (closestEle && ['LI'].indexOf(closestEle.tagName) > -1) {
                 _this.rate(Number(closestEle.getAttribute('index')));

@@ -27,7 +27,7 @@ export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
 
   private range: Array<number>;
   private innerValue: number;
-  private _hammer: HammerManager;
+  private hammer: HammerManager;
   private onChangeCallback: (_: any) => void = () => { };
 
   get value(): number {
@@ -42,7 +42,7 @@ export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
     }
   }
 
-  constructor(private _elementRef: ElementRef) { }
+  constructor(private elementRef: ElementRef) { }
 
   ngOnInit() {
     setTimeout(() => {
@@ -50,8 +50,8 @@ export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
     });
   }
   ngOnDestroy() {
-    if (this._hammer) {
-      this._hammer.destroy();
+    if (this.hammer) {
+      this.hammer.destroy();
     }
   }
 
@@ -97,17 +97,17 @@ export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   private setupHammerHandlers() {
-    let ratingEle: HTMLElement = this._elementRef.nativeElement.querySelector('.rating');
+    let ratingEle: HTMLElement = this.elementRef.nativeElement.querySelector('.rating');
 
     if (!ratingEle) return;
 
-    this._hammer = new Hammer(ratingEle, {
+    this.hammer = new Hammer(ratingEle, {
       recognizers: [
         [Hammer.Pan, { direction: Hammer.DIRECTION_HORIZONTAL }],
       ]
     });
 
-    this._hammer.on('panleft panright', _.throttle((e: any) => {
+    this.hammer.on('panleft panright', _.throttle((e: any) => {
       let closestEle: Element = document.elementFromPoint(e.center.x, e.center.y);
       if (closestEle && ['LI'].indexOf(closestEle.tagName) > -1) {
         this.rate(Number(closestEle.getAttribute('index')));

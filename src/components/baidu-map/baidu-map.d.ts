@@ -1,7 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { BaiduMapOptions, GpsPoint, MarkerOptions, PointCollectionOptions } from './baidu-map-options';
 export declare class BaiduMapController {
-    private _map;
+    private map;
     init(opts: BaiduMapOptions, ele: HTMLElement): Promise<void>;
     translateGps(gpsData?: Array<GpsPoint>): Promise<any>;
     geoLocation(): Promise<any>;

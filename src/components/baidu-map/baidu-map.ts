@@ -12,27 +12,27 @@ import {
 
 @Injectable()
 export class BaiduMapController {
-  private _map: any;
+  private map: any;
 
   init(opts: BaiduMapOptions, ele: HTMLElement): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       baiduMapLoader().then(() => {
-        this._map = new window['BMap'].Map(ele);
+        this.map = new window['BMap'].Map(ele);
         setTimeout(() => {
-          this._map.centerAndZoom(new window['BMap'].Point(opts.center.lng, opts.center.lat), opts.zoom);
+          this.map.centerAndZoom(new window['BMap'].Point(opts.center.lng, opts.center.lat), opts.zoom);
           if (opts.navCtrl) {
-            this._map.addControl(new window['BMap'].NavigationControl());
+            this.map.addControl(new window['BMap'].NavigationControl());
           }
           if (opts.scaleCtrl) {
-            this._map.addControl(new window['BMap'].ScaleControl());
+            this.map.addControl(new window['BMap'].ScaleControl());
           }
           if (opts.overviewCtrl) {
-            this._map.addControl(new window['BMap'].OverviewMapControl());
+            this.map.addControl(new window['BMap'].OverviewMapControl());
           }
           if (opts.enableScrollWheelZoom) {
-            this._map.enableScrollWheelZoom();
+            this.map.enableScrollWheelZoom();
           }
-          this._map.setCurrentCity(opts.city);
+          this.map.setCurrentCity(opts.city);
           resolve();
         });
       }, reject);
@@ -67,11 +67,11 @@ export class BaiduMapController {
   }
 
   clearOverlays() {
-    this._map.clearOverlays();
+    this.map.clearOverlays();
   }
 
   panTo(point: any) {
-    this._map.panTo(point);
+    this.map.panTo(point);
   }
 
   geoLocationAndCenter(): Promise<any> {
@@ -86,7 +86,7 @@ export class BaiduMapController {
   }
 
   addEventListener(event: string, handler: EventEmitter<any>) {
-    this._map.addEventListener(event, e => {
+    this.map.addEventListener(event, e => {
       handler.emit(e);
     });
   }
@@ -103,7 +103,7 @@ export class BaiduMapController {
         clickHandler.emit(e);
       });
     }
-    this._map.addOverlay(marker);
+    this.map.addOverlay(marker);
   }
 
   drawMarkers(markers: Array<MarkerOptions>, clickHandler: EventEmitter<any>): Promise<void> {
@@ -149,7 +149,7 @@ export class BaiduMapController {
         pointCollection.addEventListener('click', e => {
           clickHandler.emit(e);
         });
-        this._map.addOverlay(pointCollection);
+        this.map.addOverlay(pointCollection);
         resolve();
       });
     });
