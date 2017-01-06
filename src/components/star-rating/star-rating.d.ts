@@ -1,22 +1,23 @@
-import { OnDestroy } from '@angular/core';
+import { OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 export declare const STAR_RATING_VALUE_ACCESSOR: any;
-export declare class StarRatingCmp implements OnDestroy, ControlValueAccessor {
-    half: boolean;
+export declare class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
+    private _elementRef;
     max: number;
     readonly: boolean;
-    stars: Array<string>;
-    private _value;
-    private onTouchedCallback;
+    private range;
+    private innerValue;
+    private _hammer;
     private onChangeCallback;
-    constructor();
     value: number;
-    out(): void;
-    valchange(val: number): void;
+    constructor(_elementRef: ElementRef);
+    ngOnInit(): void;
+    ngOnDestroy(): void;
+    setIcon(r: number): string;
     writeValue(val: any): void;
     registerOnChange(fn: any): void;
     registerOnTouched(fn: any): void;
-    ngOnDestroy(): void;
-    _getStart(i: number): string;
-    _updateStars(): void;
+    rate(amount: number): void;
+    private setupHammerHandlers();
+    private fullStates();
 }

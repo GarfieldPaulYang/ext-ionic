@@ -1,5 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnDestroy, forwardRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, forwardRef, ElementRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { isUndefined } from 'ionic-angular/util/util';
+
+import * as _ from 'lodash';
 
 export const STAR_RATING_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -10,99 +13,119 @@ export const STAR_RATING_VALUE_ACCESSOR: any = {
 @Component({
   selector: 'ion-star-rating',
   template: `
-    <ul class="rating" (mouseout)="out()">
-      <li *ngFor="let star of stars; let i = index" [class]="star" (click)="valchange(i + 1)" (mouseover)="valchange(i + 1)"></li>
+    <ul class="rating">
+      <li *ngFor="let r of range; let i = index" tappable (click)="rate(i + 1)" attr.index="{{i + 1}}">
+        <ion-icon [name]="setIcon(r)"></ion-icon>
+      </li>
     </ul>
   `,
-  providers: [STAR_RATING_VALUE_ACCESSOR],
-  encapsulation: ViewEncapsulation.None
+  providers: [STAR_RATING_VALUE_ACCESSOR]
 })
-export class StarRatingCmp implements OnDestroy, ControlValueAccessor {
-  @Input() half: boolean = true;
+export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() max: number = 5;
   @Input() readonly: boolean = false;
 
-  stars: Array<string> = [];
-
-  private _value: number = -1;
-  private onTouchedCallback: () => void = () => { };
-  private onChangeCallback: (_: any) => void = (_: any) => { };
-
-  constructor() { }
+  private range: Array<number>;
+  private innerValue: number;
+  private _hammer: HammerManager;
+  private onChangeCallback: (_: any) => void = () => { };
 
   get value(): number {
-    return this._value;
+    return this.innerValue;
   }
 
-  set value(val: number) {
-    if (val != this._value) {
-      this._value = val;
-      setTimeout(() => {
-        this._updateStars();
-      }, 10);
-      this.onChangeCallback(val);
+  set value(v: number) {
+    if (v !== this.innerValue) {
+      this.innerValue = v;
+      this.fullStates();
+      this.onChangeCallback(v);
     }
   }
 
-  out() {
-    if (!this.readonly) {
-      this.value = -1;
-      this.writeValue(this.value);
+  constructor(private _elementRef: ElementRef) { }
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.setupHammerHandlers();
+    });
+  }
+  ngOnDestroy() {
+    if (this._hammer) {
+      this._hammer.destroy();
     }
-    this.onTouchedCallback();
   }
 
-  valchange(val: number) {
-    if (!this.readonly) {
-      this.writeValue(val);
+  setIcon(r: number): string {
+    if (r === 1) {
+      return 'star';
     }
+
+    if (r === 2) {
+      return 'star-half';
+    }
+
+    return 'star-outline';
   }
 
   writeValue(val: any) {
-    if (this.value != val) {
-      this.value = val;
+    if (isUndefined(val)) {
+      return;
+    }
+
+    if (val !== this.innerValue) {
+      this.innerValue = val;
+      this.fullStates();
     }
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: any) {
     this.onChangeCallback = fn;
   }
 
-  registerOnTouched(fn: any) {
-    this.onTouchedCallback = fn;
-  }
+  registerOnTouched(fn: any) { }
 
-  ngOnDestroy() {
-    this.onChangeCallback = null;
-    this.onTouchedCallback = null;
-  }
-
-  _getStart(i: number): string {
-    let result: string = 'star';
-    if (!this.value) {
-      return result;
+  rate(amount: number) {
+    if (this.readonly) {
+      return;
     }
 
-    if (this.half && this.readonly) {
-      let v = Math.round(this.value * 2) / 2;
-      if (i <= v - 1) {
-        return result + ' filled';
-      } else if ((v > i) && (i < v + 1)) {
-        return result + ' filled-half';
+    if (this.range[amount - 1] === 1) {
+      amount = amount - 1;
+    }
+
+    this.value = amount;
+  }
+
+  private setupHammerHandlers() {
+    let ratingEle: HTMLElement = this._elementRef.nativeElement.querySelector('.rating');
+
+    if (!ratingEle) return;
+
+    this._hammer = new Hammer(ratingEle, {
+      recognizers: [
+        [Hammer.Pan, { direction: Hammer.DIRECTION_HORIZONTAL }],
+      ]
+    });
+
+    this._hammer.on('panleft panright', _.throttle((e: any) => {
+      let closestEle: Element = document.elementFromPoint(e.center.x, e.center.y);
+      if (closestEle && ['LI'].indexOf(closestEle.tagName) > -1) {
+        this.rate(Number(closestEle.getAttribute('index')));
       }
-      return result;
-    }
-
-    if (i < this.value) {
-      return result + ' filled';
-    }
-    return result;
+    }, 50));
   }
 
-  _updateStars() {
-    this.stars = [];
+  private fullStates(): void {
+    let states: Array<number> = [];
     for (let i = 0; i < this.max; i++) {
-      this.stars.push(this._getStart(i));
+      if (this.value > i && this.value < i + 1) {
+        states[i] = 2;
+      } else if (this.value > i) {
+        states[i] = 1;
+      } else {
+        states[i] = 0;
+      }
     }
+    this.range = states;
   }
 }
