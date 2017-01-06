@@ -24,7 +24,7 @@ var BaiduMap = (function () {
         this.onMarkerClick = new core_1.EventEmitter();
         this.mapLoaded = false;
     }
-    BaiduMap.prototype.ngOnInit = function () {
+    BaiduMap.prototype.ngAfterViewInit = function () {
         var _this = this;
         var opts = this.getOptions();
         this.baiduMapCtrl.init(opts, this._elementRef.nativeElement).then(function () {

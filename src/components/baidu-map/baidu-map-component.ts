@@ -1,6 +1,6 @@
 import {
   Component,
-  OnInit,
+  AfterViewInit,
   OnChanges,
   Input,
   Output,
@@ -24,7 +24,7 @@ import { BaiduMapController } from './baidu-map';
     </div>
   `
 })
-export class BaiduMap implements OnInit, OnChanges {
+export class BaiduMap implements AfterViewInit, OnChanges {
   @Input() options: BaiduMapOptions;
 
   @Output() onMapLoaded: EventEmitter<void> = new EventEmitter<void>();
@@ -40,7 +40,7 @@ export class BaiduMap implements OnInit, OnChanges {
     private config: ConfigManager
   ) { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     let opts: BaiduMapOptions = this.getOptions();
     this.baiduMapCtrl.init(
       opts,
