@@ -5,6 +5,7 @@ function __export(m) {
 __export(require('./whcyit.module'));
 __export(require('./src/config/config'));
 __export(require('./src/utils/http/response/response-result'));
+__export(require('./src/utils/http/url-params-builder'));
 var map_to_iterable_1 = require('./src/pipes/map-to-iterable');
 exports.MapToIterable = map_to_iterable_1.MapToIterable;
 var order_by_1 = require('./src/pipes/order-by');
