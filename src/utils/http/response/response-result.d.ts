@@ -13,4 +13,5 @@ export declare class Pagination {
     hasNextPage: boolean;
     items: Array<any>;
     constructor(data: any);
+    assign(data: any): void;
 }

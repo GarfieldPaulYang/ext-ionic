@@ -16,7 +16,7 @@ export class ResponseResult<T> {
   }
 
   private isPagination(obj: any): boolean {
-    return obj && !isUndefined(obj['currentPageNo']);
+    return obj && !isUndefined(obj['currentPageNo']) && !isUndefined(obj['pageSize']);
   }
 }
 
@@ -29,6 +29,10 @@ export class Pagination {
   items: Array<any> = [];
 
   constructor(data: any) {
+    this.assign(data);
+  }
+
+  assign(data: any) {
     this.currentPageNo = data.currentPageNo;
     this.pageSize = data.pageSize;
     this.totalCount = data.totalCount;

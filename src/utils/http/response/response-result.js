@@ -10,7 +10,7 @@ var ResponseResult = (function () {
         }
     }
     ResponseResult.prototype.isPagination = function (obj) {
-        return obj && !util_1.isUndefined(obj['currentPageNo']);
+        return obj && !util_1.isUndefined(obj['currentPageNo']) && !util_1.isUndefined(obj['pageSize']);
     };
     return ResponseResult;
 }());
@@ -18,13 +18,16 @@ exports.ResponseResult = ResponseResult;
 var Pagination = (function () {
     function Pagination(data) {
         this.items = [];
+        this.assign(data);
+    }
+    Pagination.prototype.assign = function (data) {
         this.currentPageNo = data.currentPageNo;
         this.pageSize = data.pageSize;
         this.totalCount = data.totalCount;
         this.pageCount = data.pageCount;
         this.hasNextPage = data.hasNextPage;
         this.items = this.items.concat(data.items);
-    }
+    };
     return Pagination;
 }());
 exports.Pagination = Pagination;
