@@ -11,12 +11,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var util_1 = require('ionic-angular/util/util');
 var _ = require('lodash');
-var baidu_map_options_1 = require('./baidu-map-options');
+var config_1 = require('../../config/config');
 var baidu_map_1 = require('./baidu-map');
 var BaiduMap = (function () {
-    function BaiduMap(_elementRef, baiduMapCtrl) {
+    function BaiduMap(_elementRef, baiduMapCtrl, config) {
         this._elementRef = _elementRef;
         this.baiduMapCtrl = baiduMapCtrl;
+        this.config = config;
         this.onMapLoaded = new core_1.EventEmitter();
         this.onMapLoadFialed = new core_1.EventEmitter();
         this.onMapClick = new core_1.EventEmitter();
@@ -60,7 +61,7 @@ var BaiduMap = (function () {
         this.baiduMapCtrl.drawMarkers(markers, this.onMarkerClick);
     };
     BaiduMap.prototype.getOptions = function () {
-        return util_1.assign({}, baidu_map_options_1.baiduMapDefaultOpts, this.options);
+        return util_1.assign({}, this.config.baiduMapOptions, this.options);
     };
     __decorate([
         core_1.Input(), 
@@ -87,7 +88,7 @@ var BaiduMap = (function () {
             selector: 'ion-baidu-map',
             template: "\n    <div class=\"offlinePanel\">\n      <label>\u6B63\u5728\u52A0\u8F7D\u5730\u56FE...</label>\n    </div>\n  "
         }), 
-        __metadata('design:paramtypes', [core_1.ElementRef, baidu_map_1.BaiduMapController])
+        __metadata('design:paramtypes', [core_1.ElementRef, baidu_map_1.BaiduMapController, config_1.ConfigManager])
     ], BaiduMap);
     return BaiduMap;
 }());

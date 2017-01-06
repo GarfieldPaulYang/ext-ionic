@@ -37,4 +37,3 @@ export interface BaiduMapOptions {
     markers?: MarkerOptions[];
     mass?: MassOptions;
 }
-export declare const baiduMapDefaultOpts: BaiduMapOptions;

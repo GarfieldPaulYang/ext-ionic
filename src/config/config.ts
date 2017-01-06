@@ -3,11 +3,13 @@ import { assign } from 'ionic-angular/util/util';
 
 import { OpenUrlModalOptions } from '../components/open-url-modal/open-url-modal-options';
 import { ImageLoaderOptions } from '../components/image-loader/image-loader-options';
+import { BaiduMapOptions } from '../components/baidu-map/baidu-map-options';
 
 export interface Config {
   color: string;
   openUrlModalOptions?: OpenUrlModalOptions;
   imageLoaderOptions?: ImageLoaderOptions;
+  baiduMapOptions?: BaiduMapOptions;
 }
 
 @Injectable()
@@ -27,6 +29,17 @@ export class ConfigManager {
       height: '100%',
       useImg: true,
       cacheDirectoryName: 'image-loader-cache'
+    },
+    baiduMapOptions: {
+      navCtrl: true,
+      scaleCtrl: true,
+      overviewCtrl: true,
+      enableScrollWheelZoom: false,
+      zoom: 10,
+      city: '武汉',
+      mass: {
+        enabled: false
+      }
     }
   };
 
@@ -40,6 +53,10 @@ export class ConfigManager {
 
   get imageLoaderOptions(): ImageLoaderOptions {
     return this._config.imageLoaderOptions;
+  }
+
+  get baiduMapOptions(): BaiduMapOptions {
+    return this._config.baiduMapOptions;
   }
 
   set(config: Config) {

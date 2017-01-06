@@ -27,6 +27,17 @@ var ConfigManager = (function () {
                 height: '100%',
                 useImg: true,
                 cacheDirectoryName: 'image-loader-cache'
+            },
+            baiduMapOptions: {
+                navCtrl: true,
+                scaleCtrl: true,
+                overviewCtrl: true,
+                enableScrollWheelZoom: false,
+                zoom: 10,
+                city: '武汉',
+                mass: {
+                    enabled: false
+                }
             }
         };
     }
@@ -47,6 +58,13 @@ var ConfigManager = (function () {
     Object.defineProperty(ConfigManager.prototype, "imageLoaderOptions", {
         get: function () {
             return this._config.imageLoaderOptions;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ConfigManager.prototype, "baiduMapOptions", {
+        get: function () {
+            return this._config.baiduMapOptions;
         },
         enumerable: true,
         configurable: true

@@ -11,7 +11,9 @@ import {
 import { assign } from 'ionic-angular/util/util';
 import * as _ from 'lodash';
 
-import { BaiduMapOptions, baiduMapDefaultOpts, MarkerOptions } from './baidu-map-options';
+import { ConfigManager } from '../../config/config';
+
+import { BaiduMapOptions, MarkerOptions } from './baidu-map-options';
 import { BaiduMapController } from './baidu-map';
 
 @Component({
@@ -32,7 +34,11 @@ export class BaiduMap implements OnInit, OnChanges {
 
   private mapLoaded: boolean = false;
 
-  constructor(private _elementRef: ElementRef, private baiduMapCtrl: BaiduMapController) { }
+  constructor(
+    private _elementRef: ElementRef,
+    private baiduMapCtrl: BaiduMapController,
+    private config: ConfigManager
+  ) { }
 
   ngOnInit() {
     let opts: BaiduMapOptions = this.getOptions();
@@ -79,6 +85,6 @@ export class BaiduMap implements OnInit, OnChanges {
   }
 
   private getOptions(): BaiduMapOptions {
-    return assign({}, baiduMapDefaultOpts, this.options);
+    return assign({}, this.config.baiduMapOptions, this.options);
   }
 }

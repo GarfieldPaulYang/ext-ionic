@@ -7,7 +7,6 @@ import {
   BaiduMapOptions,
   GpsPoint,
   MarkerOptions,
-  baiduMapDefaultOpts,
   PointCollectionOptions
 } from './baidu-map-options';
 
