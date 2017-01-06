@@ -54,3 +54,8 @@ export class HttpProvider {
     });
   }
 }
+
+@Injectable()
+export class CorsHttpProvider {
+  constructor(private http: HttpProvider) { }
+}

@@ -65,4 +65,15 @@ var HttpProvider = (function () {
     return HttpProvider;
 }());
 exports.HttpProvider = HttpProvider;
+var CorsHttpProvider = (function () {
+    function CorsHttpProvider(http) {
+        this.http = http;
+    }
+    CorsHttpProvider = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [HttpProvider])
+    ], CorsHttpProvider);
+    return CorsHttpProvider;
+}());
+exports.CorsHttpProvider = CorsHttpProvider;
 //# sourceMappingURL=http.js.map

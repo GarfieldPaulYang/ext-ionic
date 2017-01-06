@@ -23,6 +23,5 @@ var string_1 = require('./src/utils/string');
 exports.StringUtils = string_1.StringUtils;
 var dialog_1 = require('./src/utils/dialog');
 exports.Dialog = dialog_1.Dialog;
-var http_1 = require('./src/utils/http/http');
-exports.HttpProvider = http_1.HttpProvider;
+__export(require('./src/utils/http/http'));
 //# sourceMappingURL=index.js.map

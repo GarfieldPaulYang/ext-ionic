@@ -9,3 +9,7 @@ export declare class HttpProvider {
     requestWithError<T>(url: string | Request, options?: RequestOptionsArgs): Promise<T>;
     request<T>(url: string | Request, options?: RequestOptionsArgs): Promise<ResponseResult<T>>;
 }
+export declare class CorsHttpProvider {
+    private http;
+    constructor(http: HttpProvider);
+}

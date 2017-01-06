@@ -86,7 +86,8 @@ var WhcyitModule = (function () {
                 baidu_map_1.BaiduMapController,
                 image_loader_1.ImageLoaderController,
                 dialog_1.Dialog,
-                http_1.HttpProvider
+                http_1.HttpProvider,
+                http_1.CorsHttpProvider
             ]
         }), 
         __metadata('design:paramtypes', [])
