@@ -6,6 +6,8 @@ import { IonicModule } from 'ionic-angular';
 import { DynamicComponentModuleFactory } from 'angular2-dynamic-component';
 
 import { ConfigManager } from './src/config/config';
+import { Dialog } from './src/utils/dialog';
+import { HttpProvider } from './src/utils/http/http';
 
 import { MapToIterable } from './src/pipes/map-to-iterable';
 import { OrderBy } from './src/pipes/order-by';
@@ -71,7 +73,9 @@ class WhcyitPipeModule { }
     ConfigManager,
     OpenUrlModalController,
     BaiduMapController,
-    ImageLoaderController
+    ImageLoaderController,
+    Dialog,
+    HttpProvider
   ]
 })
 export class WhcyitModule {

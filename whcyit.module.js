@@ -14,6 +14,8 @@ var common_1 = require("@angular/common");
 var ionic_angular_1 = require('ionic-angular');
 var angular2_dynamic_component_1 = require('angular2-dynamic-component');
 var config_1 = require('./src/config/config');
+var dialog_1 = require('./src/utils/dialog');
+var http_1 = require('./src/utils/http/http');
 var map_to_iterable_1 = require('./src/pipes/map-to-iterable');
 var order_by_1 = require('./src/pipes/order-by');
 var alpha_scroll_1 = require('./src/components/alpha-scroll/alpha-scroll');
@@ -82,7 +84,9 @@ var WhcyitModule = (function () {
                 config_1.ConfigManager,
                 open_url_modal_1.OpenUrlModalController,
                 baidu_map_1.BaiduMapController,
-                image_loader_1.ImageLoaderController
+                image_loader_1.ImageLoaderController,
+                dialog_1.Dialog,
+                http_1.HttpProvider
             ]
         }), 
         __metadata('design:paramtypes', [])

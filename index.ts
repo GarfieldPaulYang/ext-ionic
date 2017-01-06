@@ -18,3 +18,5 @@ export { ImageLoaderOptions } from './src/components/image-loader/image-loader-o
 export { StarRatingCmp } from './src/components/star-rating/star-rating';
 
 export { StringUtils } from './src/utils/string';
+export { Dialog } from './src/utils/dialog';
+export { HttpProvider } from './src/utils/http/http';
