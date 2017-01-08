@@ -19,8 +19,7 @@ export class Dialog {
 
   loading(content: string): Loading {
     return this.loadingCtrl.create({
-      content: content,
-      dismissOnPageChange: true
+      content: content
     });
   }
 }

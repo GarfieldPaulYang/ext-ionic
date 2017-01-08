@@ -25,8 +25,7 @@ var Dialog = (function () {
     };
     Dialog.prototype.loading = function (content) {
         return this.loadingCtrl.create({
-            content: content,
-            dismissOnPageChange: true
+            content: content
         });
     };
     Dialog = __decorate([
