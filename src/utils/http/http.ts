@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Request, Response, RequestOptionsArgs, ResponseContentType, RequestMethod, RequestOptions } from '@angular/http';
 import { isUndefined } from 'ionic-angular/util/util';
-import { Observable } from 'rxjs/Observable';
 
 import { Dialog } from '../dialog';
 import { ResponseResult } from './response/response-result';

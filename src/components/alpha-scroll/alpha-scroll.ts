@@ -7,7 +7,7 @@ import {
   Input,
   ElementRef
 } from '@angular/core';
-import { Content, Scroll } from 'ionic-angular';
+import { Content } from 'ionic-angular';
 import * as _ from 'lodash';
 
 import { OrderBy } from '../../pipes/order-by';

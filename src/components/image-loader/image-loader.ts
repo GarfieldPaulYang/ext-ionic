@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { File, FileEntry, Transfer, RemoveResult, FileError } from 'ionic-native';
+import { File, FileEntry, Transfer } from 'ionic-native';
 
 import { ConfigManager } from "../../config/config";
 import { StringUtils } from "../../utils/string";

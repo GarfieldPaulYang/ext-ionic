@@ -1,10 +1,10 @@
 {
   "name": "whcyit-ionic",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ionic2 扩展库",
   "main": "index.js",
   "scripts": {
-    "build": "tslint ./**/*.ts -e \"[node_modules/**|./**/*.d.ts]\" -c ./tslint.json & tsc"
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -20,8 +20,8 @@
   },
   "homepage": "https://github.com/squallliu/whcyit-ionic#readme",
   "dependencies": {
-    "@types/hammerjs": "^2.0.33",
-    "@types/lodash": "^4.14.44",
+    "@types/hammerjs": "^2.0.34",
+    "@types/lodash": "^4.14.47",
     "angular2-dynamic-component": "^1.3.8",
     "core-js": "^2.4.1",
     "ts-metadata-helper": "0.0.4"
@@ -42,7 +42,6 @@
     "ionicons": "3.0.0",
     "rxjs": "5.0.0-beta.12",
     "zone.js": "0.6.26",
-    "typescript": "2.0.9",
-    "tslint-eslint-rules": "1.5.0"
+    "typescript": "2.0.9"
   }
 }
