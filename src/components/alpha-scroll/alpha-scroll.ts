@@ -63,7 +63,6 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
       return letter.toUpperCase().charAt(0);
     });
     this.sortedItems = this.unwindGroup(groupItems);
-    console.log(this.sortedItems);
     this.alphabet = this.iterateAlphabet(groupItems);
   }
 

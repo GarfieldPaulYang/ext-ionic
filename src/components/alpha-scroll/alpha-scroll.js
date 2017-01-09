@@ -43,7 +43,6 @@ var AlphaScroll = (function () {
             return letter.toUpperCase().charAt(0);
         });
         this.sortedItems = this.unwindGroup(groupItems);
-        console.log(this.sortedItems);
         this.alphabet = this.iterateAlphabet(groupItems);
     };
     AlphaScroll.prototype.ngOnDestroy = function () {
