@@ -36,9 +36,14 @@ var AlphaScroll = (function () {
         });
     };
     AlphaScroll.prototype.ngOnChanges = function () {
+        var _this = this;
         var sortedListData = this.orderBy.transform(this.listData, [this.key]);
-        var groupItems = this.groupItems(sortedListData);
+        var groupItems = _.groupBy(sortedListData, function (item) {
+            var letter = _.get(item, _this.key);
+            return letter.toUpperCase().charAt(0);
+        });
         this.sortedItems = this.unwindGroup(groupItems);
+        console.log(this.sortedItems);
         this.alphabet = this.iterateAlphabet(groupItems);
     };
     AlphaScroll.prototype.ngOnDestroy = function () {
@@ -108,18 +113,6 @@ var AlphaScroll = (function () {
             var letter = str.charAt(i);
             var isActive = alphabet[letter] ? true : false;
             result.push({ letter: letter, isActive: isActive });
-        }
-        return result;
-    };
-    AlphaScroll.prototype.groupItems = function (sortedListData) {
-        var result = {};
-        for (var i = 0; i < sortedListData.length; i++) {
-            var listValue = _.get(sortedListData[i], this.key);
-            var letter = listValue.toUpperCase().charAt(0);
-            if (typeof result[letter] === 'undefined') {
-                result[letter] = [];
-            }
-            result[letter].push(sortedListData[i]);
         }
         return result;
     };

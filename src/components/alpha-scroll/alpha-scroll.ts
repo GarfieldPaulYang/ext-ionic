@@ -58,8 +58,12 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges() {
     let sortedListData: Array<any> = this.orderBy.transform(this.listData, [this.key]);
-    let groupItems: any = this.groupItems(sortedListData);
+    let groupItems: any = _.groupBy(sortedListData, item => {
+      let letter: any = _.get(item, this.key);
+      return letter.toUpperCase().charAt(0);
+    });
     this.sortedItems = this.unwindGroup(groupItems);
+    console.log(this.sortedItems);
     this.alphabet = this.iterateAlphabet(groupItems);
   }
 
@@ -136,23 +140,10 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   private iterateAlphabet(alphabet: any): Array<any> {
     let str: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let result: Array<any> = [];
-    for (var i = 0; i < str.length; i++) {
-      var letter = str.charAt(i);
-      var isActive = alphabet[letter] ? true : false;
+    for (let i = 0; i < str.length; i++) {
+      let letter = str.charAt(i);
+      let isActive = alphabet[letter] ? true : false;
       result.push({ letter: letter, isActive: isActive });
-    }
-    return result;
-  }
-
-  private groupItems(sortedListData: Array<any>): any {
-    let result: any = {};
-    for (let i = 0; i < sortedListData.length; i++) {
-      let listValue: any = _.get(sortedListData[i], this.key);
-      let letter = listValue.toUpperCase().charAt(0);
-      if (typeof result[letter] === 'undefined') {
-        result[letter] = [];
-      }
-      result[letter].push(sortedListData[i]);
     }
     return result;
   }
