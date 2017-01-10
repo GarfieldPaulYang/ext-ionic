@@ -12,6 +12,7 @@ import {
 import { Events } from 'ionic-angular';
 import * as _ from 'lodash';
 
+import { ConfigManager } from '../../config/config';
 import { Dialog } from '../dialog';
 import { ResponseResult } from './response/response-result';
 import { URLParamsBuilder } from './url-params-builder';
@@ -77,46 +78,27 @@ export class HttpProvider {
 
 @Injectable()
 export class CorsHttpProvider {
-  private _appKey: string;
   private _ticket: string;
-  private _devMode: boolean = false;
-  private _loginUrl: string;
 
-  constructor(private http: HttpProvider, private events: Events) { }
-
-  set appKey(key: string) {
-    this._appKey = key;
-  }
+  constructor(
+    private http: HttpProvider,
+    private events: Events,
+    private config: ConfigManager
+  ) { }
 
   set ticket(t: string) {
     this._ticket = t;
   }
 
-  get devMode(): boolean {
-    return this._devMode;
-  }
-
-  set devMode(enabled: boolean) {
-    this._devMode = enabled;
-  }
-
-  get loginUrl(): string {
-    return this._loginUrl;
-  }
-
-  set loginUrl(url: string) {
-    this._loginUrl = url;
-  }
-
   login(options: LoginOptions): Promise<string> {
     let search = URLParamsBuilder.build(options);
     search.set('__login__', 'true');
-    return this.request<string>(this.loginUrl, { search: search });
+    return this.request<string>(this.config.login.url, { search: search });
   }
 
   logout() {
     let search = URLParamsBuilder.build({ '__logout__': true });
-    return this.request<string>(this.loginUrl, { search: search }).then(result => {
+    return this.request<string>(this.config.login.url, { search: search }).then(result => {
       this._ticket = null;
       return result;
     }).catch(reason => {
@@ -126,9 +108,9 @@ export class CorsHttpProvider {
 
   request<T>(url: string | Request, options?: RequestOptionsArgs): Promise<T> {
     let search: URLSearchParams = URLParamsBuilder.build({
-      'appKey': this._appKey,
+      'appKey': this.config.login.appKey,
+      'devMode': this.config.login.devMode,
       '__ticket__': this._ticket,
-      'devMode': this.devMode,
       '__cors-request__': true
     });
 

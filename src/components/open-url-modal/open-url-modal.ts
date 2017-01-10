@@ -15,7 +15,7 @@ export class OpenUrlModalController {
   constructor(private modalCtrl: ModalController, private config: ConfigManager) { }
 
   open(opts: OpenUrlModalOptions = {}, modalOpts: ModalOptions = {}) {
-    this.options = _.assign({}, this.config.openUrlModalOptions, opts);
+    this.options = _.assign({}, this.config.openUrlModal, opts);
 
     this.modal = this.modalCtrl.create(OpenUrlModalCmp, { openUrlModalOptions: opts }, modalOpts);
     this.modal.onDidDismiss(data => {

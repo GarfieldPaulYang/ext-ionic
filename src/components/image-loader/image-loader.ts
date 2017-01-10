@@ -78,7 +78,7 @@ export class ImageLoaderController {
       return;
     }
 
-    File.removeDir(cordova.file.cacheDirectory, this.config.imageLoaderOptions.cacheDirectoryName).catch(e => {
+    File.removeDir(cordova.file.cacheDirectory, this.config.imageLoader.cacheDirectoryName).catch(e => {
       this.throwError(e);
     });
   }
@@ -146,15 +146,15 @@ export class ImageLoaderController {
   }
 
   private get cacheDirectoryExists(): Promise<boolean> {
-    return <Promise<boolean>>File.checkDir(cordova.file.cacheDirectory, this.config.imageLoaderOptions.cacheDirectoryName);
+    return <Promise<boolean>>File.checkDir(cordova.file.cacheDirectory, this.config.imageLoader.cacheDirectoryName);
   }
 
   private get cacheDirectory(): string {
-    return cordova.file.cacheDirectory + this.config.imageLoaderOptions.cacheDirectoryName;
+    return cordova.file.cacheDirectory + this.config.imageLoader.cacheDirectoryName;
   }
 
   private createCacheDirectory(replace: boolean = false): Promise<any> {
-    return File.createDir(cordova.file.cacheDirectory, this.config.imageLoaderOptions.cacheDirectoryName, replace);
+    return File.createDir(cordova.file.cacheDirectory, this.config.imageLoader.cacheDirectoryName, replace);
   }
 
   private createFileName(url: string): string {

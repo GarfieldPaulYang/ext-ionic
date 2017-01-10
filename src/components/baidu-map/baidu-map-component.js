@@ -60,7 +60,7 @@ var BaiduMap = (function () {
         this.baiduMapCtrl.drawMarkers(markers, this.onMarkerClick);
     };
     BaiduMap.prototype.getOptions = function () {
-        return _.assign({}, this.config.baiduMapOptions, this.options);
+        return _.assign({}, this.config.baiduMap, this.options);
     };
     __decorate([
         core_1.Input(), 

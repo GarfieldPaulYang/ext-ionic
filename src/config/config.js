@@ -14,11 +14,14 @@ var ConfigManager = (function () {
     function ConfigManager() {
         this._config = {
             color: 'light',
-            openUrlModalOptions: {
+            openUrlModal: {
                 color: 'light',
                 onmessage: function (e) { }
             },
-            imageLoaderOptions: {
+            login: {
+                devMode: false
+            },
+            imageLoader: {
                 spinnerEnabled: true,
                 backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat',
@@ -28,7 +31,7 @@ var ConfigManager = (function () {
                 useImg: true,
                 cacheDirectoryName: 'image-loader-cache'
             },
-            baiduMapOptions: {
+            baiduMap: {
                 navCtrl: true,
                 scaleCtrl: true,
                 overviewCtrl: true,
@@ -48,23 +51,30 @@ var ConfigManager = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(ConfigManager.prototype, "openUrlModalOptions", {
+    Object.defineProperty(ConfigManager.prototype, "openUrlModal", {
         get: function () {
-            return this._config.openUrlModalOptions;
+            return this._config.openUrlModal;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(ConfigManager.prototype, "imageLoaderOptions", {
+    Object.defineProperty(ConfigManager.prototype, "imageLoader", {
         get: function () {
-            return this._config.imageLoaderOptions;
+            return this._config.imageLoader;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(ConfigManager.prototype, "baiduMapOptions", {
+    Object.defineProperty(ConfigManager.prototype, "baiduMap", {
         get: function () {
-            return this._config.baiduMapOptions;
+            return this._config.baiduMap;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ConfigManager.prototype, "login", {
+        get: function () {
+            return this._config.login;
         },
         enumerable: true,
         configurable: true

@@ -22,7 +22,7 @@ var OpenUrlModalController = (function () {
     OpenUrlModalController.prototype.open = function (opts, modalOpts) {
         if (opts === void 0) { opts = {}; }
         if (modalOpts === void 0) { modalOpts = {}; }
-        this.options = _.assign({}, this.config.openUrlModalOptions, opts);
+        this.options = _.assign({}, this.config.openUrlModal, opts);
         this.modal = this.modalCtrl.create(open_url_modal_component_1.OpenUrlModalCmp, { openUrlModalOptions: opts }, modalOpts);
         this.modal.onDidDismiss(function (data) {
             window.removeEventListener('message', data.onmessage, false);

@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var ionic_angular_1 = require('ionic-angular');
 var _ = require('lodash');
+var config_1 = require('../../config/config');
 var dialog_1 = require('../dialog');
 var response_result_1 = require('./response/response-result');
 var url_params_builder_1 = require('./url-params-builder');
@@ -69,18 +70,11 @@ var HttpProvider = (function () {
 }());
 exports.HttpProvider = HttpProvider;
 var CorsHttpProvider = (function () {
-    function CorsHttpProvider(http, events) {
+    function CorsHttpProvider(http, events, config) {
         this.http = http;
         this.events = events;
-        this._devMode = false;
+        this.config = config;
     }
-    Object.defineProperty(CorsHttpProvider.prototype, "appKey", {
-        set: function (key) {
-            this._appKey = key;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(CorsHttpProvider.prototype, "ticket", {
         set: function (t) {
             this._ticket = t;
@@ -88,35 +82,15 @@ var CorsHttpProvider = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CorsHttpProvider.prototype, "devMode", {
-        get: function () {
-            return this._devMode;
-        },
-        set: function (enabled) {
-            this._devMode = enabled;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CorsHttpProvider.prototype, "loginUrl", {
-        get: function () {
-            return this._loginUrl;
-        },
-        set: function (url) {
-            this._loginUrl = url;
-        },
-        enumerable: true,
-        configurable: true
-    });
     CorsHttpProvider.prototype.login = function (options) {
         var search = url_params_builder_1.URLParamsBuilder.build(options);
         search.set('__login__', 'true');
-        return this.request(this.loginUrl, { search: search });
+        return this.request(this.config.login.url, { search: search });
     };
     CorsHttpProvider.prototype.logout = function () {
         var _this = this;
         var search = url_params_builder_1.URLParamsBuilder.build({ '__logout__': true });
-        return this.request(this.loginUrl, { search: search }).then(function (result) {
+        return this.request(this.config.login.url, { search: search }).then(function (result) {
             _this._ticket = null;
             return result;
         }).catch(function (reason) {
@@ -126,9 +100,9 @@ var CorsHttpProvider = (function () {
     CorsHttpProvider.prototype.request = function (url, options) {
         var _this = this;
         var search = url_params_builder_1.URLParamsBuilder.build({
-            'appKey': this._appKey,
+            'appKey': this.config.login.appKey,
+            'devMode': this.config.login.devMode,
             '__ticket__': this._ticket,
-            'devMode': this.devMode,
             '__cors-request__': true
         });
         if (_.isUndefined(options)) {
@@ -149,7 +123,7 @@ var CorsHttpProvider = (function () {
     };
     CorsHttpProvider = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [HttpProvider, ionic_angular_1.Events])
+        __metadata('design:paramtypes', [HttpProvider, ionic_angular_1.Events, config_1.ConfigManager])
     ], CorsHttpProvider);
     return CorsHttpProvider;
 }());

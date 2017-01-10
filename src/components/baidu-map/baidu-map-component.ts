@@ -84,6 +84,6 @@ export class BaiduMap implements AfterViewInit, OnChanges {
   }
 
   private getOptions(): BaiduMapOptions {
-    return _.assign({}, this.config.baiduMapOptions, this.options);
+    return _.assign({}, this.config.baiduMap, this.options);
   }
 }

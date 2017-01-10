@@ -23,30 +23,30 @@ var ImageLoaderCmp = (function () {
     }
     ImageLoaderCmp.prototype.ngOnInit = function () {
         var _this = this;
-        if (!this.spinner && this.config.imageLoaderOptions.spinnerEnabled) {
+        if (!this.spinner && this.config.imageLoader.spinnerEnabled) {
             this.spinner = true;
         }
         if (!this.fallbackUrl) {
-            this.fallbackUrl = this.config.imageLoaderOptions.fallbackUrl;
+            this.fallbackUrl = this.config.imageLoader.fallbackUrl;
         }
         if (_.isUndefined(this.useImg)) {
-            this.useImg = this.config.imageLoaderOptions.useImg;
+            this.useImg = this.config.imageLoader.useImg;
         }
         this.useImg = util_1.isTrueProperty(this.useImg);
         if (!this.width) {
-            this.width = this.config.imageLoaderOptions.width;
+            this.width = this.config.imageLoader.width;
         }
         if (!this.height) {
-            this.height = this.config.imageLoaderOptions.height;
+            this.height = this.config.imageLoader.height;
         }
         if (!this.display) {
-            this.display = this.config.imageLoaderOptions.display;
+            this.display = this.config.imageLoader.display;
         }
         if (!this.backgroundSize) {
-            this.backgroundSize = this.config.imageLoaderOptions.backgroundSize;
+            this.backgroundSize = this.config.imageLoader.backgroundSize;
         }
         if (!this.backgroundRepeat) {
-            this.backgroundRepeat = this.config.imageLoaderOptions.backgroundRepeat;
+            this.backgroundRepeat = this.config.imageLoader.backgroundRepeat;
         }
         if (!this.imageUrl) {
             if (this.fallbackUrl) {

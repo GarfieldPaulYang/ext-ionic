@@ -5,22 +5,32 @@ import { OpenUrlModalOptions } from '../components/open-url-modal/open-url-modal
 import { ImageLoaderOptions } from '../components/image-loader/image-loader-options';
 import { BaiduMapOptions } from '../components/baidu-map/baidu-map-options';
 
+export interface LoginConfig {
+  appKey?: string;
+  devMode?: boolean;
+  url?: string;
+}
+
 export interface Config {
   color: string;
-  openUrlModalOptions?: OpenUrlModalOptions;
-  imageLoaderOptions?: ImageLoaderOptions;
-  baiduMapOptions?: BaiduMapOptions;
+  login?: LoginConfig;
+  openUrlModal?: OpenUrlModalOptions;
+  imageLoader?: ImageLoaderOptions;
+  baiduMap?: BaiduMapOptions;
 }
 
 @Injectable()
 export class ConfigManager {
   private _config: Config = {
     color: 'light',
-    openUrlModalOptions: {
+    openUrlModal: {
       color: 'light',
       onmessage: (e) => { }
     },
-    imageLoaderOptions: {
+    login: {
+      devMode: false
+    },
+    imageLoader: {
       spinnerEnabled: true,
       backgroundSize: 'contain',
       backgroundRepeat: 'no-repeat',
@@ -30,7 +40,7 @@ export class ConfigManager {
       useImg: true,
       cacheDirectoryName: 'image-loader-cache'
     },
-    baiduMapOptions: {
+    baiduMap: {
       navCtrl: true,
       scaleCtrl: true,
       overviewCtrl: true,
@@ -47,16 +57,20 @@ export class ConfigManager {
     return this._config;
   }
 
-  get openUrlModalOptions(): OpenUrlModalOptions {
-    return this._config.openUrlModalOptions;
+  get openUrlModal(): OpenUrlModalOptions {
+    return this._config.openUrlModal;
   }
 
-  get imageLoaderOptions(): ImageLoaderOptions {
-    return this._config.imageLoaderOptions;
+  get imageLoader(): ImageLoaderOptions {
+    return this._config.imageLoader;
   }
 
-  get baiduMapOptions(): BaiduMapOptions {
-    return this._config.baiduMapOptions;
+  get baiduMap(): BaiduMapOptions {
+    return this._config.baiduMap;
+  }
+
+  get login(): LoginConfig {
+    return this._config.login;
   }
 
   set(config: Config) {
