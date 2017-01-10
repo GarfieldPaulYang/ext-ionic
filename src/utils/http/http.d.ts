@@ -1,8 +1,16 @@
-import { Http, Request, RequestOptionsArgs } from '@angular/http';
+import { Http, Request, RequestOptionsArgs, RequestOptions } from '@angular/http';
 import { Events } from 'ionic-angular';
 import { ConfigManager } from '../../config/config';
 import { Dialog } from '../dialog';
 import { ResponseResult } from './response/response-result';
+export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
+    showLoading?: boolean;
+}
+export declare class HttpProviderOptions extends RequestOptions {
+    showLoading: boolean;
+    constructor(options: HttpProviderOptionsArgs);
+    merge(options?: HttpProviderOptionsArgs): HttpProviderOptions;
+}
 export interface LoginOptions {
     username: string;
     password: string;
@@ -15,8 +23,8 @@ export declare class HttpProvider {
     private dialog;
     constructor(_http: Http, dialog: Dialog);
     readonly http: Http;
-    requestWithError<T>(url: string | Request, options?: RequestOptionsArgs): Promise<T>;
-    request<T>(url: string | Request, options?: RequestOptionsArgs): Promise<ResponseResult<T>>;
+    requestWithError<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T>;
+    request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>>;
 }
 export declare class CorsHttpProvider {
     private http;
@@ -27,5 +35,5 @@ export declare class CorsHttpProvider {
     ticket: string;
     login(options: LoginOptions): Promise<string>;
     logout(): Promise<any>;
-    request<T>(url: string | Request, options?: RequestOptionsArgs): Promise<T>;
+    request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T>;
 }

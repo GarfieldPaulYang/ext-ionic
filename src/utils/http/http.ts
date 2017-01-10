@@ -19,7 +19,27 @@ import { URLParamsBuilder } from './url-params-builder';
 
 const ticket_expired: string = 'ticket_expired';
 
-const defaultRequestOptions: RequestOptions = new RequestOptions({
+export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
+  showLoading?: boolean;
+}
+
+export class HttpProviderOptions extends RequestOptions {
+  showLoading: boolean;
+
+  constructor(options: HttpProviderOptionsArgs) {
+    super(options);
+    this.showLoading = options.showLoading;
+  }
+
+  merge(options?: HttpProviderOptionsArgs): HttpProviderOptions {
+    let result = <HttpProviderOptions>super.merge(options);
+    result.showLoading = options.showLoading;
+    return result;
+  }
+}
+
+const defaultRequestOptions: HttpProviderOptions = new HttpProviderOptions({
+  showLoading: true,
   method: RequestMethod.Get,
   responseType: ResponseContentType.Json
 });
@@ -43,7 +63,7 @@ export class HttpProvider {
     return this._http;
   }
 
-  requestWithError<T>(url: string | Request, options?: RequestOptionsArgs): Promise<T> {
+  requestWithError<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       this.request<T>(url, options).then((result: ResponseResult<T>) => {
         if (result.status == 1) {
@@ -57,19 +77,21 @@ export class HttpProvider {
     });
   }
 
-  request<T>(url: string | Request, options?: RequestOptionsArgs): Promise<ResponseResult<T>> {
-    let loading = this.dialog.loading('正在加载...');
-    loading.present();
-
+  request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
     options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
+    let loading;
+    if (options.showLoading) {
+      loading = this.dialog.loading('正在加载...');
+      loading.present();
+    }
     return new Promise<ResponseResult<T>>((resolve, reject) => {
       this.http.request(url, options).map(
         (r: Response) => new ResponseResult<T>(r.json())
       ).toPromise().then((result: ResponseResult<T>) => {
-        loading.dismiss();
+        if (loading) loading.dismiss();
         resolve(result)
       }).catch(reason => {
-        loading.dismiss();
+        if (loading) loading.dismiss();
         reject(reason);
       });
     });
@@ -106,8 +128,8 @@ export class CorsHttpProvider {
     });
   }
 
-  request<T>(url: string | Request, options?: RequestOptionsArgs): Promise<T> {
-    let search: URLSearchParams = URLParamsBuilder.build({
+  request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T> {
+    let search = URLParamsBuilder.build({
       'appKey': this.config.login.appKey,
       'devMode': this.config.login.devMode,
       '__ticket__': this._ticket,
@@ -115,7 +137,7 @@ export class CorsHttpProvider {
     });
 
     if (_.isUndefined(options)) {
-      options = {};
+      options = { showLoading: true };
     }
 
     if (_.has(options, 'search')) {

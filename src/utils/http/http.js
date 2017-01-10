@@ -1,4 +1,9 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -17,7 +22,22 @@ var dialog_1 = require('../dialog');
 var response_result_1 = require('./response/response-result');
 var url_params_builder_1 = require('./url-params-builder');
 var ticket_expired = 'ticket_expired';
-var defaultRequestOptions = new http_1.RequestOptions({
+var HttpProviderOptions = (function (_super) {
+    __extends(HttpProviderOptions, _super);
+    function HttpProviderOptions(options) {
+        _super.call(this, options);
+        this.showLoading = options.showLoading;
+    }
+    HttpProviderOptions.prototype.merge = function (options) {
+        var result = _super.prototype.merge.call(this, options);
+        result.showLoading = options.showLoading;
+        return result;
+    };
+    return HttpProviderOptions;
+}(http_1.RequestOptions));
+exports.HttpProviderOptions = HttpProviderOptions;
+var defaultRequestOptions = new HttpProviderOptions({
+    showLoading: true,
     method: http_1.RequestMethod.Get,
     responseType: http_1.ResponseContentType.Json
 });
@@ -49,15 +69,20 @@ var HttpProvider = (function () {
     };
     HttpProvider.prototype.request = function (url, options) {
         var _this = this;
-        var loading = this.dialog.loading('正在加载...');
-        loading.present();
         options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
+        var loading;
+        if (options.showLoading) {
+            loading = this.dialog.loading('正在加载...');
+            loading.present();
+        }
         return new Promise(function (resolve, reject) {
             _this.http.request(url, options).map(function (r) { return new response_result_1.ResponseResult(r.json()); }).toPromise().then(function (result) {
-                loading.dismiss();
+                if (loading)
+                    loading.dismiss();
                 resolve(result);
             }).catch(function (reason) {
-                loading.dismiss();
+                if (loading)
+                    loading.dismiss();
                 reject(reason);
             });
         });
@@ -106,7 +131,7 @@ var CorsHttpProvider = (function () {
             '__cors-request__': true
         });
         if (_.isUndefined(options)) {
-            options = {};
+            options = { showLoading: true };
         }
         if (_.has(options, 'search')) {
             search.setAll(options.search);
