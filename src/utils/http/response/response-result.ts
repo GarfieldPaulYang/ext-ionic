@@ -16,7 +16,7 @@ export class ResponseResult<T> {
   }
 
   private isPagination(obj: any): boolean {
-    return obj && !_.has(obj, 'currentPageNo') && !_.has(obj, 'pageSize');
+    return obj && _.has(obj, 'currentPageNo') && _.has(obj, 'pageSize');
   }
 }
 
