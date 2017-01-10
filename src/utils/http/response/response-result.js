@@ -10,7 +10,7 @@ var ResponseResult = (function () {
         }
     }
     ResponseResult.prototype.isPagination = function (obj) {
-        return obj && !_.has(obj, 'currentPageNo') && !_.has(obj, 'pageSize');
+        return obj && _.has(obj, 'currentPageNo') && _.has(obj, 'pageSize');
     };
     return ResponseResult;
 }());
