@@ -1,6 +1,14 @@
 import { Http, Request, RequestOptionsArgs } from '@angular/http';
+import { Events } from 'ionic-angular';
 import { Dialog } from '../dialog';
 import { ResponseResult } from './response/response-result';
+export interface LoginOptions {
+    username: string;
+    password: string;
+    appId?: string;
+    jpushId?: string;
+    __login__?: boolean;
+}
 export declare class HttpProvider {
     private _http;
     private dialog;
@@ -11,5 +19,17 @@ export declare class HttpProvider {
 }
 export declare class CorsHttpProvider {
     private http;
-    constructor(http: HttpProvider);
+    private events;
+    private _appKey;
+    private _ticket;
+    private _devMode;
+    private _loginUrl;
+    constructor(http: HttpProvider, events: Events);
+    appKey: string;
+    ticket: string;
+    devMode: boolean;
+    loginUrl: string;
+    login(options: LoginOptions): Promise<string>;
+    logout(): Promise<any>;
+    request<T>(url: string | Request, options?: RequestOptionsArgs): Promise<T>;
 }

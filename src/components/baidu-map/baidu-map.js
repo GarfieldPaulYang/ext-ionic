@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var util_1 = require('ionic-angular/util/util');
+var _ = require('lodash');
 var baidu_map_loader_1 = require('./baidu-map-loader');
 var BaiduMapController = (function () {
     function BaiduMapController() {
@@ -131,7 +131,7 @@ var BaiduMapController = (function () {
                 markers.forEach(function (marker) {
                     points.push(new window['BMap'].Point(marker.point.lng, marker.point.lat));
                 });
-                var pointCollection = new window['BMap'].PointCollection(points, util_1.assign({}, {
+                var pointCollection = new window['BMap'].PointCollection(points, _.assign({}, {
                     size: window['BMAP_POINT_SIZE_SMALL'],
                     shape: window['BMAP_POINT_SHAPE_CIRCLE'],
                     color: '#d340c3'

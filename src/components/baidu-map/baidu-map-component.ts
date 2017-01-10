@@ -8,7 +8,6 @@ import {
   ElementRef,
   SimpleChange
 } from '@angular/core';
-import { assign } from 'ionic-angular/util/util';
 import * as _ from 'lodash';
 
 import { ConfigManager } from '../../config/config';
@@ -85,6 +84,6 @@ export class BaiduMap implements AfterViewInit, OnChanges {
   }
 
   private getOptions(): BaiduMapOptions {
-    return assign({}, this.config.baiduMapOptions, this.options);
+    return _.assign({}, this.config.baiduMapOptions, this.options);
   }
 }

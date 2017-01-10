@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
-var util_1 = require('ionic-angular/util/util');
 var _ = require('lodash');
 exports.STAR_RATING_VALUE_ACCESSOR = {
     provide: forms_1.NG_VALUE_ACCESSOR,
@@ -59,7 +58,7 @@ var StarRatingCmp = (function () {
         return 'star-outline';
     };
     StarRatingCmp.prototype.writeValue = function (val) {
-        if (util_1.isUndefined(val)) {
+        if (_.isUndefined(val)) {
             return;
         }
         if (val !== this.innerValue) {

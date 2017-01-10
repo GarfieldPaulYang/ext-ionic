@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { assign } from 'ionic-angular/util/util';
+import * as _ from 'lodash';
 
 import { OpenUrlModalOptions } from '../components/open-url-modal/open-url-modal-options';
 import { ImageLoaderOptions } from '../components/image-loader/image-loader-options';
@@ -60,6 +60,6 @@ export class ConfigManager {
   }
 
   set(config: Config) {
-    this._config = assign({}, this._config, config);
+    this._config = _.assign({}, this._config, config);
   }
 }

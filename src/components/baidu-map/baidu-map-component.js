@@ -9,7 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var util_1 = require('ionic-angular/util/util');
 var _ = require('lodash');
 var config_1 = require('../../config/config');
 var baidu_map_1 = require('./baidu-map');
@@ -61,7 +60,7 @@ var BaiduMap = (function () {
         this.baiduMapCtrl.drawMarkers(markers, this.onMarkerClick);
     };
     BaiduMap.prototype.getOptions = function () {
-        return util_1.assign({}, this.config.baiduMapOptions, this.options);
+        return _.assign({}, this.config.baiduMapOptions, this.options);
     };
     __decorate([
         core_1.Input(), 

@@ -1,6 +1,6 @@
 // 封装参考官方API，http://developer.baidu.com/map/reference/index.php
 import { Injectable, EventEmitter } from '@angular/core';
-import { assign } from 'ionic-angular/util/util';
+import * as _ from 'lodash';
 
 import { baiduMapLoader } from './baidu-map-loader';
 import {
@@ -140,7 +140,7 @@ export class BaiduMapController {
         });
 
         var pointCollection = new window['BMap'].PointCollection(
-          points, assign({}, {
+          points, _.assign({}, {
             size: window['BMAP_POINT_SIZE_SMALL'],
             shape: window['BMAP_POINT_SHAPE_CIRCLE'],
             color: '#d340c3'

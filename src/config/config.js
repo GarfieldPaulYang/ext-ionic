@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var util_1 = require('ionic-angular/util/util');
+var _ = require('lodash');
 var ConfigManager = (function () {
     function ConfigManager() {
         this._config = {
@@ -70,7 +70,7 @@ var ConfigManager = (function () {
         configurable: true
     });
     ConfigManager.prototype.set = function (config) {
-        this._config = util_1.assign({}, this._config, config);
+        this._config = _.assign({}, this._config, config);
     };
     ConfigManager = __decorate([
         core_1.Injectable(), 

@@ -1,5 +1,5 @@
 "use strict";
-var util_1 = require('ionic-angular/util/util');
+var _ = require('lodash');
 var ResponseResult = (function () {
     function ResponseResult(httpResponse) {
         this.status = httpResponse.status;
@@ -10,7 +10,7 @@ var ResponseResult = (function () {
         }
     }
     ResponseResult.prototype.isPagination = function (obj) {
-        return obj && !util_1.isUndefined(obj['currentPageNo']) && !util_1.isUndefined(obj['pageSize']);
+        return obj && !_.has(obj, 'currentPageNo') && !_.has(obj, 'pageSize');
     };
     return ResponseResult;
 }());

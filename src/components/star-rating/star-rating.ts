@@ -1,7 +1,5 @@
 import { Component, OnInit, OnDestroy, Input, forwardRef, ElementRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { isUndefined } from 'ionic-angular/util/util';
-
 import * as _ from 'lodash';
 
 export const STAR_RATING_VALUE_ACCESSOR: any = {
@@ -68,7 +66,7 @@ export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   writeValue(val: any) {
-    if (isUndefined(val)) {
+    if (_.isUndefined(val)) {
       return;
     }
 
