@@ -1,6 +1,6 @@
 {
   "name": "whcyit-ionic",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "ionic2 扩展库",
   "main": "index.js",
   "scripts": {
