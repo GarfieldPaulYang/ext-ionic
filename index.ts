@@ -1,4 +1,4 @@
-export * from './whcyit.module';
+export { WhcyitModule } from './whcyit.module';
 
 export * from './src/config/config';
 export * from './src/utils/http/response/response-result';
