@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import * as _ from 'lodash';
+import { OpaqueToken } from '@angular/core';
 
 import { OpenUrlModalOptions } from '../components/open-url-modal/open-url-modal-options';
 import { ImageLoaderOptions } from '../components/image-loader/image-loader-options';
@@ -19,61 +18,36 @@ export interface Config {
   baiduMap?: BaiduMapOptions;
 }
 
-@Injectable()
-export class ConfigManager {
-  private _config: Config = {
+export const defaultConfig: Config = {
+  color: 'light',
+  openUrlModal: {
     color: 'light',
-    openUrlModal: {
-      color: 'light',
-      onmessage: (e) => { }
-    },
-    login: {
-      devMode: false
-    },
-    imageLoader: {
-      spinnerEnabled: true,
-      backgroundSize: 'contain',
-      backgroundRepeat: 'no-repeat',
-      display: 'block',
-      width: '100%',
-      height: '100%',
-      useImg: true,
-      cacheDirectoryName: 'image-loader-cache'
-    },
-    baiduMap: {
-      navCtrl: true,
-      scaleCtrl: true,
-      overviewCtrl: true,
-      enableScrollWheelZoom: false,
-      zoom: 10,
-      city: '武汉',
-      mass: {
-        enabled: false
-      }
+    onmessage: (e) => { }
+  },
+  login: {
+    devMode: false
+  },
+  imageLoader: {
+    spinnerEnabled: true,
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    display: 'block',
+    width: '100%',
+    height: '100%',
+    useImg: true,
+    cacheDirectoryName: 'image-loader-cache'
+  },
+  baiduMap: {
+    navCtrl: true,
+    scaleCtrl: true,
+    overviewCtrl: true,
+    enableScrollWheelZoom: false,
+    zoom: 10,
+    city: '武汉',
+    mass: {
+      enabled: false
     }
-  };
-
-  get config(): Config {
-    return this._config;
   }
+};
 
-  get openUrlModal(): OpenUrlModalOptions {
-    return this._config.openUrlModal;
-  }
-
-  get imageLoader(): ImageLoaderOptions {
-    return this._config.imageLoader;
-  }
-
-  get baiduMap(): BaiduMapOptions {
-    return this._config.baiduMap;
-  }
-
-  get login(): LoginConfig {
-    return this._config.login;
-  }
-
-  set(config: Config) {
-    this._config = _.assign({}, this._config, config);
-  }
-}
+export const WHCYIT_IONIC_CONFIG = new OpaqueToken('WHCYIT-IONIC-CONFIG');

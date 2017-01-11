@@ -1,9 +1,9 @@
-import { Component, Input, ElementRef, Renderer, OnInit } from '@angular/core';
+import { Component, Input, ElementRef, Renderer, OnInit, Inject } from '@angular/core';
 import { isTrueProperty } from 'ionic-angular/util/util';
 import * as _ from 'lodash';
 
 import { ImageLoaderController } from "./image-loader";
-import { ConfigManager } from "../../config/config";
+import { WHCYIT_IONIC_CONFIG, Config } from "../../config/config";
 
 @Component({
   selector: 'ion-image-loader',
@@ -26,7 +26,7 @@ export class ImageLoaderCmp implements OnInit {
     private element: ElementRef,
     private renderer: Renderer,
     private imageLoader: ImageLoaderController,
-    private config: ConfigManager
+    @Inject(WHCYIT_IONIC_CONFIG) private config: Config
   ) { }
 
   ngOnInit(): void {

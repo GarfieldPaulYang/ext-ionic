@@ -1,6 +1,6 @@
 import { Http, Request, RequestOptionsArgs, RequestOptions } from '@angular/http';
 import { Events } from 'ionic-angular';
-import { ConfigManager } from '../../config/config';
+import { Config } from '../../config/config';
 import { Dialog } from '../dialog';
 import { ResponseResult } from './response/response-result';
 export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
@@ -31,7 +31,7 @@ export declare class CorsHttpProvider {
     private events;
     private config;
     private _ticket;
-    constructor(http: HttpProvider, events: Events, config: ConfigManager);
+    constructor(http: HttpProvider, events: Events, config: Config);
     ticket: string;
     login(options: LoginOptions): Promise<string>;
     logout(): Promise<any>;

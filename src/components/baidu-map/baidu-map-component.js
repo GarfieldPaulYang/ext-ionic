@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var core_1 = require('@angular/core');
 var _ = require('lodash');
 var config_1 = require('../../config/config');
@@ -86,8 +89,9 @@ var BaiduMap = (function () {
         core_1.Component({
             selector: 'ion-baidu-map',
             template: "\n    <div class=\"offlinePanel\">\n      <label>\u6B63\u5728\u52A0\u8F7D\u5730\u56FE...</label>\n    </div>\n  "
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef, baidu_map_1.BaiduMapController, config_1.ConfigManager])
+        }),
+        __param(2, core_1.Inject(config_1.WHCYIT_IONIC_CONFIG)), 
+        __metadata('design:paramtypes', [core_1.ElementRef, baidu_map_1.BaiduMapController, Object])
     ], BaiduMap);
     return BaiduMap;
 }());

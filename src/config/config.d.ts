@@ -1,3 +1,4 @@
+import { OpaqueToken } from '@angular/core';
 import { OpenUrlModalOptions } from '../components/open-url-modal/open-url-modal-options';
 import { ImageLoaderOptions } from '../components/image-loader/image-loader-options';
 import { BaiduMapOptions } from '../components/baidu-map/baidu-map-options';
@@ -13,12 +14,5 @@ export interface Config {
     imageLoader?: ImageLoaderOptions;
     baiduMap?: BaiduMapOptions;
 }
-export declare class ConfigManager {
-    private _config;
-    readonly config: Config;
-    readonly openUrlModal: OpenUrlModalOptions;
-    readonly imageLoader: ImageLoaderOptions;
-    readonly baiduMap: BaiduMapOptions;
-    readonly login: LoginConfig;
-    set(config: Config): void;
-}
+export declare const defaultConfig: Config;
+export declare const WHCYIT_IONIC_CONFIG: OpaqueToken;

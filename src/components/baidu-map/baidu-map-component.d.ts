@@ -1,5 +1,5 @@
 import { AfterViewInit, OnChanges, EventEmitter, ElementRef, SimpleChange } from '@angular/core';
-import { ConfigManager } from '../../config/config';
+import { Config } from '../../config/config';
 import { BaiduMapOptions } from './baidu-map-options';
 import { BaiduMapController } from './baidu-map';
 export declare class BaiduMap implements AfterViewInit, OnChanges {
@@ -12,7 +12,7 @@ export declare class BaiduMap implements AfterViewInit, OnChanges {
     onMapClick: EventEmitter<any>;
     onMarkerClick: EventEmitter<any>;
     private mapLoaded;
-    constructor(_elementRef: ElementRef, baiduMapCtrl: BaiduMapController, config: ConfigManager);
+    constructor(_elementRef: ElementRef, baiduMapCtrl: BaiduMapController, config: Config);
     ngAfterViewInit(): void;
     ngOnChanges(changes: {
         [propertyName: string]: SimpleChange;

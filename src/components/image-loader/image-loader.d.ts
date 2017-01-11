@@ -1,10 +1,10 @@
 import { Platform } from 'ionic-angular';
-import { ConfigManager } from "../../config/config";
+import { Config } from "../../config/config";
 export declare class ImageLoaderController {
     private config;
     private isCacheReady;
     private isInit;
-    constructor(platform: Platform, config: ConfigManager);
+    constructor(platform: Platform, config: Config);
     getImagePath(imageUrl: string): Promise<string>;
     removeCacheFile(localPath: string): void;
     clearCache(): void;

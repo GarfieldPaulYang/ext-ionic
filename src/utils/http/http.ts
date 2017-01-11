@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import {
   Http,
   Request,
@@ -12,7 +12,7 @@ import {
 import { Events } from 'ionic-angular';
 import * as _ from 'lodash';
 
-import { ConfigManager } from '../../config/config';
+import { WHCYIT_IONIC_CONFIG, Config } from '../../config/config';
 import { Dialog } from '../dialog';
 import { ResponseResult } from './response/response-result';
 import { URLParamsBuilder } from './url-params-builder';
@@ -105,7 +105,7 @@ export class CorsHttpProvider {
   constructor(
     private http: HttpProvider,
     private events: Events,
-    private config: ConfigManager
+    @Inject(WHCYIT_IONIC_CONFIG) private config: Config
   ) { }
 
   set ticket(t: string) {

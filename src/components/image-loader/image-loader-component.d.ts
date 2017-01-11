@@ -1,6 +1,6 @@
 import { ElementRef, Renderer, OnInit } from '@angular/core';
 import { ImageLoaderController } from "./image-loader";
-import { ConfigManager } from "../../config/config";
+import { Config } from "../../config/config";
 export declare class ImageLoaderCmp implements OnInit {
     private element;
     private renderer;
@@ -16,7 +16,7 @@ export declare class ImageLoaderCmp implements OnInit {
     backgroundSize: string;
     backgroundRepeat: string;
     isLoading: boolean;
-    constructor(element: ElementRef, renderer: Renderer, imageLoader: ImageLoaderController, config: ConfigManager);
+    constructor(element: ElementRef, renderer: Renderer, imageLoader: ImageLoaderController, config: Config);
     ngOnInit(): void;
     private setImage(imageUrl);
 }

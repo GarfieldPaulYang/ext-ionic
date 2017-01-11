@@ -12,6 +12,7 @@ require('./src/rxjs-extensions');
 var core_1 = require('@angular/core');
 var common_1 = require("@angular/common");
 var ionic_angular_1 = require('ionic-angular');
+var _ = require('lodash');
 var angular2_dynamic_component_1 = require('angular2-dynamic-component');
 var config_1 = require('./src/config/config');
 var dialog_1 = require('./src/utils/dialog');
@@ -52,9 +53,24 @@ var WhcyitPipeModule = (function () {
     ], WhcyitPipeModule);
     return WhcyitPipeModule;
 }());
+exports.WhcyitPipeModule = WhcyitPipeModule;
 var WhcyitModule = (function () {
     function WhcyitModule() {
     }
+    WhcyitModule.forRoot = function (config) {
+        return {
+            ngModule: WhcyitModule,
+            providers: [
+                { provide: config_1.WHCYIT_IONIC_CONFIG, useValue: _.isUndefined(config) ? config_1.defaultConfig : _.assign({}, config_1.defaultConfig, config) },
+                open_url_modal_1.OpenUrlModalController,
+                baidu_map_1.BaiduMapController,
+                image_loader_1.ImageLoaderController,
+                dialog_1.Dialog,
+                http_1.HttpProvider,
+                http_1.CorsHttpProvider
+            ]
+        };
+    };
     WhcyitModule = __decorate([
         core_1.NgModule({
             imports: [
@@ -79,15 +95,6 @@ var WhcyitModule = (function () {
             ],
             entryComponents: [
                 open_url_modal_component_1.OpenUrlModalCmp
-            ],
-            providers: [
-                config_1.ConfigManager,
-                open_url_modal_1.OpenUrlModalController,
-                baidu_map_1.BaiduMapController,
-                image_loader_1.ImageLoaderController,
-                dialog_1.Dialog,
-                http_1.HttpProvider,
-                http_1.CorsHttpProvider
             ]
         }), 
         __metadata('design:paramtypes', [])

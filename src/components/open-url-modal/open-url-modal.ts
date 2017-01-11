@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { ModalController, ModalOptions, Modal } from 'ionic-angular';
 import * as _ from 'lodash';
 
-import { ConfigManager } from '../../config/config';
+import { WHCYIT_IONIC_CONFIG, Config } from '../../config/config';
 
 import { OpenUrlModalOptions } from './open-url-modal-options';
 import { OpenUrlModalCmp } from './open-url-modal-component';
@@ -12,7 +12,7 @@ export class OpenUrlModalController {
   private options: OpenUrlModalOptions = {};
   private modal: Modal;
 
-  constructor(private modalCtrl: ModalController, private config: ConfigManager) { }
+  constructor(private modalCtrl: ModalController, @Inject(WHCYIT_IONIC_CONFIG) private config: Config) { }
 
   open(opts: OpenUrlModalOptions = {}, modalOpts: ModalOptions = {}) {
     this.options = _.assign({}, this.config.openUrlModal, opts);

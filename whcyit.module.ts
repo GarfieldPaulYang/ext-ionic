@@ -1,11 +1,13 @@
 import './src/rxjs-extensions';
 
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { IonicModule } from 'ionic-angular';
+import * as _ from 'lodash';
+
 import { DynamicComponentModuleFactory } from 'angular2-dynamic-component';
 
-import { ConfigManager } from './src/config/config';
+import { WHCYIT_IONIC_CONFIG, Config, defaultConfig } from './src/config/config';
 import { Dialog } from './src/utils/dialog';
 import { HttpProvider, CorsHttpProvider } from './src/utils/http/http';
 
@@ -43,7 +45,7 @@ import { StarRatingCmp } from './src/components/star-rating/star-rating';
     OrderBy
   ]
 })
-class WhcyitPipeModule { }
+export class WhcyitPipeModule { }
 
 @NgModule({
   imports: [
@@ -68,16 +70,21 @@ class WhcyitPipeModule { }
   ],
   entryComponents: [
     OpenUrlModalCmp
-  ],
-  providers: [
-    ConfigManager,
-    OpenUrlModalController,
-    BaiduMapController,
-    ImageLoaderController,
-    Dialog,
-    HttpProvider,
-    CorsHttpProvider
   ]
 })
 export class WhcyitModule {
+  static forRoot(config?: Config): ModuleWithProviders {
+    return {
+      ngModule: WhcyitModule,
+      providers: [
+        { provide: WHCYIT_IONIC_CONFIG, useValue: _.isUndefined(config) ? defaultConfig : _.assign({}, defaultConfig, config) },
+        OpenUrlModalController,
+        BaiduMapController,
+        ImageLoaderController,
+        Dialog,
+        HttpProvider,
+        CorsHttpProvider
+      ]
+    };
+  }
 }
