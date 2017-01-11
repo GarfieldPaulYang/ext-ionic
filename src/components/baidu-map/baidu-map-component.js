@@ -24,6 +24,7 @@ var BaiduMap = (function () {
         this.onMapLoadFialed = new core_1.EventEmitter();
         this.onMapClick = new core_1.EventEmitter();
         this.onMarkerClick = new core_1.EventEmitter();
+        this.opacity = 0;
         this.mapLoaded = false;
     }
     BaiduMap.prototype.ngAfterViewInit = function () {
@@ -35,6 +36,7 @@ var BaiduMap = (function () {
             _this.onMapLoaded.emit();
             _this.mapLoaded = true;
         }, function (e) {
+            _this.opacity = 1;
             _this.onMapLoadFialed.emit(e);
         });
     };
@@ -88,7 +90,7 @@ var BaiduMap = (function () {
     BaiduMap = __decorate([
         core_1.Component({
             selector: 'ion-baidu-map',
-            template: "\n    <div class=\"offlinePanel\">\n      <label>\u6B63\u5728\u52A0\u8F7D\u5730\u56FE...</label>\n    </div>\n  "
+            template: "\n    <div class=\"offlinePanel\" [style.opacity]=\"opacity\">\n      <label>\u5509\u5440\uFF0C\u7F51\u7EDC\u51FA\u95EE\u9898\u4E86</label>\n    </div>\n  "
         }),
         __param(2, core_1.Inject(config_1.WHCYIT_IONIC_CONFIG)), 
         __metadata('design:paramtypes', [core_1.ElementRef, baidu_map_1.BaiduMapController, Object])

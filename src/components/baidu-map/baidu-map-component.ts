@@ -19,8 +19,8 @@ import { BaiduMapController } from './baidu-map';
 @Component({
   selector: 'ion-baidu-map',
   template: `
-    <div class="offlinePanel">
-      <label>正在加载地图...</label>
+    <div class="offlinePanel" [style.opacity]="opacity">
+      <label>唉呀，网络出问题了</label>
     </div>
   `
 })
@@ -32,6 +32,7 @@ export class BaiduMap implements AfterViewInit, OnChanges {
   @Output() onMapClick: EventEmitter<any> = new EventEmitter<any>();
   @Output() onMarkerClick: EventEmitter<any> = new EventEmitter<any>();
 
+  private opacity: number = 0;
   private mapLoaded: boolean = false;
 
   constructor(
@@ -51,6 +52,7 @@ export class BaiduMap implements AfterViewInit, OnChanges {
       this.onMapLoaded.emit();
       this.mapLoaded = true;
     }, e => {
+      this.opacity = 1;
       this.onMapLoadFialed.emit(e);
     });
   }

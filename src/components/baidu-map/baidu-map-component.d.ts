@@ -11,6 +11,7 @@ export declare class BaiduMap implements AfterViewInit, OnChanges {
     onMapLoadFialed: EventEmitter<any>;
     onMapClick: EventEmitter<any>;
     onMarkerClick: EventEmitter<any>;
+    private opacity;
     private mapLoaded;
     constructor(_elementRef: ElementRef, baiduMapCtrl: BaiduMapController, config: Config);
     ngAfterViewInit(): void;
