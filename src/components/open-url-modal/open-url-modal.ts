@@ -18,7 +18,7 @@ export class OpenUrlModalController {
     this.options = _.assign({}, this.config.openUrlModal, opts);
 
     this.modal = this.modalCtrl.create(OpenUrlModalCmp, { openUrlModalOptions: opts }, modalOpts);
-    this.modal.onDidDismiss(data => {
+    this.modal.onDidDismiss((data: any) => {
       window.removeEventListener('message', data.onmessage, false);
     });
     this.modal.present();

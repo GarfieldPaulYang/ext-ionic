@@ -7,7 +7,7 @@ import { WHCYIT_IONIC_CONFIG, Config } from "../../config/config";
 
 @Component({
   selector: 'ion-image-loader',
-  template: '<ion-image-loader-spinner *ngIf="spinner && isLoading"></ion-image-loader-spinner>'
+  template: '<ion-spinner name="ios" *ngIf="spinner && isLoading"></ion-spinner>'
 })
 export class ImageLoaderCmp implements OnInit {
   @Input('src') imageUrl: string;
@@ -77,14 +77,14 @@ export class ImageLoaderCmp implements OnInit {
   }
 
   private setImage(imageUrl: string): void {
-    let element;
+    let element: HTMLImageElement;
     this.isLoading = false;
 
     if (this.useImg) {
       this.renderer.createElement(this.element.nativeElement, 'img');
       element = <HTMLImageElement>this.element.nativeElement.getElementsByTagName('IMG')[0];
       this.renderer.setElementAttribute(element, 'src', imageUrl);
-      this.renderer.listen(element, 'error', (event) => {
+      this.renderer.listen(element, 'error', (event: any) => {
         this.imageLoader.removeCacheFile(imageUrl);
         if (this.fallbackUrl) {
           this.renderer.setElementAttribute(element, 'src', this.fallbackUrl);

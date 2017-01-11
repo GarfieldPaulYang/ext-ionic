@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,16 +7,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var _ = require('lodash');
-var baidu_map_loader_1 = require('./baidu-map-loader');
-var BaiduMapController = (function () {
+import { Injectable } from '@angular/core';
+import * as _ from 'lodash';
+import { baiduMapLoader } from './baidu-map-loader';
+export var BaiduMapController = (function () {
     function BaiduMapController() {
     }
     BaiduMapController.prototype.init = function (opts, ele) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            baidu_map_loader_1.baiduMapLoader().then(function () {
+            baiduMapLoader().then(function () {
                 _this.map = new window['BMap'].Map(ele);
                 setTimeout(function () {
                     _this.map.centerAndZoom(new window['BMap'].Point(opts.center.lng, opts.center.lat), opts.zoom);
@@ -170,10 +169,9 @@ var BaiduMapController = (function () {
         return new window['BMap'].Marker(pt);
     };
     BaiduMapController = __decorate([
-        core_1.Injectable(), 
+        Injectable(), 
         __metadata('design:paramtypes', [])
     ], BaiduMapController);
     return BaiduMapController;
 }());
-exports.BaiduMapController = BaiduMapController;
 //# sourceMappingURL=baidu-map.js.map

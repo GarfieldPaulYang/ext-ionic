@@ -10,7 +10,7 @@ export const URLParamsBuilder = {
     let result: URLSearchParams = new URLSearchParams();
     for (let key in params) {
       if (_.isArray(params[key])) {
-        params[key].forEach(v => {
+        params[key].forEach((v: any) => {
           result.append(key, v);
         })
         continue;

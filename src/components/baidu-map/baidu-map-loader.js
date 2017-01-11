@@ -1,5 +1,4 @@
-"use strict";
-exports.baiduMapLoader = function () {
+export var baiduMapLoader = function () {
     return new Promise(function (resolve, reject) {
         window['baiduMapLoaded'] = function () {
             resolve();

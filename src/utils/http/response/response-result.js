@@ -1,6 +1,5 @@
-"use strict";
-var _ = require('lodash');
-var ResponseResult = (function () {
+import * as _ from 'lodash';
+export var ResponseResult = (function () {
     function ResponseResult(httpResponse) {
         this.status = httpResponse.status;
         this.msg = httpResponse.msg;
@@ -14,8 +13,7 @@ var ResponseResult = (function () {
     };
     return ResponseResult;
 }());
-exports.ResponseResult = ResponseResult;
-var Pagination = (function () {
+export var Pagination = (function () {
     function Pagination(data) {
         this.items = [];
         this.assign(data);
@@ -30,5 +28,4 @@ var Pagination = (function () {
     };
     return Pagination;
 }());
-exports.Pagination = Pagination;
 //# sourceMappingURL=response-result.js.map

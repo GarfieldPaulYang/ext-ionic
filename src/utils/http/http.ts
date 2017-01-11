@@ -9,7 +9,7 @@ import {
   RequestOptions,
   URLSearchParams
 } from '@angular/http';
-import { Events } from 'ionic-angular';
+import { Events, Loading } from 'ionic-angular';
 import * as _ from 'lodash';
 
 import { WHCYIT_IONIC_CONFIG, Config } from '../../config/config';
@@ -79,7 +79,7 @@ export class HttpProvider {
 
   request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
     options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
-    let loading;
+    let loading: Loading;
     if (options.showLoading) {
       loading = this.dialog.loading('正在加载...');
       loading.present();

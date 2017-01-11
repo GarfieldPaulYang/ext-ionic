@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,15 +7,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var MapToIterable = (function () {
+import { Injectable, Pipe } from '@angular/core';
+export var MapToIterable = (function () {
     function MapToIterable() {
     }
-    MapToIterable.prototype.transform = function (value, args) {
+    MapToIterable.prototype.transform = function (value) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
         var result = [];
         if (value.entries) {
-            for (var _i = 0, _a = value.entries(); _i < _a.length; _i++) {
-                var _b = _a[_i], key = _b[0], value = _b[1];
+            for (var _a = 0, _b = value.entries(); _a < _b.length; _a++) {
+                var _c = _b[_a], key = _c[0], value = _c[1];
                 result.push({ key: key, value: value });
             }
         }
@@ -28,13 +31,12 @@ var MapToIterable = (function () {
         return result;
     };
     MapToIterable = __decorate([
-        core_1.Pipe({
+        Pipe({
             name: 'mapToIterable'
         }),
-        core_1.Injectable(), 
+        Injectable(), 
         __metadata('design:paramtypes', [])
     ], MapToIterable);
     return MapToIterable;
 }());
-exports.MapToIterable = MapToIterable;
 //# sourceMappingURL=map-to-iterable.js.map

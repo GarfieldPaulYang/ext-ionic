@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,8 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var OrderBy = (function () {
+import { Injectable, Pipe } from '@angular/core';
+export var OrderBy = (function () {
     function OrderBy() {
     }
     OrderBy.prototype.transform = function (input, _a) {
@@ -66,13 +65,12 @@ var OrderBy = (function () {
         return 0;
     };
     OrderBy = __decorate([
-        core_1.Pipe({
+        Pipe({
             name: 'orderBy'
         }),
-        core_1.Injectable(), 
+        Injectable(), 
         __metadata('design:paramtypes', [])
     ], OrderBy);
     return OrderBy;
 }());
-exports.OrderBy = OrderBy;
 //# sourceMappingURL=order-by.js.map

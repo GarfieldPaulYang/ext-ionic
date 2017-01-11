@@ -54,7 +54,7 @@ export class BaiduMapController {
   geoLocation(): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       let location = new window['BMap'].Geolocation();
-      location.getCurrentPosition(result => {
+      location.getCurrentPosition((result: any) => {
         if (location.getStatus() === window['BMAP_STATUS_SUCCESS']) {
           resolve(result);
         } else {
@@ -84,7 +84,7 @@ export class BaiduMapController {
   }
 
   addEventListener(event: string, handler: EventEmitter<any>) {
-    this.map.addEventListener(event, e => {
+    this.map.addEventListener(event, (e: any) => {
       handler.emit(e);
     });
   }
@@ -93,11 +93,11 @@ export class BaiduMapController {
     let marker = this.createMarker(markerOpts);
     let infoWindow = this.createInfoWindow(markerOpts);
     if (infoWindow) {
-      marker.addEventListener('click', e => {
+      marker.addEventListener('click', (e: any) => {
         marker.openInfoWindow(infoWindow);
       });
     } else {
-      marker.addEventListener('click', e => {
+      marker.addEventListener('click', (e: any) => {
         clickHandler.emit(e);
       });
     }
@@ -144,7 +144,7 @@ export class BaiduMapController {
             color: '#d340c3'
           }, opts)
         );
-        pointCollection.addEventListener('click', e => {
+        pointCollection.addEventListener('click', (e: any) => {
           clickHandler.emit(e);
         });
         this.map.addOverlay(pointCollection);

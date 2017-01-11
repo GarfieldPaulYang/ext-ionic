@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11,12 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var core_1 = require('@angular/core');
-var util_1 = require('ionic-angular/util/util');
-var _ = require('lodash');
-var image_loader_1 = require("./image-loader");
-var config_1 = require("../../config/config");
-var ImageLoaderCmp = (function () {
+import { Component, Input, ElementRef, Renderer, Inject } from '@angular/core';
+import { isTrueProperty } from 'ionic-angular/util/util';
+import * as _ from 'lodash';
+import { ImageLoaderController } from "./image-loader";
+import { WHCYIT_IONIC_CONFIG } from "../../config/config";
+export var ImageLoaderCmp = (function () {
     function ImageLoaderCmp(element, renderer, imageLoader, config) {
         this.element = element;
         this.renderer = renderer;
@@ -35,7 +34,7 @@ var ImageLoaderCmp = (function () {
         if (_.isUndefined(this.useImg)) {
             this.useImg = this.config.imageLoader.useImg;
         }
-        this.useImg = util_1.isTrueProperty(this.useImg);
+        this.useImg = isTrueProperty(this.useImg);
         if (!this.width) {
             this.width = this.config.imageLoader.width;
         }
@@ -97,50 +96,49 @@ var ImageLoaderCmp = (function () {
         this.renderer.setElementStyle(element, 'background-image', 'url(\'' + imageUrl + '\')');
     };
     __decorate([
-        core_1.Input('src'), 
+        Input('src'), 
         __metadata('design:type', String)
     ], ImageLoaderCmp.prototype, "imageUrl", void 0);
     __decorate([
-        core_1.Input('fallback'), 
+        Input('fallback'), 
         __metadata('design:type', String)
     ], ImageLoaderCmp.prototype, "fallbackUrl", void 0);
     __decorate([
-        core_1.Input(), 
+        Input(), 
         __metadata('design:type', Boolean)
     ], ImageLoaderCmp.prototype, "spinner", void 0);
     __decorate([
-        core_1.Input(), 
+        Input(), 
         __metadata('design:type', Boolean)
     ], ImageLoaderCmp.prototype, "useImg", void 0);
     __decorate([
-        core_1.Input(), 
+        Input(), 
         __metadata('design:type', String)
     ], ImageLoaderCmp.prototype, "width", void 0);
     __decorate([
-        core_1.Input(), 
+        Input(), 
         __metadata('design:type', String)
     ], ImageLoaderCmp.prototype, "height", void 0);
     __decorate([
-        core_1.Input(), 
+        Input(), 
         __metadata('design:type', String)
     ], ImageLoaderCmp.prototype, "display", void 0);
     __decorate([
-        core_1.Input(), 
+        Input(), 
         __metadata('design:type', String)
     ], ImageLoaderCmp.prototype, "backgroundSize", void 0);
     __decorate([
-        core_1.Input(), 
+        Input(), 
         __metadata('design:type', String)
     ], ImageLoaderCmp.prototype, "backgroundRepeat", void 0);
     ImageLoaderCmp = __decorate([
-        core_1.Component({
+        Component({
             selector: 'ion-image-loader',
-            template: '<ion-image-loader-spinner *ngIf="spinner && isLoading"></ion-image-loader-spinner>'
+            template: '<ion-spinner name="ios" *ngIf="spinner && isLoading"></ion-spinner>'
         }),
-        __param(3, core_1.Inject(config_1.WHCYIT_IONIC_CONFIG)), 
-        __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer, image_loader_1.ImageLoaderController, Object])
+        __param(3, Inject(WHCYIT_IONIC_CONFIG)), 
+        __metadata('design:paramtypes', [ElementRef, Renderer, ImageLoaderController, Object])
     ], ImageLoaderCmp);
     return ImageLoaderCmp;
 }());
-exports.ImageLoaderCmp = ImageLoaderCmp;
 //# sourceMappingURL=image-loader-component.js.map
