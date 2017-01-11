@@ -79,9 +79,7 @@ export class BaiduMapController {
       this.geoLocation().then(result => {
         this.panTo(result.point);
         resolve(result);
-      }, function () {
-        reject('定位失败');
-      });
+      }, () => reject('定位失败'));
     });
   }
 

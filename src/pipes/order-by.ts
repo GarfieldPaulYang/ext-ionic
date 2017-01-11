@@ -23,7 +23,7 @@ export class OrderBy implements PipeTransform {
         ? propertyToCheck.substr(1)
         : propertyToCheck;
 
-      return input.sort(function (a: any, b: any) {
+      return input.sort((a: any, b: any) => {
         return !desc
           ? OrderBy._orderByComparator(a[property], b[property])
           : -OrderBy._orderByComparator(a[property], b[property]);
@@ -31,7 +31,7 @@ export class OrderBy implements PipeTransform {
     }
 
     //Loop over property of the array in order and sort
-    return input.sort(function (a: any, b: any) {
+    return input.sort((a: any, b: any) => {
       for (var i: number = 0; i < config.length; i++) {
         var desc = config[i].substr(0, 1) == '-';
         var property = config[i].substr(0, 1) == '+' || config[i].substr(0, 1) == '-'

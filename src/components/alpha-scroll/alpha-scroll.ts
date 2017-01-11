@@ -41,7 +41,7 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   sortedItems: any = [];
   alphabet: any = [];
 
-  constructor( @Host() private content: Content, private elementRef: ElementRef, private orderBy: OrderBy) {
+  constructor(private elementRef: ElementRef, private orderBy: OrderBy, @Host() private content: Content) {
     this.letterIndicatorEle = document.createElement("div");
     this.letterIndicatorEle.className = 'ion-alpha-letter-indicator';
     let body = document.getElementsByTagName('body')[0];

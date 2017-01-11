@@ -77,9 +77,7 @@ var BaiduMapController = (function () {
             _this.geoLocation().then(function (result) {
                 _this.panTo(result.point);
                 resolve(result);
-            }, function () {
-                reject('定位失败');
-            });
+            }, function () { return reject('定位失败'); });
         });
     };
     BaiduMapController.prototype.addEventListener = function (event, handler) {

@@ -2,9 +2,9 @@ import { OnInit, OnChanges, OnDestroy, ElementRef } from '@angular/core';
 import { Content } from 'ionic-angular';
 import { OrderBy } from '../../pipes/order-by';
 export declare class AlphaScroll implements OnInit, OnChanges, OnDestroy {
-    private content;
     private elementRef;
     private orderBy;
+    private content;
     listData: any;
     key: string;
     itemTemplate: string;
@@ -15,7 +15,7 @@ export declare class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     private hammer;
     sortedItems: any;
     alphabet: any;
-    constructor(content: Content, elementRef: ElementRef, orderBy: OrderBy);
+    constructor(elementRef: ElementRef, orderBy: OrderBy, content: Content);
     ngOnInit(): void;
     ngOnChanges(): void;
     ngOnDestroy(): void;

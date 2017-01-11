@@ -16,10 +16,10 @@ var ionic_angular_1 = require('ionic-angular');
 var _ = require('lodash');
 var order_by_1 = require('../../pipes/order-by');
 var AlphaScroll = (function () {
-    function AlphaScroll(content, elementRef, orderBy) {
-        this.content = content;
+    function AlphaScroll(elementRef, orderBy, content) {
         this.elementRef = elementRef;
         this.orderBy = orderBy;
+        this.content = content;
         this.sortedItems = [];
         this.alphabet = [];
         this.letterIndicatorEle = document.createElement("div");
@@ -136,8 +136,8 @@ var AlphaScroll = (function () {
             selector: 'ion-alpha-scroll',
             template: "\n    <ion-list class=\"ion-alpha-list\">\n      <div *ngFor=\"let item of sortedItems\">\n        <ion-item-divider id=\"scroll-letter-{{item.letter}}\" *ngIf=\"item.isDivider\">{{item.letter}}</ion-item-divider>\n        <DynamicComponent [componentTemplate]=\"itemTemplate\" [componentContext]=\"{'item': item, 'currentPageClass': currentPageClass}\" *ngIf=\"!item.isDivider\">\n        </DynamicComponent>\n      </div>\n    </ion-list>\n    <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"calculateDimensionsForSidebar()\">\n      <li *ngFor=\"let alpha of alphabet\" [class]=\"setAlphaClass(alpha)\" tappable (click)=\"alphaScrollGoToList(alpha.letter)\">\n        <a>{{alpha.letter}}</a>\n      </li>\n    </ul>\n  "
         }),
-        __param(0, core_1.Host()), 
-        __metadata('design:paramtypes', [ionic_angular_1.Content, core_1.ElementRef, order_by_1.OrderBy])
+        __param(2, core_1.Host()), 
+        __metadata('design:paramtypes', [core_1.ElementRef, order_by_1.OrderBy, ionic_angular_1.Content])
     ], AlphaScroll);
     return AlphaScroll;
 }());
