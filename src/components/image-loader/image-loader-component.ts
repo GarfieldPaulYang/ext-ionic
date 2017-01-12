@@ -73,6 +73,10 @@ export class ImageLoaderCmp implements OnInit {
 
     this.imageLoader.getImagePath(this.imageUrl).then((imageUrl: string) => {
       this.setImage(imageUrl);
+    }).catch(() => {
+      if (this.fallbackUrl) {
+        this.setImage(this.fallbackUrl);
+      }
     });
   }
 

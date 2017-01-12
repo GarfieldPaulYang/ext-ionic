@@ -60,6 +60,10 @@ var ImageLoaderCmp = (function () {
         }
         this.imageLoader.getImagePath(this.imageUrl).then(function (imageUrl) {
             _this.setImage(imageUrl);
+        }).catch(function () {
+            if (_this.fallbackUrl) {
+                _this.setImage(_this.fallbackUrl);
+            }
         });
     };
     ImageLoaderCmp.prototype.setImage = function (imageUrl) {
