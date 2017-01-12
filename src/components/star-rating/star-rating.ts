@@ -26,7 +26,7 @@ export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
   private range: Array<number>;
   private innerValue: number;
   private hammer: HammerManager;
-  private onChangeCallback: (_: any) => void = () => { };
+  private onChangeCallback: (e: any) => void = () => { };
 
   get value(): number {
     return this.innerValue;
