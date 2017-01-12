@@ -12,7 +12,6 @@ require('./src/rxjs-extensions');
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var _ = require('lodash');
-var angular2_dynamic_component_1 = require('angular2-dynamic-component');
 var config_1 = require('./src/config/config');
 var dialog_1 = require('./src/utils/dialog');
 var http_1 = require('./src/utils/http/http');
@@ -48,8 +47,7 @@ var WhcyitModule = (function () {
     WhcyitModule = __decorate([
         core_1.NgModule({
             imports: [
-                ionic_angular_1.IonicModule,
-                angular2_dynamic_component_1.DynamicComponentModuleFactory.buildModule([ionic_angular_1.IonicModule])
+                ionic_angular_1.IonicModule
             ],
             exports: [
                 map_to_iterable_1.MapToIterable,

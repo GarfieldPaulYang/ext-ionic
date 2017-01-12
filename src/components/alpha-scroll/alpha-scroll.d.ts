@@ -1,4 +1,4 @@
-import { OnInit, OnChanges, OnDestroy, ElementRef } from '@angular/core';
+import { OnInit, OnChanges, OnDestroy, ElementRef, TemplateRef } from '@angular/core';
 import { Content } from 'ionic-angular';
 import { OrderBy } from '../../pipes/order-by';
 export declare class AlphaScroll implements OnInit, OnChanges, OnDestroy {
@@ -7,7 +7,7 @@ export declare class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     private content;
     listData: any;
     key: string;
-    itemTemplate: string;
+    itemTemplate: TemplateRef<Object>;
     currentPageClass: any;
     private letterIndicatorEle;
     private indicatorHeight;

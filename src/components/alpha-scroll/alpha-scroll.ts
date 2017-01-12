@@ -5,7 +5,8 @@ import {
   OnDestroy,
   Host,
   Input,
-  ElementRef
+  ElementRef,
+  TemplateRef
 } from '@angular/core';
 import { Content } from 'ionic-angular';
 import * as _ from 'lodash';
@@ -18,8 +19,8 @@ import { OrderBy } from '../../pipes/order-by';
     <ion-list class="ion-alpha-list">
       <div *ngFor="let item of sortedItems">
         <ion-item-divider id="scroll-letter-{{item.letter}}" *ngIf="item.isDivider">{{item.letter}}</ion-item-divider>
-        <DynamicComponent [componentTemplate]="itemTemplate" [componentContext]="{'item': item, 'currentPageClass': currentPageClass}" *ngIf="!item.isDivider">
-        </DynamicComponent>
+        <template [ngTemplateOutlet]="itemTemplate" [ngOutletContext]="{'item': item, 'currentPageClass': currentPageClass}" *ngIf="!item.isDivider">
+        </template>
       </div>
     </ion-list>
     <ul class="ion-alpha-sidebar" [ngStyle]="calculateDimensionsForSidebar()">
@@ -32,7 +33,7 @@ import { OrderBy } from '../../pipes/order-by';
 export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   @Input() listData: any;
   @Input() key: string;
-  @Input() itemTemplate: string;
+  @Input() itemTemplate: TemplateRef<Object>;
   @Input() currentPageClass: any;
   private letterIndicatorEle: HTMLElement;
   private indicatorHeight: number;

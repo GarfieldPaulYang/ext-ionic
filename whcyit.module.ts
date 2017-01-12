@@ -4,8 +4,6 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
 import * as _ from 'lodash';
 
-import { DynamicComponentModuleFactory } from 'angular2-dynamic-component';
-
 import { WHCYIT_IONIC_CONFIG, Config, defaultConfig } from './src/config/config';
 import { Dialog } from './src/utils/dialog';
 import { HttpProvider, CorsHttpProvider } from './src/utils/http/http';
@@ -28,8 +26,7 @@ import { StarRatingCmp } from './src/components/star-rating/star-rating';
 
 @NgModule({
   imports: [
-    IonicModule,
-    DynamicComponentModuleFactory.buildModule([IonicModule])
+    IonicModule
   ],
   exports: [
     MapToIterable,
