@@ -2,7 +2,6 @@
   "name": "whcyit-ionic",
   "version": "1.0.4",
   "description": "ionic2 扩展库",
-  "main": "index.js",
   "scripts": {
     "build": "tsc"
   },
