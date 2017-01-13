@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 require('./src/rxjs-extensions');
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
-var _ = require('lodash');
+var lodash_1 = require('lodash');
 var config_1 = require('./src/config/config');
 var dialog_1 = require('./src/utils/dialog');
 var http_1 = require('./src/utils/http/http');
@@ -32,7 +32,7 @@ var WhcyitModule = (function () {
         return {
             ngModule: WhcyitModule,
             providers: [
-                { provide: config_1.WHCYIT_IONIC_CONFIG, useValue: _.isUndefined(config) ? config_1.defaultConfig : _.assign({}, config_1.defaultConfig, config) },
+                { provide: config_1.WHCYIT_IONIC_CONFIG, useValue: lodash_1.isUndefined(config) ? config_1.defaultConfig : lodash_1.assign({}, config_1.defaultConfig, config) },
                 open_url_modal_1.OpenUrlModalController,
                 baidu_map_1.BaiduMapController,
                 image_loader_1.ImageLoaderController,
