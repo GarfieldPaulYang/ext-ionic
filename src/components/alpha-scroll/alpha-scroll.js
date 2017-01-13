@@ -11,9 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var lodash_1 = require('lodash');
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
-var _ = require('lodash');
 var order_by_1 = require('../../pipes/order-by');
 var AlphaScroll = (function () {
     function AlphaScroll(elementRef, orderBy, content) {
@@ -38,8 +38,8 @@ var AlphaScroll = (function () {
     AlphaScroll.prototype.ngOnChanges = function () {
         var _this = this;
         var sortedListData = this.orderBy.transform(this.listData, [this.key]);
-        var groupItems = _.groupBy(sortedListData, function (item) {
-            var letter = _.get(item, _this.key);
+        var groupItems = lodash_1.groupBy(sortedListData, function (item) {
+            var letter = lodash_1.get(item, _this.key);
             return letter.toUpperCase().charAt(0);
         });
         this.sortedItems = this.unwindGroup(groupItems);
@@ -86,7 +86,7 @@ var AlphaScroll = (function () {
         this.hammer.on('panend pancancel', function (e) {
             _this.letterIndicatorEle.style.visibility = 'hidden';
         });
-        this.hammer.on('panup pandown', _.throttle(function (e) {
+        this.hammer.on('panup pandown', lodash_1.throttle(function (e) {
             var closestEle = document.elementFromPoint(e.center.x, e.center.y);
             if (closestEle && ['LI', 'A'].indexOf(closestEle.tagName) > -1) {
                 var letter = closestEle.innerText;

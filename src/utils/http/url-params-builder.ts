@@ -1,15 +1,15 @@
 import { URLSearchParams } from "@angular/http";
-import * as _ from 'lodash';
+import { isArray, isObject } from 'lodash';
 
 export const URLParamsBuilder = {
   build: (params: Object): URLSearchParams => {
-    if (!_.isObject(params)) {
+    if (!isObject(params)) {
       return null;
     }
 
     let result: URLSearchParams = new URLSearchParams();
     for (let key in params) {
-      if (_.isArray(params[key])) {
+      if (isArray(params[key])) {
         params[key].forEach((v: any) => {
           result.append(key, v);
         })

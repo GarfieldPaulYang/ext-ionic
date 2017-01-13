@@ -13,7 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
-var _ = require('lodash');
+var lodash_1 = require('lodash');
 var config_1 = require('../../config/config');
 var open_url_modal_component_1 = require('./open-url-modal-component');
 var OpenUrlModalController = (function () {
@@ -25,7 +25,7 @@ var OpenUrlModalController = (function () {
     OpenUrlModalController.prototype.open = function (opts, modalOpts) {
         if (opts === void 0) { opts = {}; }
         if (modalOpts === void 0) { modalOpts = {}; }
-        this.options = _.assign({}, this.config.openUrlModal, opts);
+        this.options = lodash_1.assign({}, this.config.openUrlModal, opts);
         this.modal = this.modalCtrl.create(open_url_modal_component_1.OpenUrlModalCmp, { openUrlModalOptions: opts }, modalOpts);
         this.modal.onDidDismiss(function (data) {
             window.removeEventListener('message', data.onmessage, false);
