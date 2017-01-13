@@ -1,12 +1,13 @@
 "use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
 var whcyit_module_1 = require('./whcyit.module');
 exports.WhcyitModule = whcyit_module_1.WhcyitModule;
-__export(require('./src/config/config'));
-__export(require('./src/utils/http/response/response-result'));
-__export(require('./src/utils/http/url-params-builder'));
+var config_1 = require('./src/config/config');
+exports.defaultConfig = config_1.defaultConfig;
+var response_result_1 = require('./src/utils/http/response/response-result');
+exports.ResponseResult = response_result_1.ResponseResult;
+exports.Pagination = response_result_1.Pagination;
+var url_params_builder_1 = require('./src/utils/http/url-params-builder');
+exports.URLParamsBuilder = url_params_builder_1.URLParamsBuilder;
 var map_to_iterable_1 = require('./src/pipes/map-to-iterable');
 exports.MapToIterable = map_to_iterable_1.MapToIterable;
 var order_by_1 = require('./src/pipes/order-by');
@@ -25,5 +26,8 @@ var string_1 = require('./src/utils/string');
 exports.StringUtils = string_1.StringUtils;
 var dialog_1 = require('./src/utils/dialog');
 exports.Dialog = dialog_1.Dialog;
-__export(require('./src/utils/http/http'));
+var http_1 = require('./src/utils/http/http');
+exports.HttpProviderOptions = http_1.HttpProviderOptions;
+exports.HttpProvider = http_1.HttpProvider;
+exports.CorsHttpProvider = http_1.CorsHttpProvider;
 //# sourceMappingURL=index.js.map
