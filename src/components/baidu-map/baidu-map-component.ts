@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 import { WHCYIT_IONIC_CONFIG, Config } from '../../config/config';
 
 import { BaiduMapOptions, MarkerOptions } from './baidu-map-options';
-import { BaiduMapController } from './baidu-map';
+import { BaiduMapController, BMap } from './baidu-map';
 
 @Component({
   selector: 'ion-baidu-map',
@@ -73,7 +73,7 @@ export class BaiduMap implements AfterViewInit, OnChanges {
   }
 
   private reDraw(opts: BaiduMapOptions) {
-    this.baiduMapCtrl.panTo(new window['BMap'].Point(opts.center.lng, opts.center.lat));
+    this.baiduMapCtrl.panTo(new BMap.Point(opts.center.lng, opts.center.lat));
     this.draw(opts.markers);
   }
 

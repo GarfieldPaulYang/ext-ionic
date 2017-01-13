@@ -53,7 +53,7 @@ var BaiduMap = (function () {
         }
     };
     BaiduMap.prototype.reDraw = function (opts) {
-        this.baiduMapCtrl.panTo(new window['BMap'].Point(opts.center.lng, opts.center.lat));
+        this.baiduMapCtrl.panTo(new baidu_map_1.BMap.Point(opts.center.lng, opts.center.lat));
         this.draw(opts.markers);
     };
     BaiduMap.prototype.draw = function (markers) {
