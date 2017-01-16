@@ -1,6 +1,6 @@
 import { Component, Input, ElementRef, Renderer, OnInit, Inject } from '@angular/core';
 import { isTrueProperty } from 'ionic-angular/util/util';
-import { isUndefined } from 'lodash';
+import * as _ from 'lodash';
 
 import { ImageLoaderController } from "./image-loader";
 import { WHCYIT_IONIC_CONFIG, Config } from "../../config/config";
@@ -38,7 +38,7 @@ export class ImageLoaderCmp implements OnInit {
       this.fallbackUrl = this.config.imageLoader.fallbackUrl;
     }
 
-    if (isUndefined(this.useImg)) {
+    if (_.isUndefined(this.useImg)) {
       this.useImg = this.config.imageLoader.useImg;
     }
     this.useImg = isTrueProperty(this.useImg);
