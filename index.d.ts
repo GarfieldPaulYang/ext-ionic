@@ -1,4 +1,3 @@
-export { WhcyitModule } from './whcyit.module';
 export { LoginConfig, Config, defaultConfig } from './src/config/config';
 export { ResponseResult, Pagination } from './src/utils/http/response/response-result';
 export { URLParamsBuilder } from './src/utils/http/url-params-builder';
@@ -14,3 +13,9 @@ export { StarRatingCmp } from './src/components/star-rating/star-rating';
 export { StringUtils } from './src/utils/string';
 export { Dialog } from './src/utils/dialog';
 export { HttpProviderOptionsArgs, HttpProviderOptions, LoginOptions, HttpProvider, CorsHttpProvider } from './src/utils/http/http';
+import './src/rxjs-extensions';
+import { ModuleWithProviders } from '@angular/core';
+import { Config } from './src/config/config';
+export declare class WhcyitModule {
+    static forRoot(config?: Config): ModuleWithProviders;
+}
