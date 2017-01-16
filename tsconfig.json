@@ -13,7 +13,7 @@
     "target": "es5"
   },
   "angularCompilerOptions": {
-    "genDir": "",
+    "genDir": "aot",
     "annotationsAs": "static fields",
     "annotateForClosureCompiler": true
   },
