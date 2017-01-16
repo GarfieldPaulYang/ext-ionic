@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
     "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": ["dom", "es2015"],
-    "module": "es2015",
+    "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": false,
     "removeComments": true,

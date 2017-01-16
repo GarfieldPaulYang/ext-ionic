@@ -24,7 +24,7 @@ import './src/rxjs-extensions';
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
-import * as _ from 'lodash';
+import { isUndefined, assign } from 'lodash';
 
 import { WHCYIT_IONIC_CONFIG, Config, defaultConfig } from './src/config/config';
 import { Dialog } from './src/utils/dialog';
@@ -76,7 +76,7 @@ export class WhcyitModule {
     return {
       ngModule: WhcyitModule,
       providers: [
-        { provide: WHCYIT_IONIC_CONFIG, useValue: _.isUndefined(config) ? defaultConfig : _.assign({}, defaultConfig, config) },
+        { provide: WHCYIT_IONIC_CONFIG, useValue: isUndefined(config) ? defaultConfig : assign({}, defaultConfig, config) },
         OpenUrlModalController,
         BaiduMapController,
         ImageLoaderController,

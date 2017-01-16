@@ -1,5 +1,6 @@
-import { OpaqueToken } from '@angular/core';
-export var defaultConfig = {
+"use strict";
+var core_1 = require('@angular/core');
+exports.defaultConfig = {
     color: 'light',
     openUrlModal: {
         color: 'light',
@@ -30,5 +31,5 @@ export var defaultConfig = {
         }
     }
 };
-export var WHCYIT_IONIC_CONFIG = new OpaqueToken('WHCYIT-IONIC-CONFIG');
+exports.WHCYIT_IONIC_CONFIG = new core_1.OpaqueToken('WHCYIT-IONIC-CONFIG');
 //# sourceMappingURL=config.js.map

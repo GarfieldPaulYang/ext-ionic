@@ -2,7 +2,7 @@ import { URLSearchParams } from "@angular/http";
 import * as _ from 'lodash';
 
 export const URLParamsBuilder = {
-  build: (params: Object): URLSearchParams => {
+  build: (params: any): URLSearchParams => {
     if (!_.isObject(params)) {
       return null;
     }

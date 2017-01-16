@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
-import { LoadingController, AlertController } from 'ionic-angular';
-export var Dialog = (function () {
+"use strict";
+var core_1 = require('@angular/core');
+var ionic_angular_1 = require('ionic-angular');
+var Dialog = (function () {
     function Dialog(loadingCtrl, alertCtrl) {
         this.loadingCtrl = loadingCtrl;
         this.alertCtrl = alertCtrl;
@@ -19,12 +20,13 @@ export var Dialog = (function () {
         });
     };
     Dialog.decorators = [
-        { type: Injectable },
+        { type: core_1.Injectable },
     ];
     Dialog.ctorParameters = [
-        { type: LoadingController, },
-        { type: AlertController, },
+        { type: ionic_angular_1.LoadingController, },
+        { type: ionic_angular_1.AlertController, },
     ];
     return Dialog;
 }());
+exports.Dialog = Dialog;
 //# sourceMappingURL=dialog.js.map
