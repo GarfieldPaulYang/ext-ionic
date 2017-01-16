@@ -20,7 +20,7 @@
   "homepage": "https://github.com/squallliu/whcyit-ionic#readme",
   "dependencies": {
     "@types/hammerjs": "^2.0.34",
-    "@types/lodash": "^4.14.48",
+    "@types/lodash": "^4.14.50",
     "core-js": "^2.4.1"
   },
   "devDependencies": {
@@ -38,7 +38,7 @@
     "ionic-native": "2.2.11",
     "ionicons": "3.0.0",
     "rxjs": "5.0.0-beta.12",
-    "typescript": "2.0.9",
+    "typescript": "2.0.10",
     "zone.js": "0.6.26"
   }
 }
