@@ -1,8 +1,9 @@
-import * as _ from 'lodash';
-import { Component, Host, Input, ElementRef } from '@angular/core';
-import { Content } from 'ionic-angular';
-import { OrderBy } from '../../pipes/order-by';
-export var AlphaScroll = (function () {
+"use strict";
+var _ = require('lodash');
+var core_1 = require('@angular/core');
+var ionic_angular_1 = require('ionic-angular');
+var order_by_1 = require('../../pipes/order-by');
+var AlphaScroll = (function () {
     function AlphaScroll(elementRef, orderBy, content) {
         this.elementRef = elementRef;
         this.orderBy = orderBy;
@@ -103,22 +104,23 @@ export var AlphaScroll = (function () {
         return result;
     };
     AlphaScroll.decorators = [
-        { type: Component, args: [{
+        { type: core_1.Component, args: [{
                     selector: 'ion-alpha-scroll',
                     template: "\n    <ion-list class=\"ion-alpha-list\">\n      <div *ngFor=\"let item of sortedItems\">\n        <ion-item-divider id=\"scroll-letter-{{item.letter}}\" *ngIf=\"item.isDivider\">{{item.letter}}</ion-item-divider>\n        <template [ngTemplateOutlet]=\"itemTemplate\" [ngOutletContext]=\"{'item': item, 'currentPageClass': currentPageClass}\" *ngIf=\"!item.isDivider\">\n        </template>\n      </div>\n    </ion-list>\n    <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"calculateDimensionsForSidebar()\">\n      <li *ngFor=\"let alpha of alphabet\" [class]=\"setAlphaClass(alpha)\" tappable (click)=\"alphaScrollGoToList(alpha.letter)\">\n        <a>{{alpha.letter}}</a>\n      </li>\n    </ul>\n  "
                 },] },
     ];
     AlphaScroll.ctorParameters = [
-        { type: ElementRef, },
-        { type: OrderBy, },
-        { type: Content, decorators: [{ type: Host },] },
+        { type: core_1.ElementRef, },
+        { type: order_by_1.OrderBy, },
+        { type: ionic_angular_1.Content, decorators: [{ type: core_1.Host },] },
     ];
     AlphaScroll.propDecorators = {
-        'listData': [{ type: Input },],
-        'key': [{ type: Input },],
-        'itemTemplate': [{ type: Input },],
-        'currentPageClass': [{ type: Input },],
+        'listData': [{ type: core_1.Input },],
+        'key': [{ type: core_1.Input },],
+        'itemTemplate': [{ type: core_1.Input },],
+        'currentPageClass': [{ type: core_1.Input },],
     };
     return AlphaScroll;
 }());
+exports.AlphaScroll = AlphaScroll;
 //# sourceMappingURL=alpha-scroll.js.map

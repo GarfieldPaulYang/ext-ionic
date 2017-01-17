@@ -1,12 +1,13 @@
-import { Component, Input, forwardRef, ElementRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import * as _ from 'lodash';
-export var STAR_RATING_VALUE_ACCESSOR = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(function () { return StarRatingCmp; }),
+"use strict";
+var core_1 = require('@angular/core');
+var forms_1 = require('@angular/forms');
+var _ = require('lodash');
+exports.STAR_RATING_VALUE_ACCESSOR = {
+    provide: forms_1.NG_VALUE_ACCESSOR,
+    useExisting: core_1.forwardRef(function () { return StarRatingCmp; }),
     multi: true
 };
-export var StarRatingCmp = (function () {
+var StarRatingCmp = (function () {
     function StarRatingCmp(elementRef) {
         this.elementRef = elementRef;
         this.max = 5;
@@ -102,19 +103,20 @@ export var StarRatingCmp = (function () {
         this.range = states;
     };
     StarRatingCmp.decorators = [
-        { type: Component, args: [{
+        { type: core_1.Component, args: [{
                     selector: 'ion-star-rating',
                     template: "\n    <ul class=\"rating\">\n      <li *ngFor=\"let r of range; let i = index\" tappable (click)=\"rate(i + 1)\" attr.index=\"{{i + 1}}\">\n        <ion-icon [name]=\"setIcon(r)\"></ion-icon>\n      </li>\n    </ul>\n  ",
-                    providers: [STAR_RATING_VALUE_ACCESSOR]
+                    providers: [exports.STAR_RATING_VALUE_ACCESSOR]
                 },] },
     ];
     StarRatingCmp.ctorParameters = [
-        { type: ElementRef, },
+        { type: core_1.ElementRef, },
     ];
     StarRatingCmp.propDecorators = {
-        'max': [{ type: Input },],
-        'readonly': [{ type: Input },],
+        'max': [{ type: core_1.Input },],
+        'readonly': [{ type: core_1.Input },],
     };
     return StarRatingCmp;
 }());
+exports.StarRatingCmp = StarRatingCmp;
 //# sourceMappingURL=star-rating.js.map
