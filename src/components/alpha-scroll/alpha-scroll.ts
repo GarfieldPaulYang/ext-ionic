@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import { groupBy, get, throttle } from 'lodash';
 import {
   Component,
   OnInit,
@@ -59,8 +59,8 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges() {
     let sortedListData: Array<any> = this.orderBy.transform(this.listData, [this.key]);
-    let groupItems: any = _.groupBy(sortedListData, item => {
-      let letter: any = _.get(item, this.key);
+    let groupItems: any = groupBy(sortedListData, item => {
+      let letter: any = get(item, this.key);
       return letter.toUpperCase().charAt(0);
     });
     this.sortedItems = this.unwindGroup(groupItems);
@@ -116,7 +116,7 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
       this.letterIndicatorEle.style.visibility = 'hidden';
     });
 
-    this.hammer.on('panup pandown', _.throttle((e: any) => {
+    this.hammer.on('panup pandown', throttle((e: any) => {
       let closestEle: any = document.elementFromPoint(e.center.x, e.center.y);
       if (closestEle && ['LI', 'A'].indexOf(closestEle.tagName) > -1) {
         let letter = closestEle.innerText;

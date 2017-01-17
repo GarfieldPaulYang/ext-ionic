@@ -1,7 +1,7 @@
 "use strict";
 var core_1 = require('@angular/core');
 var util_1 = require('ionic-angular/util/util');
-var _ = require('lodash');
+var lodash_1 = require('lodash');
 var image_loader_1 = require("./image-loader");
 var config_1 = require("../../config/config");
 var ImageLoaderCmp = (function () {
@@ -20,7 +20,7 @@ var ImageLoaderCmp = (function () {
         if (!this.fallbackUrl) {
             this.fallbackUrl = this.config.imageLoader.fallbackUrl;
         }
-        if (_.isUndefined(this.useImg)) {
+        if (lodash_1.isUndefined(this.useImg)) {
             this.useImg = this.config.imageLoader.useImg;
         }
         this.useImg = util_1.isTrueProperty(this.useImg);
