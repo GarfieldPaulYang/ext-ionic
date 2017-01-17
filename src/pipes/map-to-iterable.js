@@ -1,6 +1,5 @@
-"use strict";
-var core_1 = require('@angular/core');
-var MapToIterable = (function () {
+import { Injectable, Pipe } from '@angular/core';
+export var MapToIterable = (function () {
     function MapToIterable() {
     }
     MapToIterable.prototype.transform = function (value) {
@@ -23,13 +22,12 @@ var MapToIterable = (function () {
         return result;
     };
     MapToIterable.decorators = [
-        { type: core_1.Pipe, args: [{
+        { type: Pipe, args: [{
                     name: 'mapToIterable'
                 },] },
-        { type: core_1.Injectable },
+        { type: Injectable },
     ];
     MapToIterable.ctorParameters = [];
     return MapToIterable;
 }());
-exports.MapToIterable = MapToIterable;
 //# sourceMappingURL=map-to-iterable.js.map

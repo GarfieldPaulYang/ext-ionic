@@ -1,17 +1,16 @@
-"use strict";
-var core_1 = require('@angular/core');
-var _ = require('lodash');
-var config_1 = require('../../config/config');
-var baidu_map_1 = require('./baidu-map');
-var BaiduMap = (function () {
+import { Inject, Component, Input, Output, EventEmitter, ElementRef } from '@angular/core';
+import * as _ from 'lodash';
+import { WHCYIT_IONIC_CONFIG } from '../../config/config';
+import { BaiduMapController, BMap } from './baidu-map';
+export var BaiduMap = (function () {
     function BaiduMap(_elementRef, baiduMapCtrl, config) {
         this._elementRef = _elementRef;
         this.baiduMapCtrl = baiduMapCtrl;
         this.config = config;
-        this.onMapLoaded = new core_1.EventEmitter();
-        this.onMapLoadFialed = new core_1.EventEmitter();
-        this.onMapClick = new core_1.EventEmitter();
-        this.onMarkerClick = new core_1.EventEmitter();
+        this.onMapLoaded = new EventEmitter();
+        this.onMapLoadFialed = new EventEmitter();
+        this.onMapClick = new EventEmitter();
+        this.onMarkerClick = new EventEmitter();
         this.opacity = 0;
         this.mapLoaded = false;
     }
@@ -41,7 +40,7 @@ var BaiduMap = (function () {
         }
     };
     BaiduMap.prototype.reDraw = function (opts) {
-        this.baiduMapCtrl.panTo(new baidu_map_1.BMap.Point(opts.center.lng, opts.center.lat));
+        this.baiduMapCtrl.panTo(new BMap.Point(opts.center.lng, opts.center.lat));
         this.draw(opts.markers);
     };
     BaiduMap.prototype.draw = function (markers) {
@@ -56,24 +55,23 @@ var BaiduMap = (function () {
         return _.assign({}, this.config.baiduMap, this.options);
     };
     BaiduMap.decorators = [
-        { type: core_1.Component, args: [{
+        { type: Component, args: [{
                     selector: 'ion-baidu-map',
                     template: "\n    <div class=\"offlinePanel\" [style.opacity]=\"opacity\">\n      <label>\u5509\u5440\uFF0C\u7F51\u7EDC\u51FA\u95EE\u9898\u4E86</label>\n    </div>\n  "
                 },] },
     ];
     BaiduMap.ctorParameters = [
-        { type: core_1.ElementRef, },
-        { type: baidu_map_1.BaiduMapController, },
-        { type: undefined, decorators: [{ type: core_1.Inject, args: [config_1.WHCYIT_IONIC_CONFIG,] },] },
+        { type: ElementRef, },
+        { type: BaiduMapController, },
+        { type: undefined, decorators: [{ type: Inject, args: [WHCYIT_IONIC_CONFIG,] },] },
     ];
     BaiduMap.propDecorators = {
-        'options': [{ type: core_1.Input },],
-        'onMapLoaded': [{ type: core_1.Output },],
-        'onMapLoadFialed': [{ type: core_1.Output },],
-        'onMapClick': [{ type: core_1.Output },],
-        'onMarkerClick': [{ type: core_1.Output },],
+        'options': [{ type: Input },],
+        'onMapLoaded': [{ type: Output },],
+        'onMapLoadFialed': [{ type: Output },],
+        'onMapClick': [{ type: Output },],
+        'onMarkerClick': [{ type: Output },],
     };
     return BaiduMap;
 }());
-exports.BaiduMap = BaiduMap;
 //# sourceMappingURL=baidu-map-component.js.map
