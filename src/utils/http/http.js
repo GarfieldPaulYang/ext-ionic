@@ -1,19 +1,18 @@
-"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
-var ionic_angular_1 = require('ionic-angular');
-var lodash_1 = require('lodash');
-var config_1 = require('../../config/config');
-var dialog_1 = require('../dialog');
-var response_result_1 = require('./response/response-result');
-var url_params_builder_1 = require('./url-params-builder');
+import { Injectable, Inject } from '@angular/core';
+import { Http, ResponseContentType, RequestMethod, RequestOptions } from '@angular/http';
+import { Events } from 'ionic-angular';
+import { isUndefined, has, assign, isString } from 'lodash';
+import { WHCYIT_IONIC_CONFIG } from '../../config/config';
+import { Dialog } from '../dialog';
+import { ResponseResult } from './response/response-result';
+import { URLParamsBuilder } from './url-params-builder';
 var ticket_expired = 'ticket_expired';
-var HttpProviderOptions = (function (_super) {
+export var HttpProviderOptions = (function (_super) {
     __extends(HttpProviderOptions, _super);
     function HttpProviderOptions(options) {
         _super.call(this, options);
@@ -25,14 +24,13 @@ var HttpProviderOptions = (function (_super) {
         return result;
     };
     return HttpProviderOptions;
-}(http_1.RequestOptions));
-exports.HttpProviderOptions = HttpProviderOptions;
+}(RequestOptions));
 var defaultRequestOptions = new HttpProviderOptions({
     showLoading: true,
-    method: http_1.RequestMethod.Get,
-    responseType: http_1.ResponseContentType.Json
+    method: RequestMethod.Get,
+    responseType: ResponseContentType.Json
 });
-var HttpProvider = (function () {
+export var HttpProvider = (function () {
     function HttpProvider(_http, dialog) {
         this._http = _http;
         this.dialog = dialog;
@@ -60,14 +58,14 @@ var HttpProvider = (function () {
     };
     HttpProvider.prototype.request = function (url, options) {
         var _this = this;
-        options = lodash_1.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
+        options = isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
         var loading;
         if (options.showLoading) {
             loading = this.dialog.loading('正在加载...');
             loading.present();
         }
         return new Promise(function (resolve, reject) {
-            _this.http.request(url, options).map(function (r) { return new response_result_1.ResponseResult(r.json()); }).toPromise().then(function (result) {
+            _this.http.request(url, options).map(function (r) { return new ResponseResult(r.json()); }).toPromise().then(function (result) {
                 if (loading)
                     loading.dismiss();
                 resolve(result);
@@ -79,16 +77,15 @@ var HttpProvider = (function () {
         });
     };
     HttpProvider.decorators = [
-        { type: core_1.Injectable },
+        { type: Injectable },
     ];
     HttpProvider.ctorParameters = [
-        { type: http_1.Http, },
-        { type: dialog_1.Dialog, },
+        { type: Http, },
+        { type: Dialog, },
     ];
     return HttpProvider;
 }());
-exports.HttpProvider = HttpProvider;
-var CorsHttpProvider = (function () {
+export var CorsHttpProvider = (function () {
     function CorsHttpProvider(http, events, config) {
         this.http = http;
         this.events = events;
@@ -102,13 +99,13 @@ var CorsHttpProvider = (function () {
         configurable: true
     });
     CorsHttpProvider.prototype.login = function (options) {
-        var search = url_params_builder_1.URLParamsBuilder.build(options);
+        var search = URLParamsBuilder.build(options);
         search.set('__login__', 'true');
         return this.request(this.config.login.url, { search: search });
     };
     CorsHttpProvider.prototype.logout = function () {
         var _this = this;
-        var search = url_params_builder_1.URLParamsBuilder.build({ '__logout__': true });
+        var search = URLParamsBuilder.build({ '__logout__': true });
         return this.request(this.config.login.url, { search: search }).then(function (result) {
             _this._ticket = null;
             return result;
@@ -118,20 +115,20 @@ var CorsHttpProvider = (function () {
     };
     CorsHttpProvider.prototype.request = function (url, options) {
         var _this = this;
-        var search = url_params_builder_1.URLParamsBuilder.build({
+        var search = URLParamsBuilder.build({
             'appKey': this.config.login.appKey,
             'devMode': this.config.login.devMode,
             '__ticket__': this._ticket,
             '__cors-request__': true
         });
-        if (lodash_1.isUndefined(options)) {
+        if (isUndefined(options)) {
             options = { showLoading: true };
         }
-        if (lodash_1.has(options, 'search')) {
+        if (has(options, 'search')) {
             search.setAll(options.search);
         }
-        return this.http.requestWithError(url, lodash_1.assign({}, options, { search: search })).then(function (result) {
-            if (result && lodash_1.isString(result) && result.toString() == ticket_expired) {
+        return this.http.requestWithError(url, assign({}, options, { search: search })).then(function (result) {
+            if (result && isString(result) && result.toString() == ticket_expired) {
                 _this.events.publish(ticket_expired);
                 return ticket_expired;
             }
@@ -141,14 +138,13 @@ var CorsHttpProvider = (function () {
         });
     };
     CorsHttpProvider.decorators = [
-        { type: core_1.Injectable },
+        { type: Injectable },
     ];
     CorsHttpProvider.ctorParameters = [
         { type: HttpProvider, },
-        { type: ionic_angular_1.Events, },
-        { type: undefined, decorators: [{ type: core_1.Inject, args: [config_1.WHCYIT_IONIC_CONFIG,] },] },
+        { type: Events, },
+        { type: undefined, decorators: [{ type: Inject, args: [WHCYIT_IONIC_CONFIG,] },] },
     ];
     return CorsHttpProvider;
 }());
-exports.CorsHttpProvider = CorsHttpProvider;
 //# sourceMappingURL=http.js.map

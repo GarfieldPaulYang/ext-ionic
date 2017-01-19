@@ -1,10 +1,9 @@
-"use strict";
-var core_1 = require('@angular/core');
-var ionic_angular_1 = require('ionic-angular');
-var ionic_native_1 = require('ionic-native');
-var config_1 = require("../../config/config");
-var string_1 = require("../../utils/string");
-var ImageLoaderController = (function () {
+import { Injectable, Inject } from '@angular/core';
+import { Platform } from 'ionic-angular';
+import { File, Transfer } from 'ionic-native';
+import { WHCYIT_IONIC_CONFIG } from "../../config/config";
+import { StringUtils } from "../../utils/string";
+export var ImageLoaderController = (function () {
     function ImageLoaderController(platform, config) {
         var _this = this;
         this.config = config;
@@ -60,7 +59,7 @@ var ImageLoaderController = (function () {
         if (!localPath) {
             return;
         }
-        ionic_native_1.File.removeFile(this.cacheDirectory, localPath.substr(localPath.lastIndexOf('/') + 1)).catch(function (e) {
+        File.removeFile(this.cacheDirectory, localPath.substr(localPath.lastIndexOf('/') + 1)).catch(function (e) {
             _this.throwError(e);
         });
     };
@@ -69,16 +68,16 @@ var ImageLoaderController = (function () {
         if (!this.isCacheReady) {
             return;
         }
-        ionic_native_1.File.removeDir(cordova.file.cacheDirectory, this.config.imageLoader.cacheDirectoryName).catch(function (e) {
+        File.removeDir(cordova.file.cacheDirectory, this.config.imageLoader.cacheDirectoryName).catch(function (e) {
             _this.throwError(e);
         });
     };
     ImageLoaderController.prototype.downloadImage = function (imageUrl, localPath) {
-        var transfer = new ionic_native_1.Transfer();
+        var transfer = new Transfer();
         return transfer.download(imageUrl, localPath);
     };
     ImageLoaderController.prototype.needDownload = function (imageUrl) {
-        return string_1.StringUtils.startsWith(imageUrl, [
+        return StringUtils.startsWith(imageUrl, [
             'http://',
             'https://',
             'ftp://'
@@ -110,7 +109,7 @@ var ImageLoaderController = (function () {
                 return reject();
             }
             var fileName = _this.createFileName(url);
-            ionic_native_1.File.resolveLocalFilesystemUrl(_this.cacheDirectory + '/' + fileName).then(function (fileEntry) {
+            File.resolveLocalFilesystemUrl(_this.cacheDirectory + '/' + fileName).then(function (fileEntry) {
                 resolve(fileEntry.nativeURL);
             }).catch(reject);
         });
@@ -134,7 +133,7 @@ var ImageLoaderController = (function () {
     });
     Object.defineProperty(ImageLoaderController.prototype, "cacheDirectoryExists", {
         get: function () {
-            return ionic_native_1.File.checkDir(cordova.file.cacheDirectory, this.config.imageLoader.cacheDirectoryName);
+            return File.checkDir(cordova.file.cacheDirectory, this.config.imageLoader.cacheDirectoryName);
         },
         enumerable: true,
         configurable: true
@@ -148,19 +147,18 @@ var ImageLoaderController = (function () {
     });
     ImageLoaderController.prototype.createCacheDirectory = function (replace) {
         if (replace === void 0) { replace = false; }
-        return ionic_native_1.File.createDir(cordova.file.cacheDirectory, this.config.imageLoader.cacheDirectoryName, replace);
+        return File.createDir(cordova.file.cacheDirectory, this.config.imageLoader.cacheDirectoryName, replace);
     };
     ImageLoaderController.prototype.createFileName = function (url) {
-        return string_1.StringUtils.hash(url).toString();
+        return StringUtils.hash(url).toString();
     };
     ImageLoaderController.decorators = [
-        { type: core_1.Injectable },
+        { type: Injectable },
     ];
     ImageLoaderController.ctorParameters = [
-        { type: ionic_angular_1.Platform, },
-        { type: undefined, decorators: [{ type: core_1.Inject, args: [config_1.WHCYIT_IONIC_CONFIG,] },] },
+        { type: Platform, },
+        { type: undefined, decorators: [{ type: Inject, args: [WHCYIT_IONIC_CONFIG,] },] },
     ];
     return ImageLoaderController;
 }());
-exports.ImageLoaderController = ImageLoaderController;
 //# sourceMappingURL=image-loader.js.map

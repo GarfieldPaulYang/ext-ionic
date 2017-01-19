@@ -1,9 +1,8 @@
-"use strict";
-var lodash_1 = require('lodash');
-var core_1 = require('@angular/core');
-var ionic_angular_1 = require('ionic-angular');
-var order_by_1 = require('../../pipes/order-by');
-var AlphaScroll = (function () {
+import { groupBy, get, throttle } from 'lodash';
+import { Component, Host, Input, ElementRef } from '@angular/core';
+import { Content } from 'ionic-angular';
+import { OrderBy } from '../../pipes/order-by';
+export var AlphaScroll = (function () {
     function AlphaScroll(elementRef, orderBy, content) {
         this.elementRef = elementRef;
         this.orderBy = orderBy;
@@ -26,8 +25,8 @@ var AlphaScroll = (function () {
     AlphaScroll.prototype.ngOnChanges = function () {
         var _this = this;
         var sortedListData = this.orderBy.transform(this.listData, [this.key]);
-        var groupItems = lodash_1.groupBy(sortedListData, function (item) {
-            var letter = lodash_1.get(item, _this.key);
+        var groupItems = groupBy(sortedListData, function (item) {
+            var letter = get(item, _this.key);
             return letter.toUpperCase().charAt(0);
         });
         this.sortedItems = this.unwindGroup(groupItems);
@@ -74,7 +73,7 @@ var AlphaScroll = (function () {
         this.hammer.on('panend pancancel', function (e) {
             _this.letterIndicatorEle.style.visibility = 'hidden';
         });
-        this.hammer.on('panup pandown', lodash_1.throttle(function (e) {
+        this.hammer.on('panup pandown', throttle(function (e) {
             var closestEle = document.elementFromPoint(e.center.x, e.center.y);
             if (closestEle && ['LI', 'A'].indexOf(closestEle.tagName) > -1) {
                 var letter = closestEle.innerText;
@@ -104,23 +103,22 @@ var AlphaScroll = (function () {
         return result;
     };
     AlphaScroll.decorators = [
-        { type: core_1.Component, args: [{
+        { type: Component, args: [{
                     selector: 'ion-alpha-scroll',
                     template: "\n    <ion-list class=\"ion-alpha-list\">\n      <div *ngFor=\"let item of sortedItems\">\n        <ion-item-divider id=\"scroll-letter-{{item.letter}}\" *ngIf=\"item.isDivider\">{{item.letter}}</ion-item-divider>\n        <template [ngTemplateOutlet]=\"itemTemplate\" [ngOutletContext]=\"{'item': item, 'currentPageClass': currentPageClass}\" *ngIf=\"!item.isDivider\">\n        </template>\n      </div>\n    </ion-list>\n    <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"calculateDimensionsForSidebar()\">\n      <li *ngFor=\"let alpha of alphabet\" [class]=\"setAlphaClass(alpha)\" tappable (click)=\"alphaScrollGoToList(alpha.letter)\">\n        <a>{{alpha.letter}}</a>\n      </li>\n    </ul>\n  "
                 },] },
     ];
     AlphaScroll.ctorParameters = [
-        { type: core_1.ElementRef, },
-        { type: order_by_1.OrderBy, },
-        { type: ionic_angular_1.Content, decorators: [{ type: core_1.Host },] },
+        { type: ElementRef, },
+        { type: OrderBy, },
+        { type: Content, decorators: [{ type: Host },] },
     ];
     AlphaScroll.propDecorators = {
-        'listData': [{ type: core_1.Input },],
-        'key': [{ type: core_1.Input },],
-        'itemTemplate': [{ type: core_1.Input },],
-        'currentPageClass': [{ type: core_1.Input },],
+        'listData': [{ type: Input },],
+        'key': [{ type: Input },],
+        'itemTemplate': [{ type: Input },],
+        'currentPageClass': [{ type: Input },],
     };
     return AlphaScroll;
 }());
-exports.AlphaScroll = AlphaScroll;
 //# sourceMappingURL=alpha-scroll.js.map

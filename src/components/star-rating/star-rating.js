@@ -1,13 +1,12 @@
-"use strict";
-var core_1 = require('@angular/core');
-var forms_1 = require('@angular/forms');
-var lodash_1 = require('lodash');
-exports.STAR_RATING_VALUE_ACCESSOR = {
-    provide: forms_1.NG_VALUE_ACCESSOR,
-    useExisting: core_1.forwardRef(function () { return StarRatingCmp; }),
+import { Component, Input, forwardRef, ElementRef } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { isUndefined, throttle } from 'lodash';
+export var STAR_RATING_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(function () { return StarRatingCmp; }),
     multi: true
 };
-var StarRatingCmp = (function () {
+export var StarRatingCmp = (function () {
     function StarRatingCmp(elementRef) {
         this.elementRef = elementRef;
         this.max = 5;
@@ -49,7 +48,7 @@ var StarRatingCmp = (function () {
         return 'star-outline';
     };
     StarRatingCmp.prototype.writeValue = function (val) {
-        if (lodash_1.isUndefined(val)) {
+        if (isUndefined(val)) {
             return;
         }
         if (val !== this.innerValue) {
@@ -80,7 +79,7 @@ var StarRatingCmp = (function () {
                 [Hammer.Pan, { direction: Hammer.DIRECTION_HORIZONTAL }],
             ]
         });
-        this.hammer.on('panleft panright', lodash_1.throttle(function (e) {
+        this.hammer.on('panleft panright', throttle(function (e) {
             var closestEle = document.elementFromPoint(e.center.x, e.center.y);
             if (closestEle && ['LI'].indexOf(closestEle.tagName) > -1) {
                 _this.rate(Number(closestEle.getAttribute('index')));
@@ -103,20 +102,19 @@ var StarRatingCmp = (function () {
         this.range = states;
     };
     StarRatingCmp.decorators = [
-        { type: core_1.Component, args: [{
+        { type: Component, args: [{
                     selector: 'ion-star-rating',
                     template: "\n    <ul class=\"rating\">\n      <li *ngFor=\"let r of range; let i = index\" tappable (click)=\"rate(i + 1)\" attr.index=\"{{i + 1}}\">\n        <ion-icon [name]=\"setIcon(r)\"></ion-icon>\n      </li>\n    </ul>\n  ",
-                    providers: [exports.STAR_RATING_VALUE_ACCESSOR]
+                    providers: [STAR_RATING_VALUE_ACCESSOR]
                 },] },
     ];
     StarRatingCmp.ctorParameters = [
-        { type: core_1.ElementRef, },
+        { type: ElementRef, },
     ];
     StarRatingCmp.propDecorators = {
-        'max': [{ type: core_1.Input },],
-        'readonly': [{ type: core_1.Input },],
+        'max': [{ type: Input },],
+        'readonly': [{ type: Input },],
     };
     return StarRatingCmp;
 }());
-exports.StarRatingCmp = StarRatingCmp;
 //# sourceMappingURL=star-rating.js.map

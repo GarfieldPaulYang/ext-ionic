@@ -1,6 +1,5 @@
-"use strict";
-var lodash_1 = require('lodash');
-var ResponseResult = (function () {
+import { has } from 'lodash';
+export var ResponseResult = (function () {
     function ResponseResult(httpResponse) {
         this.status = httpResponse.status;
         this.msg = httpResponse.msg;
@@ -10,12 +9,11 @@ var ResponseResult = (function () {
         }
     }
     ResponseResult.prototype.isPagination = function (obj) {
-        return obj && lodash_1.has(obj, 'currentPageNo') && lodash_1.has(obj, 'pageSize');
+        return obj && has(obj, 'currentPageNo') && has(obj, 'pageSize');
     };
     return ResponseResult;
 }());
-exports.ResponseResult = ResponseResult;
-var Pagination = (function () {
+export var Pagination = (function () {
     function Pagination(data) {
         this.items = [];
         this.assign(data);
@@ -30,5 +28,4 @@ var Pagination = (function () {
     };
     return Pagination;
 }());
-exports.Pagination = Pagination;
 //# sourceMappingURL=response-result.js.map
