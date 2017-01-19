@@ -9,6 +9,7 @@ export interface LoginConfig {
 }
 export interface Config {
     color: string;
+    hotUpdateUrl?: string;
     login?: LoginConfig;
     openUrlModal?: OpenUrlModalOptions;
     imageLoader?: ImageLoaderOptions;

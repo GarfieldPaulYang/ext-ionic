@@ -17,6 +17,21 @@ export class Dialog {
     alert.present();
   }
 
+  confirm(title: string, message: string, handler: Function) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      message: message,
+      buttons: [{
+        text: '取消',
+        role: 'cancel'
+      }, {
+        text: '确定',
+        handler: handler
+      }]
+    });
+    alert.present();
+  }
+
   loading(content: string): Loading {
     return this.loadingCtrl.create({
       content: content

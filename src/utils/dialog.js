@@ -14,6 +14,20 @@ var Dialog = (function () {
         });
         alert.present();
     };
+    Dialog.prototype.confirm = function (title, message, handler) {
+        var alert = this.alertCtrl.create({
+            title: title,
+            message: message,
+            buttons: [{
+                    text: '取消',
+                    role: 'cancel'
+                }, {
+                    text: '确定',
+                    handler: handler
+                }]
+        });
+        alert.present();
+    };
     Dialog.prototype.loading = function (content) {
         return this.loadingCtrl.create({
             content: content
