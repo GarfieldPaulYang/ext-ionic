@@ -71,7 +71,7 @@ export class HttpProvider {
           return;
         }
         resolve(result.data);
-      }).catch(reason => {
+      }, reason => {
         reject(reason);
       });
     });
@@ -90,6 +90,9 @@ export class HttpProvider {
       ).toPromise().then((result: ResponseResult<T>) => {
         if (loading) loading.dismiss();
         resolve(result)
+      }, reason => {
+        if (loading) loading.dismiss();
+        reject(reason);
       }).catch(reason => {
         if (loading) loading.dismiss();
         reject(reason);
@@ -123,7 +126,7 @@ export class CorsHttpProvider {
     return this.request<string>(this.config.login.url, { search: search }).then(result => {
       this._ticket = null;
       return result;
-    }).catch(reason => {
+    }, reason => {
       return reason;
     });
   }
@@ -152,7 +155,7 @@ export class CorsHttpProvider {
         return ticket_expired;
       }
       return result;
-    }).catch(reason => {
+    }, reason => {
       return reason;
     });
   }

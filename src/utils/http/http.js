@@ -53,7 +53,7 @@ var HttpProvider = (function () {
                     return;
                 }
                 resolve(result.data);
-            }).catch(function (reason) {
+            }, function (reason) {
                 reject(reason);
             });
         });
@@ -71,6 +71,10 @@ var HttpProvider = (function () {
                 if (loading)
                     loading.dismiss();
                 resolve(result);
+            }, function (reason) {
+                if (loading)
+                    loading.dismiss();
+                reject(reason);
             }).catch(function (reason) {
                 if (loading)
                     loading.dismiss();
@@ -112,7 +116,7 @@ var CorsHttpProvider = (function () {
         return this.request(this.config.login.url, { search: search }).then(function (result) {
             _this._ticket = null;
             return result;
-        }).catch(function (reason) {
+        }, function (reason) {
             return reason;
         });
     };
@@ -136,7 +140,7 @@ var CorsHttpProvider = (function () {
                 return ticket_expired;
             }
             return result;
-        }).catch(function (reason) {
+        }, function (reason) {
             return reason;
         });
     };
