@@ -1,5 +1,6 @@
-import { Injectable, Pipe } from '@angular/core';
-export var OrderBy = (function () {
+"use strict";
+var core_1 = require('@angular/core');
+var OrderBy = (function () {
     function OrderBy() {
     }
     OrderBy.prototype.transform = function (input, _a) {
@@ -56,12 +57,13 @@ export var OrderBy = (function () {
         return 0;
     };
     OrderBy.decorators = [
-        { type: Pipe, args: [{
+        { type: core_1.Pipe, args: [{
                     name: 'orderBy'
                 },] },
-        { type: Injectable },
+        { type: core_1.Injectable },
     ];
     OrderBy.ctorParameters = [];
     return OrderBy;
 }());
+exports.OrderBy = OrderBy;
 //# sourceMappingURL=order-by.js.map

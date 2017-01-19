@@ -1,9 +1,10 @@
-import { Component, Input, ElementRef, Renderer, Inject } from '@angular/core';
-import { isTrueProperty } from 'ionic-angular/util/util';
-import { isUndefined } from 'lodash';
-import { ImageLoaderController } from "./image-loader";
-import { WHCYIT_IONIC_CONFIG } from "../../config/config";
-export var ImageLoaderCmp = (function () {
+"use strict";
+var core_1 = require('@angular/core');
+var util_1 = require('ionic-angular/util/util');
+var lodash_1 = require('lodash');
+var image_loader_1 = require("./image-loader");
+var config_1 = require("../../config/config");
+var ImageLoaderCmp = (function () {
     function ImageLoaderCmp(element, renderer, imageLoader, config) {
         this.element = element;
         this.renderer = renderer;
@@ -19,10 +20,10 @@ export var ImageLoaderCmp = (function () {
         if (!this.fallbackUrl) {
             this.fallbackUrl = this.config.imageLoader.fallbackUrl;
         }
-        if (isUndefined(this.useImg)) {
+        if (lodash_1.isUndefined(this.useImg)) {
             this.useImg = this.config.imageLoader.useImg;
         }
-        this.useImg = isTrueProperty(this.useImg);
+        this.useImg = util_1.isTrueProperty(this.useImg);
         if (!this.width) {
             this.width = this.config.imageLoader.width;
         }
@@ -88,28 +89,29 @@ export var ImageLoaderCmp = (function () {
         this.renderer.setElementStyle(element, 'background-image', 'url(\'' + imageUrl + '\')');
     };
     ImageLoaderCmp.decorators = [
-        { type: Component, args: [{
+        { type: core_1.Component, args: [{
                     selector: 'ion-image-loader',
                     template: '<ion-spinner name="ios" *ngIf="spinner && isLoading"></ion-spinner>'
                 },] },
     ];
     ImageLoaderCmp.ctorParameters = [
-        { type: ElementRef, },
-        { type: Renderer, },
-        { type: ImageLoaderController, },
-        { type: undefined, decorators: [{ type: Inject, args: [WHCYIT_IONIC_CONFIG,] },] },
+        { type: core_1.ElementRef, },
+        { type: core_1.Renderer, },
+        { type: image_loader_1.ImageLoaderController, },
+        { type: undefined, decorators: [{ type: core_1.Inject, args: [config_1.WHCYIT_IONIC_CONFIG,] },] },
     ];
     ImageLoaderCmp.propDecorators = {
-        'imageUrl': [{ type: Input, args: ['src',] },],
-        'fallbackUrl': [{ type: Input, args: ['fallback',] },],
-        'spinner': [{ type: Input },],
-        'useImg': [{ type: Input },],
-        'width': [{ type: Input },],
-        'height': [{ type: Input },],
-        'display': [{ type: Input },],
-        'backgroundSize': [{ type: Input },],
-        'backgroundRepeat': [{ type: Input },],
+        'imageUrl': [{ type: core_1.Input, args: ['src',] },],
+        'fallbackUrl': [{ type: core_1.Input, args: ['fallback',] },],
+        'spinner': [{ type: core_1.Input },],
+        'useImg': [{ type: core_1.Input },],
+        'width': [{ type: core_1.Input },],
+        'height': [{ type: core_1.Input },],
+        'display': [{ type: core_1.Input },],
+        'backgroundSize': [{ type: core_1.Input },],
+        'backgroundRepeat': [{ type: core_1.Input },],
     };
     return ImageLoaderCmp;
 }());
+exports.ImageLoaderCmp = ImageLoaderCmp;
 //# sourceMappingURL=image-loader-component.js.map

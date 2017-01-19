@@ -1,13 +1,14 @@
-import { URLSearchParams } from "@angular/http";
-import { isArray, isObject } from 'lodash';
-export var URLParamsBuilder = {
+"use strict";
+var http_1 = require("@angular/http");
+var lodash_1 = require('lodash');
+exports.URLParamsBuilder = {
     build: function (params) {
-        if (!isObject(params)) {
+        if (!lodash_1.isObject(params)) {
             return null;
         }
-        var result = new URLSearchParams();
+        var result = new http_1.URLSearchParams();
         var _loop_1 = function(key) {
-            if (isArray(params[key])) {
+            if (lodash_1.isArray(params[key])) {
                 params[key].forEach(function (v) {
                     result.append(key, v);
                 });
