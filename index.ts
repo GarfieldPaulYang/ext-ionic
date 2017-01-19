@@ -1,6 +1,7 @@
 export { LoginConfig, Config, defaultConfig } from './src/config/config';
 export { ResponseResult, Pagination } from './src/utils/http/response/response-result';
 export { URLParamsBuilder } from './src/utils/http/url-params-builder';
+export { ConsoleErrorHandler } from './src/utils/console-error-handler';
 
 export { MapToIterable } from './src/pipes/map-to-iterable';
 export { OrderBy } from './src/pipes/order-by';
