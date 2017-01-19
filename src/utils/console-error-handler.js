@@ -12,7 +12,6 @@ var ConsoleErrorHandler = (function (_super) {
     }
     ConsoleErrorHandler.prototype.handleError = function (err) {
         _super.prototype.handleError.call(this, err);
-        console.error(err);
     };
     return ConsoleErrorHandler;
 }(core_1.ErrorHandler));

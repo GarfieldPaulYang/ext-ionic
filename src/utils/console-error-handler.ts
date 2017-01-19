@@ -7,6 +7,5 @@ export class ConsoleErrorHandler extends ErrorHandler {
 
   handleError(err: any): void {
     super.handleError(err);
-    console.error(err);
   }
 }
