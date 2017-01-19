@@ -27,9 +27,18 @@ var HotUpdater = (function () {
                 var targetPath = cordova.file.externalApplicationStorageDirectory + '/app/app.apk';
                 var options = {};
                 _this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', function () {
-                    _this.platform.registerBackButtonAction(function () { }, 401);
+                    ionic_native_1.LocalNotifications.schedule({
+                        id: 1000,
+                        title: '更新',
+                        text: '已经完成 0%'
+                    });
                     var transfer = new ionic_native_1.Transfer();
                     transfer.onProgress(function (event) {
+                        var progress = ((event.loaded / event.total) * 100).toFixed(2);
+                        ionic_native_1.LocalNotifications.update({
+                            id: 1000,
+                            text: "\u5DF2\u7ECF\u5B8C\u6210 " + progress + "%"
+                        });
                     });
                     transfer.download(_this.config.hotUpdateUrl, targetPath).then(function () {
                         ionic_native_1.FileOpener.open(targetPath, 'application/vnd.android.package-archive');
