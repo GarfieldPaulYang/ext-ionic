@@ -21,7 +21,7 @@ export { StarRatingCmp } from './src/components/star-rating/star-rating';
 
 export { StringUtils } from './src/utils/string';
 export { Dialog } from './src/utils/dialog';
-export { HttpProviderOptionsArgs, HttpProviderOptions, LoginOptions, HttpProvider, CorsHttpProvider } from './src/utils/http/http';
+export { HttpProviderOptionsArgs, HttpProviderOptions, LoginOptions, HttpProvider, CorsHttpProvider } from './src/providers/http';
 
 import './src/rxjs-extensions';
 
@@ -31,7 +31,7 @@ import { isUndefined, assign } from 'lodash';
 
 import { WHCYIT_IONIC_CONFIG, Config, defaultConfig } from './src/config/config';
 import { Dialog } from './src/utils/dialog';
-import { HttpProvider, CorsHttpProvider } from './src/utils/http/http';
+import { HttpProvider, CorsHttpProvider } from './src/providers/http';
 
 import { HotUpdater } from './src/providers/hot-updater';
 

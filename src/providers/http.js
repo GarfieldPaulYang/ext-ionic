@@ -8,10 +8,10 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var ionic_angular_1 = require('ionic-angular');
 var lodash_1 = require('lodash');
-var config_1 = require('../../config/config');
-var dialog_1 = require('../dialog');
-var response_result_1 = require('./response/response-result');
-var url_params_builder_1 = require('./url-params-builder');
+var config_1 = require('../config/config');
+var dialog_1 = require('../utils/dialog');
+var response_result_1 = require('../utils/http/response/response-result');
+var url_params_builder_1 = require('../utils/http/url-params-builder');
 var ticket_expired = 'ticket_expired';
 var HttpProviderOptions = (function (_super) {
     __extends(HttpProviderOptions, _super);

@@ -12,10 +12,10 @@ import {
 import { Events, Loading } from 'ionic-angular';
 import { isUndefined, has, assign, isString } from 'lodash';
 
-import { WHCYIT_IONIC_CONFIG, Config } from '../../config/config';
-import { Dialog } from '../dialog';
-import { ResponseResult } from './response/response-result';
-import { URLParamsBuilder } from './url-params-builder';
+import { WHCYIT_IONIC_CONFIG, Config } from '../config/config';
+import { Dialog } from '../utils/dialog';
+import { ResponseResult } from '../utils/http/response/response-result';
+import { URLParamsBuilder } from '../utils/http/url-params-builder';
 
 const ticket_expired: string = 'ticket_expired';
 
