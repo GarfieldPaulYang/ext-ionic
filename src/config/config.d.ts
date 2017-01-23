@@ -16,4 +16,4 @@ export interface Config {
     baiduMap?: BaiduMapOptions;
 }
 export declare const defaultConfig: Config;
-export declare const WHCYIT_IONIC_CONFIG: OpaqueToken;
+export declare const EXT_IONIC_CONFIG: OpaqueToken;

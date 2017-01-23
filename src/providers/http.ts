@@ -12,7 +12,7 @@ import {
 import { Events, Loading } from 'ionic-angular';
 import { isUndefined, has, assign, isString } from 'lodash';
 
-import { WHCYIT_IONIC_CONFIG, Config } from '../config/config';
+import { EXT_IONIC_CONFIG, Config } from '../config/config';
 import { Dialog } from '../utils/dialog';
 import { ResponseResult } from '../utils/http/response/response-result';
 import { URLParamsBuilder } from '../utils/http/url-params-builder';
@@ -108,7 +108,7 @@ export class CorsHttpProvider {
   constructor(
     private http: HttpProvider,
     private events: Events,
-    @Inject(WHCYIT_IONIC_CONFIG) private config: Config
+    @Inject(EXT_IONIC_CONFIG) private config: Config
   ) { }
 
   set ticket(t: string) {

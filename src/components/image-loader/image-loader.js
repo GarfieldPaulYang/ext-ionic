@@ -158,7 +158,7 @@ var ImageLoaderController = (function () {
     ];
     ImageLoaderController.ctorParameters = [
         { type: ionic_angular_1.Platform, },
-        { type: undefined, decorators: [{ type: core_1.Inject, args: [config_1.WHCYIT_IONIC_CONFIG,] },] },
+        { type: undefined, decorators: [{ type: core_1.Inject, args: [config_1.EXT_IONIC_CONFIG,] },] },
     ];
     return ImageLoaderController;
 }());

@@ -64,7 +64,7 @@ var BaiduMap = (function () {
     BaiduMap.ctorParameters = [
         { type: core_1.ElementRef, },
         { type: baidu_map_1.BaiduMapController, },
-        { type: undefined, decorators: [{ type: core_1.Inject, args: [config_1.WHCYIT_IONIC_CONFIG,] },] },
+        { type: undefined, decorators: [{ type: core_1.Inject, args: [config_1.EXT_IONIC_CONFIG,] },] },
     ];
     BaiduMap.propDecorators = {
         'options': [{ type: core_1.Input },],

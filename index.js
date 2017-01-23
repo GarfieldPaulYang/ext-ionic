@@ -57,7 +57,7 @@ var ExtIonicModule = (function () {
         return {
             ngModule: ExtIonicModule,
             providers: [
-                { provide: config_2.WHCYIT_IONIC_CONFIG, useValue: lodash_1.isUndefined(config) ? config_2.defaultConfig : lodash_1.assign({}, config_2.defaultConfig, config) },
+                { provide: config_2.EXT_IONIC_CONFIG, useValue: lodash_1.isUndefined(config) ? config_2.defaultConfig : lodash_1.assign({}, config_2.defaultConfig, config) },
                 open_url_modal_2.OpenUrlModalController,
                 baidu_map_1.BaiduMapController,
                 image_loader_1.ImageLoaderController,

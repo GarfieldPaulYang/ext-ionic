@@ -31,5 +31,5 @@ exports.defaultConfig = {
         }
     }
 };
-exports.WHCYIT_IONIC_CONFIG = new core_1.OpaqueToken('WHCYIT-IONIC-CONFIG');
+exports.EXT_IONIC_CONFIG = new core_1.OpaqueToken('EXT_IONIC_CONFIG');
 //# sourceMappingURL=config.js.map

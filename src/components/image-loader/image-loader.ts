@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { File, FileEntry, Transfer } from 'ionic-native';
 
-import { WHCYIT_IONIC_CONFIG, Config } from '../../config/config';
+import { EXT_IONIC_CONFIG, Config } from '../../config/config';
 import { StringUtils } from '../../utils/string';
 
 declare var cordova: any;
@@ -12,7 +12,7 @@ export class ImageLoaderController {
   private isCacheReady: boolean = false;
   private isInit: boolean = false;
 
-  constructor(platform: Platform, @Inject(WHCYIT_IONIC_CONFIG) private config: Config) {
+  constructor(platform: Platform, @Inject(EXT_IONIC_CONFIG) private config: Config) {
     if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
       this.isInit = true;
       this.throwWarning('You are running on a browser or using livereload, IonicImageLoader will not function, falling back to browser loading.');

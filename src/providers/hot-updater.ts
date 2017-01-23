@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Toast, Transfer, FileOpener, LocalNotifications } from 'ionic-native';
 
-import { WHCYIT_IONIC_CONFIG, Config } from '../config/config';
+import { EXT_IONIC_CONFIG, Config } from '../config/config';
 import { Dialog } from '../utils/dialog';
 
 declare var cordova: any;
@@ -12,7 +12,7 @@ export class HotUpdater {
   constructor(
     private platform: Platform,
     private dialog: Dialog,
-    @Inject(WHCYIT_IONIC_CONFIG) private config: Config
+    @Inject(EXT_IONIC_CONFIG) private config: Config
   ) { }
 
   start() {

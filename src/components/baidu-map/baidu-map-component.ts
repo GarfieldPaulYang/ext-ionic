@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import * as _ from 'lodash';
 
-import { WHCYIT_IONIC_CONFIG, Config } from '../../config/config';
+import { EXT_IONIC_CONFIG, Config } from '../../config/config';
 
 import { BaiduMapOptions, MarkerOptions } from './baidu-map-options';
 import { BaiduMapController, BMap } from './baidu-map';
@@ -38,7 +38,7 @@ export class BaiduMap implements AfterViewInit, OnChanges {
   constructor(
     private _elementRef: ElementRef,
     private baiduMapCtrl: BaiduMapController,
-    @Inject(WHCYIT_IONIC_CONFIG) private config: Config
+    @Inject(EXT_IONIC_CONFIG) private config: Config
   ) { }
 
   ngAfterViewInit() {

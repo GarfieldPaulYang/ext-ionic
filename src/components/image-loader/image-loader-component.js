@@ -98,7 +98,7 @@ var ImageLoaderCmp = (function () {
         { type: core_1.ElementRef, },
         { type: core_1.Renderer, },
         { type: image_loader_1.ImageLoaderController, },
-        { type: undefined, decorators: [{ type: core_1.Inject, args: [config_1.WHCYIT_IONIC_CONFIG,] },] },
+        { type: undefined, decorators: [{ type: core_1.Inject, args: [config_1.EXT_IONIC_CONFIG,] },] },
     ];
     ImageLoaderCmp.propDecorators = {
         'imageUrl': [{ type: core_1.Input, args: ['src',] },],

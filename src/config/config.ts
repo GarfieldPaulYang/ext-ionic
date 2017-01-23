@@ -51,4 +51,4 @@ export const defaultConfig: Config = {
   }
 };
 
-export const WHCYIT_IONIC_CONFIG = new OpaqueToken('WHCYIT-IONIC-CONFIG');
+export const EXT_IONIC_CONFIG = new OpaqueToken('EXT_IONIC_CONFIG');
