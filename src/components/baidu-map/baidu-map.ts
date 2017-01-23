@@ -114,7 +114,7 @@ export class BaiduMapController {
   drawMarkers(markers: Array<MarkerOptions>, clickHandler: EventEmitter<any>): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       setTimeout(() => {
-        //判断是否含有定位点
+        // 判断是否含有定位点
         if (!markers || markers.length === 0) {
           reject('没有传入兴趣点');
           return;

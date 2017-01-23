@@ -2,8 +2,8 @@ import { Injectable, Inject } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { File, FileEntry, Transfer } from 'ionic-native';
 
-import { WHCYIT_IONIC_CONFIG, Config } from "../../config/config";
-import { StringUtils } from "../../utils/string";
+import { WHCYIT_IONIC_CONFIG, Config } from '../../config/config';
+import { StringUtils } from '../../utils/string';
 
 declare var cordova: any;
 
@@ -47,7 +47,7 @@ export class ImageLoaderController {
         if (this.isInit) {
           if (this.isCacheReady) {
             getImage();
-            return
+            return;
           }
           this.throwWarning('The cache system is not running. Images will be loaded by your browser instead.');
           resolve(imageUrl);
