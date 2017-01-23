@@ -10,7 +10,7 @@ var AlphaScroll = (function () {
         this.content = content;
         this.sortedItems = [];
         this.alphabet = [];
-        this.letterIndicatorEle = document.createElement("div");
+        this.letterIndicatorEle = document.createElement('div');
         this.letterIndicatorEle.className = 'ion-alpha-letter-indicator';
         var body = document.getElementsByTagName('body')[0];
         body.appendChild(this.letterIndicatorEle);

@@ -50,12 +50,12 @@ var baidu_map_component_2 = require('./src/components/baidu-map/baidu-map-compon
 var image_loader_component_2 = require('./src/components/image-loader/image-loader-component');
 var image_loader_1 = require('./src/components/image-loader/image-loader');
 var star_rating_2 = require('./src/components/star-rating/star-rating');
-var WhcyitModule = (function () {
-    function WhcyitModule() {
+var ExtIonicModule = (function () {
+    function ExtIonicModule() {
     }
-    WhcyitModule.forRoot = function (config) {
+    ExtIonicModule.forRoot = function (config) {
         return {
-            ngModule: WhcyitModule,
+            ngModule: ExtIonicModule,
             providers: [
                 { provide: config_2.WHCYIT_IONIC_CONFIG, useValue: lodash_1.isUndefined(config) ? config_2.defaultConfig : lodash_1.assign({}, config_2.defaultConfig, config) },
                 open_url_modal_2.OpenUrlModalController,
@@ -70,7 +70,7 @@ var WhcyitModule = (function () {
             ]
         };
     };
-    WhcyitModule.decorators = [
+    ExtIonicModule.decorators = [
         { type: core_1.NgModule, args: [{
                     imports: [
                         ionic_angular_1.IonicModule
@@ -97,8 +97,8 @@ var WhcyitModule = (function () {
                     ]
                 },] },
     ];
-    WhcyitModule.ctorParameters = [];
-    return WhcyitModule;
+    ExtIonicModule.ctorParameters = [];
+    return ExtIonicModule;
 }());
-exports.WhcyitModule = WhcyitModule;
+exports.ExtIonicModule = ExtIonicModule;
 //# sourceMappingURL=index.js.map

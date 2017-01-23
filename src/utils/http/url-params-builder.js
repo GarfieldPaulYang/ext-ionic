@@ -1,5 +1,5 @@
 "use strict";
-var http_1 = require("@angular/http");
+var http_1 = require('@angular/http');
 var lodash_1 = require('lodash');
 exports.URLParamsBuilder = {
     build: function (params) {

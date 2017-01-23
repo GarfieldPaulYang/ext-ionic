@@ -1,6 +1,6 @@
 {
-  "name": "whcyit-ionic",
-  "version": "1.0.4",
+  "name": "ext-ionic",
+  "version": "1.0.5",
   "description": "ionic2 扩展库",
   "scripts": {
     "tslint": "tslint -c ./tslint.json -e './src/**/*.d.ts' './src/**/*.ts'",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/squallliu/whcyit-ionic.git"
+    "url": "git+https://github.com/squallliu/ext-ionic.git"
   },
   "keywords": [
     "ionic2"
@@ -16,9 +16,9 @@
   "author": "squall",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/squallliu/whcyit-ionic/issues"
+    "url": "https://github.com/squallliu/ext-ionic/issues"
   },
-  "homepage": "https://github.com/squallliu/whcyit-ionic#readme",
+  "homepage": "https://github.com/squallliu/ext-ionic#readme",
   "dependencies": {
     "@types/hammerjs": "^2.0.34",
     "@types/lodash": "^4.14.50"

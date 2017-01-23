@@ -2,8 +2,8 @@
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var ionic_native_1 = require('ionic-native');
-var config_1 = require("../../config/config");
-var string_1 = require("../../utils/string");
+var config_1 = require('../../config/config');
+var string_1 = require('../../utils/string');
 var ImageLoaderController = (function () {
     function ImageLoaderController(platform, config) {
         var _this = this;

@@ -18,14 +18,13 @@ var HotUpdater = (function () {
         document.addEventListener('chcp_updateInstalled', function (eventData) {
             ionic_native_1.Toast.showLongTop('程序已更新完成，重启后生效...');
         }, false);
-        document.addEventListener("chcp_updateLoadFailed", function (eventData) {
+        document.addEventListener('chcp_updateLoadFailed', function (eventData) {
             var error = eventData['detail'].error;
-            if (error && error.code == window['chcp'].error.APPLICATION_BUILD_VERSION_TOO_LOW) {
+            if (error && error.code === window['chcp'].error.APPLICATION_BUILD_VERSION_TOO_LOW) {
                 if (!_this.platform.is('android')) {
                     return;
                 }
                 var targetPath = cordova.file.externalApplicationStorageDirectory + '/app/app.apk';
-                var options = {};
                 _this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', function () {
                     ionic_native_1.LocalNotifications.schedule({
                         id: 1000,

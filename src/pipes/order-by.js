@@ -8,13 +8,13 @@ var OrderBy = (function () {
         if (!Array.isArray(input)) {
             return input;
         }
-        if (!Array.isArray(config) || (Array.isArray(config) && config.length == 1)) {
+        if (!Array.isArray(config) || (Array.isArray(config) && config.length === 1)) {
             var propertyToCheck = !Array.isArray(config) ? config : config[0];
-            var desc = propertyToCheck.substr(0, 1) == '-';
-            if (!propertyToCheck || propertyToCheck == '-' || propertyToCheck == '+') {
+            var desc = propertyToCheck.substr(0, 1) === '-';
+            if (!propertyToCheck || propertyToCheck === '-' || propertyToCheck === '+') {
                 return !desc ? input.sort() : input.sort().reverse();
             }
-            var property = propertyToCheck.substr(0, 1) == '+' || propertyToCheck.substr(0, 1) == '-'
+            var property = propertyToCheck.substr(0, 1) === '+' || propertyToCheck.substr(0, 1) === '-'
                 ? propertyToCheck.substr(1)
                 : propertyToCheck;
             return input.sort(function (a, b) {
@@ -25,14 +25,14 @@ var OrderBy = (function () {
         }
         return input.sort(function (a, b) {
             for (var i = 0; i < config.length; i++) {
-                var desc = config[i].substr(0, 1) == '-';
-                var property = config[i].substr(0, 1) == '+' || config[i].substr(0, 1) == '-'
+                var desc = config[i].substr(0, 1) === '-';
+                var property = config[i].substr(0, 1) === '+' || config[i].substr(0, 1) === '-'
                     ? config[i].substr(1)
                     : config[i];
                 var comparison = !desc
                     ? OrderBy._orderByComparator(a[property], b[property])
                     : -OrderBy._orderByComparator(a[property], b[property]);
-                if (comparison != 0)
+                if (comparison !== 0)
                     return comparison;
             }
             return 0;

@@ -76,10 +76,10 @@ import { StarRatingCmp } from './src/components/star-rating/star-rating';
     OpenUrlModalCmp
   ]
 })
-export class WhcyitModule {
+export class ExtIonicModule {
   static forRoot(config?: Config): ModuleWithProviders {
     return {
-      ngModule: WhcyitModule,
+      ngModule: ExtIonicModule,
       providers: [
         { provide: WHCYIT_IONIC_CONFIG, useValue: isUndefined(config) ? defaultConfig : assign({}, defaultConfig, config) },
         OpenUrlModalController,

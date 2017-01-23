@@ -2,8 +2,8 @@
 var core_1 = require('@angular/core');
 var util_1 = require('ionic-angular/util/util');
 var lodash_1 = require('lodash');
-var image_loader_1 = require("./image-loader");
-var config_1 = require("../../config/config");
+var image_loader_1 = require('./image-loader');
+var config_1 = require('../../config/config');
 var ImageLoaderCmp = (function () {
     function ImageLoaderCmp(element, renderer, imageLoader, config) {
         this.element = element;

@@ -48,7 +48,7 @@ var HttpProvider = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.request(url, options).then(function (result) {
-                if (result.status == 1) {
+                if (result.status === 1) {
                     _this.dialog.alert('系统提示', result.msg);
                     return;
                 }
@@ -135,7 +135,7 @@ var CorsHttpProvider = (function () {
             search.setAll(options.search);
         }
         return this.http.requestWithError(url, lodash_1.assign({}, options, { search: search })).then(function (result) {
-            if (result && lodash_1.isString(result) && result.toString() == ticket_expired) {
+            if (result && lodash_1.isString(result) && result.toString() === ticket_expired) {
                 _this.events.publish(ticket_expired);
                 return ticket_expired;
             }
