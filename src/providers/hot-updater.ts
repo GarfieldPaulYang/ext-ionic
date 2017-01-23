@@ -24,15 +24,14 @@ export class HotUpdater {
       Toast.showLongTop('程序已更新完成，重启后生效...');
     }, false);
 
-    document.addEventListener("chcp_updateLoadFailed", eventData => {
+    document.addEventListener('chcp_updateLoadFailed', eventData => {
       var error = eventData['detail'].error;
-      if (error && error.code == window['chcp'].error.APPLICATION_BUILD_VERSION_TOO_LOW) {
+      if (error && error.code === window['chcp'].error.APPLICATION_BUILD_VERSION_TOO_LOW) {
         if (!this.platform.is('android')) {
           return;
         }
 
         var targetPath = cordova.file.externalApplicationStorageDirectory + '/app/app.apk';
-        var options = {};
         this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', () => {
           LocalNotifications.schedule({
             id: 1000,

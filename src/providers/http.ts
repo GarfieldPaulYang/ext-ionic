@@ -66,7 +66,7 @@ export class HttpProvider {
   requestWithError<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       this.request<T>(url, options).then((result: ResponseResult<T>) => {
-        if (result.status == 1) {
+        if (result.status === 1) {
           this.dialog.alert('系统提示', result.msg);
           return;
         }
@@ -89,7 +89,7 @@ export class HttpProvider {
         (r: Response) => new ResponseResult<T>(r.json())
       ).toPromise().then((result: ResponseResult<T>) => {
         if (loading) loading.dismiss();
-        resolve(result)
+        resolve(result);
       }, reason => {
         if (loading) loading.dismiss();
         reject(reason);
@@ -150,7 +150,7 @@ export class CorsHttpProvider {
     return this.http.requestWithError<T>(
       url, assign({}, options, { search: search })
     ).then(result => {
-      if (result && isString(result) && result.toString() == ticket_expired) {
+      if (result && isString(result) && result.toString() === ticket_expired) {
         this.events.publish(ticket_expired);
         return ticket_expired;
       }
