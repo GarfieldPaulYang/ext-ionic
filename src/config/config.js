@@ -2,12 +2,10 @@
 var core_1 = require('@angular/core');
 exports.defaultConfig = {
     color: 'light',
+    devMode: false,
     openUrlModal: {
         color: 'light',
         onmessage: function (e) { }
-    },
-    login: {
-        devMode: false
     },
     imageLoader: {
         spinnerEnabled: true,

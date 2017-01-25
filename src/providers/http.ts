@@ -134,7 +134,7 @@ export class CorsHttpProvider {
   request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T> {
     let search = URLParamsBuilder.build({
       'appKey': this.config.login.appKey,
-      'devMode': this.config.login.devMode,
+      'devMode': this.config.devMode,
       '__ticket__': this._ticket,
       '__cors-request__': true
     });

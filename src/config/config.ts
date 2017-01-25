@@ -6,13 +6,13 @@ import { BaiduMapOptions } from '../components/baidu-map/baidu-map-options';
 
 export interface LoginConfig {
   appKey?: string;
-  devMode?: boolean;
   url?: string;
 }
 
 export interface Config {
   color: string;
   hotUpdateUrl?: string;
+  devMode?: boolean;
   login?: LoginConfig;
   openUrlModal?: OpenUrlModalOptions;
   imageLoader?: ImageLoaderOptions;
@@ -21,12 +21,10 @@ export interface Config {
 
 export const defaultConfig: Config = {
   color: 'light',
+  devMode: false,
   openUrlModal: {
     color: 'light',
     onmessage: (e) => { }
-  },
-  login: {
-    devMode: false
   },
   imageLoader: {
     spinnerEnabled: true,

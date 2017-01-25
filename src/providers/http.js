@@ -124,7 +124,7 @@ var CorsHttpProvider = (function () {
         var _this = this;
         var search = url_params_builder_1.URLParamsBuilder.build({
             'appKey': this.config.login.appKey,
-            'devMode': this.config.login.devMode,
+            'devMode': this.config.devMode,
             '__ticket__': this._ticket,
             '__cors-request__': true
         });

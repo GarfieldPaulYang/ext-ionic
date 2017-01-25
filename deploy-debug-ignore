@@ -6,7 +6,6 @@
 log.txt
 *.sublime-project
 *.sublime-workspace
-
 .idea/
 .vscode/
 .sass-cache/
@@ -17,15 +16,12 @@ node_modules/
 tmp/
 temp/
 $RECYCLE.BIN/
-
+.git/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
-
 .package.tmp.json
-
-src/themes/version.scss
-scripts/e2e/webpackEntryPoints.json
-scripts/build/e2e-generated-tsconfig.json
 *.css.ts
-
+.gitignore
+.editorconfig
+deploy-debug*
