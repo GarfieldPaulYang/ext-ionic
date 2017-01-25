@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Platform, Loading, LoadingController, AlertController } from 'ionic-angular';
+import { Loading, LoadingController, AlertController } from 'ionic-angular';
 
 @Injectable()
 export class Dialog {
   constructor(
-    private platform: Platform,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController
   ) { }
