@@ -2,7 +2,8 @@
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var Dialog = (function () {
-    function Dialog(loadingCtrl, alertCtrl) {
+    function Dialog(platform, loadingCtrl, alertCtrl) {
+        this.platform = platform;
         this.loadingCtrl = loadingCtrl;
         this.alertCtrl = alertCtrl;
     }
@@ -37,6 +38,7 @@ var Dialog = (function () {
         { type: core_1.Injectable },
     ];
     Dialog.ctorParameters = [
+        { type: ionic_angular_1.Platform, },
         { type: ionic_angular_1.LoadingController, },
         { type: ionic_angular_1.AlertController, },
     ];

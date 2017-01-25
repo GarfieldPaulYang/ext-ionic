@@ -91,7 +91,7 @@ var ImageLoaderCmp = (function () {
     ImageLoaderCmp.decorators = [
         { type: core_1.Component, args: [{
                     selector: 'ion-image-loader',
-                    template: '<ion-spinner name="ios" *ngIf="spinner && isLoading"></ion-spinner>'
+                    template: '<ion-spinner *ngIf="spinner && isLoading"></ion-spinner>'
                 },] },
     ];
     ImageLoaderCmp.ctorParameters = [
