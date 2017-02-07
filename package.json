@@ -21,7 +21,7 @@
   "homepage": "https://github.com/squallliu/ext-ionic#readme",
   "dependencies": {
     "@types/hammerjs": "^2.0.34",
-    "@types/lodash": "4.14.50"
+    "@types/lodash": "ts2.0"
   },
   "devDependencies": {
     "@angular/common": "2.2.1",
