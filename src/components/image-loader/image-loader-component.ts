@@ -7,7 +7,13 @@ import { EXT_IONIC_CONFIG, Config } from '../../config/config';
 
 @Component({
   selector: 'ion-image-loader',
-  template: '<ion-spinner *ngIf="spinner && isLoading"></ion-spinner>'
+  template: '<ion-spinner *ngIf="spinner && isLoading"></ion-spinner>',
+  styles: [`
+    ion-spinner {
+      display: block;
+      margin: auto;
+    }
+  `]
 })
 export class ImageLoaderCmp implements OnInit {
   @Input('src') imageUrl: string;
