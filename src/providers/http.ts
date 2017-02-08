@@ -10,7 +10,7 @@ import {
   URLSearchParams
 } from '@angular/http';
 import { Events, Loading } from 'ionic-angular';
-import { isUndefined, has, assign, isString } from 'lodash';
+import * as _ from 'lodash';
 
 import { EXT_IONIC_CONFIG, Config } from '../config/config';
 import { Dialog } from '../utils/dialog';
@@ -78,7 +78,7 @@ export class HttpProvider {
   }
 
   request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
-    options = isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
+    options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
     let loading: Loading;
     if (options.showLoading) {
       loading = this.dialog.loading('正在加载...');
@@ -139,18 +139,18 @@ export class CorsHttpProvider {
       '__cors-request__': true
     });
 
-    if (isUndefined(options)) {
+    if (_.isUndefined(options)) {
       options = { showLoading: true };
     }
 
-    if (has(options, 'search')) {
+    if (_.has(options, 'search')) {
       search.setAll(<URLSearchParams>options.search);
     }
 
     return this.http.requestWithError<T>(
-      url, assign({}, options, { search: search })
+      url, _.assign({}, options, { search: search })
     ).then(result => {
-      if (result && isString(result) && result.toString() === ticket_expired) {
+      if (result && _.isString(result) && result.toString() === ticket_expired) {
         this.events.publish(ticket_expired);
         return ticket_expired;
       }

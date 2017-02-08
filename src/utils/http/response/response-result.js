@@ -1,5 +1,5 @@
 "use strict";
-var lodash_1 = require('lodash');
+var _ = require('lodash');
 var ResponseResult = (function () {
     function ResponseResult(httpResponse) {
         this.status = httpResponse.status;
@@ -10,7 +10,7 @@ var ResponseResult = (function () {
         }
     }
     ResponseResult.prototype.isPagination = function (obj) {
-        return obj && lodash_1.has(obj, 'currentPageNo') && lodash_1.has(obj, 'pageSize');
+        return obj && _.has(obj, 'currentPageNo') && _.has(obj, 'pageSize');
     };
     return ResponseResult;
 }());

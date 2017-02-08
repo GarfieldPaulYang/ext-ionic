@@ -7,7 +7,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var ionic_angular_1 = require('ionic-angular');
-var lodash_1 = require('lodash');
+var _ = require('lodash');
 var config_1 = require('../config/config');
 var dialog_1 = require('../utils/dialog');
 var response_result_1 = require('../utils/http/response/response-result');
@@ -60,7 +60,7 @@ var HttpProvider = (function () {
     };
     HttpProvider.prototype.request = function (url, options) {
         var _this = this;
-        options = lodash_1.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
+        options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
         var loading;
         if (options.showLoading) {
             loading = this.dialog.loading('正在加载...');
@@ -128,14 +128,14 @@ var CorsHttpProvider = (function () {
             '__ticket__': this._ticket,
             '__cors-request__': true
         });
-        if (lodash_1.isUndefined(options)) {
+        if (_.isUndefined(options)) {
             options = { showLoading: true };
         }
-        if (lodash_1.has(options, 'search')) {
+        if (_.has(options, 'search')) {
             search.setAll(options.search);
         }
-        return this.http.requestWithError(url, lodash_1.assign({}, options, { search: search })).then(function (result) {
-            if (result && lodash_1.isString(result) && result.toString() === ticket_expired) {
+        return this.http.requestWithError(url, _.assign({}, options, { search: search })).then(function (result) {
+            if (result && _.isString(result) && result.toString() === ticket_expired) {
                 _this.events.publish(ticket_expired);
                 return ticket_expired;
             }

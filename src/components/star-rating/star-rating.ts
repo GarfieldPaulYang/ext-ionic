@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, forwardRef, ElementRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { isUndefined, throttle } from 'lodash';
+import * as _ from 'lodash';
 
 export const STAR_RATING_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -66,7 +66,7 @@ export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   writeValue(val: any) {
-    if (isUndefined(val)) {
+    if (_.isUndefined(val)) {
       return;
     }
 
@@ -105,7 +105,7 @@ export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
       ]
     });
 
-    this.hammer.on('panleft panright', throttle((e: any) => {
+    this.hammer.on('panleft panright', _.throttle((e: any) => {
       let closestEle: Element = document.elementFromPoint(e.center.x, e.center.y);
       if (closestEle && ['LI'].indexOf(closestEle.tagName) > -1) {
         this.rate(Number(closestEle.getAttribute('index')));

@@ -27,7 +27,7 @@ import './src/rxjs-extensions';
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
-import { isUndefined, assign } from 'lodash';
+import * as _ from 'lodash';
 
 import { EXT_IONIC_CONFIG, Config, defaultConfig } from './src/config/config';
 import { Dialog } from './src/utils/dialog';
@@ -81,7 +81,7 @@ export class ExtIonicModule {
     return {
       ngModule: ExtIonicModule,
       providers: [
-        { provide: EXT_IONIC_CONFIG, useValue: isUndefined(config) ? defaultConfig : assign({}, defaultConfig, config) },
+        { provide: EXT_IONIC_CONFIG, useValue: _.isUndefined(config) ? defaultConfig : _.assign({}, defaultConfig, config) },
         OpenUrlModalController,
         BaiduMapController,
         ImageLoaderController,

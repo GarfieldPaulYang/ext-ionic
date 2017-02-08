@@ -1,4 +1,4 @@
-import { has } from 'lodash';
+import * as _ from 'lodash';
 
 export class ResponseResult<T> {
   status: number;
@@ -16,7 +16,7 @@ export class ResponseResult<T> {
   }
 
   private isPagination(obj: any): boolean {
-    return obj && has(obj, 'currentPageNo') && has(obj, 'pageSize');
+    return obj && _.has(obj, 'currentPageNo') && _.has(obj, 'pageSize');
   }
 }
 
