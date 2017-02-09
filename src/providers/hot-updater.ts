@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Toast, Transfer, FileOpener, LocalNotifications } from 'ionic-native';
+import { Transfer, FileOpener, LocalNotifications } from 'ionic-native';
 
 import { EXT_IONIC_CONFIG, Config } from '../config/config';
 import { Dialog } from '../utils/dialog';
@@ -21,7 +21,7 @@ export class HotUpdater {
     }
 
     document.addEventListener('chcp_updateInstalled', eventData => {
-      Toast.showLongTop('程序已更新完成，重启后生效...');
+      this.dialog.toast('程序已更新完成，重启后生效...');
     }, false);
 
     document.addEventListener('chcp_updateLoadFailed', eventData => {

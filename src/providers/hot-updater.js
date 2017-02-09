@@ -16,7 +16,7 @@ var HotUpdater = (function () {
             return;
         }
         document.addEventListener('chcp_updateInstalled', function (eventData) {
-            ionic_native_1.Toast.showLongTop('程序已更新完成，重启后生效...');
+            _this.dialog.toast('程序已更新完成，重启后生效...');
         }, false);
         document.addEventListener('chcp_updateLoadFailed', function (eventData) {
             var error = eventData['detail'].error;

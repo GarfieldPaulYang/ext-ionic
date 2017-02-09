@@ -2,9 +2,10 @@
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var Dialog = (function () {
-    function Dialog(loadingCtrl, alertCtrl) {
+    function Dialog(loadingCtrl, alertCtrl, toastCtrl) {
         this.loadingCtrl = loadingCtrl;
         this.alertCtrl = alertCtrl;
+        this.toastCtrl = toastCtrl;
     }
     Dialog.prototype.alert = function (title, message) {
         var alert = this.alertCtrl.create({
@@ -33,12 +34,22 @@ var Dialog = (function () {
             content: content
         });
     };
+    Dialog.prototype.toast = function (message, position) {
+        if (position === void 0) { position = 'top'; }
+        var toast = this.toastCtrl.create({
+            message: message,
+            duration: 5000,
+            position: position
+        });
+        toast.present();
+    };
     Dialog.decorators = [
         { type: core_1.Injectable },
     ];
     Dialog.ctorParameters = [
         { type: ionic_angular_1.LoadingController, },
         { type: ionic_angular_1.AlertController, },
+        { type: ionic_angular_1.ToastController, },
     ];
     return Dialog;
 }());

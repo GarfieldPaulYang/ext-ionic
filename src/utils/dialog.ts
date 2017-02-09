@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Loading, LoadingController, AlertController } from 'ionic-angular';
+import { Loading, LoadingController, AlertController, ToastController } from 'ionic-angular';
 
 @Injectable()
 export class Dialog {
   constructor(
     private loadingCtrl: LoadingController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private toastCtrl: ToastController
   ) { }
 
   alert(title: string, message: string): void {
@@ -36,5 +37,14 @@ export class Dialog {
     return this.loadingCtrl.create({
       content: content
     });
+  }
+
+  toast(message: string, position: string = 'top') {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 5000,
+      position: position
+    });
+    toast.present();
   }
 }
