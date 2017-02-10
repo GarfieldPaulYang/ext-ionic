@@ -1,4 +1,8 @@
 "use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./src/native/immerse-plugin'));
 var config_1 = require('./src/config/config');
 exports.defaultConfig = config_1.defaultConfig;
 var response_result_1 = require('./src/utils/http/response/response-result');

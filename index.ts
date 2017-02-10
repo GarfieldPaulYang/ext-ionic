@@ -1,3 +1,5 @@
+export * from './src/native/immerse-plugin';
+
 export { LoginConfig, Config, defaultConfig } from './src/config/config';
 export { ResponseResult, Pagination } from './src/utils/http/response/response-result';
 export { URLParamsBuilder } from './src/utils/http/url-params-builder';
