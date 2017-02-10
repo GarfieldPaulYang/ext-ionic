@@ -1,4 +1,5 @@
 export * from './src/native/immerse-plugin';
+export * from './src/native/local-notifications';
 
 export { LoginConfig, Config, defaultConfig } from './src/config/config';
 export { ResponseResult, Pagination } from './src/utils/http/response/response-result';
