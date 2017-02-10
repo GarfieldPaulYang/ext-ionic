@@ -1,9 +1,8 @@
 "use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-__export(require('./src/native/immerse-plugin'));
-__export(require('./src/native/local-notifications'));
+var immerse_plugin_1 = require('./src/native/immerse-plugin');
+exports.Immerse = immerse_plugin_1.Immerse;
+var local_notifications_1 = require('./src/native/local-notifications');
+exports.ExtLocalNotifications = local_notifications_1.ExtLocalNotifications;
 var config_1 = require('./src/config/config');
 exports.defaultConfig = config_1.defaultConfig;
 var response_result_1 = require('./src/utils/http/response/response-result');

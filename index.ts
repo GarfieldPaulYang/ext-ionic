@@ -1,5 +1,5 @@
-export * from './src/native/immerse-plugin';
-export * from './src/native/local-notifications';
+export { Immerse } from './src/native/immerse-plugin';
+export { ExtILocalNotification, ExtLocalNotifications } from './src/native/local-notifications';
 
 export { LoginConfig, Config, defaultConfig } from './src/config/config';
 export { ResponseResult, Pagination } from './src/utils/http/response/response-result';
@@ -53,6 +53,7 @@ import { ImageLoaderCmp } from './src/components/image-loader/image-loader-compo
 import { ImageLoaderController } from './src/components/image-loader/image-loader';
 
 import { StarRatingCmp } from './src/components/star-rating/star-rating';
+import { ExtLocalNotifications } from './src/native/local-notifications';
 
 @NgModule({
   imports: [
