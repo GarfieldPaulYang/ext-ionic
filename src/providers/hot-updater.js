@@ -22,25 +22,34 @@ var HotUpdater = (function () {
         document.addEventListener('chcp_updateLoadFailed', function (eventData) {
             var error = eventData['detail'].error;
             if (error && error.code === window['chcp'].error.APPLICATION_BUILD_VERSION_TOO_LOW) {
-                if (!_this.platform.is('android')) {
+                var isAndroid_1 = _this.platform.is('android');
+                if (!isAndroid_1) {
                     return;
                 }
                 var targetPath = cordova.file.externalApplicationStorageDirectory + '/app/app.apk';
                 _this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', function () {
                     local_notifications_1.ExtLocalNotifications.schedule({
                         id: 1000,
-                        title: '更新',
-                        text: '已经完成 0%'
+                        title: '正在更新...',
+                        text: isAndroid_1 ? '' : '已经完成 0%',
+                        progress: isAndroid_1,
+                        maxProgress: 100,
+                        currentProgress: 0
                     });
                     var transfer = new ionic_native_1.Transfer();
                     transfer.onProgress(function (event) {
                         var progress = ((event.loaded / event.total) * 100).toFixed(2);
                         local_notifications_1.ExtLocalNotifications.update({
                             id: 1000,
-                            text: "\u5DF2\u7ECF\u5B8C\u6210 " + progress + "%"
+                            title: '正在更新...',
+                            text: isAndroid_1 ? '' : "\u5DF2\u7ECF\u5B8C\u6210 " + progress + "%",
+                            progress: isAndroid_1,
+                            maxProgress: 100,
+                            currentProgress: Number(progress)
                         });
                     });
                     transfer.download(_this.config.hotUpdateUrl, targetPath).then(function () {
+                        local_notifications_1.ExtLocalNotifications.clear(1000);
                         ionic_native_1.FileOpener.open(targetPath, 'application/vnd.android.package-archive');
                     });
                 });

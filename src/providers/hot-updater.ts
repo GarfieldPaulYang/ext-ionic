@@ -28,7 +28,8 @@ export class HotUpdater {
     document.addEventListener('chcp_updateLoadFailed', eventData => {
       var error = eventData['detail'].error;
       if (error && error.code === window['chcp'].error.APPLICATION_BUILD_VERSION_TOO_LOW) {
-        if (!this.platform.is('android')) {
+        let isAndroid = this.platform.is('android');
+        if (!isAndroid) {
           return;
         }
 
@@ -36,18 +37,26 @@ export class HotUpdater {
         this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', () => {
           ExtLocalNotifications.schedule({
             id: 1000,
-            title: '更新',
-            text: '已经完成 0%'
+            title: '正在更新...',
+            text: isAndroid ? '' : '已经完成 0%',
+            progress: isAndroid,
+            maxProgress: 100,
+            currentProgress: 0
           });
           let transfer = new Transfer();
           transfer.onProgress(event => {
             let progress = ((event.loaded / event.total) * 100).toFixed(2);
             ExtLocalNotifications.update({
               id: 1000,
-              text: `已经完成 ${progress}%`
+              title: '正在更新...',
+              text: isAndroid ? '' : `已经完成 ${progress}%`,
+              progress: isAndroid,
+              maxProgress: 100,
+              currentProgress: Number(progress)
             });
           });
           transfer.download(this.config.hotUpdateUrl, targetPath).then(() => {
+            ExtLocalNotifications.clear(1000);
             FileOpener.open(targetPath, 'application/vnd.android.package-archive');
           });
         });
