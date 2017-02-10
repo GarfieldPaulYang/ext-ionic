@@ -7,5 +7,5 @@ export interface ExtILocalNotification extends ILocalNotification {
 }
 export declare class ExtLocalNotifications extends LocalNotifications {
     static schedule(options?: ExtILocalNotification | Array<ExtILocalNotification>): void;
-    static updateProgress(options?: ExtILocalNotification): void;
+    static update(options?: ExtILocalNotification): void;
 }
