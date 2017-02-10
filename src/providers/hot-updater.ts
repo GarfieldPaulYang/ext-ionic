@@ -1,7 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Transfer, FileOpener, LocalNotifications } from 'ionic-native';
+import { Transfer, FileOpener } from 'ionic-native';
 
+import { ExtLocalNotifications } from '../native/local-notifications';
 import { EXT_IONIC_CONFIG, Config } from '../config/config';
 import { Dialog } from '../utils/dialog';
 
@@ -33,7 +34,7 @@ export class HotUpdater {
 
         var targetPath = cordova.file.externalApplicationStorageDirectory + '/app/app.apk';
         this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', () => {
-          LocalNotifications.schedule({
+          ExtLocalNotifications.schedule({
             id: 1000,
             title: '更新',
             text: '已经完成 0%'
@@ -41,7 +42,7 @@ export class HotUpdater {
           let transfer = new Transfer();
           transfer.onProgress(event => {
             let progress = ((event.loaded / event.total) * 100).toFixed(2);
-            LocalNotifications.update({
+            ExtLocalNotifications.update({
               id: 1000,
               text: `已经完成 ${progress}%`
             });
