@@ -19,7 +19,16 @@ var ExtLocalNotifications = (function (_super) {
     function ExtLocalNotifications() {
         _super.apply(this, arguments);
     }
+    ExtLocalNotifications.schedule = function (options) { };
     ExtLocalNotifications.updateProgress = function (options) { };
+    __decorate([
+        ionic_native_1.Cordova({
+            sync: true
+        }), 
+        __metadata('design:type', Function), 
+        __metadata('design:paramtypes', [Object]), 
+        __metadata('design:returntype', void 0)
+    ], ExtLocalNotifications, "schedule", null);
     __decorate([
         ionic_native_1.Cordova({
             sync: true

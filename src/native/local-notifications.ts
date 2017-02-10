@@ -17,5 +17,10 @@ export class ExtLocalNotifications extends LocalNotifications {
   @Cordova({
     sync: true
   })
+  static schedule(options?: ExtILocalNotification | Array<ExtILocalNotification>): void { }
+
+  @Cordova({
+    sync: true
+  })
   static updateProgress(options?: ExtILocalNotification): void { }
 }
