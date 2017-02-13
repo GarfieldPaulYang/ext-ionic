@@ -7,7 +7,7 @@ export interface LoginConfig {
     url?: string;
 }
 export interface Config {
-    color: string;
+    color?: string;
     hotUpdateUrl?: string;
     devMode?: boolean;
     login?: LoginConfig;
