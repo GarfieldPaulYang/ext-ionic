@@ -20,10 +20,8 @@ export interface Config {
 }
 
 export const defaultConfig: Config = {
-  color: 'light',
   devMode: false,
   openUrlModal: {
-    color: 'light',
     onmessage: (e) => { }
   },
   imageLoader: {

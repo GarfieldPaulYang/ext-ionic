@@ -1,10 +1,8 @@
 "use strict";
 var core_1 = require('@angular/core');
 exports.defaultConfig = {
-    color: 'light',
     devMode: false,
     openUrlModal: {
-        color: 'light',
         onmessage: function (e) { }
     },
     imageLoader: {
