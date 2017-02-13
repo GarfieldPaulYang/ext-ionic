@@ -1,5 +1,5 @@
 import { Component, Input, ElementRef, Renderer, OnInit, Inject } from '@angular/core';
-import { isTrueProperty } from 'ionic-angular/util/util';
+import { isTrueProperty } from '../../utils/util';
 import * as _ from 'lodash';
 
 import { ImageLoaderController } from './image-loader';

@@ -1,6 +1,6 @@
 "use strict";
 var core_1 = require('@angular/core');
-var util_1 = require('ionic-angular/util/util');
+var util_1 = require('../../utils/util');
 var _ = require('lodash');
 var image_loader_1 = require('./image-loader');
 var config_1 = require('../../config/config');

@@ -2,7 +2,7 @@
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var ionic_angular_1 = require('ionic-angular');
-var util_1 = require('ionic-angular/util/util');
+var util_1 = require('../../utils/util');
 var OpenUrlModalCmp = (function () {
     function OpenUrlModalCmp(_navParams, viewCtrl, sanitizer) {
         this._navParams = _navParams;

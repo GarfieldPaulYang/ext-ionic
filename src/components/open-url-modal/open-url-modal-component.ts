@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ViewController, NavParams } from 'ionic-angular';
-import { assert } from 'ionic-angular/util/util';
+import { assert } from '../../utils/util';
 
 import { OpenUrlModalOptions } from './open-url-modal-options';
 

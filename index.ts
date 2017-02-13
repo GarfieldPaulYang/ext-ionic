@@ -23,6 +23,7 @@ export { ImageLoaderOptions } from './src/components/image-loader/image-loader-o
 export { StarRatingCmp } from './src/components/star-rating/star-rating';
 
 export { StringUtils } from './src/utils/string';
+export { assert, isTrueProperty, isPresent } from './src/utils/util';
 export { Dialog } from './src/utils/dialog';
 export { HttpProviderOptionsArgs, HttpProviderOptions, LoginOptions, HttpProvider, CorsHttpProvider } from './src/providers/http';
 
@@ -54,6 +55,7 @@ import { ImageLoaderController } from './src/components/image-loader/image-loade
 
 import { StarRatingCmp } from './src/components/star-rating/star-rating';
 import { ExtLocalNotifications } from './src/native/local-notifications';
+import { isTrueProperty } from './src/utils/util';
 
 @NgModule({
   imports: [
