@@ -1,4 +1,3 @@
-/** @private */
 export function isTrueProperty(val: any): boolean {
   if (typeof val === 'string') {
     val = val.toLowerCase().trim();
@@ -7,15 +6,12 @@ export function isTrueProperty(val: any): boolean {
   return !!val;
 };
 
-/** @private */
 export function isPresent(val: any): boolean {
   return val !== undefined && val !== null;
 }
 
-/** @private */
 const ASSERT_ENABLED = true;
 
-/** @private */
 export function assert(actual: any, reason?: string) {
   if (!actual && ASSERT_ENABLED === true) {
     let message = 'IONIC ASSERT: ' + reason;
