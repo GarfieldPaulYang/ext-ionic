@@ -10,7 +10,7 @@ export interface LoginConfig {
 }
 
 export interface Config {
-  color: string;
+  color?: string;
   hotUpdateUrl?: string;
   devMode?: boolean;
   login?: LoginConfig;
