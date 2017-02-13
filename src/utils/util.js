@@ -15,7 +15,7 @@ exports.isPresent = isPresent;
 var ASSERT_ENABLED = true;
 function assert(actual, reason) {
     if (!actual && ASSERT_ENABLED === true) {
-        var message = 'IONIC ASSERT: ' + reason;
+        var message = 'EXT-IONIC ASSERT: ' + reason;
         console.error(message);
         debugger;
         throw new Error(message);
