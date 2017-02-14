@@ -101,7 +101,15 @@ var CorsHttpProvider = (function () {
         this.http = http;
         this.events = events;
         this.config = config;
+        this._ticket = null;
     }
+    Object.defineProperty(CorsHttpProvider.prototype, "ticket", {
+        set: function (t) {
+            this._ticket = t;
+        },
+        enumerable: true,
+        configurable: true
+    });
     CorsHttpProvider.prototype.login = function (options) {
         var search = url_params_builder_1.URLParamsBuilder.build(options);
         search.set('__login__', 'true');
@@ -111,7 +119,7 @@ var CorsHttpProvider = (function () {
         var _this = this;
         var search = url_params_builder_1.URLParamsBuilder.build({ '__logout__': true });
         return this.request(this.config.login.url, { search: search }).then(function (result) {
-            _this.config.login.ticket = null;
+            _this.ticket = null;
             return result;
         }, function (reason) {
             return reason;
@@ -122,7 +130,7 @@ var CorsHttpProvider = (function () {
         var search = url_params_builder_1.URLParamsBuilder.build({
             'appKey': this.config.login.appKey,
             'devMode': this.config.devMode,
-            '__ticket__': this.config.login.ticket,
+            '__ticket__': this.ticket,
             '__cors-request__': true
         });
         if (_.isUndefined(options)) {

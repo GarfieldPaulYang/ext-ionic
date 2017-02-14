@@ -6,7 +6,6 @@ import { BaiduMapOptions } from '../components/baidu-map/baidu-map-options';
 
 export interface LoginConfig {
   url?: string;
-  ticket?: string;
 }
 
 export interface Config {

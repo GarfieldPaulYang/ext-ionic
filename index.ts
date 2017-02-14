@@ -15,7 +15,15 @@ export { AlphaScroll } from './src/components/alpha-scroll/alpha-scroll';
 export { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
 
 export { BaiduMap } from './src/components/baidu-map/baidu-map-component';
-export { GpsPoint, MarkerSize, MarkerInfoWindow, MarkerOptions, PointCollectionOptions, MassOptions, BaiduMapOptions } from './src/components/baidu-map/baidu-map-options';
+export {
+  GpsPoint,
+  MarkerSize,
+  MarkerInfoWindow,
+  MarkerOptions,
+  PointCollectionOptions,
+  MassOptions,
+  BaiduMapOptions
+} from './src/components/baidu-map/baidu-map-options';
 
 export { ImageLoaderCmp } from './src/components/image-loader/image-loader-component';
 export { ImageLoaderOptions } from './src/components/image-loader/image-loader-options';
@@ -25,7 +33,15 @@ export { StarRatingCmp } from './src/components/star-rating/star-rating';
 export { StringUtils } from './src/utils/string';
 export { assert, isTrueProperty, isPresent } from './src/utils/util';
 export { Dialog } from './src/utils/dialog';
-export { HttpProviderOptionsArgs, HttpProviderOptions, LoginOptions, HttpProvider, CorsHttpProvider } from './src/providers/http';
+export {
+  HttpProviderOptionsArgs,
+  HttpProviderOptions,
+  LoginOptions,
+  LoginResult,
+  SubAcount,
+  HttpProvider,
+  CorsHttpProvider
+} from './src/providers/http';
 
 import './src/rxjs-extensions';
 
@@ -54,8 +70,6 @@ import { ImageLoaderCmp } from './src/components/image-loader/image-loader-compo
 import { ImageLoaderController } from './src/components/image-loader/image-loader';
 
 import { StarRatingCmp } from './src/components/star-rating/star-rating';
-import { ExtLocalNotifications } from './src/native/local-notifications';
-import { isTrueProperty } from './src/utils/util';
 
 @NgModule({
   imports: [

@@ -5,7 +5,6 @@ import { BaiduMapOptions } from '../components/baidu-map/baidu-map-options';
 export interface LoginConfig {
     appKey?: string;
     url?: string;
-    ticket?: string;
 }
 export interface Config {
     color?: string;
