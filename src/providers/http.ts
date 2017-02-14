@@ -94,16 +94,8 @@ export class HttpProvider {
 
   request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
     options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
-    if (options.method === RequestMethod.Post) {
-      if (isPresent(options.headers)) {
-        options.headers.append('Content-Type', 'application/x-www-form-urlencoded');
-      } else {
-        options.headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
-      }
-
-      if (isPresent(options.body)) {
-        options.body = URLParamsBuilder.build(options.body).toString();
-      }
+    if (options.method === RequestMethod.Post && isPresent(options.body) && !(options.body instanceof FormData)) {
+      options.body = JSON.stringify(options.body);
     }
 
     let loading: Loading;
@@ -144,8 +136,9 @@ export class CorsHttpProvider {
 
   login(options: LoginOptions): Promise<LoginResult> {
     return this.request<LoginResult>(this.config.login.url, {
+      headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
       method: RequestMethod.Post,
-      body: options,
+      body: URLParamsBuilder.build(options).toString(),
       search: URLParamsBuilder.build({ __login__: true })
     });
   }

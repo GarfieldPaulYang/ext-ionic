@@ -65,16 +65,8 @@ var HttpProvider = (function () {
     HttpProvider.prototype.request = function (url, options) {
         var _this = this;
         options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
-        if (options.method === http_1.RequestMethod.Post) {
-            if (util_1.isPresent(options.headers)) {
-                options.headers.append('Content-Type', 'application/x-www-form-urlencoded');
-            }
-            else {
-                options.headers = new http_1.Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
-            }
-            if (util_1.isPresent(options.body)) {
-                options.body = url_params_builder_1.URLParamsBuilder.build(options.body).toString();
-            }
+        if (options.method === http_1.RequestMethod.Post && util_1.isPresent(options.body) && !(options.body instanceof FormData)) {
+            options.body = JSON.stringify(options.body);
         }
         var loading;
         if (options.showLoading) {
@@ -123,8 +115,9 @@ var CorsHttpProvider = (function () {
     });
     CorsHttpProvider.prototype.login = function (options) {
         return this.request(this.config.login.url, {
+            headers: new http_1.Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
             method: http_1.RequestMethod.Post,
-            body: options,
+            body: url_params_builder_1.URLParamsBuilder.build(options).toString(),
             search: url_params_builder_1.URLParamsBuilder.build({ __login__: true })
         });
     };
