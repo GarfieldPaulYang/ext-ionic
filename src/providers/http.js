@@ -10,6 +10,7 @@ var ionic_angular_1 = require('ionic-angular');
 var _ = require('lodash');
 var config_1 = require('../config/config');
 var dialog_1 = require('../utils/dialog');
+var util_1 = require('../utils/util');
 var response_result_1 = require('../utils/http/response/response-result');
 var url_params_builder_1 = require('../utils/http/url-params-builder');
 var ticket_expired = 'ticket_expired';
@@ -50,6 +51,9 @@ var HttpProvider = (function () {
             _this.request(url, options).then(function (result) {
                 if (result.status === 1) {
                     _this.dialog.alert('系统提示', result.msg);
+                    if (util_1.isPresent(result.data)) {
+                        resolve(result.data);
+                    }
                     return;
                 }
                 resolve(result.data);
@@ -98,13 +102,6 @@ var CorsHttpProvider = (function () {
         this.events = events;
         this.config = config;
     }
-    Object.defineProperty(CorsHttpProvider.prototype, "ticket", {
-        set: function (t) {
-            this._ticket = t;
-        },
-        enumerable: true,
-        configurable: true
-    });
     CorsHttpProvider.prototype.login = function (options) {
         var search = url_params_builder_1.URLParamsBuilder.build(options);
         search.set('__login__', 'true');
@@ -114,7 +111,7 @@ var CorsHttpProvider = (function () {
         var _this = this;
         var search = url_params_builder_1.URLParamsBuilder.build({ '__logout__': true });
         return this.request(this.config.login.url, { search: search }).then(function (result) {
-            _this._ticket = null;
+            _this.config.login.ticket = null;
             return result;
         }, function (reason) {
             return reason;
@@ -125,7 +122,7 @@ var CorsHttpProvider = (function () {
         var search = url_params_builder_1.URLParamsBuilder.build({
             'appKey': this.config.login.appKey,
             'devMode': this.config.devMode,
-            '__ticket__': this._ticket,
+            '__ticket__': this.config.login.ticket,
             '__cors-request__': true
         });
         if (_.isUndefined(options)) {

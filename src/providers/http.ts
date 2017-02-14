@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 
 import { EXT_IONIC_CONFIG, Config } from '../config/config';
 import { Dialog } from '../utils/dialog';
+import { isPresent } from '../utils/util';
 import { ResponseResult } from '../utils/http/response/response-result';
 import { URLParamsBuilder } from '../utils/http/url-params-builder';
 
@@ -49,7 +50,17 @@ export interface LoginOptions {
   password: string;
   appId?: string;
   jpushId?: string;
-  __login__?: boolean;
+}
+
+export interface SubAcount {
+  type?: string;
+  name?: string;
+  password?: string;
+}
+
+export interface LoginResult {
+  successToken?: string;
+  subAccounts?: Array<SubAcount>;
 }
 
 @Injectable()
@@ -68,6 +79,9 @@ export class HttpProvider {
       this.request<T>(url, options).then((result: ResponseResult<T>) => {
         if (result.status === 1) {
           this.dialog.alert('系统提示', result.msg);
+          if (isPresent(result.data)) {
+            resolve(result.data);
+          }
           return;
         }
         resolve(result.data);
@@ -103,28 +117,22 @@ export class HttpProvider {
 
 @Injectable()
 export class CorsHttpProvider {
-  private _ticket: string;
-
   constructor(
     private http: HttpProvider,
     private events: Events,
     @Inject(EXT_IONIC_CONFIG) private config: Config
   ) { }
 
-  set ticket(t: string) {
-    this._ticket = t;
-  }
-
-  login(options: LoginOptions): Promise<string> {
+  login(options: LoginOptions): Promise<LoginResult> {
     let search = URLParamsBuilder.build(options);
     search.set('__login__', 'true');
-    return this.request<string>(this.config.login.url, { search: search });
+    return this.request<LoginResult>(this.config.login.url, { search: search });
   }
 
   logout() {
     let search = URLParamsBuilder.build({ '__logout__': true });
     return this.request<string>(this.config.login.url, { search: search }).then(result => {
-      this._ticket = null;
+      this.config.login.ticket = null;
       return result;
     }, reason => {
       return reason;
@@ -135,7 +143,7 @@ export class CorsHttpProvider {
     let search = URLParamsBuilder.build({
       'appKey': this.config.login.appKey,
       'devMode': this.config.devMode,
-      '__ticket__': this._ticket,
+      '__ticket__': this.config.login.ticket,
       '__cors-request__': true
     });
 
