@@ -117,6 +117,12 @@ export class HttpProvider {
 
 @Injectable()
 export class CorsHttpProvider {
+  private _ticket: string = null;
+
+  set ticket(t: string) {
+    this._ticket = t;
+  }
+
   constructor(
     private http: HttpProvider,
     private events: Events,
@@ -132,7 +138,7 @@ export class CorsHttpProvider {
   logout() {
     let search = URLParamsBuilder.build({ '__logout__': true });
     return this.request<string>(this.config.login.url, { search: search }).then(result => {
-      this.config.login.ticket = null;
+      this.ticket = null;
       return result;
     }, reason => {
       return reason;
@@ -143,7 +149,7 @@ export class CorsHttpProvider {
     let search = URLParamsBuilder.build({
       'appKey': this.config.login.appKey,
       'devMode': this.config.devMode,
-      '__ticket__': this.config.login.ticket,
+      '__ticket__': this.ticket,
       '__cors-request__': true
     });
 
