@@ -7,7 +7,8 @@ import {
   ResponseContentType,
   RequestMethod,
   RequestOptions,
-  URLSearchParams
+  URLSearchParams,
+  Headers
 } from '@angular/http';
 import { Events, Loading } from 'ionic-angular';
 import * as _ from 'lodash';
@@ -93,6 +94,18 @@ export class HttpProvider {
 
   request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
     options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
+    if (options.method === RequestMethod.Post) {
+      if (isPresent(options.headers)) {
+        options.headers.append('Content-Type', 'application/x-www-form-urlencoded');
+      } else {
+        options.headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+      }
+
+      if (isPresent(options.body)) {
+        options.body = URLParamsBuilder.build(options.body).toString();
+      }
+    }
+
     let loading: Loading;
     if (options.showLoading) {
       loading = this.dialog.loading('正在加载...');
@@ -130,9 +143,11 @@ export class CorsHttpProvider {
   ) { }
 
   login(options: LoginOptions): Promise<LoginResult> {
-    let search = URLParamsBuilder.build(options);
-    search.set('__login__', 'true');
-    return this.request<LoginResult>(this.config.login.url, { search: search });
+    return this.request<LoginResult>(this.config.login.url, {
+      method: RequestMethod.Post,
+      body: options,
+      search: URLParamsBuilder.build({ __login__: true })
+    });
   }
 
   logout() {
@@ -154,7 +169,7 @@ export class CorsHttpProvider {
     });
 
     if (_.isUndefined(options)) {
-      options = { showLoading: true };
+      options = {};
     }
 
     if (_.has(options, 'search')) {

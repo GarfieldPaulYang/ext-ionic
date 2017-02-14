@@ -65,6 +65,17 @@ var HttpProvider = (function () {
     HttpProvider.prototype.request = function (url, options) {
         var _this = this;
         options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
+        if (options.method === http_1.RequestMethod.Post) {
+            if (util_1.isPresent(options.headers)) {
+                options.headers.append('Content-Type', 'application/x-www-form-urlencoded');
+            }
+            else {
+                options.headers = new http_1.Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+            }
+            if (util_1.isPresent(options.body)) {
+                options.body = url_params_builder_1.URLParamsBuilder.build(options.body).toString();
+            }
+        }
         var loading;
         if (options.showLoading) {
             loading = this.dialog.loading('正在加载...');
@@ -111,9 +122,11 @@ var CorsHttpProvider = (function () {
         configurable: true
     });
     CorsHttpProvider.prototype.login = function (options) {
-        var search = url_params_builder_1.URLParamsBuilder.build(options);
-        search.set('__login__', 'true');
-        return this.request(this.config.login.url, { search: search });
+        return this.request(this.config.login.url, {
+            method: http_1.RequestMethod.Post,
+            body: options,
+            search: url_params_builder_1.URLParamsBuilder.build({ __login__: true })
+        });
     };
     CorsHttpProvider.prototype.logout = function () {
         var _this = this;
@@ -134,7 +147,7 @@ var CorsHttpProvider = (function () {
             '__cors-request__': true
         });
         if (_.isUndefined(options)) {
-            options = { showLoading: true };
+            options = {};
         }
         if (_.has(options, 'search')) {
             search.setAll(options.search);
