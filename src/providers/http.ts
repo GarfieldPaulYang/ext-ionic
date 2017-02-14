@@ -77,9 +77,9 @@ export class HttpProvider {
   requestWithError<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       this.request<T>(url, options).then((result: ResponseResult<T>) => {
-        if(result.status === 1) {
+        if (result.status === 1) {
           this.dialog.alert('系统提示', result.msg);
-          if(isPresent(result.data)) {
+          if (isPresent(result.data)) {
             resolve(result.data);
           }
           return;
@@ -94,7 +94,7 @@ export class HttpProvider {
   request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
     options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
     let loading: Loading;
-    if(options.showLoading) {
+    if (options.showLoading) {
       loading = this.dialog.loading('正在加载...');
       loading.present();
     }
@@ -102,13 +102,13 @@ export class HttpProvider {
       this.http.request(url, options).map(
         (r: Response) => new ResponseResult<T>(r.json())
       ).toPromise().then((result: ResponseResult<T>) => {
-        if(loading) loading.dismiss();
+        if (loading) loading.dismiss();
         resolve(result);
       }, reason => {
-        if(loading) loading.dismiss();
+        if (loading) loading.dismiss();
         reject(reason);
       }).catch(reason => {
-        if(loading) loading.dismiss();
+        if (loading) loading.dismiss();
         reject(reason);
       });
     });
@@ -153,18 +153,18 @@ export class CorsHttpProvider {
       '__cors-request__': true
     });
 
-    if(_.isUndefined(options)) {
+    if (_.isUndefined(options)) {
       options = { showLoading: true };
     }
 
-    if(_.has(options, 'search')) {
+    if (_.has(options, 'search')) {
       search.setAll(<URLSearchParams>options.search);
     }
 
     return this.http.requestWithError<T>(
       url, _.assign({}, options, { search: search })
     ).then(result => {
-      if(result && _.isString(result) && result.toString() === ticket_expired) {
+      if (result && _.isString(result) && result.toString() === ticket_expired) {
         this.events.publish(ticket_expired);
         return ticket_expired;
       }
