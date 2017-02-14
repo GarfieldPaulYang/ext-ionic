@@ -12,6 +12,7 @@ log.txt
 .sass-cache/
 .versions/
 coverage/
+aot/
 dist/
 node_modules/
 tmp/
