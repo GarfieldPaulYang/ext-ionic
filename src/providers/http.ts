@@ -124,6 +124,10 @@ export class HttpProvider {
 export class CorsHttpProvider {
   private _ticket: string = null;
 
+  get ticket(): string {
+    return this._ticket;
+  }
+
   set ticket(t: string) {
     this._ticket = t;
   }

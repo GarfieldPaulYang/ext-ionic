@@ -107,6 +107,9 @@ var CorsHttpProvider = (function () {
         this._ticket = null;
     }
     Object.defineProperty(CorsHttpProvider.prototype, "ticket", {
+        get: function () {
+            return this._ticket;
+        },
         set: function (t) {
             this._ticket = t;
         },
