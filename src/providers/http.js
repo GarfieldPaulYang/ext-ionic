@@ -66,7 +66,7 @@ var HttpProvider = (function () {
         var _this = this;
         options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
         if (options.method === http_1.RequestMethod.Post && util_1.isPresent(options.body) && !(options.body instanceof FormData)) {
-            options.body = JSON.stringify(options.body);
+            options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
         }
         var loading;
         if (options.showLoading) {

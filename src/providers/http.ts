@@ -95,7 +95,7 @@ export class HttpProvider {
   request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
     options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
     if (options.method === RequestMethod.Post && isPresent(options.body) && !(options.body instanceof FormData)) {
-      options.body = JSON.stringify(options.body);
+      options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
     }
 
     let loading: Loading;
