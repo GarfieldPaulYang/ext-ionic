@@ -2,9 +2,7 @@ import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
 import { isPresent } from '../utils/util';
 
-export interface Registar {
-  __registerKey__: string;
-}
+export const REGISTAR_KEY: string = '__registerKey__';
 
 @Injectable()
 export class RegistarProvider {
@@ -14,14 +12,14 @@ export class RegistarProvider {
     if (!this.isRegistar(obj)) {
       return;
     }
-    this.dict[obj.__registerKey__] = obj;
+    this.dict[obj[REGISTAR_KEY]] = obj;
   }
 
   unregister(obj: any) {
     if (!this.isRegistar(obj)) {
       return;
     }
-    delete this.dict[obj.__registerKey__];
+    delete this.dict[obj[REGISTAR_KEY]];
   }
 
   registers(objs: Array<any>) {
@@ -43,6 +41,6 @@ export class RegistarProvider {
   }
 
   private isRegistar(obj: any): boolean {
-    return isPresent(obj) && _.has(obj, '__registerKey__');
+    return isPresent(obj) && _.has(obj, REGISTAR_KEY);
   }
 }

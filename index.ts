@@ -7,7 +7,7 @@ export { URLParamsBuilder } from './src/utils/http/url-params-builder';
 export { ConsoleErrorHandler } from './src/utils/console-error-handler';
 
 export { HotUpdater } from './src/providers/hot-updater';
-export { Registar, RegistarProvider } from './src/providers/registar';
+export { REGISTAR_KEY, RegistarProvider } from './src/providers/registar';
 
 export { MapToIterable } from './src/pipes/map-to-iterable';
 export { OrderBy } from './src/pipes/order-by';

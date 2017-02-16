@@ -15,6 +15,7 @@ exports.ConsoleErrorHandler = console_error_handler_1.ConsoleErrorHandler;
 var hot_updater_1 = require('./src/providers/hot-updater');
 exports.HotUpdater = hot_updater_1.HotUpdater;
 var registar_1 = require('./src/providers/registar');
+exports.REGISTAR_KEY = registar_1.REGISTAR_KEY;
 exports.RegistarProvider = registar_1.RegistarProvider;
 var map_to_iterable_1 = require('./src/pipes/map-to-iterable');
 exports.MapToIterable = map_to_iterable_1.MapToIterable;
