@@ -7,7 +7,10 @@ export { URLParamsBuilder } from './src/utils/http/url-params-builder';
 export { ConsoleErrorHandler } from './src/utils/console-error-handler';
 
 export { HotUpdater } from './src/providers/hot-updater';
+<<<<<<< HEAD
+=======
 export { ComponentRegistar } from './src/providers/component-registar';
+>>>>>>> parent of 1fed007... 重写注册器机制
 
 export { MapToIterable } from './src/pipes/map-to-iterable';
 export { OrderBy } from './src/pipes/order-by';
@@ -54,7 +57,10 @@ import { Dialog } from './src/utils/dialog';
 import { HttpProvider, CorsHttpProvider } from './src/providers/http';
 
 import { HotUpdater } from './src/providers/hot-updater';
+<<<<<<< HEAD
+=======
 import { ComponentRegistar } from './src/providers/component-registar';
+>>>>>>> parent of 1fed007... 重写注册器机制
 
 import { MapToIterable } from './src/pipes/map-to-iterable';
 import { OrderBy } from './src/pipes/order-by';
@@ -109,8 +115,12 @@ export class ExtIonicModule {
         CorsHttpProvider,
         MapToIterable,
         OrderBy,
+<<<<<<< HEAD
+        HotUpdater
+=======
         HotUpdater,
         ComponentRegistar
+>>>>>>> parent of 1fed007... 重写注册器机制
       ]
     };
   }
