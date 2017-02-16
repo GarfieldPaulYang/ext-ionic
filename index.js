@@ -60,6 +60,14 @@ var baidu_map_component_2 = require('./src/components/baidu-map/baidu-map-compon
 var image_loader_component_2 = require('./src/components/image-loader/image-loader-component');
 var image_loader_1 = require('./src/components/image-loader/image-loader');
 var star_rating_2 = require('./src/components/star-rating/star-rating');
+var EXPORTS = [
+    map_to_iterable_2.MapToIterable,
+    order_by_2.OrderBy,
+    alpha_scroll_2.AlphaScroll,
+    baidu_map_component_2.BaiduMap,
+    image_loader_component_2.ImageLoaderCmp,
+    star_rating_2.StarRatingCmp,
+];
 var ExtIonicModule = (function () {
     function ExtIonicModule() {
     }
@@ -87,21 +95,9 @@ var ExtIonicModule = (function () {
                     imports: [
                         ionic_angular_1.IonicModule
                     ],
-                    exports: [
-                        map_to_iterable_2.MapToIterable,
-                        order_by_2.OrderBy,
-                        alpha_scroll_2.AlphaScroll,
-                        baidu_map_component_2.BaiduMap,
-                        image_loader_component_2.ImageLoaderCmp,
-                        star_rating_2.StarRatingCmp
-                    ],
+                    exports: EXPORTS,
                     declarations: [
-                        map_to_iterable_2.MapToIterable,
-                        order_by_2.OrderBy,
-                        alpha_scroll_2.AlphaScroll,
-                        baidu_map_component_2.BaiduMap,
-                        image_loader_component_2.ImageLoaderCmp,
-                        star_rating_2.StarRatingCmp,
+                        EXPORTS,
                         open_url_modal_component_1.OpenUrlModalCmp
                     ],
                     entryComponents: [

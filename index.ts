@@ -72,25 +72,22 @@ import { ImageLoaderController } from './src/components/image-loader/image-loade
 
 import { StarRatingCmp } from './src/components/star-rating/star-rating';
 
+const EXPORTS: Array<any> = [
+  MapToIterable,
+  OrderBy,
+  AlphaScroll,
+  BaiduMap,
+  ImageLoaderCmp,
+  StarRatingCmp,
+];
+
 @NgModule({
   imports: [
     IonicModule
   ],
-  exports: [
-    MapToIterable,
-    OrderBy,
-    AlphaScroll,
-    BaiduMap,
-    ImageLoaderCmp,
-    StarRatingCmp
-  ],
+  exports: EXPORTS,
   declarations: [
-    MapToIterable,
-    OrderBy,
-    AlphaScroll,
-    BaiduMap,
-    ImageLoaderCmp,
-    StarRatingCmp,
+    EXPORTS,
     OpenUrlModalCmp
   ],
   entryComponents: [
