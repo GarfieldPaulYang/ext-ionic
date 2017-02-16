@@ -22,7 +22,10 @@ var HttpProviderOptions = (function (_super) {
     }
     HttpProviderOptions.prototype.merge = function (options) {
         var result = _super.prototype.merge.call(this, options);
-        result.showLoading = options.showLoading;
+        result.showLoading = this.showLoading;
+        if (util_1.isPresent(options.showLoading)) {
+            result.showLoading = options.showLoading;
+        }
         return result;
     };
     return HttpProviderOptions;

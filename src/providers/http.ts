@@ -35,7 +35,11 @@ export class HttpProviderOptions extends RequestOptions {
 
   merge(options?: HttpProviderOptionsArgs): HttpProviderOptions {
     let result = <HttpProviderOptions>super.merge(options);
-    result.showLoading = options.showLoading;
+    result.showLoading = this.showLoading;
+
+    if (isPresent(options.showLoading)) {
+      result.showLoading = options.showLoading;
+    }
     return result;
   }
 }
