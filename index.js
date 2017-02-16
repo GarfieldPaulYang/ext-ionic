@@ -4,7 +4,7 @@ exports.Immerse = immerse_plugin_1.Immerse;
 var local_notifications_1 = require('./src/native/local-notifications');
 exports.ExtLocalNotifications = local_notifications_1.ExtLocalNotifications;
 var config_1 = require('./src/config/config');
-exports.defaultConfig = config_1.defaultConfig;
+exports.ConfigProvider = config_1.ConfigProvider;
 var response_result_1 = require('./src/utils/http/response/response-result');
 exports.ResponseResult = response_result_1.ResponseResult;
 exports.Pagination = response_result_1.Pagination;
@@ -45,7 +45,6 @@ exports.CorsHttpProvider = http_1.CorsHttpProvider;
 require('./src/rxjs-extensions');
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
-var _ = require('lodash');
 var config_2 = require('./src/config/config');
 var dialog_2 = require('./src/utils/dialog');
 var http_2 = require('./src/providers/http');
@@ -68,7 +67,8 @@ var ExtIonicModule = (function () {
         return {
             ngModule: ExtIonicModule,
             providers: [
-                { provide: config_2.EXT_IONIC_CONFIG, useValue: _.isUndefined(config) ? config_2.defaultConfig : _.assign({}, config_2.defaultConfig, config) },
+                { provide: config_2.EXT_IONIC_CONFIG, useValue: config },
+                { provide: config_2.ConfigProvider, useFactory: config_2.setupConfig, deps: [config_2.EXT_IONIC_CONFIG] },
                 open_url_modal_2.OpenUrlModalController,
                 baidu_map_1.BaiduMapController,
                 image_loader_1.ImageLoaderController,

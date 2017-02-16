@@ -13,7 +13,7 @@ var HotUpdater = (function () {
     }
     HotUpdater.prototype.start = function () {
         var _this = this;
-        if (!this.config.hotUpdateUrl) {
+        if (!this.config.get().hotUpdateUrl) {
             return;
         }
         document.addEventListener('chcp_updateInstalled', function (eventData) {
@@ -48,7 +48,7 @@ var HotUpdater = (function () {
                             currentProgress: Number(progress)
                         });
                     });
-                    transfer.download(_this.config.hotUpdateUrl, targetPath).then(function () {
+                    transfer.download(_this.config.get().hotUpdateUrl, targetPath).then(function () {
                         local_notifications_1.ExtLocalNotifications.clear(1000);
                         ionic_native_1.FileOpener.open(targetPath, 'application/vnd.android.package-archive');
                     });
@@ -62,7 +62,7 @@ var HotUpdater = (function () {
     HotUpdater.ctorParameters = [
         { type: ionic_angular_1.Platform, },
         { type: dialog_1.Dialog, },
-        { type: undefined, decorators: [{ type: core_1.Inject, args: [config_1.EXT_IONIC_CONFIG,] },] },
+        { type: config_1.ConfigProvider, },
     ];
     return HotUpdater;
 }());

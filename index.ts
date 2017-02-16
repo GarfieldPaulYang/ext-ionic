@@ -1,7 +1,7 @@
 export { Immerse } from './src/native/immerse-plugin';
 export { ExtILocalNotification, ExtLocalNotifications } from './src/native/local-notifications';
 
-export { LoginConfig, Config, defaultConfig } from './src/config/config';
+export { LoginConfig, Config, ConfigProvider } from './src/config/config';
 export { ResponseResult, Pagination } from './src/utils/http/response/response-result';
 export { URLParamsBuilder } from './src/utils/http/url-params-builder';
 export { ConsoleErrorHandler } from './src/utils/console-error-handler';
@@ -48,9 +48,8 @@ import './src/rxjs-extensions';
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
-import * as _ from 'lodash';
 
-import { EXT_IONIC_CONFIG, Config, defaultConfig } from './src/config/config';
+import { EXT_IONIC_CONFIG, Config, ConfigProvider, setupConfig } from './src/config/config';
 import { Dialog } from './src/utils/dialog';
 import { HttpProvider, CorsHttpProvider } from './src/providers/http';
 
@@ -103,7 +102,8 @@ export class ExtIonicModule {
     return {
       ngModule: ExtIonicModule,
       providers: [
-        { provide: EXT_IONIC_CONFIG, useValue: _.isUndefined(config) ? defaultConfig : _.assign({}, defaultConfig, config) },
+        { provide: EXT_IONIC_CONFIG, useValue: config },
+        { provide: ConfigProvider, useFactory: setupConfig, deps: [EXT_IONIC_CONFIG] },
         OpenUrlModalController,
         BaiduMapController,
         ImageLoaderController,

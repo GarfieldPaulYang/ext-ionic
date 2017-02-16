@@ -1,4 +1,5 @@
-import { OpaqueToken } from '@angular/core';
+import * as _ from 'lodash';
+import { OpaqueToken, Injectable } from '@angular/core';
 
 import { OpenUrlModalOptions } from '../components/open-url-modal/open-url-modal-options';
 import { ImageLoaderOptions } from '../components/image-loader/image-loader-options';
@@ -19,7 +20,7 @@ export interface Config {
   baiduMap?: BaiduMapOptions;
 }
 
-export const defaultConfig: Config = {
+const defaultConfig: Config = {
   devMode: false,
   openUrlModal: {
     onmessage: (e) => { }
@@ -46,5 +47,24 @@ export const defaultConfig: Config = {
     }
   }
 };
+
+@Injectable()
+export class ConfigProvider {
+  private _config: Config;
+
+  get(): Config {
+    return this._config;
+  }
+
+  init(config: Config) {
+    this._config = _.isUndefined(config) ? defaultConfig : _.assign({}, defaultConfig, config);
+  }
+}
+
+export function setupConfig(userConfig: Config): Config {
+  const conifg = new ConfigProvider();
+  conifg.init(userConfig);
+  return conifg;
+}
 
 export const EXT_IONIC_CONFIG = new OpaqueToken('EXT_IONIC_CONFIG');

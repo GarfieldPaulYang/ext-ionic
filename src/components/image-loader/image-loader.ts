@@ -1,8 +1,8 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { File, FileEntry, Transfer } from 'ionic-native';
 
-import { EXT_IONIC_CONFIG, Config } from '../../config/config';
+import { ConfigProvider } from '../../config/config';
 import { StringUtils } from '../../utils/string';
 
 declare var cordova: any;
@@ -12,7 +12,7 @@ export class ImageLoaderController {
   private isCacheReady: boolean = false;
   private isInit: boolean = false;
 
-  constructor(platform: Platform, @Inject(EXT_IONIC_CONFIG) private config: Config) {
+  constructor(platform: Platform, private config: ConfigProvider) {
     if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
       this.isInit = true;
       this.throwWarning('You are running on a browser or using livereload, IonicImageLoader will not function, falling back to browser loading.');
@@ -78,7 +78,7 @@ export class ImageLoaderController {
       return;
     }
 
-    File.removeDir(cordova.file.cacheDirectory, this.config.imageLoader.cacheDirectoryName).catch(e => {
+    File.removeDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName).catch(e => {
       this.throwError(e);
     });
   }
@@ -146,15 +146,15 @@ export class ImageLoaderController {
   }
 
   private get cacheDirectoryExists(): Promise<boolean> {
-    return <Promise<boolean>>File.checkDir(cordova.file.cacheDirectory, this.config.imageLoader.cacheDirectoryName);
+    return <Promise<boolean>>File.checkDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName);
   }
 
   private get cacheDirectory(): string {
-    return cordova.file.cacheDirectory + this.config.imageLoader.cacheDirectoryName;
+    return cordova.file.cacheDirectory + this.config.get().imageLoader.cacheDirectoryName;
   }
 
   private createCacheDirectory(replace: boolean = false): Promise<any> {
-    return File.createDir(cordova.file.cacheDirectory, this.config.imageLoader.cacheDirectoryName, replace);
+    return File.createDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName, replace);
   }
 
   private createFileName(url: string): string {

@@ -69,7 +69,7 @@ var ImageLoaderController = (function () {
         if (!this.isCacheReady) {
             return;
         }
-        ionic_native_1.File.removeDir(cordova.file.cacheDirectory, this.config.imageLoader.cacheDirectoryName).catch(function (e) {
+        ionic_native_1.File.removeDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName).catch(function (e) {
             _this.throwError(e);
         });
     };
@@ -134,21 +134,21 @@ var ImageLoaderController = (function () {
     });
     Object.defineProperty(ImageLoaderController.prototype, "cacheDirectoryExists", {
         get: function () {
-            return ionic_native_1.File.checkDir(cordova.file.cacheDirectory, this.config.imageLoader.cacheDirectoryName);
+            return ionic_native_1.File.checkDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName);
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(ImageLoaderController.prototype, "cacheDirectory", {
         get: function () {
-            return cordova.file.cacheDirectory + this.config.imageLoader.cacheDirectoryName;
+            return cordova.file.cacheDirectory + this.config.get().imageLoader.cacheDirectoryName;
         },
         enumerable: true,
         configurable: true
     });
     ImageLoaderController.prototype.createCacheDirectory = function (replace) {
         if (replace === void 0) { replace = false; }
-        return ionic_native_1.File.createDir(cordova.file.cacheDirectory, this.config.imageLoader.cacheDirectoryName, replace);
+        return ionic_native_1.File.createDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName, replace);
     };
     ImageLoaderController.prototype.createFileName = function (url) {
         return string_1.StringUtils.hash(url).toString();
@@ -158,7 +158,7 @@ var ImageLoaderController = (function () {
     ];
     ImageLoaderController.ctorParameters = [
         { type: ionic_angular_1.Platform, },
-        { type: undefined, decorators: [{ type: core_1.Inject, args: [config_1.EXT_IONIC_CONFIG,] },] },
+        { type: config_1.ConfigProvider, },
     ];
     return ImageLoaderController;
 }());

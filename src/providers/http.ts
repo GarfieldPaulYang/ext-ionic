@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   Http,
   Request,
@@ -13,7 +13,7 @@ import {
 import { Events, Loading } from 'ionic-angular';
 import * as _ from 'lodash';
 
-import { EXT_IONIC_CONFIG, Config } from '../config/config';
+import { ConfigProvider } from '../config/config';
 import { Dialog } from '../utils/dialog';
 import { isPresent } from '../utils/util';
 import { ResponseResult } from '../utils/http/response/response-result';
@@ -135,11 +135,11 @@ export class CorsHttpProvider {
   constructor(
     private http: HttpProvider,
     private events: Events,
-    @Inject(EXT_IONIC_CONFIG) private config: Config
+    private config: ConfigProvider
   ) { }
 
   login(options: LoginOptions): Promise<LoginResult> {
-    return this.request<LoginResult>(this.config.login.url, {
+    return this.request<LoginResult>(this.config.get().login.url, {
       headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
       method: RequestMethod.Post,
       body: URLParamsBuilder.build(options).toString(),
@@ -149,7 +149,7 @@ export class CorsHttpProvider {
 
   logout() {
     let search = URLParamsBuilder.build({ '__logout__': true });
-    return this.request<string>(this.config.login.url, { search: search }).then(result => {
+    return this.request<string>(this.config.get().login.url, { search: search }).then(result => {
       this.ticket = null;
       return result;
     }, reason => {
@@ -159,8 +159,8 @@ export class CorsHttpProvider {
 
   request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T> {
     let search = URLParamsBuilder.build({
-      'appKey': this.config.login.appKey,
-      'devMode': this.config.devMode,
+      'appKey': this.config.get().login.appKey,
+      'devMode': this.config.get().devMode,
       '__ticket__': this.ticket,
       '__cors-request__': true
     });

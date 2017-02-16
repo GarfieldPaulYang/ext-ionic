@@ -1,9 +1,9 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Transfer, FileOpener } from 'ionic-native';
 
 import { ExtLocalNotifications } from '../native/local-notifications';
-import { EXT_IONIC_CONFIG, Config } from '../config/config';
+import { ConfigProvider } from '../config/config';
 import { Dialog } from '../utils/dialog';
 
 declare var cordova: any;
@@ -13,11 +13,11 @@ export class HotUpdater {
   constructor(
     private platform: Platform,
     private dialog: Dialog,
-    @Inject(EXT_IONIC_CONFIG) private config: Config
+    private config: ConfigProvider
   ) { }
 
   start() {
-    if (!this.config.hotUpdateUrl) {
+    if (!this.config.get().hotUpdateUrl) {
       return;
     }
 
@@ -55,7 +55,7 @@ export class HotUpdater {
               currentProgress: Number(progress)
             });
           });
-          transfer.download(this.config.hotUpdateUrl, targetPath).then(() => {
+          transfer.download(this.config.get().hotUpdateUrl, targetPath).then(() => {
             ExtLocalNotifications.clear(1000);
             FileOpener.open(targetPath, 'application/vnd.android.package-archive');
           });

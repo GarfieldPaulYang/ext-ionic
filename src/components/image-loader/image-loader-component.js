@@ -14,30 +14,30 @@ var ImageLoaderCmp = (function () {
     }
     ImageLoaderCmp.prototype.ngOnInit = function () {
         var _this = this;
-        if (!this.spinner && this.config.imageLoader.spinnerEnabled) {
+        if (!this.spinner && this.config.get().imageLoader.spinnerEnabled) {
             this.spinner = true;
         }
         if (!this.fallbackUrl) {
-            this.fallbackUrl = this.config.imageLoader.fallbackUrl;
+            this.fallbackUrl = this.config.get().imageLoader.fallbackUrl;
         }
         if (_.isUndefined(this.useImg)) {
-            this.useImg = this.config.imageLoader.useImg;
+            this.useImg = this.config.get().imageLoader.useImg;
         }
         this.useImg = util_1.isTrueProperty(this.useImg);
         if (!this.width) {
-            this.width = this.config.imageLoader.width;
+            this.width = this.config.get().imageLoader.width;
         }
         if (!this.height) {
-            this.height = this.config.imageLoader.height;
+            this.height = this.config.get().imageLoader.height;
         }
         if (!this.display) {
-            this.display = this.config.imageLoader.display;
+            this.display = this.config.get().imageLoader.display;
         }
         if (!this.backgroundSize) {
-            this.backgroundSize = this.config.imageLoader.backgroundSize;
+            this.backgroundSize = this.config.get().imageLoader.backgroundSize;
         }
         if (!this.backgroundRepeat) {
-            this.backgroundRepeat = this.config.imageLoader.backgroundRepeat;
+            this.backgroundRepeat = this.config.get().imageLoader.backgroundRepeat;
         }
         if (!this.imageUrl) {
             if (this.fallbackUrl) {
@@ -99,7 +99,7 @@ var ImageLoaderCmp = (function () {
         { type: core_1.ElementRef, },
         { type: core_1.Renderer, },
         { type: image_loader_1.ImageLoaderController, },
-        { type: undefined, decorators: [{ type: core_1.Inject, args: [config_1.EXT_IONIC_CONFIG,] },] },
+        { type: config_1.ConfigProvider, },
     ];
     ImageLoaderCmp.propDecorators = {
         'imageUrl': [{ type: core_1.Input, args: ['src',] },],

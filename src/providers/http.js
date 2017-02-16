@@ -117,7 +117,7 @@ var CorsHttpProvider = (function () {
         configurable: true
     });
     CorsHttpProvider.prototype.login = function (options) {
-        return this.request(this.config.login.url, {
+        return this.request(this.config.get().login.url, {
             headers: new http_1.Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
             method: http_1.RequestMethod.Post,
             body: url_params_builder_1.URLParamsBuilder.build(options).toString(),
@@ -127,7 +127,7 @@ var CorsHttpProvider = (function () {
     CorsHttpProvider.prototype.logout = function () {
         var _this = this;
         var search = url_params_builder_1.URLParamsBuilder.build({ '__logout__': true });
-        return this.request(this.config.login.url, { search: search }).then(function (result) {
+        return this.request(this.config.get().login.url, { search: search }).then(function (result) {
             _this.ticket = null;
             return result;
         }, function (reason) {
@@ -137,8 +137,8 @@ var CorsHttpProvider = (function () {
     CorsHttpProvider.prototype.request = function (url, options) {
         var _this = this;
         var search = url_params_builder_1.URLParamsBuilder.build({
-            'appKey': this.config.login.appKey,
-            'devMode': this.config.devMode,
+            'appKey': this.config.get().login.appKey,
+            'devMode': this.config.get().devMode,
             '__ticket__': this.ticket,
             '__cors-request__': true
         });
@@ -164,7 +164,7 @@ var CorsHttpProvider = (function () {
     CorsHttpProvider.ctorParameters = [
         { type: HttpProvider, },
         { type: ionic_angular_1.Events, },
-        { type: undefined, decorators: [{ type: core_1.Inject, args: [config_1.EXT_IONIC_CONFIG,] },] },
+        { type: config_1.ConfigProvider, },
     ];
     return CorsHttpProvider;
 }());

@@ -1,9 +1,9 @@
-import { Component, Input, ElementRef, Renderer, OnInit, Inject } from '@angular/core';
+import { Component, Input, ElementRef, Renderer, OnInit } from '@angular/core';
 import { isTrueProperty } from '../../utils/util';
 import * as _ from 'lodash';
 
 import { ImageLoaderController } from './image-loader';
-import { EXT_IONIC_CONFIG, Config } from '../../config/config';
+import { ConfigProvider } from '../../config/config';
 
 @Component({
   selector: 'ion-image-loader',
@@ -32,41 +32,41 @@ export class ImageLoaderCmp implements OnInit {
     private element: ElementRef,
     private renderer: Renderer,
     private imageLoader: ImageLoaderController,
-    @Inject(EXT_IONIC_CONFIG) private config: Config
+    private config: ConfigProvider
   ) { }
 
   ngOnInit(): void {
-    if (!this.spinner && this.config.imageLoader.spinnerEnabled) {
+    if (!this.spinner && this.config.get().imageLoader.spinnerEnabled) {
       this.spinner = true;
     }
 
     if (!this.fallbackUrl) {
-      this.fallbackUrl = this.config.imageLoader.fallbackUrl;
+      this.fallbackUrl = this.config.get().imageLoader.fallbackUrl;
     }
 
     if (_.isUndefined(this.useImg)) {
-      this.useImg = this.config.imageLoader.useImg;
+      this.useImg = this.config.get().imageLoader.useImg;
     }
     this.useImg = isTrueProperty(this.useImg);
 
     if (!this.width) {
-      this.width = this.config.imageLoader.width;
+      this.width = this.config.get().imageLoader.width;
     }
 
     if (!this.height) {
-      this.height = this.config.imageLoader.height;
+      this.height = this.config.get().imageLoader.height;
     }
 
     if (!this.display) {
-      this.display = this.config.imageLoader.display;
+      this.display = this.config.get().imageLoader.display;
     }
 
     if (!this.backgroundSize) {
-      this.backgroundSize = this.config.imageLoader.backgroundSize;
+      this.backgroundSize = this.config.get().imageLoader.backgroundSize;
     }
 
     if (!this.backgroundRepeat) {
-      this.backgroundRepeat = this.config.imageLoader.backgroundRepeat;
+      this.backgroundRepeat = this.config.get().imageLoader.backgroundRepeat;
     }
 
     if (!this.imageUrl) {

@@ -1,8 +1,8 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ModalController, ModalOptions, Modal } from 'ionic-angular';
 import * as _ from 'lodash';
 
-import { EXT_IONIC_CONFIG, Config } from '../../config/config';
+import { ConfigProvider } from '../../config/config';
 
 import { OpenUrlModalOptions } from './open-url-modal-options';
 import { OpenUrlModalCmp } from './open-url-modal-component';
@@ -12,10 +12,10 @@ export class OpenUrlModalController {
   private options: OpenUrlModalOptions = {};
   private modal: Modal;
 
-  constructor(private modalCtrl: ModalController, @Inject(EXT_IONIC_CONFIG) private config: Config) { }
+  constructor(private modalCtrl: ModalController, private config: ConfigProvider) { }
 
   open(opts: OpenUrlModalOptions = {}, modalOpts: ModalOptions = {}) {
-    this.options = _.assign({}, this.config.openUrlModal, opts);
+    this.options = _.assign({}, this.config.get().openUrlModal, opts);
 
     this.modal = this.modalCtrl.create(OpenUrlModalCmp, { openUrlModalOptions: opts }, modalOpts);
     this.modal.onDidDismiss((data: any) => {

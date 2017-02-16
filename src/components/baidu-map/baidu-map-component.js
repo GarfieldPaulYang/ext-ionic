@@ -53,7 +53,7 @@ var BaiduMap = (function () {
         this.baiduMapCtrl.drawMarkers(markers, this.onMarkerClick);
     };
     BaiduMap.prototype.getOptions = function () {
-        return _.assign({}, this.config.baiduMap, this.options);
+        return _.assign({}, this.config.get().baiduMap, this.options);
     };
     BaiduMap.decorators = [
         { type: core_1.Component, args: [{
@@ -64,7 +64,7 @@ var BaiduMap = (function () {
     BaiduMap.ctorParameters = [
         { type: core_1.ElementRef, },
         { type: baidu_map_1.BaiduMapController, },
-        { type: undefined, decorators: [{ type: core_1.Inject, args: [config_1.EXT_IONIC_CONFIG,] },] },
+        { type: config_1.ConfigProvider, },
     ];
     BaiduMap.propDecorators = {
         'options': [{ type: core_1.Input },],
