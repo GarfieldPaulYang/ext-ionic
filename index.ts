@@ -7,7 +7,7 @@ export { URLParamsBuilder } from './src/utils/http/url-params-builder';
 export { ConsoleErrorHandler } from './src/utils/console-error-handler';
 
 export { HotUpdater } from './src/providers/hot-updater';
-export { ComponentRegistar } from './src/providers/component-registar';
+export { Registar, RegistarProvider } from './src/providers/registar';
 
 export { MapToIterable } from './src/pipes/map-to-iterable';
 export { OrderBy } from './src/pipes/order-by';
@@ -54,7 +54,7 @@ import { Dialog } from './src/utils/dialog';
 import { HttpProvider, CorsHttpProvider } from './src/providers/http';
 
 import { HotUpdater } from './src/providers/hot-updater';
-import { ComponentRegistar } from './src/providers/component-registar';
+import { RegistarProvider } from './src/providers/registar';
 
 import { MapToIterable } from './src/pipes/map-to-iterable';
 import { OrderBy } from './src/pipes/order-by';
@@ -110,7 +110,7 @@ export class ExtIonicModule {
         MapToIterable,
         OrderBy,
         HotUpdater,
-        ComponentRegistar
+        RegistarProvider
       ]
     };
   }

@@ -14,8 +14,8 @@ var console_error_handler_1 = require('./src/utils/console-error-handler');
 exports.ConsoleErrorHandler = console_error_handler_1.ConsoleErrorHandler;
 var hot_updater_1 = require('./src/providers/hot-updater');
 exports.HotUpdater = hot_updater_1.HotUpdater;
-var component_registar_1 = require('./src/providers/component-registar');
-exports.ComponentRegistar = component_registar_1.ComponentRegistar;
+var registar_1 = require('./src/providers/registar');
+exports.RegistarProvider = registar_1.RegistarProvider;
 var map_to_iterable_1 = require('./src/pipes/map-to-iterable');
 exports.MapToIterable = map_to_iterable_1.MapToIterable;
 var order_by_1 = require('./src/pipes/order-by');
@@ -49,7 +49,7 @@ var config_2 = require('./src/config/config');
 var dialog_2 = require('./src/utils/dialog');
 var http_2 = require('./src/providers/http');
 var hot_updater_2 = require('./src/providers/hot-updater');
-var component_registar_2 = require('./src/providers/component-registar');
+var registar_2 = require('./src/providers/registar');
 var map_to_iterable_2 = require('./src/pipes/map-to-iterable');
 var order_by_2 = require('./src/pipes/order-by');
 var alpha_scroll_2 = require('./src/components/alpha-scroll/alpha-scroll');
@@ -86,7 +86,7 @@ var ExtIonicModule = (function () {
                 map_to_iterable_2.MapToIterable,
                 order_by_2.OrderBy,
                 hot_updater_2.HotUpdater,
-                component_registar_2.ComponentRegistar
+                registar_2.RegistarProvider
             ]
         };
     };
