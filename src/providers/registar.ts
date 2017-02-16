@@ -43,6 +43,6 @@ export class RegistarProvider {
   }
 
   private isRegistar(obj: any): boolean {
-    return _.has(obj, '__registerKey__');
+    return isPresent(obj) && _.has(obj, '__registerKey__');
   }
 }

@@ -36,7 +36,7 @@ var RegistarProvider = (function () {
         return this.dict[key];
     };
     RegistarProvider.prototype.isRegistar = function (obj) {
-        return _.has(obj, '__registerKey__');
+        return util_1.isPresent(obj) && _.has(obj, '__registerKey__');
     };
     RegistarProvider.decorators = [
         { type: core_1.Injectable },
