@@ -102,12 +102,12 @@ export class HttpProvider {
       options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
     }
 
-    let loading: Loading;
-    if (options.showLoading) {
-      loading = this.dialog.loading('正在加载...');
-      loading.present();
-    }
     return new Promise<ResponseResult<T>>((resolve, reject) => {
+      let loading: Loading;
+      if (options.showLoading) {
+        loading = this.dialog.loading('正在加载...');
+        loading.present();
+      }
       this.http.request(url, options).map(
         (r: Response) => new ResponseResult<T>(r.json())
       ).toPromise().then((result: ResponseResult<T>) => {
@@ -156,8 +156,6 @@ export class CorsHttpProvider {
     return this.request<string>(this.config.get().login.url, { search: search }).then(result => {
       this.ticket = null;
       return result;
-    }, reason => {
-      return reason;
     });
   }
 
@@ -185,8 +183,6 @@ export class CorsHttpProvider {
         return ticket_expired;
       }
       return result;
-    }, reason => {
-      return reason;
     });
   }
 }

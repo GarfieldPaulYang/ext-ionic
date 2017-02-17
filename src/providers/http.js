@@ -71,12 +71,12 @@ var HttpProvider = (function () {
         if (options.method === http_1.RequestMethod.Post && util_1.isPresent(options.body) && !(options.body instanceof FormData)) {
             options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
         }
-        var loading;
-        if (options.showLoading) {
-            loading = this.dialog.loading('正在加载...');
-            loading.present();
-        }
         return new Promise(function (resolve, reject) {
+            var loading;
+            if (options.showLoading) {
+                loading = _this.dialog.loading('正在加载...');
+                loading.present();
+            }
             _this.http.request(url, options).map(function (r) { return new response_result_1.ResponseResult(r.json()); }).toPromise().then(function (result) {
                 if (loading)
                     loading.dismiss();
@@ -133,8 +133,6 @@ var CorsHttpProvider = (function () {
         return this.request(this.config.get().login.url, { search: search }).then(function (result) {
             _this.ticket = null;
             return result;
-        }, function (reason) {
-            return reason;
         });
     };
     CorsHttpProvider.prototype.request = function (url, options) {
@@ -157,8 +155,6 @@ var CorsHttpProvider = (function () {
                 return ticket_expired;
             }
             return result;
-        }, function (reason) {
-            return reason;
         });
     };
     CorsHttpProvider.decorators = [
