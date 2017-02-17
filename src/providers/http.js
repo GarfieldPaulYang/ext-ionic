@@ -50,46 +50,39 @@ var HttpProvider = (function () {
     });
     HttpProvider.prototype.requestWithError = function (url, options) {
         var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.request(url, options).then(function (result) {
-                if (result.status === 1) {
-                    _this.dialog.alert('系统提示', result.msg);
-                    if (util_1.isPresent(result.data)) {
-                        resolve(result.data);
-                    }
-                    return;
+        return this.request(url, options).then(function (result) {
+            if (result.status === 1) {
+                _this.dialog.alert('系统提示', result.msg);
+                if (util_1.isPresent(result.data)) {
+                    return result.data;
                 }
-                resolve(result.data);
-            }, function (reason) {
-                reject(reason);
-            });
+                return Promise.reject(result.msg);
+            }
+            return result.data;
         });
     };
     HttpProvider.prototype.request = function (url, options) {
-        var _this = this;
         options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
         if (options.method === http_1.RequestMethod.Post && util_1.isPresent(options.body) && !(options.body instanceof FormData)) {
             options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
         }
-        return new Promise(function (resolve, reject) {
-            var loading;
-            if (options.showLoading) {
-                loading = _this.dialog.loading('正在加载...');
-                loading.present();
-            }
-            _this.http.request(url, options).map(function (r) { return new response_result_1.ResponseResult(r.json()); }).toPromise().then(function (result) {
-                if (loading)
-                    loading.dismiss();
-                resolve(result);
-            }, function (reason) {
-                if (loading)
-                    loading.dismiss();
-                reject(reason);
-            }).catch(function (reason) {
-                if (loading)
-                    loading.dismiss();
-                reject(reason);
-            });
+        var loading;
+        if (options.showLoading) {
+            loading = this.dialog.loading('正在加载...');
+            loading.present();
+        }
+        return this.http.request(url, options).map(function (r) { return new response_result_1.ResponseResult(r.json()); }).toPromise().then(function (result) {
+            if (loading)
+                loading.dismiss();
+            return result;
+        }, function (reason) {
+            if (loading)
+                loading.dismiss();
+            return reason;
+        }).catch(function (reason) {
+            console.log(reason);
+            if (loading)
+                loading.dismiss();
         });
     };
     HttpProvider.decorators = [

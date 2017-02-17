@@ -77,19 +77,15 @@ export class HttpProvider {
   }
 
   requestWithError<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T> {
-    return new Promise<T>((resolve, reject) => {
-      this.request<T>(url, options).then((result: ResponseResult<T>) => {
-        if (result.status === 1) {
-          this.dialog.alert('系统提示', result.msg);
-          if (isPresent(result.data)) {
-            resolve(result.data);
-          }
-          return;
+    return this.request<T>(url, options).then((result: ResponseResult<T>) => {
+      if (result.status === 1) {
+        this.dialog.alert('系统提示', result.msg);
+        if (isPresent(result.data)) {
+          return result.data;
         }
-        resolve(result.data);
-      }, reason => {
-        reject(reason);
-      });
+        return Promise.reject(result.msg);
+      }
+      return result.data;
     });
   }
 
@@ -99,24 +95,22 @@ export class HttpProvider {
       options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
     }
 
-    return new Promise<ResponseResult<T>>((resolve, reject) => {
-      let loading: Loading;
-      if (options.showLoading) {
-        loading = this.dialog.loading('正在加载...');
-        loading.present();
-      }
-      this.http.request(url, options).map(
-        (r: Response) => new ResponseResult<T>(r.json())
-      ).toPromise().then((result: ResponseResult<T>) => {
-        if (loading) loading.dismiss();
-        resolve(result);
-      }, reason => {
-        if (loading) loading.dismiss();
-        reject(reason);
-      }).catch(reason => {
-        if (loading) loading.dismiss();
-        reject(reason);
-      });
+    let loading: Loading;
+    if (options.showLoading) {
+      loading = this.dialog.loading('正在加载...');
+      loading.present();
+    }
+    return this.http.request(url, options).map(
+      (r: Response) => new ResponseResult<T>(r.json())
+    ).toPromise().then(result => {
+      if (loading) loading.dismiss();
+      return result;
+    }, reason => {
+      if (loading) loading.dismiss();
+      return reason;
+    }).catch(reason => {
+      console.log(reason);
+      if (loading) loading.dismiss();
     });
   }
 }
