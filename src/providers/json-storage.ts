@@ -26,6 +26,11 @@ export class JsonStorage {
   }
 
   private witeJsonToFile(filename: string, json: any): Promise<boolean> {
+    /*
+      TODO file插件文档中描述ios dataDirectory目录为Library下的NoCloud目录，
+      查看ios的介绍中Library目录下默认是没有NoCloud的，需要在ios环境下测试，如果不可用，
+      将改为documentsDirectory目录
+    */
     let sysRootPath = cordova.file.dataDirectory;
     return new Promise(resove => {
       File.checkDir(sysRootPath, this._rootPath).then(_ => {
