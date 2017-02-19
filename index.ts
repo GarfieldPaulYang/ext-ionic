@@ -10,7 +10,6 @@ export { HotUpdater } from './src/providers/hot-updater';
 export { ComponentRegistar } from './src/providers/component-registar';
 export { JsonStorage } from './src/providers/json-storage';
 
-
 export { MapToIterable } from './src/pipes/map-to-iterable';
 export { OrderBy } from './src/pipes/order-by';
 

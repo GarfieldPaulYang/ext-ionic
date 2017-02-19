@@ -6,12 +6,15 @@ var util_1 = require('../utils/util');
 var JsonStorage = (function () {
     function JsonStorage(platform) {
         this.platform = platform;
-        this._rootPath = 'json-storage';
+        this._storageDirectory = 'json-storage';
         this.map = {};
     }
-    Object.defineProperty(JsonStorage.prototype, "rootPath", {
-        set: function (rootPath) {
-            this._rootPath = rootPath;
+    Object.defineProperty(JsonStorage.prototype, "storageDirectory", {
+        get: function () {
+            return this._storageDirectory;
+        },
+        set: function (path) {
+            this._storageDirectory = path;
         },
         enumerable: true,
         configurable: true
@@ -21,43 +24,16 @@ var JsonStorage = (function () {
             return Promise.resolve(false);
         }
         if (this.platform.is('cordova')) {
-            return this.witeJsonToFile(key, json);
+            return this.writeJsonToFile(key, json);
         }
         this.map[key] = json;
         return Promise.resolve(true);
-    };
-    JsonStorage.prototype.witeJsonToFile = function (filename, json) {
-        var _this = this;
-        var sysRootPath = cordova.file.dataDirectory;
-        return new Promise(function (resove) {
-            ionic_native_1.File.checkDir(sysRootPath, _this._rootPath).then(function (_) {
-                resove(true);
-            }, function (_) {
-                resove(ionic_native_1.File.createDir(sysRootPath, _this._rootPath, true));
-            });
-        }).then(function (_) {
-            var path = sysRootPath + _this._rootPath;
-            return ionic_native_1.File.writeFile(path, filename, JSON.stringify(json), { replace: true }).then(function (_) {
-                return true;
-            }, function (e) {
-                console.log(e);
-                return false;
-            });
-        });
     };
     JsonStorage.prototype.load = function (key) {
         if (this.platform.is('cordova')) {
             return this.readFileToJson(key);
         }
         return this.map[key];
-    };
-    JsonStorage.prototype.readFileToJson = function (key) {
-        var path = cordova.file.dataDirectory + this._rootPath;
-        return ionic_native_1.File.readAsText(path, key).then(function (jsonStr) {
-            return JSON.parse(jsonStr);
-        }, function (e) {
-            console.log(e);
-        });
     };
     JsonStorage.prototype.remove = function (key) {
         if (this.platform.is('cordova')) {
@@ -66,9 +42,35 @@ var JsonStorage = (function () {
         delete this.map[key];
         return Promise.resolve(true);
     };
+    JsonStorage.prototype.writeJsonToFile = function (filename, json) {
+        var _this = this;
+        return new Promise(function (resove) {
+            ionic_native_1.File.checkDir(_this.getRootpath(), _this.storageDirectory).then(function (_) {
+                resove(true);
+            }, function (_) {
+                resove(ionic_native_1.File.createDir(_this.getRootpath(), _this.storageDirectory, true));
+            });
+        }).then(function (_) {
+            return ionic_native_1.File.writeFile(_this.getFilepath(), filename, JSON.stringify(json), { replace: true }).then(function (_) {
+                return true;
+            }, function (e) {
+                return false;
+            });
+        });
+    };
+    JsonStorage.prototype.readFileToJson = function (key) {
+        return ionic_native_1.File.readAsText(this.getFilepath(), key).then(function (jsonStr) {
+            return JSON.parse(jsonStr);
+        });
+    };
     JsonStorage.prototype.removeFile = function (key) {
-        var path = cordova.file.dataDirectory + this._rootPath;
-        return ionic_native_1.File.removeFile(path, key).then(function (_) { return true; });
+        return ionic_native_1.File.removeFile(this.getFilepath(), key).then(function (_) { return true; });
+    };
+    JsonStorage.prototype.getRootpath = function () {
+        return cordova.file.dataDirectory;
+    };
+    JsonStorage.prototype.getFilepath = function () {
+        return this.getRootpath() + this.storageDirectory;
     };
     JsonStorage.decorators = [
         { type: core_1.Injectable },
