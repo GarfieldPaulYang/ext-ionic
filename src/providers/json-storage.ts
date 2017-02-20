@@ -35,7 +35,7 @@ export class JsonStorage {
     if (this.platform.is('cordova')) {
       return this.readFileToJson(key);
     }
-    return this.map[key];
+    return Promise.resolve(this.map[key]);
   }
 
   remove(key: string): Promise<boolean> {

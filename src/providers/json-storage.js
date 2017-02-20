@@ -33,7 +33,7 @@ var JsonStorage = (function () {
         if (this.platform.is('cordova')) {
             return this.readFileToJson(key);
         }
-        return this.map[key];
+        return Promise.resolve(this.map[key]);
     };
     JsonStorage.prototype.remove = function (key) {
         if (this.platform.is('cordova')) {
