@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { File } from 'ionic-native';
@@ -7,16 +8,7 @@ declare var cordova: any;
 
 @Injectable()
 export class JsonStorage {
-  private _storageDirectory: string = 'json-storage';
   private map: any = {};
-
-  get storageDirectory(): string {
-    return this._storageDirectory;
-  }
-
-  set storageDirectory(path: string) {
-    this._storageDirectory = path;
-  }
 
   constructor(private platform: Platform) { }
 
@@ -35,7 +27,7 @@ export class JsonStorage {
     if (this.platform.is('cordova')) {
       return this.readFileToJson(key);
     }
-    return this.map[key];
+    return Promise.resolve(this.map[key]);
   }
 
   remove(key: string): Promise<boolean> {
@@ -47,29 +39,41 @@ export class JsonStorage {
   }
 
   private writeJsonToFile(filename: string, json: any): Promise<boolean> {
-    return new Promise(resove => {
-      File.checkDir(this.getRootpath(), this.storageDirectory).then(_ => {
-        resove(true);
-      }, _ => {
-        resove(File.createDir(this.getRootpath(), this.storageDirectory, true));
-      });
-    }).then(_ => {
-      return File.writeFile(this.getFilepath(), filename, JSON.stringify(json), { replace: true }).then(_ => {
-        return true;
-      }, e => {
-        return false;
-      });
+    return File.writeFile(this.getFilepath(), filename, JSON.stringify(json), { replace: true }).then(value => {
+      return true;
+    }).catch(reason => {
+      console.log(reason);
+      return false;
     });
   }
 
   private readFileToJson<T>(key: string): Promise<T> {
-    return File.readAsText(this.getFilepath(), key).then((jsonStr: string) => {
-      return JSON.parse(jsonStr);
+    return File.readAsText(this.getFilepath(), key).then(value => {
+      if (this.isFileError(value)) {
+        return Promise.reject(value);
+      }
+
+      return JSON.parse(<string>value);
+    }, reason => {
+      console.log(reason);
+      return reason;
     });
   }
 
   private removeFile(key: string): Promise<boolean> {
-    return File.removeFile(this.getFilepath(), key).then(_ => true);
+    return File.removeFile(this.getFilepath(), key).then(value => {
+      if (this.isFileError(value)) {
+        return false;
+      }
+      return true;
+    }).catch(reason => {
+      console.log(reason);
+      return false;
+    });
+  }
+
+  private isFileError(value: any): boolean {
+    return _.has(value, 'code') && _.has(value, 'message');
   }
 
   /*
@@ -77,11 +81,7 @@ export class JsonStorage {
     查看ios的介绍中Library目录下默认是没有NoCloud的，需要在ios环境下测试，如果不可用，
     将改为documentsDirectory目录
   */
-  private getRootpath(): string {
-    return cordova.file.dataDirectory;
-  }
-
   private getFilepath(): string {
-    return this.getRootpath() + this.storageDirectory;
+    return cordova.file.dataDirectory;
   }
 }
