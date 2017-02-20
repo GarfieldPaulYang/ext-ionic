@@ -109,8 +109,8 @@ export class HttpProvider {
       if (loading) loading.dismiss();
       return reason;
     }).catch(reason => {
-      console.log(reason);
       if (loading) loading.dismiss();
+      console.log(reason);
     });
   }
 }

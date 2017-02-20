@@ -80,9 +80,9 @@ var HttpProvider = (function () {
                 loading.dismiss();
             return reason;
         }).catch(function (reason) {
-            console.log(reason);
             if (loading)
                 loading.dismiss();
+            console.log(reason);
         });
     };
     HttpProvider.decorators = [
