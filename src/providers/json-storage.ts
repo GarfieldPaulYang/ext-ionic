@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { File } from 'ionic-native';
@@ -41,7 +40,7 @@ export class JsonStorage {
   private writeJsonToFile(filename: string, json: any): Promise<boolean> {
     return File.writeFile(this.getFilepath(), filename, JSON.stringify(json), { replace: true }).then(value => {
       return true;
-    }).catch(reason => {
+    }, reason => {
       console.log(reason);
       return false;
     });
@@ -49,10 +48,6 @@ export class JsonStorage {
 
   private readFileToJson<T>(key: string): Promise<T> {
     return File.readAsText(this.getFilepath(), key).then(value => {
-      if (this.isFileError(value)) {
-        return Promise.reject(value);
-      }
-
       return JSON.parse(<string>value);
     }, reason => {
       console.log(reason);
@@ -62,18 +57,11 @@ export class JsonStorage {
 
   private removeFile(key: string): Promise<boolean> {
     return File.removeFile(this.getFilepath(), key).then(value => {
-      if (this.isFileError(value)) {
-        return false;
-      }
       return true;
-    }).catch(reason => {
+    }, reason => {
       console.log(reason);
       return false;
     });
-  }
-
-  private isFileError(value: any): boolean {
-    return _.has(value, 'code') && _.has(value, 'message');
   }
 
   /*
