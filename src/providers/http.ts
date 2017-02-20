@@ -142,7 +142,7 @@ export class CorsHttpProvider {
     });
   }
 
-  logout() {
+  logout(): Promise<string> {
     let search = URLParamsBuilder.build({ '__logout__': true });
     return this.request<string>(this.config.get().login.url, { search: search }).then(result => {
       this.ticket = null;
