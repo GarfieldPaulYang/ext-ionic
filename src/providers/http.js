@@ -5,6 +5,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var core_1 = require('@angular/core');
+var rxjs_1 = require('rxjs');
 var http_1 = require('@angular/http');
 var ionic_angular_1 = require('ionic-angular');
 var _ = require('lodash');
@@ -62,16 +63,14 @@ var HttpProvider = (function () {
         });
     };
     HttpProvider.prototype.request = function (url, options) {
-        options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
-        if (options.method === http_1.RequestMethod.Post && util_1.isPresent(options.body) && !(options.body instanceof FormData)) {
-            options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
-        }
         var loading;
         if (options.showLoading) {
             loading = this.dialog.loading('正在加载...');
             loading.present();
         }
-        return this.http.request(url, options).map(function (r) { return new response_result_1.ResponseResult(r.json()); }).toPromise().then(function (result) {
+        return this.ajax(url, options).catch(function (err) {
+            return rxjs_1.Observable.throw(err);
+        }).toPromise().then(function (result) {
             if (loading)
                 loading.dismiss();
             return result;
@@ -84,6 +83,13 @@ var HttpProvider = (function () {
                 loading.dismiss();
             console.log(reason);
         });
+    };
+    HttpProvider.prototype.ajax = function (url, options) {
+        options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
+        if (options.method === http_1.RequestMethod.Post && util_1.isPresent(options.body) && !(options.body instanceof FormData)) {
+            options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
+        }
+        return this.http.request(url, options).map(function (r) { return new response_result_1.ResponseResult(r.json()); });
     };
     HttpProvider.decorators = [
         { type: core_1.Injectable },

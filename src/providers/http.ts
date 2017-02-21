@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import {
   Http,
   Request,
@@ -90,19 +91,14 @@ export class HttpProvider {
   }
 
   request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
-    options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
-    if (options.method === RequestMethod.Post && isPresent(options.body) && !(options.body instanceof FormData)) {
-      options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
-    }
-
     let loading: Loading;
     if (options.showLoading) {
       loading = this.dialog.loading('正在加载...');
       loading.present();
     }
-    return this.http.request(url, options).map(
-      (r: Response) => new ResponseResult<T>(r.json())
-    ).toPromise().then(result => {
+    return this.ajax(url, options).catch(err => {
+      return Observable.throw(err);
+    }).toPromise().then(result => {
       if (loading) loading.dismiss();
       return result;
     }, reason => {
@@ -112,6 +108,17 @@ export class HttpProvider {
       if (loading) loading.dismiss();
       console.log(reason);
     });
+  }
+
+  ajax<T>(url: string | Request, options?: HttpProviderOptionsArgs): Observable<ResponseResult<T>> {
+    options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
+    if (options.method === RequestMethod.Post && isPresent(options.body) && !(options.body instanceof FormData)) {
+      options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
+    }
+
+    return this.http.request(url, options).map(
+      (r: Response) => new ResponseResult<T>(r.json())
+    );
   }
 }
 
