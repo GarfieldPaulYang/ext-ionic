@@ -8,7 +8,8 @@ export { ConsoleErrorHandler } from './src/utils/console-error-handler';
 
 export { HotUpdater } from './src/providers/hot-updater';
 export { ComponentRegistar } from './src/providers/component-registar';
-export { JsonStorage } from './src/providers/json-storage';
+export { FileStorage, TextFileStorage } from './src/providers/file-storage/file-storage';
+export { JsonFileStorage } from './src/providers/file-storage/json-file-storage';
 
 export { MapToIterable } from './src/pipes/map-to-iterable';
 export { OrderBy } from './src/pipes/order-by';
@@ -56,7 +57,8 @@ import { HttpProvider, CorsHttpProvider } from './src/providers/http';
 
 import { HotUpdater } from './src/providers/hot-updater';
 import { ComponentRegistar } from './src/providers/component-registar';
-import { JsonStorage } from './src/providers/json-storage';
+import { TextFileStorage } from './src/providers/file-storage/file-storage';
+import { JsonFileStorage } from './src/providers/file-storage/json-file-storage';
 
 
 import { MapToIterable } from './src/pipes/map-to-iterable';
@@ -114,7 +116,8 @@ export class ExtIonicModule {
         OrderBy,
         HotUpdater,
         ComponentRegistar,
-        JsonStorage
+        TextFileStorage,
+        JsonFileStorage
       ]
     };
   }

@@ -1,6 +1,6 @@
 {
   "name": "ext-ionic",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "ionic2 扩展库",
   "scripts": {
     "tslint": "tslint -c ./tslint.json -e './src/**/*.d.ts' './src/**/*.ts'",
