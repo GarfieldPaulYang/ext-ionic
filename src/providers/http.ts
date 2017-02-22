@@ -96,17 +96,12 @@ export class HttpProvider {
       loading = this.dialog.loading('正在加载...');
       loading.present();
     }
-    return this.ajax(url, options).catch(err => {
-      return Observable.throw(err);
-    }).toPromise().then(result => {
+    return this.ajax(url, options).toPromise().then(result => {
       if (loading) loading.dismiss();
       return result;
     }, reason => {
       if (loading) loading.dismiss();
       return reason;
-    }).catch(reason => {
-      if (loading) loading.dismiss();
-      console.log(reason);
     });
   }
 

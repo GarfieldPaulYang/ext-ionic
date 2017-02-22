@@ -5,7 +5,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var core_1 = require('@angular/core');
-var rxjs_1 = require('rxjs');
 var http_1 = require('@angular/http');
 var ionic_angular_1 = require('ionic-angular');
 var _ = require('lodash');
@@ -68,9 +67,7 @@ var HttpProvider = (function () {
             loading = this.dialog.loading('正在加载...');
             loading.present();
         }
-        return this.ajax(url, options).catch(function (err) {
-            return rxjs_1.Observable.throw(err);
-        }).toPromise().then(function (result) {
+        return this.ajax(url, options).toPromise().then(function (result) {
             if (loading)
                 loading.dismiss();
             return result;
@@ -78,10 +75,6 @@ var HttpProvider = (function () {
             if (loading)
                 loading.dismiss();
             return reason;
-        }).catch(function (reason) {
-            if (loading)
-                loading.dismiss();
-            console.log(reason);
         });
     };
     HttpProvider.prototype.ajax = function (url, options) {
