@@ -46,6 +46,7 @@ var http_1 = require('./src/providers/http');
 exports.HttpProviderOptions = http_1.HttpProviderOptions;
 exports.HttpProvider = http_1.HttpProvider;
 exports.CorsHttpProvider = http_1.CorsHttpProvider;
+exports.ticket_expired = http_1.ticket_expired;
 require('./src/rxjs-extensions');
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
