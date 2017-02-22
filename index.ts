@@ -43,7 +43,8 @@ export {
   LoginResult,
   SubAcount,
   HttpProvider,
-  CorsHttpProvider
+  CorsHttpProvider,
+  ticket_expired
 } from './src/providers/http';
 
 import './src/rxjs-extensions';

@@ -13,7 +13,7 @@ var dialog_1 = require('../utils/dialog');
 var util_1 = require('../utils/util');
 var response_result_1 = require('../utils/http/response/response-result');
 var url_params_builder_1 = require('../utils/http/url-params-builder');
-var ticket_expired = 'ticket_expired';
+exports.ticket_expired = 'ticket_expired';
 var HttpProviderOptions = (function (_super) {
     __extends(HttpProviderOptions, _super);
     function HttpProviderOptions(options) {
@@ -142,9 +142,9 @@ var CorsHttpProvider = (function () {
             search.setAll(options.search);
         }
         return this.http.requestWithError(url, _.assign({}, options, { search: search })).then(function (result) {
-            if (result && _.isString(result) && result.toString() === ticket_expired) {
-                _this.events.publish(ticket_expired);
-                return ticket_expired;
+            if (result && _.isString(result) && result.toString() === exports.ticket_expired) {
+                _this.events.publish(exports.ticket_expired);
+                return exports.ticket_expired;
             }
             return result;
         });

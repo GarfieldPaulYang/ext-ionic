@@ -20,7 +20,7 @@ import { isPresent } from '../utils/util';
 import { ResponseResult } from '../utils/http/response/response-result';
 import { URLParamsBuilder } from '../utils/http/url-params-builder';
 
-const ticket_expired: string = 'ticket_expired';
+export const ticket_expired: string = 'ticket_expired';
 
 export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
   showLoading?: boolean;
