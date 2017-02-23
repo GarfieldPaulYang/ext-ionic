@@ -18,10 +18,6 @@ export class HotUpdater {
   ) { }
 
   start() {
-    if (!this.config.get().hotUpdateUrl) {
-      return;
-    }
-
     HotCodePush.onUpdateInstalled(event => {
       this.dialog.toast('程序已更新完成，重启后生效...');
     });
@@ -29,6 +25,10 @@ export class HotUpdater {
     HotCodePush.onAppNeedUpdate().then(() => {
       let isAndroid = this.platform.is('android');
       if (!isAndroid) {
+        return;
+      }
+
+      if (!this.config.get().hotUpdateUrl) {
         return;
       }
 

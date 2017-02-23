@@ -14,15 +14,15 @@ var HotUpdater = (function () {
     }
     HotUpdater.prototype.start = function () {
         var _this = this;
-        if (!this.config.get().hotUpdateUrl) {
-            return;
-        }
         hot_code_push_1.HotCodePush.onUpdateInstalled(function (event) {
             _this.dialog.toast('程序已更新完成，重启后生效...');
         });
         hot_code_push_1.HotCodePush.onAppNeedUpdate().then(function () {
             var isAndroid = _this.platform.is('android');
             if (!isAndroid) {
+                return;
+            }
+            if (!_this.config.get().hotUpdateUrl) {
                 return;
             }
             var targetPath = cordova.file.externalApplicationStorageDirectory + '/app/app.apk';
