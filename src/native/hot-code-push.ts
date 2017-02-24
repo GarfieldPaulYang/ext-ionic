@@ -71,15 +71,4 @@ export class HotCodePush {
   static onUpdateInstalled(listener: EventListenerOrEventListenerObject) {
     document.addEventListener(HotCodePush.event.UPDATE_INSTALLED, listener, false);
   }
-
-  static onAppNeedUpdate(): Promise<void> {
-    return new Promise<void>((resolve) => {
-      document.addEventListener(HotCodePush.event.UPDATE_LOAD_FAILED, event => {
-        var error = event['detail'].error;
-        if (error && error.code === HotCodePush.error.APPLICATION_BUILD_VERSION_TOO_LOW) {
-          resolve();
-        }
-      }, false);
-    });
-  }
 }

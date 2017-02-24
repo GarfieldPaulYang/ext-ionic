@@ -45,5 +45,4 @@ export declare class HotCodePush {
     static getVersionInfo(): Promise<any>;
     static configure(config: HotCodePushConfig): Promise<any>;
     static onUpdateInstalled(listener: EventListenerOrEventListenerObject): void;
-    static onAppNeedUpdate(): Promise<void>;
 }

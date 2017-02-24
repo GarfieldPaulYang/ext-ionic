@@ -25,16 +25,6 @@ var HotCodePush = (function () {
     HotCodePush.onUpdateInstalled = function (listener) {
         document.addEventListener(HotCodePush.event.UPDATE_INSTALLED, listener, false);
     };
-    HotCodePush.onAppNeedUpdate = function () {
-        return new Promise(function (resolve) {
-            document.addEventListener(HotCodePush.event.UPDATE_LOAD_FAILED, function (event) {
-                var error = event['detail'].error;
-                if (error && error.code === HotCodePush.error.APPLICATION_BUILD_VERSION_TOO_LOW) {
-                    resolve();
-                }
-            }, false);
-        });
-    };
     HotCodePush.error = {
         NOTHING_TO_INSTALL: 1,
         NOTHING_TO_UPDATE: 2,
