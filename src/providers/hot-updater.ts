@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Transfer, FileOpener } from 'ionic-native';
+import { Transfer, FileOpener, LocalNotifications } from 'ionic-native';
 
-import { ExtLocalNotifications } from '../native/local-notifications';
 import { HotCodePush } from '../native/hot-code-push';
 import { ConfigProvider } from '../config/config';
 import { Dialog } from '../utils/dialog';
@@ -54,10 +53,26 @@ export class HotUpdater {
     }
     var targetPath = cordova.file.externalApplicationStorageDirectory + '/app/app.apk';
     this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', () => {
+      LocalNotifications.schedule({
+        id: 1000,
+        title: '正在更新...',
+        text: '已经完成 0%'
+      });
       let transfer = new Transfer();
+      let progress;
+      transfer.onProgress(event => {
+        progress = ((event.loaded / event.total) * 100).toFixed(2);
+        console.log(progress);
+        LocalNotifications.update({
+          id: 1000,
+          title: '正在更新...',
+          text: `已经完成 ${progress}%`
+        });
+      });
       transfer.download(this.config.get().hotUpdateUrl, targetPath).then(() => {
-        ExtLocalNotifications.clear(1000);
-        FileOpener.open(targetPath, 'application/vnd.android.package-archive');
+        this.dialog.confirm('更新通知', '新版本下载完成是否现在安装?', () => {
+          FileOpener.open(targetPath, 'application/vnd.android.package-archive');
+        });
       }, e => {
         console.log(e);
       });

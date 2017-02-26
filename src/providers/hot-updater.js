@@ -2,7 +2,6 @@
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var ionic_native_1 = require('ionic-native');
-var local_notifications_1 = require('../native/local-notifications');
 var hot_code_push_1 = require('../native/hot-code-push');
 var config_1 = require('../config/config');
 var dialog_1 = require('../utils/dialog');
@@ -45,10 +44,26 @@ var HotUpdater = (function () {
         }
         var targetPath = cordova.file.externalApplicationStorageDirectory + '/app/app.apk';
         this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', function () {
+            ionic_native_1.LocalNotifications.schedule({
+                id: 1000,
+                title: '正在更新...',
+                text: '已经完成 0%'
+            });
             var transfer = new ionic_native_1.Transfer();
+            var progress;
+            transfer.onProgress(function (event) {
+                progress = ((event.loaded / event.total) * 100).toFixed(2);
+                console.log(progress);
+                ionic_native_1.LocalNotifications.update({
+                    id: 1000,
+                    title: '正在更新...',
+                    text: "\u5DF2\u7ECF\u5B8C\u6210 " + progress + "%"
+                });
+            });
             transfer.download(_this.config.get().hotUpdateUrl, targetPath).then(function () {
-                local_notifications_1.ExtLocalNotifications.clear(1000);
-                ionic_native_1.FileOpener.open(targetPath, 'application/vnd.android.package-archive');
+                _this.dialog.confirm('更新通知', '新版本下载完成是否现在安装?', function () {
+                    ionic_native_1.FileOpener.open(targetPath, 'application/vnd.android.package-archive');
+                });
             }, function (e) {
                 console.log(e);
             });
