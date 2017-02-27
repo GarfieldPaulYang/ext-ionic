@@ -33,6 +33,7 @@ export { ImageLoaderCmp } from './src/components/image-loader/image-loader-compo
 export { ImageLoaderOptions } from './src/components/image-loader/image-loader-options';
 
 export { StarRatingCmp } from './src/components/star-rating/star-rating';
+export { Ribbon, RibbnOption } from './src/components/ribbon/ribbon';
 
 export { StringUtils } from './src/utils/string';
 export { assert, isTrueProperty, isPresent } from './src/utils/util';
@@ -78,6 +79,7 @@ import { ImageLoaderCmp } from './src/components/image-loader/image-loader-compo
 import { ImageLoaderController } from './src/components/image-loader/image-loader';
 
 import { StarRatingCmp } from './src/components/star-rating/star-rating';
+import { Ribbon } from "./src/components/ribbon/ribbon";
 
 const EXPORTS: Array<any> = [
   MapToIterable,
@@ -86,6 +88,7 @@ const EXPORTS: Array<any> = [
   BaiduMap,
   ImageLoaderCmp,
   StarRatingCmp,
+  Ribbon
 ];
 
 @NgModule({
