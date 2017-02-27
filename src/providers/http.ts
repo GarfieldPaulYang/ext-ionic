@@ -81,7 +81,7 @@ export class HttpProvider {
     return this.request<T>(url, options).then((result: ResponseResult<T>) => {
       if (result.status === 1) {
         this.dialog.alert('系统提示', result.msg);
-        if (isPresent(result.data)) {
+        if (isPresent(result.data) && !_.isEqual({}, result.data)) {
           return result.data;
         }
         return Promise.reject(result.msg);

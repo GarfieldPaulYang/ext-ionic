@@ -53,7 +53,7 @@ var HttpProvider = (function () {
         return this.request(url, options).then(function (result) {
             if (result.status === 1) {
                 _this.dialog.alert('系统提示', result.msg);
-                if (util_1.isPresent(result.data)) {
+                if (util_1.isPresent(result.data) && !_.isEqual({}, result.data)) {
                     return result.data;
                 }
                 return Promise.reject(result.msg);
