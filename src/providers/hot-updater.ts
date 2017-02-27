@@ -5,6 +5,7 @@ import { Transfer, FileOpener, LocalNotifications } from 'ionic-native';
 import { HotCodePush } from '../native/hot-code-push';
 import { ConfigProvider } from '../config/config';
 import { Dialog } from '../utils/dialog';
+import { ExtLocalNotifications } from "../native/local-notifications";
 
 declare var cordova: any;
 
@@ -53,23 +54,28 @@ export class HotUpdater {
     }
     var targetPath = cordova.file.externalApplicationStorageDirectory + '/app/app.apk';
     this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', () => {
-      LocalNotifications.schedule({
+      ExtLocalNotifications.schedule({
         id: 1000,
         title: '正在更新...',
-        text: '已经完成 0%'
+        text: isAndroid ? '' : '已经完成 0%',
+        progress: isAndroid,
+        maxProgress: 100,
+        currentProgress: 0
       });
       let transfer = new Transfer();
-      let progress;
       transfer.onProgress(event => {
-        progress = ((event.loaded / event.total) * 100).toFixed(2);
-        console.log(progress);
-        LocalNotifications.update({
+        let progress = ((event.loaded / event.total) * 100).toFixed(2);
+        ExtLocalNotifications.update({
           id: 1000,
           title: '正在更新...',
-          text: `已经完成 ${progress}%`
+          text: isAndroid ? '' : `已经完成 ${progress}%`,
+          progress: isAndroid,
+          maxProgress: 100,
+          currentProgress: Math.round(Number(progress))
         });
       });
       transfer.download(this.config.get().hotUpdateUrl, targetPath).then(() => {
+        ExtLocalNotifications.clear(1000);
         this.dialog.confirm('更新通知', '新版本下载完成是否现在安装?', () => {
           FileOpener.open(targetPath, 'application/vnd.android.package-archive');
         });
