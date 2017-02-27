@@ -32,9 +32,15 @@ export class Ribbon implements OnInit {
   }
 
   ngOnInit() {
-    this.ribbonOption.backgroundColor = isPresent(this.ribbonOption.backgroundColor) ? this.ribbonOption.backgroundColor : 'white';
-    this.ribbonOption.ribbonColor = isPresent(this.ribbonOption.ribbonColor) ? this.ribbonOption.ribbonColor : 'red';
-    this.ribbonOption.heightAmend = isPresent(this.ribbonOption.heightAmend) ? this.ribbonOption.heightAmend : 0;
+    if (!isPresent(this.ribbonOption.backgroundColor)) {
+      this.ribbonOption.backgroundColor = 'white';
+    }
+    if (!isPresent(this.ribbonOption.ribbonColor)) {
+      this.ribbonOption.ribbonColor = 'red';
+    }
+    if (!isPresent(this.ribbonOption.heightAmend)) {
+      this.ribbonOption.heightAmend = 0;
+    }
     this.renderer.setElementClass(this.elementRef.nativeElement, 'ribbon-bar', true);
     let height = this.elementRef.nativeElement.offsetHeight + this.ribbonOption.heightAmend;
     this.riangleStyleOne = { borderTop: height * 0.52 + 'px solid ' + this.ribbonOption.ribbonColor, borderLeft: height * 0.52 + 'px solid transparent' };

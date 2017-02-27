@@ -7,9 +7,15 @@ var Ribbon = (function () {
         this.elementRef = elementRef;
     }
     Ribbon.prototype.ngOnInit = function () {
-        this.ribbonOption.backgroundColor = util_1.isPresent(this.ribbonOption.backgroundColor) ? this.ribbonOption.backgroundColor : 'white';
-        this.ribbonOption.ribbonColor = util_1.isPresent(this.ribbonOption.ribbonColor) ? this.ribbonOption.ribbonColor : 'red';
-        this.ribbonOption.heightAmend = util_1.isPresent(this.ribbonOption.heightAmend) ? this.ribbonOption.heightAmend : 0;
+        if (!util_1.isPresent(this.ribbonOption.backgroundColor)) {
+            this.ribbonOption.backgroundColor = 'white';
+        }
+        if (!util_1.isPresent(this.ribbonOption.ribbonColor)) {
+            this.ribbonOption.ribbonColor = 'red';
+        }
+        if (!util_1.isPresent(this.ribbonOption.heightAmend)) {
+            this.ribbonOption.heightAmend = 0;
+        }
         this.renderer.setElementClass(this.elementRef.nativeElement, 'ribbon-bar', true);
         var height = this.elementRef.nativeElement.offsetHeight + this.ribbonOption.heightAmend;
         this.riangleStyleOne = { borderTop: height * 0.52 + 'px solid ' + this.ribbonOption.ribbonColor, borderLeft: height * 0.52 + 'px solid transparent' };
