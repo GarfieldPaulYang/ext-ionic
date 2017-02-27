@@ -71,7 +71,7 @@ var baidu_map_component_2 = require('./src/components/baidu-map/baidu-map-compon
 var image_loader_component_2 = require('./src/components/image-loader/image-loader-component');
 var image_loader_1 = require('./src/components/image-loader/image-loader');
 var star_rating_2 = require('./src/components/star-rating/star-rating');
-var ribbon_2 = require("./src/components/ribbon/ribbon");
+var ribbon_2 = require('./src/components/ribbon/ribbon');
 var EXPORTS = [
     map_to_iterable_2.MapToIterable,
     order_by_2.OrderBy,
