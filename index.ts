@@ -78,7 +78,6 @@ import { ImageLoaderCmp } from './src/components/image-loader/image-loader-compo
 import { ImageLoaderController } from './src/components/image-loader/image-loader';
 
 import { StarRatingCmp } from './src/components/star-rating/star-rating';
-import { HotCodePushConfig } from './src/native/hot-code-push';
 
 const EXPORTS: Array<any> = [
   MapToIterable,
