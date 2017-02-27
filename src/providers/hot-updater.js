@@ -14,7 +14,6 @@ var HotUpdater = (function () {
     }
     HotUpdater.prototype.start = function () {
         var _this = this;
-        console.log('start');
         hot_code_push_1.HotCodePush.fetchUpdate().then(function (result) {
             if (result == null) {
                 _this.dialog.confirm('更新通知', '新版本更新成功,是否现在重启应用?', function () {

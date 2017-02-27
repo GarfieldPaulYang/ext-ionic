@@ -23,7 +23,6 @@ export class HotUpdater {
   ) { }
 
   start() {
-    console.log('hot update start');
     HotCodePush.fetchUpdate().then((result: ResultMsg) => {
       if (result == null) {
         this.dialog.confirm('更新通知', '新版本更新成功,是否现在重启应用?', () => {
