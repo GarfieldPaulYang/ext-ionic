@@ -79,7 +79,7 @@ import { ImageLoaderCmp } from './src/components/image-loader/image-loader-compo
 import { ImageLoaderController } from './src/components/image-loader/image-loader';
 
 import { StarRatingCmp } from './src/components/star-rating/star-rating';
-import { Ribbon } from "./src/components/ribbon/ribbon";
+import { Ribbon } from './src/components/ribbon/ribbon';
 
 const EXPORTS: Array<any> = [
   MapToIterable,
