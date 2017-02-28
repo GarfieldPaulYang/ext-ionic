@@ -38,6 +38,8 @@ var star_rating_1 = require('./src/components/star-rating/star-rating');
 exports.StarRatingCmp = star_rating_1.StarRatingCmp;
 var ribbon_1 = require('./src/components/ribbon/ribbon');
 exports.Ribbon = ribbon_1.Ribbon;
+var progress_bar_1 = require('./src/components/progress-bar/progress-bar');
+exports.ProgressBarCmp = progress_bar_1.ProgressBarCmp;
 var string_1 = require('./src/utils/string');
 exports.StringUtils = string_1.StringUtils;
 var util_1 = require('./src/utils/util');
@@ -72,6 +74,7 @@ var image_loader_component_2 = require('./src/components/image-loader/image-load
 var image_loader_1 = require('./src/components/image-loader/image-loader');
 var star_rating_2 = require('./src/components/star-rating/star-rating');
 var ribbon_2 = require('./src/components/ribbon/ribbon');
+var progress_bar_2 = require('./src/components/progress-bar/progress-bar');
 var EXPORTS = [
     map_to_iterable_2.MapToIterable,
     order_by_2.OrderBy,
@@ -79,7 +82,8 @@ var EXPORTS = [
     baidu_map_component_2.BaiduMap,
     image_loader_component_2.ImageLoaderCmp,
     star_rating_2.StarRatingCmp,
-    ribbon_2.Ribbon
+    ribbon_2.Ribbon,
+    progress_bar_2.ProgressBarCmp
 ];
 var ExtIonicModule = (function () {
     function ExtIonicModule() {
