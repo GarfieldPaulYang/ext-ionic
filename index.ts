@@ -33,9 +33,10 @@ export { ImageLoaderCmp } from './src/components/image-loader/image-loader-compo
 export { ImageLoaderOptions } from './src/components/image-loader/image-loader-options';
 
 export { StarRatingCmp } from './src/components/star-rating/star-rating';
-export { Ribbon, RibbnOption } from './src/components/ribbon/ribbon';
+export { Ribbon, RibbnOptions } from './src/components/ribbon/ribbon';
 export { ProgressBarCmp } from './src/components/progress-bar/progress-bar';
-
+export { DownloadFileCmp } from './src/components/download-file/download-file-component';
+export { DownloadFileController, DownloadOptions } from './src/components/download-file/download-file';
 
 export { StringUtils } from './src/utils/string';
 export { assert, isTrueProperty, isPresent } from './src/utils/util';
@@ -65,7 +66,6 @@ import { ComponentRegistar } from './src/providers/component-registar';
 import { TextFileStorage } from './src/providers/file-storage/file-storage';
 import { JsonFileStorage } from './src/providers/file-storage/json-file-storage';
 
-
 import { MapToIterable } from './src/pipes/map-to-iterable';
 import { OrderBy } from './src/pipes/order-by';
 
@@ -83,6 +83,9 @@ import { ImageLoaderController } from './src/components/image-loader/image-loade
 import { StarRatingCmp } from './src/components/star-rating/star-rating';
 import { Ribbon } from './src/components/ribbon/ribbon';
 import { ProgressBarCmp } from './src/components/progress-bar/progress-bar';
+import { DownloadFileCmp } from './src/components/download-file/download-file-component';
+import { DownloadFileController } from './src/components/download-file/download-file';
+
 
 const EXPORTS: Array<any> = [
   MapToIterable,
@@ -102,10 +105,12 @@ const EXPORTS: Array<any> = [
   exports: EXPORTS,
   declarations: [
     EXPORTS,
-    OpenUrlModalCmp
+    OpenUrlModalCmp,
+    DownloadFileCmp
   ],
   entryComponents: [
-    OpenUrlModalCmp
+    OpenUrlModalCmp,
+    DownloadFileCmp
   ]
 })
 export class ExtIonicModule {
@@ -126,7 +131,8 @@ export class ExtIonicModule {
         HotUpdater,
         ComponentRegistar,
         TextFileStorage,
-        JsonFileStorage
+        JsonFileStorage,
+        DownloadFileController
       ]
     };
   }

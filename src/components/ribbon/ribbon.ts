@@ -1,7 +1,7 @@
 import { Component, Renderer, ElementRef, Input, OnInit } from '@angular/core';
 import { isPresent } from '../../utils/util';
 
-export interface RibbnOption {
+export interface RibbnOptions {
   backgroundColor: string;
   ribbonColor: string;
   ribbonText: string;
@@ -26,7 +26,7 @@ export class Ribbon implements OnInit {
   textStyle: any;
 
   @Input('ribbon-option')
-  ribbonOption: RibbnOption;
+  ribbonOption: RibbnOptions;
 
   constructor(private renderer: Renderer, private elementRef: ElementRef) {
   }

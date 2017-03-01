@@ -40,6 +40,10 @@ var ribbon_1 = require('./src/components/ribbon/ribbon');
 exports.Ribbon = ribbon_1.Ribbon;
 var progress_bar_1 = require('./src/components/progress-bar/progress-bar');
 exports.ProgressBarCmp = progress_bar_1.ProgressBarCmp;
+var download_file_component_1 = require('./src/components/download-file/download-file-component');
+exports.DownloadFileCmp = download_file_component_1.DownloadFileCmp;
+var download_file_1 = require('./src/components/download-file/download-file');
+exports.DownloadFileController = download_file_1.DownloadFileController;
 var string_1 = require('./src/utils/string');
 exports.StringUtils = string_1.StringUtils;
 var util_1 = require('./src/utils/util');
@@ -75,6 +79,8 @@ var image_loader_1 = require('./src/components/image-loader/image-loader');
 var star_rating_2 = require('./src/components/star-rating/star-rating');
 var ribbon_2 = require('./src/components/ribbon/ribbon');
 var progress_bar_2 = require('./src/components/progress-bar/progress-bar');
+var download_file_component_2 = require('./src/components/download-file/download-file-component');
+var download_file_2 = require('./src/components/download-file/download-file');
 var EXPORTS = [
     map_to_iterable_2.MapToIterable,
     order_by_2.OrderBy,
@@ -105,7 +111,8 @@ var ExtIonicModule = (function () {
                 hot_updater_2.HotUpdater,
                 component_registar_2.ComponentRegistar,
                 file_storage_2.TextFileStorage,
-                json_file_storage_2.JsonFileStorage
+                json_file_storage_2.JsonFileStorage,
+                download_file_2.DownloadFileController
             ]
         };
     };
@@ -117,10 +124,12 @@ var ExtIonicModule = (function () {
                     exports: EXPORTS,
                     declarations: [
                         EXPORTS,
-                        open_url_modal_component_1.OpenUrlModalCmp
+                        open_url_modal_component_1.OpenUrlModalCmp,
+                        download_file_component_2.DownloadFileCmp
                     ],
                     entryComponents: [
-                        open_url_modal_component_1.OpenUrlModalCmp
+                        open_url_modal_component_1.OpenUrlModalCmp,
+                        download_file_component_2.DownloadFileCmp
                     ]
                 },] },
     ];
