@@ -1,55 +1,65 @@
 
 import { Injectable } from '@angular/core';
-import { Platform, Events } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 import { Transfer } from 'ionic-native';
+import * as _ from 'lodash';
 import { ExtLocalNotifications } from '../../native/local-notifications';
-import { DownloadProgress } from './download-manager-component';
+import { isPresent } from '../../utils/util';
 
 declare var cordova: any;
 
-export interface DownloadOptions {
-  url: string;
-  filePath: string;
+export interface FileInfo {
   fileName: string;
+  filePath: string;
 }
 
-export const download_start: string = 'download_start';
+export interface DownloadOptions {
+  fileName: string;
+  filePath?: string;
+  url: string;
+}
 
-export const download_progress: string = 'download_progress';
+export interface DownloadInfo extends FileInfo {
+  progress: number;
+}
 
-export const download_end: string = 'download_end';
+interface TransferOptions extends FileInfo {
+  hasNtFcns: boolean;
+}
 
 @Injectable()
 export class DownloadManagerController {
-  downloadDirectory;
+  lownloadList: Array<DownloadInfo> = [];
 
-  constructor(private platform: Platform,
-    private events: Events) {
+  private downloadDirectory;
+
+  constructor(private platform: Platform) {
     if (platform.is('cordova')) {
       let rootPath = this.platform.is('android') ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory;
-      this.downloadDirectory = rootPath + 'download';
+      this.downloadDirectory = rootPath + 'download/';
     }
   }
 
   download(option: DownloadOptions): Promise<any> {
-    let hasNtFcns = false;
-    let transfer = this.createTransfer(hasNtFcns, option.fileName);
-    let filePath = this.downloadDirectory + option.filePath + '/' + option.fileName;
-    return transfer.download(option.url, filePath).then(entry => {
-      if (hasNtFcns) {
+    if (!isPresent(option.filePath)) {
+      option.filePath = '';
+    }
+    let filePath = this.downloadDirectory + option.filePath;
+    let opt: TransferOptions = { hasNtFcns: false, fileName: option.fileName, filePath: filePath };
+    let transfer = this.createTransfer(opt);
+    return transfer.download(option.url, filePath + option.fileName).then(entry => {
+      if (opt.hasNtFcns) {
         ExtLocalNotifications.clear(1000);
       }
-      this.events.publish(download_end, option);
     });
   }
 
-  private createTransfer(hasNtFcns: boolean, fileName: string): Transfer {
+  private createTransfer(opt: TransferOptions): Transfer {
     let transfer = new Transfer();
     let hasFirst = true;
     transfer.onProgress(event => {
       if (hasFirst) {
-        this.events.publish(download_start, fileName);
-        hasNtFcns = event.total > (1024 * 1024 * 5);
+        opt.hasNtFcns = event.total > (1024 * 1024 * 5);
         ExtLocalNotifications.schedule({
           id: 1000,
           title: '开始下载...',
@@ -60,7 +70,7 @@ export class DownloadManagerController {
       }
       hasFirst = false;
       let progress = Math.round((event.loaded / event.total) * 100);
-      if (!hasFirst && hasNtFcns) {
+      if (!hasFirst && opt.hasNtFcns) {
         ExtLocalNotifications.update({
           id: 1000,
           title: '下载中...',
@@ -70,8 +80,12 @@ export class DownloadManagerController {
           sound: null
         });
       }
-      let param: DownloadProgress = { fileName: fileName, progress: progress };
-      this.events.publish(download_progress, param);
+      let file = _.find(this.lownloadList, { fileName: opt.fileName });
+      if (!isPresent(file)) {
+        this.lownloadList.push({ fileName: opt.fileName, filePath: opt.filePath, progress: progress });
+        return;
+      }
+      file.progress = progress;
     });
     return transfer;
   }

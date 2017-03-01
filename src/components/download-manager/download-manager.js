@@ -2,39 +2,38 @@
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var ionic_native_1 = require('ionic-native');
+var _ = require('lodash');
 var local_notifications_1 = require('../../native/local-notifications');
-exports.download_start = 'download_start';
-exports.download_progress = 'download_progress';
-exports.download_end = 'download_end';
+var util_1 = require('../../utils/util');
 var DownloadManagerController = (function () {
-    function DownloadManagerController(platform, events) {
+    function DownloadManagerController(platform) {
         this.platform = platform;
-        this.events = events;
+        this.lownloadList = [];
         if (platform.is('cordova')) {
             var rootPath = this.platform.is('android') ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory;
-            this.downloadDirectory = rootPath + 'download';
+            this.downloadDirectory = rootPath + 'download/';
         }
     }
     DownloadManagerController.prototype.download = function (option) {
-        var _this = this;
-        var hasNtFcns = false;
-        var transfer = this.createTransfer(hasNtFcns, option.fileName);
-        var filePath = this.downloadDirectory + option.filePath + '/' + option.fileName;
-        return transfer.download(option.url, filePath).then(function (entry) {
-            if (hasNtFcns) {
+        if (!util_1.isPresent(option.filePath)) {
+            option.filePath = '';
+        }
+        var filePath = this.downloadDirectory + option.filePath;
+        var opt = { hasNtFcns: false, fileName: option.fileName, filePath: filePath };
+        var transfer = this.createTransfer(opt);
+        return transfer.download(option.url, filePath + option.fileName).then(function (entry) {
+            if (opt.hasNtFcns) {
                 local_notifications_1.ExtLocalNotifications.clear(1000);
             }
-            _this.events.publish(exports.download_end, option);
         });
     };
-    DownloadManagerController.prototype.createTransfer = function (hasNtFcns, fileName) {
+    DownloadManagerController.prototype.createTransfer = function (opt) {
         var _this = this;
         var transfer = new ionic_native_1.Transfer();
         var hasFirst = true;
         transfer.onProgress(function (event) {
             if (hasFirst) {
-                _this.events.publish(exports.download_start, fileName);
-                hasNtFcns = event.total > (1024 * 1024 * 5);
+                opt.hasNtFcns = event.total > (1024 * 1024 * 5);
                 local_notifications_1.ExtLocalNotifications.schedule({
                     id: 1000,
                     title: '开始下载...',
@@ -45,7 +44,7 @@ var DownloadManagerController = (function () {
             }
             hasFirst = false;
             var progress = Math.round((event.loaded / event.total) * 100);
-            if (!hasFirst && hasNtFcns) {
+            if (!hasFirst && opt.hasNtFcns) {
                 local_notifications_1.ExtLocalNotifications.update({
                     id: 1000,
                     title: '下载中...',
@@ -55,8 +54,13 @@ var DownloadManagerController = (function () {
                     sound: null
                 });
             }
-            var param = { fileName: fileName, progress: progress };
-            _this.events.publish(exports.download_progress, param);
+            var file = _.find(_this.lownloadList, { fileName: opt.fileName });
+            if (!util_1.isPresent(file)) {
+                _this.lownloadList.push({ fileName: opt.fileName, filePath: opt.filePath, progress: progress });
+                return;
+            }
+            file.progress = progress;
+            console.log(_this.lownloadList);
         });
         return transfer;
     };
@@ -65,7 +69,6 @@ var DownloadManagerController = (function () {
     ];
     DownloadManagerController.ctorParameters = [
         { type: ionic_angular_1.Platform, },
-        { type: ionic_angular_1.Events, },
     ];
     return DownloadManagerController;
 }());

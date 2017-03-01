@@ -1,13 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Events } from 'ionic-angular';
-import { download_progress } from './download-manager';
-import * as _ from 'lodash';
-import { isPresent } from '../../utils/util';
-
-export interface DownloadProgress {
-  fileName: string;
-  progress: number;
-}
+import { Component } from '@angular/core';
+import { DownloadManagerController, DownloadInfo } from './download-manager';
 
 @Component({
   selector: 'page-download-file',
@@ -19,7 +11,7 @@ export interface DownloadProgress {
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-item *ngFor="let item of download">
+        <ion-item *ngFor="let item of lownloadList">
           <div>{{item.fileName}}</div>
           <div><ion-progress-bar [progress]="item.progress"></ion-progress-bar></div>
         </ion-item>
@@ -27,26 +19,10 @@ export interface DownloadProgress {
     </ion-content>
   `
 })
-export class DownloadManagerCmp implements OnInit {
-  download: Array<DownloadProgress> = [];
-  finish: Array<any> = [];
+export class DownloadManagerCmp {
+  lownloadList: Array<DownloadInfo>;
 
-  constructor(private events: Events) {
-  }
-
-  ngOnInit(): void {
-    let me = this;
-    this.events.subscribe(download_progress, (opt: DownloadProgress) => {
-      console.log('opt');
-      console.log(opt);
-      let file = _.find(me.download, { fileName: opt.fileName });
-      if (!isPresent(file)) {
-        me.download.push(opt);
-        return;
-      }
-      console.log('file');
-      console.log(file);
-      file.progress = opt.progress;
-    });
+  constructor(private downloadManagerCtl: DownloadManagerController) {
+    this.lownloadList = this.downloadManagerCtl.lownloadList;
   }
 }
