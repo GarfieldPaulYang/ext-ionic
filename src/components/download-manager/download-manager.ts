@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Platform, Events } from 'ionic-angular';
 import { Transfer } from 'ionic-native';
 import { ExtLocalNotifications } from '../../native/local-notifications';
-import { DownloadProgress } from './download-file-component';
+import { DownloadProgress } from './download-manager-component';
 
 declare var cordova: any;
 
@@ -20,7 +20,7 @@ export const download_progress: string = 'download_progress';
 export const download_end: string = 'download_end';
 
 @Injectable()
-export class DownloadFileController {
+export class DownloadManagerController {
   downloadDirectory;
 
   constructor(private platform: Platform,

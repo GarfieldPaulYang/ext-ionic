@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Events } from 'ionic-angular';
-import { download_progress } from './download-file';
+import { download_progress } from './download-manager';
 import * as _ from 'lodash';
 import { isPresent } from '../../utils/util';
 
@@ -27,7 +27,7 @@ export interface DownloadProgress {
     </ion-content>
   `
 })
-export class DownloadFileCmp implements OnInit {
+export class DownloadManagerCmp implements OnInit {
   download: Array<DownloadProgress> = [];
   finish: Array<any> = [];
 

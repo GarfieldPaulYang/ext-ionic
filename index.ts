@@ -35,8 +35,8 @@ export { ImageLoaderOptions } from './src/components/image-loader/image-loader-o
 export { StarRatingCmp } from './src/components/star-rating/star-rating';
 export { Ribbon, RibbnOptions } from './src/components/ribbon/ribbon';
 export { ProgressBarCmp } from './src/components/progress-bar/progress-bar';
-export { DownloadFileCmp } from './src/components/download-file/download-file-component';
-export { DownloadFileController, DownloadOptions } from './src/components/download-file/download-file';
+export { DownloadManagerCmp } from './src/components/download-manager/download-manager-component';
+export { DownloadManagerController, DownloadOptions } from './src/components/download-manager/download-manager';
 
 export { StringUtils } from './src/utils/string';
 export { assert, isTrueProperty, isPresent } from './src/utils/util';
@@ -83,8 +83,8 @@ import { ImageLoaderController } from './src/components/image-loader/image-loade
 import { StarRatingCmp } from './src/components/star-rating/star-rating';
 import { Ribbon } from './src/components/ribbon/ribbon';
 import { ProgressBarCmp } from './src/components/progress-bar/progress-bar';
-import { DownloadFileCmp } from './src/components/download-file/download-file-component';
-import { DownloadFileController } from './src/components/download-file/download-file';
+import { DownloadManagerCmp } from './src/components/download-manager/download-manager-component';
+import { DownloadManagerController } from './src/components/download-manager/download-manager';
 
 
 const EXPORTS: Array<any> = [
@@ -106,11 +106,11 @@ const EXPORTS: Array<any> = [
   declarations: [
     EXPORTS,
     OpenUrlModalCmp,
-    DownloadFileCmp
+    DownloadManagerCmp
   ],
   entryComponents: [
     OpenUrlModalCmp,
-    DownloadFileCmp
+    DownloadManagerCmp
   ]
 })
 export class ExtIonicModule {
@@ -132,7 +132,7 @@ export class ExtIonicModule {
         ComponentRegistar,
         TextFileStorage,
         JsonFileStorage,
-        DownloadFileController
+        DownloadManagerController
       ]
     };
   }

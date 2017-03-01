@@ -6,8 +6,8 @@ var local_notifications_1 = require('../../native/local-notifications');
 exports.download_start = 'download_start';
 exports.download_progress = 'download_progress';
 exports.download_end = 'download_end';
-var DownloadFileController = (function () {
-    function DownloadFileController(platform, events) {
+var DownloadManagerController = (function () {
+    function DownloadManagerController(platform, events) {
         this.platform = platform;
         this.events = events;
         if (platform.is('cordova')) {
@@ -15,7 +15,7 @@ var DownloadFileController = (function () {
             this.downloadDirectory = rootPath + 'download';
         }
     }
-    DownloadFileController.prototype.download = function (option) {
+    DownloadManagerController.prototype.download = function (option) {
         var _this = this;
         var hasNtFcns = false;
         var transfer = this.createTransfer(hasNtFcns, option.fileName);
@@ -27,7 +27,7 @@ var DownloadFileController = (function () {
             _this.events.publish(exports.download_end, option);
         });
     };
-    DownloadFileController.prototype.createTransfer = function (hasNtFcns, fileName) {
+    DownloadManagerController.prototype.createTransfer = function (hasNtFcns, fileName) {
         var _this = this;
         var transfer = new ionic_native_1.Transfer();
         var hasFirst = true;
@@ -60,14 +60,14 @@ var DownloadFileController = (function () {
         });
         return transfer;
     };
-    DownloadFileController.decorators = [
+    DownloadManagerController.decorators = [
         { type: core_1.Injectable },
     ];
-    DownloadFileController.ctorParameters = [
+    DownloadManagerController.ctorParameters = [
         { type: ionic_angular_1.Platform, },
         { type: ionic_angular_1.Events, },
     ];
-    return DownloadFileController;
+    return DownloadManagerController;
 }());
-exports.DownloadFileController = DownloadFileController;
-//# sourceMappingURL=download-file.js.map
+exports.DownloadManagerController = DownloadManagerController;
+//# sourceMappingURL=download-manager.js.map
