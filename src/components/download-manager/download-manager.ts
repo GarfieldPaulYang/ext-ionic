@@ -1,5 +1,5 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, ChangeDetectorRef } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Transfer } from 'ionic-native';
 import * as _ from 'lodash';
@@ -24,16 +24,28 @@ export interface DownloadInfo extends FileInfo {
 }
 
 interface TransferOptions extends FileInfo {
-  hasNtFcns: boolean;
+  notification: boolean;
+  notificationId: number;
+}
+
+export interface DownloadManagerInfo {
+  downloadList: Array<DownloadInfo>;
+  downloadHistory: Array<DownloadInfo>;
 }
 
 @Injectable()
 export class DownloadManagerController {
-  lownloadList: Array<DownloadInfo> = [];
+  pageChangeDetetorRef: ChangeDetectorRef;
+  private _managerInfo: DownloadManagerInfo;
+
+  get managerInfo(): DownloadManagerInfo {
+    return this._managerInfo;
+  }
 
   private downloadDirectory;
 
   constructor(private platform: Platform) {
+    this._managerInfo = { downloadList: [], downloadHistory: [] };
     if (platform.is('cordova')) {
       let rootPath = this.platform.is('android') ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory;
       this.downloadDirectory = rootPath + 'download/';
@@ -45,48 +57,70 @@ export class DownloadManagerController {
       option.filePath = '';
     }
     let filePath = this.downloadDirectory + option.filePath;
-    let opt: TransferOptions = { hasNtFcns: false, fileName: option.fileName, filePath: filePath };
-    let transfer = this.createTransfer(opt);
+    let opt: TransferOptions = { notificationId: 0, notification: false, fileName: option.fileName, filePath: filePath };
+    let file = _.find(this._managerInfo.downloadList, { fileName: opt.fileName });
+    if (isPresent(file)) {
+      file.progress = 0;
+    } else {
+      file = { fileName: opt.fileName, filePath: opt.filePath, progress: 0 };
+      this._managerInfo.downloadList.push(file);
+    }
+    let transfer = this.createTransfer(opt, file);
     return transfer.download(option.url, filePath + option.fileName).then(entry => {
-      if (opt.hasNtFcns) {
-        ExtLocalNotifications.clear(1000);
+      if (opt.notification) {
+        ExtLocalNotifications.clear(opt.notificationId);
       }
+    }).catch(e => {
+      console.log(e);
     });
   }
 
-  private createTransfer(opt: TransferOptions): Transfer {
+  private createTransfer(opt: TransferOptions, file: DownloadInfo): Transfer {
     let transfer = new Transfer();
-    let hasFirst = true;
+    let first = true;
     transfer.onProgress(event => {
-      if (hasFirst) {
-        opt.hasNtFcns = event.total > (1024 * 1024 * 5);
-        ExtLocalNotifications.schedule({
-          id: 1000,
-          title: '开始下载...',
-          progress: this.platform.is('android'),
-          maxProgress: 100,
-          currentProgress: 0
-        });
+      if (first) {
+        first = false;
+        opt.notification = event.total > (1024 * 1024 * 5);
+        if (opt.notification) {
+          opt.notificationId = this.createNotifications();
+        }
       }
-      hasFirst = false;
       let progress = Math.round((event.loaded / event.total) * 100);
-      if (!hasFirst && opt.hasNtFcns) {
-        ExtLocalNotifications.update({
-          id: 1000,
-          title: '下载中...',
-          progress: this.platform.is('android'),
-          maxProgress: 100,
-          currentProgress: progress,
-          sound: null
-        });
+      if (progress > file.progress) {
+        console.log(progress);
+        file.progress = progress;
+        if (isPresent(this.pageChangeDetetorRef)) {
+          this.pageChangeDetetorRef.detectChanges();
+        }
+        if (!first && opt.notification) {
+          this.updateLocalNotifications(opt.notificationId, progress);
+        }
       }
-      let file = _.find(this.lownloadList, { fileName: opt.fileName });
-      if (!isPresent(file)) {
-        this.lownloadList.push({ fileName: opt.fileName, filePath: opt.filePath, progress: progress });
-        return;
-      }
-      file.progress = progress;
     });
     return transfer;
+  }
+
+  private createNotifications(): number {
+    let num: number = Math.round((Math.random() * 1000));
+    ExtLocalNotifications.schedule({
+      id: num,
+      title: '开始下载...',
+      progress: this.platform.is('android'),
+      maxProgress: 100,
+      currentProgress: 0
+    });
+    return num;
+  }
+
+  private updateLocalNotifications(id: number, progress: number) {
+    ExtLocalNotifications.update({
+      id: id,
+      title: '下载中...',
+      progress: this.platform.is('android'),
+      maxProgress: 100,
+      currentProgress: progress,
+      sound: null
+    });
   }
 }

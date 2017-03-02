@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { DownloadManagerController, DownloadInfo } from './download-manager';
+import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { DownloadManagerController, DownloadManagerInfo } from './download-manager';
 
 @Component({
   selector: 'page-download-file',
@@ -11,18 +11,27 @@ import { DownloadManagerController, DownloadInfo } from './download-manager';
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-item *ngFor="let item of lownloadList">
+        <ion-item *ngFor="let item of downloadManagerInfo.downloadList">
           <div>{{item.fileName}}</div>
-          <div><ion-progress-bar [progress]="item.progress"></ion-progress-bar></div>
+          <div>
+            <progress value="{{item.progress}}" max="100"></progress>
+          </div>
         </ion-item>
       </ion-list>
     </ion-content>
   `
 })
-export class DownloadManagerCmp {
-  lownloadList: Array<DownloadInfo>;
+export class DownloadManagerCmp implements OnDestroy {
+  downloadManagerInfo: DownloadManagerInfo;
 
-  constructor(private downloadManagerCtl: DownloadManagerController) {
-    this.lownloadList = this.downloadManagerCtl.lownloadList;
+  constructor(
+    private downloadManagerCtl: DownloadManagerController,
+    private changeDetectorRef: ChangeDetectorRef) {
+    this.downloadManagerCtl.pageChangeDetetorRef = changeDetectorRef;
+    this.downloadManagerInfo = this.downloadManagerCtl.managerInfo;
+  }
+
+  ngOnDestroy(): void {
+    this.downloadManagerCtl.pageChangeDetetorRef = null;
   }
 }
