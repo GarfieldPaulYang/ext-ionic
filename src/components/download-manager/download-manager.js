@@ -60,7 +60,6 @@ var DownloadManagerController = (function () {
                 return;
             }
             file.progress = progress;
-            console.log(_this.lownloadList);
         });
         return transfer;
     };
