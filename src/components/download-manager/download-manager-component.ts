@@ -10,22 +10,37 @@ import { isPresent } from '../../utils/util';
       <ion-navbar>
         <ion-title>文件下载</ion-title>
       </ion-navbar>
+      <ion-segment [(ngModel)]="segmentValue" (ionChange)="segmentChange()">
+        <ion-segment-button value="'downloading'">正在下载</ion-segment-button>
+        <ion-segment-button value="'history'">下载历史</ion-segment-button>
+      </ion-segment>
     </ion-header>
     <ion-content>
-      <ion-list>
-        <ion-item *ngFor="let item of downloadManager.downloadingList">
-          <div>{{item.fileName}}({{item.progress}}%)</div>
-          <div>
-            <progress value="{{item.progress}}" max="100"></progress>
-          </div>
-        </ion-item>
-      </ion-list>
+      <div [ngSwitch]="segmentValue">
+        <ion-list *ngSwitchCase="'downloading'">
+          <ion-item *ngFor="let item of downloadManager.downloadingList">
+            <div>{{item.fileName}}({{item.progress}}%)</div>
+            <div>
+              <progress value="{{item.progress}}" max="100"></progress>
+            </div>
+          </ion-item>
+        </ion-list>
+        <ion-list *ngSwitchCase="'history'">
+          <ion-item *ngFor="let item of downloadManager.downloadingList">
+            <div>{{item.fileName}}({{item.progress}}%)</div>
+            <div>
+              <progress value="{{item.progress}}" max="100"></progress>
+            </div>
+          </ion-item>
+        </ion-list>
+      </div>
     </ion-content>
   `
 })
 export class DownloadManagerCmp implements OnInit, OnDestroy {
-  downloadManager: DownloadManager;
+  private downloadManager: DownloadManager;
   private destroy: boolean;
+  segmentValue: string = 'downloading';
 
   constructor(
     private downloadManagerCtl: DownloadManagerController,
@@ -64,8 +79,12 @@ export class DownloadManagerCmp implements OnInit, OnDestroy {
     }
     this.downloadManager.downloadingList.push(event);
   }
+
+  segmentChange() {
+
+  }
 }
 
-export interface DownloadManager {
+interface DownloadManager {
   downloadingList: Array<DownloadEvent>;
 }

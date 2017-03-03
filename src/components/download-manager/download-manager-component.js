@@ -7,6 +7,7 @@ var DownloadManagerCmp = (function () {
     function DownloadManagerCmp(downloadManagerCtl, changeDetectorRef) {
         this.downloadManagerCtl = downloadManagerCtl;
         this.changeDetectorRef = changeDetectorRef;
+        this.segmentValue = 'downloading';
     }
     DownloadManagerCmp.prototype.ngOnInit = function () {
         this.destroy = false;
@@ -38,10 +39,12 @@ var DownloadManagerCmp = (function () {
         }
         this.downloadManager.downloadingList.push(event);
     };
+    DownloadManagerCmp.prototype.segmentChange = function () {
+    };
     DownloadManagerCmp.decorators = [
         { type: core_1.Component, args: [{
                     selector: 'page-download-file',
-                    template: "\n    <ion-header>\n      <ion-navbar>\n        <ion-title>\u6587\u4EF6\u4E0B\u8F7D</ion-title>\n      </ion-navbar>\n    </ion-header>\n    <ion-content>\n      <ion-list>\n        <ion-item *ngFor=\"let item of downloadManager.downloadingList\">\n          <div>{{item.fileName}}({{item.progress}}%)</div>\n          <div>\n            <progress value=\"{{item.progress}}\" max=\"100\"></progress>\n          </div>\n        </ion-item>\n      </ion-list>\n    </ion-content>\n  "
+                    template: "\n    <ion-header>\n      <ion-navbar>\n        <ion-title>\u6587\u4EF6\u4E0B\u8F7D</ion-title>\n      </ion-navbar>\n      <ion-segment [(ngModel)]=\"segmentValue\" (ionChange)=\"segmentChange()\">\n        <ion-segment-button value=\"'downloading'\">\u6B63\u5728\u4E0B\u8F7D</ion-segment-button>\n        <ion-segment-button value=\"'history'\">\u4E0B\u8F7D\u5386\u53F2</ion-segment-button>\n      </ion-segment>\n    </ion-header>\n    <ion-content>\n      <div [ngSwitch]=\"segmentValue\">\n        <ion-list *ngSwitchCase=\"'downloading'\">\n          <ion-item *ngFor=\"let item of downloadManager.downloadingList\">\n            <div>{{item.fileName}}({{item.progress}}%)</div>\n            <div>\n              <progress value=\"{{item.progress}}\" max=\"100\"></progress>\n            </div>\n          </ion-item>\n        </ion-list>\n        <ion-list *ngSwitchCase=\"'history'\">\n          <ion-item *ngFor=\"let item of downloadManager.downloadingList\">\n            <div>{{item.fileName}}({{item.progress}}%)</div>\n            <div>\n              <progress value=\"{{item.progress}}\" max=\"100\"></progress>\n            </div>\n          </ion-item>\n        </ion-list>\n      </div>\n    </ion-content>\n  "
                 },] },
     ];
     DownloadManagerCmp.ctorParameters = [
