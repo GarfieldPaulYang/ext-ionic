@@ -26,7 +26,7 @@ import { isPresent } from '../../utils/util';
           </ion-item>
         </ion-list>
         <ion-list *ngSwitchCase="'history'">
-          <ion-item *ngFor="let item of downloadManager.downloadingList">
+          <ion-item *ngFor="let item of downloadManager.historyList">
             <div>{{item.fileName}}({{item.progress}}%)</div>
             <div>
               <progress value="{{item.progress}}" max="100"></progress>
@@ -81,10 +81,14 @@ export class DownloadManagerCmp implements OnInit, OnDestroy {
   }
 
   segmentChange() {
-
   }
 }
 
 interface DownloadManager {
   downloadingList: Array<DownloadEvent>;
+  historyList: Array<any>;
+}
+
+interface FileInfo {
+  filePath: string;
 }

@@ -1,7 +1,7 @@
 
 import { Injectable, EventEmitter } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Transfer } from 'ionic-native';
+import { Transfer, File } from 'ionic-native';
 import { ExtLocalNotifications } from '../../native/local-notifications';
 import { isPresent } from '../../utils/util';
 
@@ -109,6 +109,12 @@ export class DownloadManagerController {
       maxProgress: 100,
       currentProgress: progress,
       sound: null
+    });
+  }
+
+  getDownloadFileList() {
+    let rootPath = this.platform.is('android') ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory;
+    File.listDir(rootPath, 'download').then(entitys => {
     });
   }
 }
