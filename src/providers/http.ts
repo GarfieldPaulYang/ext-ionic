@@ -92,7 +92,7 @@ export class HttpProvider {
           this.dialog.alert('系统提示', result.msg);
         }
         if (isPresent(result.data) && !_.isEqual({}, result.data)) {
-          return result.data;
+          return Promise.reject(result.data);
         }
         return Promise.reject(result.msg);
       }
@@ -109,9 +109,9 @@ export class HttpProvider {
     return this.ajax(url, options).toPromise().then(result => {
       if (loading) loading.dismiss();
       return result;
-    }, reason => {
+    }).catch(err => {
       if (loading) loading.dismiss();
-      return reason;
+      return Promise.reject(err);
     });
   }
 
@@ -181,11 +181,12 @@ export class CorsHttpProvider {
     return this.http.requestWithError<T>(
       url, _.assign({}, options, { search: search })
     ).then(result => {
-      if (result && _.isString(result) && result.toString() === ticket_expired) {
-        this.events.publish(ticket_expired);
-        return ticket_expired;
-      }
       return result;
+    }).catch(err => {
+      if (err && _.isString(err) && err.toString() === ticket_expired) {
+        this.events.publish(ticket_expired);
+        return Promise.reject(ticket_expired);
+      }
     });
   }
 }

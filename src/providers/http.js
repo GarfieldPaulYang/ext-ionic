@@ -62,7 +62,7 @@ var HttpProvider = (function () {
                     _this.dialog.alert('系统提示', result.msg);
                 }
                 if (util_1.isPresent(result.data) && !_.isEqual({}, result.data)) {
-                    return result.data;
+                    return Promise.reject(result.data);
                 }
                 return Promise.reject(result.msg);
             }
@@ -79,10 +79,10 @@ var HttpProvider = (function () {
             if (loading)
                 loading.dismiss();
             return result;
-        }, function (reason) {
+        }).catch(function (err) {
             if (loading)
                 loading.dismiss();
-            return reason;
+            return Promise.reject(err);
         });
     };
     HttpProvider.prototype.ajax = function (url, options) {
@@ -150,11 +150,12 @@ var CorsHttpProvider = (function () {
             search.setAll(options.search);
         }
         return this.http.requestWithError(url, _.assign({}, options, { search: search })).then(function (result) {
-            if (result && _.isString(result) && result.toString() === exports.ticket_expired) {
-                _this.events.publish(exports.ticket_expired);
-                return exports.ticket_expired;
-            }
             return result;
+        }).catch(function (err) {
+            if (err && _.isString(err) && err.toString() === exports.ticket_expired) {
+                _this.events.publish(exports.ticket_expired);
+                return Promise.reject(exports.ticket_expired);
+            }
         });
     };
     CorsHttpProvider.decorators = [
