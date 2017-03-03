@@ -24,14 +24,17 @@ export const ticket_expired: string = 'ticket_expired';
 
 export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
   showLoading?: boolean;
+  showErrorAlert?: boolean;
 }
 
 export class HttpProviderOptions extends RequestOptions {
   showLoading: boolean;
+  showErrorAlert: boolean = true;
 
   constructor(options: HttpProviderOptionsArgs) {
     super(options);
     this.showLoading = options.showLoading;
+    this.showErrorAlert = options.showErrorAlert;
   }
 
   merge(options?: HttpProviderOptionsArgs): HttpProviderOptions {
@@ -41,12 +44,17 @@ export class HttpProviderOptions extends RequestOptions {
     if (isPresent(options.showLoading)) {
       result.showLoading = options.showLoading;
     }
+
+    if (isPresent(options.showErrorAlert)) {
+      result.showErrorAlert = options.showErrorAlert;
+    }
     return result;
   }
 }
 
 const defaultRequestOptions: HttpProviderOptions = new HttpProviderOptions({
   showLoading: true,
+  showErrorAlert: true,
   method: RequestMethod.Get,
   responseType: ResponseContentType.Json
 });
@@ -80,7 +88,9 @@ export class HttpProvider {
   requestWithError<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T> {
     return this.request<T>(url, options).then((result: ResponseResult<T>) => {
       if (result.status === 1) {
-        this.dialog.alert('系统提示', result.msg);
+        if (options.showErrorAlert) {
+          this.dialog.alert('系统提示', result.msg);
+        }
         if (isPresent(result.data) && !_.isEqual({}, result.data)) {
           return result.data;
         }

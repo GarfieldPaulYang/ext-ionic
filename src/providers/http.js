@@ -18,13 +18,18 @@ var HttpProviderOptions = (function (_super) {
     __extends(HttpProviderOptions, _super);
     function HttpProviderOptions(options) {
         _super.call(this, options);
+        this.showErrorAlert = true;
         this.showLoading = options.showLoading;
+        this.showErrorAlert = options.showErrorAlert;
     }
     HttpProviderOptions.prototype.merge = function (options) {
         var result = _super.prototype.merge.call(this, options);
         result.showLoading = this.showLoading;
         if (util_1.isPresent(options.showLoading)) {
             result.showLoading = options.showLoading;
+        }
+        if (util_1.isPresent(options.showErrorAlert)) {
+            result.showErrorAlert = options.showErrorAlert;
         }
         return result;
     };
@@ -33,6 +38,7 @@ var HttpProviderOptions = (function (_super) {
 exports.HttpProviderOptions = HttpProviderOptions;
 var defaultRequestOptions = new HttpProviderOptions({
     showLoading: true,
+    showErrorAlert: true,
     method: http_1.RequestMethod.Get,
     responseType: http_1.ResponseContentType.Json
 });
@@ -52,7 +58,9 @@ var HttpProvider = (function () {
         var _this = this;
         return this.request(url, options).then(function (result) {
             if (result.status === 1) {
-                _this.dialog.alert('系统提示', result.msg);
+                if (options.showErrorAlert) {
+                    _this.dialog.alert('系统提示', result.msg);
+                }
                 if (util_1.isPresent(result.data) && !_.isEqual({}, result.data)) {
                     return result.data;
                 }
