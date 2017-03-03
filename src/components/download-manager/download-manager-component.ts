@@ -1,5 +1,7 @@
-import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { DownloadManagerController, DownloadManagerInfo } from './download-manager';
+import { Component, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
+import * as _ from 'lodash';
+import { DownloadManagerController, DownloadEvent } from './download-manager';
+import { isPresent } from '../../utils/util';
 
 @Component({
   selector: 'page-download-file',
@@ -11,8 +13,8 @@ import { DownloadManagerController, DownloadManagerInfo } from './download-manag
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-item *ngFor="let item of downloadManagerInfo.downloadList">
-          <div>{{item.fileName}}</div>
+        <ion-item *ngFor="let item of downloadManager.downloadingList">
+          <div>{{item.fileName}}({{item.progress}}%)</div>
           <div>
             <progress value="{{item.progress}}" max="100"></progress>
           </div>
@@ -21,17 +23,49 @@ import { DownloadManagerController, DownloadManagerInfo } from './download-manag
     </ion-content>
   `
 })
-export class DownloadManagerCmp implements OnDestroy {
-  downloadManagerInfo: DownloadManagerInfo;
+export class DownloadManagerCmp implements OnInit, OnDestroy {
+  downloadManager: DownloadManager;
+  private destroy: boolean;
 
   constructor(
     private downloadManagerCtl: DownloadManagerController,
     private changeDetectorRef: ChangeDetectorRef) {
-    this.downloadManagerCtl.pageChangeDetetorRef = changeDetectorRef;
-    this.downloadManagerInfo = this.downloadManagerCtl.managerInfo;
+  }
+
+  ngOnInit(): void {
+    this.destroy = false;
+    this.downloadManager = { downloadingList: [] };
+    this.subscribe();
   }
 
   ngOnDestroy(): void {
-    this.downloadManagerCtl.pageChangeDetetorRef = null;
+    this.destroy = true;
   }
+
+  subscribe() {
+    this.downloadManagerCtl.event.subscribe((event: DownloadEvent) => {
+      if (this.destroy) return;
+      this.update(event);
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
+  update(event: DownloadEvent) {
+    let file: DownloadEvent = _.find(this.downloadManager.downloadingList,
+      { fileName: event.fileName, filePath: event.filePath });
+    if (isPresent(file)) {
+      if (file.progress === 100) {
+        file.progress = 0;
+      }
+      if (event.progress > file.progress) {
+        file.progress = event.progress;
+      }
+      return;
+    }
+    this.downloadManager.downloadingList.push(event);
+  }
+}
+
+export interface DownloadManager {
+  downloadingList: Array<DownloadEvent>;
 }
