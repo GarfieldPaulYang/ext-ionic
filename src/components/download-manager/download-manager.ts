@@ -1,7 +1,7 @@
 
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, NgZone } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Transfer, File } from 'ionic-native';
+import { Transfer } from 'ionic-native';
 import { ExtLocalNotifications } from '../../native/local-notifications';
 import { isPresent } from '../../utils/util';
 
@@ -23,17 +23,20 @@ export interface DownloadEvent {
 export class DownloadManagerController {
   private _event: EventEmitter<DownloadEvent> = new EventEmitter<DownloadEvent>(true);
   private idIndex: number = 999;
+  private _fileSystemRoot: string;
+  private _rootDirectory: string = 'download/';
 
   get event() {
     return this._event;
   }
 
-  private downloadDirectory;
+  get downloadDirectory() {
+    return this._fileSystemRoot + this._rootDirectory;
+  }
 
-  constructor(private platform: Platform) {
+  constructor(private platform: Platform, private ngZone: NgZone) {
     if (platform.is('cordova')) {
-      let rootPath = this.platform.is('android') ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory;
-      this.downloadDirectory = rootPath + 'download/';
+      this._fileSystemRoot = this.platform.is('android') ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory;
     }
   }
 
@@ -64,10 +67,12 @@ export class DownloadManagerController {
         if (notification && isPresent(notificationId)) {
           this.updateLocalNotification(option.fileName, notificationId, progress);
         }
-        this._event.emit({
-          progress: progress,
-          fileName: option.fileName,
-          filePath: filePath
+        this.ngZone.run(() => {
+          this._event.emit({
+            progress: progress,
+            fileName: option.fileName,
+            filePath: filePath
+          });
         });
       }
     });
@@ -109,12 +114,6 @@ export class DownloadManagerController {
       maxProgress: 100,
       currentProgress: progress,
       sound: null
-    });
-  }
-
-  getDownloadFileList() {
-    let rootPath = this.platform.is('android') ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory;
-    File.listDir(rootPath, 'download').then(entitys => {
     });
   }
 }

@@ -5,18 +5,26 @@ var ionic_native_1 = require('ionic-native');
 var local_notifications_1 = require('../../native/local-notifications');
 var util_1 = require('../../utils/util');
 var DownloadManagerController = (function () {
-    function DownloadManagerController(platform) {
+    function DownloadManagerController(platform, ngZone) {
         this.platform = platform;
+        this.ngZone = ngZone;
         this._event = new core_1.EventEmitter(true);
         this.idIndex = 999;
+        this._rootDirectory = 'download/';
         if (platform.is('cordova')) {
-            var rootPath = this.platform.is('android') ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory;
-            this.downloadDirectory = rootPath + 'download/';
+            this._fileSystemRoot = this.platform.is('android') ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory;
         }
     }
     Object.defineProperty(DownloadManagerController.prototype, "event", {
         get: function () {
             return this._event;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DownloadManagerController.prototype, "downloadDirectory", {
+        get: function () {
+            return this._fileSystemRoot + this._rootDirectory;
         },
         enumerable: true,
         configurable: true
@@ -49,10 +57,12 @@ var DownloadManagerController = (function () {
                 if (notification && util_1.isPresent(notificationId)) {
                     _this.updateLocalNotification(option.fileName, notificationId, progress);
                 }
-                _this._event.emit({
-                    progress: progress,
-                    fileName: option.fileName,
-                    filePath: filePath
+                _this.ngZone.run(function () {
+                    _this._event.emit({
+                        progress: progress,
+                        fileName: option.fileName,
+                        filePath: filePath
+                    });
                 });
             }
         });
@@ -101,6 +111,7 @@ var DownloadManagerController = (function () {
     ];
     DownloadManagerController.ctorParameters = [
         { type: ionic_angular_1.Platform, },
+        { type: core_1.NgZone, },
     ];
     return DownloadManagerController;
 }());
