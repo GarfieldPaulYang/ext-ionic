@@ -6,6 +6,7 @@ export declare class DownloadManagerCmp implements OnInit, OnDestroy, OnChanges 
     private ngZone;
     private downloadManager;
     private destroy;
+    private breadcrumbs;
     segmentValue: string;
     constructor(downloadManagerCtl: DownloadManagerController, ngZone: NgZone);
     ngOnInit(): void;
@@ -13,7 +14,7 @@ export declare class DownloadManagerCmp implements OnInit, OnDestroy, OnChanges 
     subscribe(): void;
     update(event: DownloadEvent): void;
     ngOnChanges(changes: SimpleChanges): void;
-    loadFileList(directoryPath: string, parent: DirectoryEntry): void;
+    loadFileList(directoryPath: string, push: boolean): void;
     itemCheck(entry: Entry): void;
-    backToParent(directory: DirectoryEntry): void;
+    breadcrubCheck(entry: DirectoryEntry): void;
 }

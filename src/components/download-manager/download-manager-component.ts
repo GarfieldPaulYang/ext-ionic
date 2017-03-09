@@ -6,6 +6,18 @@ import { isPresent } from '../../utils/util';
 
 @Component({
   selector: 'page-download-file',
+  styles: [`
+    .breadcrumb{
+      display: flex;
+      flex-direction: row;
+      list-style:none;
+    }
+    .breadcrumb ion-icon{
+      margin-left: 10px;
+      margin-right: 10px;
+      font-size: 1em;
+    }
+  `],
   template: `
     <ion-header>
       <ion-navbar>
@@ -27,12 +39,11 @@ import { isPresent } from '../../utils/util';
           </ion-item>
         </ion-list>
         <ion-list *ngSwitchCase="'history'" no-lines>
-          <ion-item *ngIf="downloadManager.currentDirectory">
-            当前目录:{{downloadManager.currentDirectory.name}}
-          </ion-item>
-          <ion-item *ngIf="downloadManager.parentDirectory" (click)="backToParent(downloadManager.parentDirectory)">
-            回到上级目录
-          </ion-item>
+          <ul class="breadcrumb">
+            <li *ngFor="let item of breadcrumbs; let last = last" (click)="breadcrubCheck(item)">
+              <a>{{item.name}}</a><ion-icon *ngIf="!last" name="ios-arrow-forward-outline"></ion-icon>
+            </li>
+          </ul>
           <ion-item *ngFor="let item of downloadManager.fileList" (click)="itemCheck(item)">
             <ion-icon name="{{item.isFile ? 'document': 'folder'}}" item-left></ion-icon>
             {{item.name}}
@@ -45,6 +56,7 @@ import { isPresent } from '../../utils/util';
 export class DownloadManagerCmp implements OnInit, OnDestroy, OnChanges {
   private downloadManager: DownloadManager;
   private destroy: boolean;
+  private breadcrumbs: Array<DirectoryEntry>;
   segmentValue: string = 'downloading';
 
   constructor(
@@ -54,9 +66,10 @@ export class DownloadManagerCmp implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.destroy = false;
-    this.downloadManager = { downloadingList: [], currentDirectory: null, fileList: [] };
+    this.downloadManager = { downloadingList: [], fileList: [] };
     this.subscribe();
-    this.loadFileList(this.downloadManagerCtl.downloadDirectory, null);
+    this.breadcrumbs = [];
+    this.loadFileList(this.downloadManagerCtl.downloadDirectory, true);
   }
 
   ngOnDestroy(): void {
@@ -89,10 +102,11 @@ export class DownloadManagerCmp implements OnInit, OnDestroy, OnChanges {
     console.log(changes);
   }
 
-  loadFileList(directoryPath: string, parent: DirectoryEntry) {
+  loadFileList(directoryPath: string, push: boolean) {
     File.resolveDirectoryUrl(directoryPath).then(directory => {
-      this.downloadManager.currentDirectory = directory;
-      this.downloadManager.parentDirectory = parent;
+      if (push) {
+        this.breadcrumbs.push(directory);
+      }
       let reader: DirectoryReader = directory.createReader();
       this.downloadManager.fileList.length = 0;
       reader.readEntries(entries => {
@@ -107,28 +121,21 @@ export class DownloadManagerCmp implements OnInit, OnDestroy, OnChanges {
 
   itemCheck(entry: Entry) {
     if (entry.isDirectory) {
-      this.loadFileList(entry.nativeURL, this.downloadManager.currentDirectory);
+      this.loadFileList(entry.nativeURL, true);
     }
   }
 
-  backToParent(directory: DirectoryEntry) {
-    let paths = directory.nativeURL.split('/');
-    paths.length = paths.length - 1;
-    let parentPath = paths.join('/');
-    if ((parentPath + '/') === this.downloadManagerCtl.downloadDirectory) {
-      this.loadFileList(this.downloadManagerCtl.downloadDirectory, null);
-      return;
+  breadcrubCheck(entry: DirectoryEntry) {
+    let index = _.findIndex(this.breadcrumbs, { fullPath: entry.fullPath });
+    if (this.breadcrumbs.length - 1 !== index) {
+      this.breadcrumbs.length = index + 1;
     }
-    File.resolveDirectoryUrl(parentPath).then(parentDirectory => {
-      this.loadFileList(directory.nativeURL, parentDirectory);
-    });
+    this.loadFileList(entry.nativeURL, false);
   }
 }
 
 interface DownloadManager {
   downloadingList: Array<DownloadEvent>;
-  parentDirectory?: DirectoryEntry;
-  currentDirectory?: DirectoryEntry;
   fileList: Array<Entry>;
 }
 
