@@ -11,10 +11,11 @@ import { isPresent } from '../../utils/util';
       display: flex;
       flex-direction: row;
       list-style:none;
+      padding-left: 10px;
     }
     .breadcrumb ion-icon{
-      margin-left: 10px;
-      margin-right: 10px;
+      padding-left: 5px;
+      padding-right: 5px;
       font-size: 1em;
     }
   `],
@@ -30,7 +31,7 @@ import { isPresent } from '../../utils/util';
     </ion-header>
     <ion-content>
       <div [ngSwitch]="segmentValue">
-        <ion-list *ngSwitchCase="'downloading'" no-lines>
+        <ion-list *ngSwitchCase="'downloading'">
           <ion-item *ngFor="let item of downloadManager.downloadingList">
             <div>{{item.fileName}}({{item.progress}}%)</div>
             <div>
@@ -38,16 +39,17 @@ import { isPresent } from '../../utils/util';
             </div>
           </ion-item>
         </ion-list>
-        <ion-list *ngSwitchCase="'history'" no-lines>
+        <ion-list *ngSwitchCase="'history'">
           <ul class="breadcrumb">
             <li *ngFor="let item of breadcrumbs; let last = last" (click)="breadcrubCheck(item)">
               <a>{{item.name}}</a><ion-icon *ngIf="!last" name="ios-arrow-forward-outline"></ion-icon>
             </li>
           </ul>
-          <ion-item *ngFor="let item of downloadManager.fileList" (click)="itemCheck(item)">
+          <ion-item-divider *ngFor="let item of downloadManager.fileList" (click)="itemCheck(item)">
             <ion-icon name="{{item.isFile ? 'document': 'folder'}}" item-left></ion-icon>
             {{item.name}}
-          </ion-item>
+            <ion-icon *ngIf="!last" name="ios-arrow-forward-outline" item-right></ion-icon>
+          </ion-item-divider>
         </ion-list>
       </div>
     </ion-content>
