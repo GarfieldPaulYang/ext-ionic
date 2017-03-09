@@ -1,4 +1,16 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var _ = require('lodash');
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
@@ -103,23 +115,30 @@ var AlphaScroll = (function () {
         }
         return result;
     };
-    AlphaScroll.decorators = [
-        { type: core_1.Component, args: [{
-                    selector: 'ion-alpha-scroll',
-                    template: "\n    <ion-list class=\"ion-alpha-list\">\n      <div *ngFor=\"let item of sortedItems\">\n        <ion-item-divider id=\"scroll-letter-{{item.letter}}\" *ngIf=\"item.isDivider\">{{item.letter}}</ion-item-divider>\n        <template [ngTemplateOutlet]=\"itemTemplate\" [ngOutletContext]=\"{'item': item, 'currentPageClass': currentPageClass}\" *ngIf=\"!item.isDivider\">\n        </template>\n      </div>\n    </ion-list>\n    <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"calculateDimensionsForSidebar()\">\n      <li *ngFor=\"let alpha of alphabet\" [class]=\"setAlphaClass(alpha)\" tappable (click)=\"alphaScrollGoToList(alpha.letter)\">\n        <a>{{alpha.letter}}</a>\n      </li>\n    </ul>\n  "
-                },] },
-    ];
-    AlphaScroll.ctorParameters = [
-        { type: core_1.ElementRef, },
-        { type: order_by_1.OrderBy, },
-        { type: ionic_angular_1.Content, decorators: [{ type: core_1.Host },] },
-    ];
-    AlphaScroll.propDecorators = {
-        'listData': [{ type: core_1.Input },],
-        'key': [{ type: core_1.Input },],
-        'itemTemplate': [{ type: core_1.Input },],
-        'currentPageClass': [{ type: core_1.Input },],
-    };
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Object)
+    ], AlphaScroll.prototype, "listData", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], AlphaScroll.prototype, "key", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', core_1.TemplateRef)
+    ], AlphaScroll.prototype, "itemTemplate", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Object)
+    ], AlphaScroll.prototype, "currentPageClass", void 0);
+    AlphaScroll = __decorate([
+        core_1.Component({
+            selector: 'ion-alpha-scroll',
+            template: "\n    <ion-list class=\"ion-alpha-list\">\n      <div *ngFor=\"let item of sortedItems\">\n        <ion-item-divider id=\"scroll-letter-{{item.letter}}\" *ngIf=\"item.isDivider\">{{item.letter}}</ion-item-divider>\n        <template [ngTemplateOutlet]=\"itemTemplate\" [ngOutletContext]=\"{'item': item, 'currentPageClass': currentPageClass}\" *ngIf=\"!item.isDivider\">\n        </template>\n      </div>\n    </ion-list>\n    <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"calculateDimensionsForSidebar()\">\n      <li *ngFor=\"let alpha of alphabet\" [class]=\"setAlphaClass(alpha)\" tappable (click)=\"alphaScrollGoToList(alpha.letter)\">\n        <a>{{alpha.letter}}</a>\n      </li>\n    </ul>\n  "
+        }),
+        __param(2, core_1.Host()), 
+        __metadata('design:paramtypes', [core_1.ElementRef, order_by_1.OrderBy, ionic_angular_1.Content])
+    ], AlphaScroll);
     return AlphaScroll;
 }());
 exports.AlphaScroll = AlphaScroll;

@@ -1,6 +1,14 @@
-export { LoginConfig, Config, defaultConfig } from './src/config/config';
+export { Immerse } from './src/native/immerse-plugin';
+export { ExtILocalNotification, ExtLocalNotifications } from './src/native/local-notifications';
+export { HotCodePushConfig, HotCodePush } from './src/native/hot-code-push';
+export { LoginConfig, Config, ConfigProvider } from './src/config/config';
 export { ResponseResult, Pagination } from './src/utils/http/response/response-result';
 export { URLParamsBuilder } from './src/utils/http/url-params-builder';
+export { ConsoleErrorHandler } from './src/utils/console-error-handler';
+export { HotUpdater } from './src/providers/hot-updater';
+export { ComponentRegistar } from './src/providers/component-registar';
+export { FileStorage, TextFileStorage } from './src/providers/file-storage/file-storage';
+export { JsonFileStorage } from './src/providers/file-storage/json-file-storage';
 export { MapToIterable } from './src/pipes/map-to-iterable';
 export { OrderBy } from './src/pipes/order-by';
 export { AlphaScroll } from './src/components/alpha-scroll/alpha-scroll';
@@ -10,12 +18,16 @@ export { GpsPoint, MarkerSize, MarkerInfoWindow, MarkerOptions, PointCollectionO
 export { ImageLoaderCmp } from './src/components/image-loader/image-loader-component';
 export { ImageLoaderOptions } from './src/components/image-loader/image-loader-options';
 export { StarRatingCmp } from './src/components/star-rating/star-rating';
+export { Ribbon, RibbnOptions } from './src/components/ribbon/ribbon';
+export { DownloadManagerCmp } from './src/components/download-manager/download-manager-component';
+export { DownloadManagerController, DownloadOptions } from './src/components/download-manager/download-manager';
 export { StringUtils } from './src/utils/string';
+export { assert, isTrueProperty, isPresent } from './src/utils/util';
 export { Dialog } from './src/utils/dialog';
-export { HttpProviderOptionsArgs, HttpProviderOptions, LoginOptions, HttpProvider, CorsHttpProvider } from './src/utils/http/http';
+export { HttpProviderOptionsArgs, HttpProviderOptions, LoginOptions, LoginResult, SubAcount, HttpProvider, CorsHttpProvider, ticket_expired } from './src/providers/http';
 import './src/rxjs-extensions';
 import { ModuleWithProviders } from '@angular/core';
 import { Config } from './src/config/config';
-export declare class WhcyitModule {
+export declare class ExtIonicModule {
     static forRoot(config?: Config): ModuleWithProviders;
 }

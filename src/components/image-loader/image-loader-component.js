@@ -1,4 +1,13 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var core_1 = require('@angular/core');
 var util_1 = require('../../utils/util');
 var _ = require('lodash');
@@ -88,30 +97,50 @@ var ImageLoaderCmp = (function () {
         }
         this.renderer.setElementStyle(element, 'background-image', 'url(\'' + imageUrl + '\')');
     };
-    ImageLoaderCmp.decorators = [
-        { type: core_1.Component, args: [{
-                    selector: 'ion-image-loader',
-                    template: '<ion-spinner *ngIf="spinner && isLoading"></ion-spinner>',
-                    styles: ["\n    ion-spinner {\n      display: block;\n      margin: auto;\n    }\n  "]
-                },] },
-    ];
-    ImageLoaderCmp.ctorParameters = [
-        { type: core_1.ElementRef, },
-        { type: core_1.Renderer, },
-        { type: image_loader_1.ImageLoaderController, },
-        { type: config_1.ConfigProvider, },
-    ];
-    ImageLoaderCmp.propDecorators = {
-        'imageUrl': [{ type: core_1.Input, args: ['src',] },],
-        'fallbackUrl': [{ type: core_1.Input, args: ['fallback',] },],
-        'spinner': [{ type: core_1.Input },],
-        'useImg': [{ type: core_1.Input },],
-        'width': [{ type: core_1.Input },],
-        'height': [{ type: core_1.Input },],
-        'display': [{ type: core_1.Input },],
-        'backgroundSize': [{ type: core_1.Input },],
-        'backgroundRepeat': [{ type: core_1.Input },],
-    };
+    __decorate([
+        core_1.Input('src'), 
+        __metadata('design:type', String)
+    ], ImageLoaderCmp.prototype, "imageUrl", void 0);
+    __decorate([
+        core_1.Input('fallback'), 
+        __metadata('design:type', String)
+    ], ImageLoaderCmp.prototype, "fallbackUrl", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Boolean)
+    ], ImageLoaderCmp.prototype, "spinner", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Boolean)
+    ], ImageLoaderCmp.prototype, "useImg", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], ImageLoaderCmp.prototype, "width", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], ImageLoaderCmp.prototype, "height", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], ImageLoaderCmp.prototype, "display", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], ImageLoaderCmp.prototype, "backgroundSize", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], ImageLoaderCmp.prototype, "backgroundRepeat", void 0);
+    ImageLoaderCmp = __decorate([
+        core_1.Component({
+            selector: 'ion-image-loader',
+            template: '<ion-spinner *ngIf="spinner && isLoading"></ion-spinner>',
+            styles: ["\n    ion-spinner {\n      display: block;\n      margin: auto;\n    }\n  "]
+        }), 
+        __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer, image_loader_1.ImageLoaderController, config_1.ConfigProvider])
+    ], ImageLoaderCmp);
     return ImageLoaderCmp;
 }());
 exports.ImageLoaderCmp = ImageLoaderCmp;

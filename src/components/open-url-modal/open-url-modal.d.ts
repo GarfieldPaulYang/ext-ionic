@@ -1,12 +1,12 @@
 import { ModalController, ModalOptions } from 'ionic-angular';
-import { Config } from '../../config/config';
+import { ConfigProvider } from '../../config/config';
 import { OpenUrlModalOptions } from './open-url-modal-options';
 export declare class OpenUrlModalController {
     private modalCtrl;
     private config;
     private options;
     private modal;
-    constructor(modalCtrl: ModalController, config: Config);
+    constructor(modalCtrl: ModalController, config: ConfigProvider);
     open(opts?: OpenUrlModalOptions, modalOpts?: ModalOptions): void;
     close(): void;
 }

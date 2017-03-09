@@ -4,6 +4,15 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var ionic_angular_1 = require('ionic-angular');
@@ -92,13 +101,10 @@ var HttpProvider = (function () {
         }
         return this.http.request(url, options).map(function (r) { return new response_result_1.ResponseResult(r.json()); });
     };
-    HttpProvider.decorators = [
-        { type: core_1.Injectable },
-    ];
-    HttpProvider.ctorParameters = [
-        { type: http_1.Http, },
-        { type: dialog_1.Dialog, },
-    ];
+    HttpProvider = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [http_1.Http, dialog_1.Dialog])
+    ], HttpProvider);
     return HttpProvider;
 }());
 exports.HttpProvider = HttpProvider;
@@ -158,14 +164,10 @@ var CorsHttpProvider = (function () {
             }
         });
     };
-    CorsHttpProvider.decorators = [
-        { type: core_1.Injectable },
-    ];
-    CorsHttpProvider.ctorParameters = [
-        { type: HttpProvider, },
-        { type: ionic_angular_1.Events, },
-        { type: config_1.ConfigProvider, },
-    ];
+    CorsHttpProvider = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [HttpProvider, ionic_angular_1.Events, config_1.ConfigProvider])
+    ], CorsHttpProvider);
     return CorsHttpProvider;
 }());
 exports.CorsHttpProvider = CorsHttpProvider;

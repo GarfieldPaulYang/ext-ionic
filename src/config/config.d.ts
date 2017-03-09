@@ -15,5 +15,10 @@ export interface Config {
     imageLoader?: ImageLoaderOptions;
     baiduMap?: BaiduMapOptions;
 }
-export declare const defaultConfig: Config;
+export declare class ConfigProvider {
+    private _config;
+    get(): Config;
+    init(config: Config): void;
+}
+export declare function setupConfig(userConfig: Config): Config;
 export declare const EXT_IONIC_CONFIG: OpaqueToken;
