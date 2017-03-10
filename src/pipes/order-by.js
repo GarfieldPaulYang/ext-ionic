@@ -9,61 +9,44 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var _ = require('lodash');
 var OrderBy = (function () {
     function OrderBy() {
     }
-    OrderBy.prototype.transform = function (input, _a) {
-        var _b = _a[0], config = _b === void 0 ? '+' : _b;
+    OrderBy.prototype.transform = function (input, orderConfigs) {
+        if (orderConfigs === void 0) { orderConfigs = '+'; }
         if (!Array.isArray(input)) {
             return input;
         }
-        if (!Array.isArray(config) || (Array.isArray(config) && config.length === 1)) {
-            var propertyToCheck = !Array.isArray(config) ? config : config[0];
-            var desc = propertyToCheck.substr(0, 1) === '-';
-            if (!propertyToCheck || propertyToCheck === '-' || propertyToCheck === '+') {
-                return !desc ? input.sort() : input.sort().reverse();
+        if (this.isSingle(orderConfigs)) {
+            var orderConfig = !Array.isArray(orderConfigs) ? orderConfigs : orderConfigs[0];
+            var config = this.parseProperty(orderConfig);
+            if (config.property === '') {
+                return _.orderBy(input, [], config.order);
             }
-            var property = propertyToCheck.substr(0, 1) === '+' || propertyToCheck.substr(0, 1) === '-'
-                ? propertyToCheck.substr(1)
-                : propertyToCheck;
-            return input.sort(function (a, b) {
-                return !desc
-                    ? OrderBy._orderByComparator(a[property], b[property])
-                    : -OrderBy._orderByComparator(a[property], b[property]);
-            });
+            return _.orderBy(input, [config.property], [config.order]);
         }
-        return input.sort(function (a, b) {
-            for (var i = 0; i < config.length; i++) {
-                var desc = config[i].substr(0, 1) === '-';
-                var property = config[i].substr(0, 1) === '+' || config[i].substr(0, 1) === '-'
-                    ? config[i].substr(1)
-                    : config[i];
-                var comparison = !desc
-                    ? OrderBy._orderByComparator(a[property], b[property])
-                    : -OrderBy._orderByComparator(a[property], b[property]);
-                if (comparison !== 0)
-                    return comparison;
-            }
-            return 0;
-        });
+        var configs = this.parseProperties(orderConfigs);
+        return _.orderBy(input, configs.properties, configs.orders);
     };
-    OrderBy._orderByComparator = function (a, b) {
-        if ((isNaN(parseFloat(a)) || !isFinite(a)) || (isNaN(parseFloat(b)) || !isFinite(b))) {
-            if (a.toLowerCase() < b.toLowerCase()) {
-                return -1;
-            }
-            if (a.toLowerCase() > b.toLowerCase()) {
-                return 1;
-            }
-            return 0;
-        }
-        if (parseFloat(a) < parseFloat(b)) {
-            return -1;
-        }
-        if (parseFloat(a) > parseFloat(b)) {
-            return 1;
-        }
-        return 0;
+    OrderBy.prototype.isSingle = function (orderConfigs) {
+        return !Array.isArray(orderConfigs) || (Array.isArray(orderConfigs) && orderConfigs.length === 1);
+    };
+    OrderBy.prototype.parseProperty = function (config) {
+        var orderChar = config.substr(0, 1);
+        var isDesc = orderChar === '-';
+        var hasOrder = orderChar || orderChar === '+';
+        return { order: isDesc ? 'desc' : 'asc', property: hasOrder ? config.substr(1) : config };
+    };
+    OrderBy.prototype.parseProperties = function (configs) {
+        var _this = this;
+        var result = { orders: [], properties: [] };
+        configs.forEach(function (configStr) {
+            var config = _this.parseProperty(configStr);
+            result.orders.push(config.order);
+            result.properties.push(config.property);
+        });
+        return result;
     };
     OrderBy = __decorate([
         core_1.Pipe({
