@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Transfer, FileOpener, LocalNotifications } from 'ionic-native';
+import { Transfer, FileOpener } from 'ionic-native';
 
 import { HotCodePush } from '../native/hot-code-push';
 import { ConfigProvider } from '../config/config';
 import { Dialog } from '../utils/dialog';
-import { ExtLocalNotifications } from "../native/local-notifications";
+import { ExtLocalNotifications } from '../native/local-notifications';
 
 declare var cordova: any;
 

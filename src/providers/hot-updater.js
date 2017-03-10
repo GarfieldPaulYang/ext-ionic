@@ -14,7 +14,7 @@ var ionic_native_1 = require('ionic-native');
 var hot_code_push_1 = require('../native/hot-code-push');
 var config_1 = require('../config/config');
 var dialog_1 = require('../utils/dialog');
-var local_notifications_1 = require("../native/local-notifications");
+var local_notifications_1 = require('../native/local-notifications');
 var HotUpdater = (function () {
     function HotUpdater(platform, dialog, config) {
         this.platform = platform;
