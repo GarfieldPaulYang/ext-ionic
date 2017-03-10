@@ -1,5 +1,5 @@
 import { EventEmitter, NgZone } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform, NavController } from 'ionic-angular';
 export interface DownloadOptions {
     fileName: string;
     filePath?: string;
@@ -20,6 +20,7 @@ export declare class DownloadManagerController {
     readonly event: EventEmitter<DownloadEvent>;
     readonly downloadDirectory: string;
     constructor(platform: Platform, ngZone: NgZone);
+    show(navCtrl: NavController): void;
     download(option: DownloadOptions): Promise<any>;
     private createId();
     private createNotification(fileName);

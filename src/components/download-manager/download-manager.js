@@ -13,6 +13,7 @@ var ionic_angular_1 = require('ionic-angular');
 var ionic_native_1 = require('ionic-native');
 var local_notifications_1 = require('../../native/local-notifications');
 var util_1 = require('../../utils/util');
+var download_manager_component_1 = require('./download-manager-component');
 var DownloadManagerController = (function () {
     function DownloadManagerController(platform, ngZone) {
         this.platform = platform;
@@ -38,6 +39,9 @@ var DownloadManagerController = (function () {
         enumerable: true,
         configurable: true
     });
+    DownloadManagerController.prototype.show = function (navCtrl) {
+        navCtrl.push(download_manager_component_1.DownloadManagerCmp);
+    };
     DownloadManagerController.prototype.download = function (option) {
         var _this = this;
         if (!util_1.isPresent(option.filePath)) {

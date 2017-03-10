@@ -1,9 +1,10 @@
 
 import { Injectable, EventEmitter, NgZone } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform, NavController } from 'ionic-angular';
 import { Transfer } from 'ionic-native';
 import { ExtLocalNotifications } from '../../native/local-notifications';
 import { isPresent } from '../../utils/util';
+import { DownloadManagerCmp } from './download-manager-component';
 
 declare var cordova: any;
 
@@ -34,10 +35,15 @@ export class DownloadManagerController {
     return this._fileSystemRoot + this._rootDirectory;
   }
 
-  constructor(private platform: Platform, private ngZone: NgZone) {
+  constructor(private platform: Platform,
+    private ngZone: NgZone) {
     if (platform.is('cordova')) {
       this._fileSystemRoot = this.platform.is('android') ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory;
     }
+  }
+
+  show(navCtrl: NavController) {
+    navCtrl.push(DownloadManagerCmp);
   }
 
   download(option: DownloadOptions): Promise<any> {
