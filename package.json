@@ -1,6 +1,6 @@
 {
   "name": "ext-ionic",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "ionic2 扩展库",
   "scripts": {
     "tslint": "tslint -c ./tslint.json -e './src/**/*.d.ts' './src/**/*.ts'",
@@ -35,7 +35,7 @@
     "@angular/platform-server": "2.4.8",
     "@ionic/storage": "2.0.0",
     "ionic-angular": "2.2.0",
-    "ionic-native": "2.8.0",
+    "ionic-native": "2.8.1",
     "ionicons": "3.0.0",
     "rxjs": "5.0.1",
     "tslint": "^4.3.1",
