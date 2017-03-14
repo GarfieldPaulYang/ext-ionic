@@ -10,11 +10,6 @@ import { OpenUrlModalController } from '../components/open-url-modal/open-url-mo
 
 declare var cordova: any;
 
-interface Error {
-  code: number;
-  description: string;
-}
-
 @Injectable()
 export class HotUpdater {
   constructor(
@@ -25,14 +20,14 @@ export class HotUpdater {
   ) { }
 
   start() {
-    HotCodePush.isUpdateAvailableForInstallation().then((error: Error) => {
+    HotCodePush.isUpdateAvailableForInstallation((error, data) => {
       if (!error) {
         HotCodePush.installUpdate().then((error: Error) => {
           console.log(error);
         });
         return;
       }
-      HotCodePush.fetchUpdate().then((error: Error) => {
+      HotCodePush.fetchUpdate((error, data) => {
         if (!error) {
           this.dialog.confirm('更新通知', '新版本更新成功,是否现在重启应用?', () => {
             HotCodePush.installUpdate().then(e => {
@@ -46,7 +41,7 @@ export class HotUpdater {
           return;
         }
         console.log(error);
-      });
+      }, {});
     });
   }
 

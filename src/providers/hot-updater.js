@@ -25,14 +25,14 @@ var HotUpdater = (function () {
     }
     HotUpdater.prototype.start = function () {
         var _this = this;
-        hot_code_push_1.HotCodePush.isUpdateAvailableForInstallation().then(function (error) {
+        hot_code_push_1.HotCodePush.isUpdateAvailableForInstallation(function (error, data) {
             if (!error) {
                 hot_code_push_1.HotCodePush.installUpdate().then(function (error) {
                     console.log(error);
                 });
                 return;
             }
-            hot_code_push_1.HotCodePush.fetchUpdate().then(function (error) {
+            hot_code_push_1.HotCodePush.fetchUpdate(function (error, data) {
                 if (!error) {
                     _this.dialog.confirm('更新通知', '新版本更新成功,是否现在重启应用?', function () {
                         hot_code_push_1.HotCodePush.installUpdate().then(function (e) {
@@ -46,7 +46,7 @@ var HotUpdater = (function () {
                     return;
                 }
                 console.log(error);
-            });
+            }, {});
         });
     };
     HotUpdater.prototype.updateApp = function () {

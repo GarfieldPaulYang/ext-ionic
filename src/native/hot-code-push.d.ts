@@ -1,7 +1,14 @@
-export interface HotCodePushConfig {
+export interface HotCodePushConifg {
     'config-file'?: string;
     'auto-download'?: boolean;
     'auto-install'?: boolean;
+}
+export interface HotCodePushOptions {
+    'config-file'?: string;
+    'request-headers'?: any;
+}
+export interface HotCodeCallback {
+    (error: any, data: any): void;
 }
 export declare class HotCodePush {
     static error: {
@@ -39,10 +46,10 @@ export declare class HotCodePush {
         UPDATE_INSTALLED: string;
         NOTHING_TO_INSTALL: string;
     };
-    static fetchUpdate(): Promise<any>;
+    static fetchUpdate(callback: HotCodeCallback, options: HotCodePushOptions): void;
     static installUpdate(): Promise<any>;
-    static isUpdateAvailableForInstallation(): Promise<any>;
-    static getVersionInfo(): Promise<any>;
-    static configure(config: HotCodePushConfig): Promise<any>;
+    static isUpdateAvailableForInstallation(callback: HotCodeCallback): void;
+    static getVersionInfo(callback: HotCodeCallback): void;
+    static configure(config: HotCodePushConifg): Promise<any>;
     static onUpdateInstalled(listener: EventListenerOrEventListenerObject): void;
 }

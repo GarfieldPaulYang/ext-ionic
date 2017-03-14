@@ -1,6 +1,6 @@
 export { Immerse } from './src/native/immerse-plugin';
 export { ExtILocalNotification, ExtLocalNotifications } from './src/native/local-notifications';
-export { HotCodePushConfig, HotCodePush } from './src/native/hot-code-push';
+export { HotCodePushConifg, HotCodePushOptions, HotCodeCallback, HotCodePush } from './src/native/hot-code-push';
 export { LoginConfig, Config, ConfigProvider } from './src/config/config';
 export { ResponseResult, Pagination } from './src/utils/http/response/response-result';
 export { URLParamsBuilder } from './src/utils/http/url-params-builder';

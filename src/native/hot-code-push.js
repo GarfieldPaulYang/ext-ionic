@@ -12,13 +12,13 @@ var ionic_native_1 = require('ionic-native');
 var HotCodePush = (function () {
     function HotCodePush() {
     }
-    HotCodePush.fetchUpdate = function () { return; };
+    HotCodePush.fetchUpdate = function (callback, options) { };
     ;
     HotCodePush.installUpdate = function () { return; };
     ;
-    HotCodePush.isUpdateAvailableForInstallation = function () { return; };
+    HotCodePush.isUpdateAvailableForInstallation = function (callback) { };
     ;
-    HotCodePush.getVersionInfo = function () { return; };
+    HotCodePush.getVersionInfo = function (callback) { };
     ;
     HotCodePush.configure = function (config) { return; };
     ;
@@ -61,10 +61,12 @@ var HotCodePush = (function () {
         NOTHING_TO_INSTALL: 'chcp_nothingToInstall'
     };
     __decorate([
-        ionic_native_1.Cordova(), 
+        ionic_native_1.Cordova({
+            sync: true
+        }), 
         __metadata('design:type', Function), 
-        __metadata('design:paramtypes', []), 
-        __metadata('design:returntype', Promise)
+        __metadata('design:paramtypes', [Function, Object]), 
+        __metadata('design:returntype', void 0)
     ], HotCodePush, "fetchUpdate", null);
     __decorate([
         ionic_native_1.Cordova(), 
@@ -73,16 +75,20 @@ var HotCodePush = (function () {
         __metadata('design:returntype', Promise)
     ], HotCodePush, "installUpdate", null);
     __decorate([
-        ionic_native_1.Cordova(), 
+        ionic_native_1.Cordova({
+            sync: true
+        }), 
         __metadata('design:type', Function), 
-        __metadata('design:paramtypes', []), 
-        __metadata('design:returntype', Promise)
+        __metadata('design:paramtypes', [Function]), 
+        __metadata('design:returntype', void 0)
     ], HotCodePush, "isUpdateAvailableForInstallation", null);
     __decorate([
-        ionic_native_1.Cordova(), 
+        ionic_native_1.Cordova({
+            sync: true
+        }), 
         __metadata('design:type', Function), 
-        __metadata('design:paramtypes', []), 
-        __metadata('design:returntype', Promise)
+        __metadata('design:paramtypes', [Function]), 
+        __metadata('design:returntype', void 0)
     ], HotCodePush, "getVersionInfo", null);
     __decorate([
         ionic_native_1.Cordova(), 

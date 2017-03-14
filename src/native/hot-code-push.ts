@@ -1,9 +1,18 @@
 import { Cordova, Plugin } from 'ionic-native';
 
-export interface HotCodePushConfig {
+export interface HotCodePushConifg {
   'config-file'?: string;
   'auto-download'?: boolean;
   'auto-install'?: boolean;
+}
+
+export interface HotCodePushOptions {
+  'config-file'?: string;
+  'request-headers'?: any;
+}
+
+export interface HotCodeCallback {
+  (error, data): void;
 }
 
 @Plugin({
@@ -53,20 +62,26 @@ export class HotCodePush {
     NOTHING_TO_INSTALL: 'chcp_nothingToInstall'
   };
 
-  @Cordova()
-  static fetchUpdate(): Promise<any> { return; };
+  @Cordova({
+    sync: true
+  })
+  static fetchUpdate(callback: HotCodeCallback, options: HotCodePushOptions): void { };
 
   @Cordova()
   static installUpdate(): Promise<any> { return; };
 
-  @Cordova()
-  static isUpdateAvailableForInstallation(): Promise<any> { return; };
+  @Cordova({
+    sync: true
+  })
+  static isUpdateAvailableForInstallation(callback: HotCodeCallback): void { };
+
+  @Cordova({
+    sync: true
+  })
+  static getVersionInfo(callback: HotCodeCallback) { };
 
   @Cordova()
-  static getVersionInfo(): Promise<any> { return; };
-
-  @Cordova()
-  static configure(config: HotCodePushConfig): Promise<any> { return; };
+  static configure(config: HotCodePushConifg): Promise<any> { return; };
 
   static onUpdateInstalled(listener: EventListenerOrEventListenerObject) {
     document.addEventListener(HotCodePush.event.UPDATE_INSTALLED, listener, false);
