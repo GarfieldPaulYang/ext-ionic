@@ -65,7 +65,7 @@ export class HotCodePush {
   @Cordova({
     sync: true
   })
-  static fetchUpdate(callback: HotCodeCallback, options: HotCodePushOptions): void { };
+  static fetchUpdate(callback: HotCodeCallback, options?: HotCodePushOptions): void { };
 
   @Cordova()
   static installUpdate(): Promise<any> { return; };

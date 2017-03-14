@@ -41,7 +41,7 @@ export class HotUpdater {
           return;
         }
         console.log(error);
-      }, {});
+      });
     });
   }
 

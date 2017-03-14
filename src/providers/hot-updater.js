@@ -46,7 +46,7 @@ var HotUpdater = (function () {
                     return;
                 }
                 console.log(error);
-            }, {});
+            });
         });
     };
     HotUpdater.prototype.updateApp = function () {

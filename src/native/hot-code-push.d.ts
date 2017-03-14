@@ -46,7 +46,7 @@ export declare class HotCodePush {
         UPDATE_INSTALLED: string;
         NOTHING_TO_INSTALL: string;
     };
-    static fetchUpdate(callback: HotCodeCallback, options: HotCodePushOptions): void;
+    static fetchUpdate(callback: HotCodeCallback, options?: HotCodePushOptions): void;
     static installUpdate(): Promise<any>;
     static isUpdateAvailableForInstallation(callback: HotCodeCallback): void;
     static getVersionInfo(callback: HotCodeCallback): void;
