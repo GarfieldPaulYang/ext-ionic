@@ -22,7 +22,7 @@ export class HotUpdater {
   start() {
     HotCodePush.isUpdateAvailableForInstallation((error, data) => {
       if (!error) {
-        HotCodePush.installUpdate().then((error: Error) => {
+        HotCodePush.installUpdate().then(error => {
           console.log(error);
         });
         return;
