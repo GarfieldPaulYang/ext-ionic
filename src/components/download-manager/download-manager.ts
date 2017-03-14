@@ -82,7 +82,11 @@ export class DownloadManagerController {
         });
       }
     });
-    return transfer.download(option.url, filePath + option.fileName).then(entry => {
+    let target = filePath + option.fileName;
+    if (this.platform.is('ios')) {
+      target = encodeURI(target);
+    }
+    return transfer.download(encodeURI(option.url), target).then(entry => {
       if (notification && notificationId) {
         ExtLocalNotifications.clear(notificationId);
       }

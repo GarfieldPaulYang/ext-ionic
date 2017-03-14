@@ -79,7 +79,11 @@ var DownloadManagerController = (function () {
                 });
             }
         });
-        return transfer.download(option.url, filePath + option.fileName).then(function (entry) {
+        var target = filePath + option.fileName;
+        if (this.platform.is('ios')) {
+            target = encodeURI(target);
+        }
+        return transfer.download(encodeURI(option.url), target).then(function (entry) {
             if (notification && notificationId) {
                 local_notifications_1.ExtLocalNotifications.clear(notificationId);
             }
