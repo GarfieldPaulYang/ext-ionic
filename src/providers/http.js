@@ -16,6 +16,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var ionic_angular_1 = require('ionic-angular');
+var ionic_native_1 = require('ionic-native');
 var _ = require('lodash');
 var config_1 = require('../config/config');
 var dialog_1 = require('../utils/dialog');
@@ -130,7 +131,7 @@ var CorsHttpProvider = (function () {
             headers: new http_1.Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
             method: http_1.RequestMethod.Post,
             body: url_params_builder_1.URLParamsBuilder.build(options).toString(),
-            search: url_params_builder_1.URLParamsBuilder.build({ __login__: true })
+            search: url_params_builder_1.URLParamsBuilder.build({ __login__: true, __uuid__: ionic_native_1.Device.uuid, __model__: ionic_native_1.Device.model })
         });
     };
     CorsHttpProvider.prototype.logout = function () {
