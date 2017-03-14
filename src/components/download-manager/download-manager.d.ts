@@ -14,7 +14,7 @@ export declare class DownloadManagerController {
     private platform;
     private ngZone;
     private _event;
-    private idIndex;
+    private id;
     private _fileSystemRoot;
     private _rootDirectory;
     readonly event: EventEmitter<DownloadEvent>;

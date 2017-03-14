@@ -19,7 +19,7 @@ var DownloadManagerController = (function () {
         this.platform = platform;
         this.ngZone = ngZone;
         this._event = new core_1.EventEmitter(true);
-        this.idIndex = 999;
+        this.id = 999;
         this._rootDirectory = 'download/';
         if (platform.is('cordova')) {
             this._fileSystemRoot = this.platform.is('android') ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory;
@@ -67,7 +67,7 @@ var DownloadManagerController = (function () {
             var progress = Math.round((event.loaded / event.total) * 100);
             if (progress > downloadProgress) {
                 downloadProgress = progress;
-                if (notification && util_1.isPresent(notificationId)) {
+                if (notification && notificationId) {
                     _this.updateLocalNotification(option.fileName, notificationId, progress);
                 }
                 _this.ngZone.run(function () {
@@ -80,20 +80,21 @@ var DownloadManagerController = (function () {
             }
         });
         return transfer.download(option.url, filePath + option.fileName).then(function (entry) {
-            if (notification && util_1.isPresent(notificationId)) {
+            if (notification && notificationId) {
                 local_notifications_1.ExtLocalNotifications.clear(notificationId);
             }
+            return entry;
         });
     };
     DownloadManagerController.prototype.createId = function () {
         var _this = this;
-        this.idIndex++;
-        return local_notifications_1.ExtLocalNotifications.isScheduled(this.idIndex).then(function (isScheduled) {
+        this.id++;
+        return local_notifications_1.ExtLocalNotifications.isScheduled(this.id).then(function (isScheduled) {
             if (isScheduled) {
                 return _this.createId();
             }
             ;
-            return _this.idIndex;
+            return _this.id;
         });
     };
     DownloadManagerController.prototype.createNotification = function (fileName) {

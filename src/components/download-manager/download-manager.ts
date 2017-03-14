@@ -23,7 +23,7 @@ export interface DownloadEvent {
 @Injectable()
 export class DownloadManagerController {
   private _event: EventEmitter<DownloadEvent> = new EventEmitter<DownloadEvent>(true);
-  private idIndex: number = 999;
+  private id: number = 999;
   private _fileSystemRoot: string;
   private _rootDirectory: string = 'download/';
 
@@ -70,7 +70,7 @@ export class DownloadManagerController {
       let progress = Math.round((event.loaded / event.total) * 100);
       if (progress > downloadProgress) {
         downloadProgress = progress;
-        if (notification && isPresent(notificationId)) {
+        if (notification && notificationId) {
           this.updateLocalNotification(option.fileName, notificationId, progress);
         }
         this.ngZone.run(() => {
@@ -83,19 +83,20 @@ export class DownloadManagerController {
       }
     });
     return transfer.download(option.url, filePath + option.fileName).then(entry => {
-      if (notification && isPresent(notificationId)) {
+      if (notification && notificationId) {
         ExtLocalNotifications.clear(notificationId);
       }
+      return entry;
     });
   }
 
   private createId(): Promise<number> {
-    this.idIndex++;
-    return ExtLocalNotifications.isScheduled(this.idIndex).then(isScheduled => {
+    this.id++;
+    return ExtLocalNotifications.isScheduled(this.id).then(isScheduled => {
       if (isScheduled) {
         return this.createId();
       };
-      return this.idIndex;
+      return this.id;
     });
   }
 
