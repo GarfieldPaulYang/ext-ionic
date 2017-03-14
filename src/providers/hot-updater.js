@@ -15,49 +15,71 @@ var hot_code_push_1 = require('../native/hot-code-push');
 var config_1 = require('../config/config');
 var dialog_1 = require('../utils/dialog');
 var local_notifications_1 = require('../native/local-notifications');
+var open_url_modal_1 = require('../components/open-url-modal/open-url-modal');
 var HotUpdater = (function () {
-    function HotUpdater(platform, dialog, config) {
+    function HotUpdater(platform, dialog, config, openUrlCtrl) {
         this.platform = platform;
         this.dialog = dialog;
         this.config = config;
+        this.openUrlCtrl = openUrlCtrl;
     }
     HotUpdater.prototype.start = function () {
         var _this = this;
-        hot_code_push_1.HotCodePush.fetchUpdate().then(function (result) {
-            if (result == null) {
-                _this.dialog.confirm('更新通知', '新版本更新成功,是否现在重启应用?', function () {
-                    hot_code_push_1.HotCodePush.installUpdate().then(function (e) {
-                        console.log(e);
-                    }, function (e) {
-                        console.log(e);
-                    });
+        hot_code_push_1.HotCodePush.isUpdateAvailableForInstallation().then(function (error) {
+            if (!error) {
+                hot_code_push_1.HotCodePush.installUpdate().then(function (error) {
+                    console.log(error);
                 });
-                return true;
+                return;
             }
-            if (result.code === hot_code_push_1.HotCodePush.error.APPLICATION_BUILD_VERSION_TOO_LOW) {
-                _this.updateApp();
-            }
-            console.log(result);
-        }).catch(function (e) {
-            console.log(e);
+            hot_code_push_1.HotCodePush.fetchUpdate().then(function (error) {
+                if (!error) {
+                    _this.dialog.confirm('更新通知', '新版本更新成功,是否现在重启应用?', function () {
+                        hot_code_push_1.HotCodePush.installUpdate().then(function (e) {
+                            console.log(e);
+                        });
+                    });
+                    return;
+                }
+                if (error.code === hot_code_push_1.HotCodePush.error.APPLICATION_BUILD_VERSION_TOO_LOW) {
+                    _this.updateApp();
+                    return;
+                }
+                console.log(error);
+            });
         });
     };
     HotUpdater.prototype.updateApp = function () {
-        var _this = this;
-        var isAndroid = this.platform.is('android');
-        if (!isAndroid) {
-            return;
-        }
         if (!this.config.get().hotUpdateUrl) {
             return;
         }
+        var isios = this.platform.is('ios');
+        if (isios) {
+            this.updateIos();
+            return;
+        }
+        var isAndroid = this.platform.is('android');
+        if (isAndroid) {
+            this.updateAndroid();
+        }
+    };
+    HotUpdater.prototype.updateIos = function () {
+        var _this = this;
+        this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', function () {
+            _this.openUrlCtrl.open({
+                title: '应用更新',
+                url: _this.config.get().hotUpdateUrl.ios
+            });
+        });
+    };
+    HotUpdater.prototype.updateAndroid = function () {
+        var _this = this;
         var targetPath = cordova.file.externalApplicationStorageDirectory + '/app/app.apk';
         this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', function () {
             local_notifications_1.ExtLocalNotifications.schedule({
                 id: 1000,
                 title: '正在更新...',
-                text: isAndroid ? '' : '已经完成 0%',
-                progress: isAndroid,
+                progress: true,
                 maxProgress: 100,
                 currentProgress: 0
             });
@@ -67,13 +89,12 @@ var HotUpdater = (function () {
                 local_notifications_1.ExtLocalNotifications.update({
                     id: 1000,
                     title: '正在更新...',
-                    text: isAndroid ? '' : "\u5DF2\u7ECF\u5B8C\u6210 " + progress + "%",
-                    progress: isAndroid,
+                    progress: true,
                     maxProgress: 100,
                     currentProgress: Math.round(Number(progress))
                 });
             });
-            transfer.download(_this.config.get().hotUpdateUrl, targetPath).then(function () {
+            transfer.download(_this.config.get().hotUpdateUrl.android, targetPath).then(function () {
                 local_notifications_1.ExtLocalNotifications.clear(1000);
                 _this.dialog.confirm('更新通知', '新版本下载完成是否现在安装?', function () {
                     ionic_native_1.FileOpener.open(targetPath, 'application/vnd.android.package-archive');
@@ -85,7 +106,7 @@ var HotUpdater = (function () {
     };
     HotUpdater = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [ionic_angular_1.Platform, dialog_1.Dialog, config_1.ConfigProvider])
+        __metadata('design:paramtypes', [ionic_angular_1.Platform, dialog_1.Dialog, config_1.ConfigProvider, open_url_modal_1.OpenUrlModalController])
     ], HotUpdater);
     return HotUpdater;
 }());

@@ -8,7 +8,7 @@ export interface LoginConfig {
 }
 export interface Config {
     color?: string;
-    hotUpdateUrl?: string;
+    hotUpdateUrl?: any;
     devMode?: boolean;
     login?: LoginConfig;
     openUrlModal?: OpenUrlModalOptions;
