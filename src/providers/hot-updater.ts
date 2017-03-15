@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Transfer, FileOpener } from 'ionic-native';
+import { Transfer, FileOpener, InAppBrowser } from 'ionic-native';
 
 import { HotCodePush } from '../native/hot-code-push';
 import { ConfigProvider } from '../config/config';
 import { Dialog } from '../utils/dialog';
 import { ExtLocalNotifications } from '../native/local-notifications';
-import { OpenUrlModalController } from '../components/open-url-modal/open-url-modal';
 
 declare var cordova: any;
 
@@ -15,8 +14,7 @@ export class HotUpdater {
   constructor(
     private platform: Platform,
     private dialog: Dialog,
-    private config: ConfigProvider,
-    private openUrlCtrl: OpenUrlModalController
+    private config: ConfigProvider
   ) { }
 
   start() {
@@ -62,10 +60,7 @@ export class HotUpdater {
 
   updateIos() {
     this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', () => {
-      this.openUrlCtrl.open({
-        title: '应用更新',
-        url: this.config.get().hotUpdateUrl.ios
-      });
+      new InAppBrowser(this.config.get().hotUpdateUrl.ios, '_system');
     });
   }
 

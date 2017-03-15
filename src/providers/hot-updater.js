@@ -15,13 +15,11 @@ var hot_code_push_1 = require('../native/hot-code-push');
 var config_1 = require('../config/config');
 var dialog_1 = require('../utils/dialog');
 var local_notifications_1 = require('../native/local-notifications');
-var open_url_modal_1 = require('../components/open-url-modal/open-url-modal');
 var HotUpdater = (function () {
-    function HotUpdater(platform, dialog, config, openUrlCtrl) {
+    function HotUpdater(platform, dialog, config) {
         this.platform = platform;
         this.dialog = dialog;
         this.config = config;
-        this.openUrlCtrl = openUrlCtrl;
     }
     HotUpdater.prototype.start = function () {
         var _this = this;
@@ -66,10 +64,7 @@ var HotUpdater = (function () {
     HotUpdater.prototype.updateIos = function () {
         var _this = this;
         this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', function () {
-            _this.openUrlCtrl.open({
-                title: '应用更新',
-                url: _this.config.get().hotUpdateUrl.ios
-            });
+            new ionic_native_1.InAppBrowser(_this.config.get().hotUpdateUrl.ios, '_system');
         });
     };
     HotUpdater.prototype.updateAndroid = function () {
@@ -106,7 +101,7 @@ var HotUpdater = (function () {
     };
     HotUpdater = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [ionic_angular_1.Platform, dialog_1.Dialog, config_1.ConfigProvider, open_url_modal_1.OpenUrlModalController])
+        __metadata('design:paramtypes', [ionic_angular_1.Platform, dialog_1.Dialog, config_1.ConfigProvider])
     ], HotUpdater);
     return HotUpdater;
 }());
