@@ -13,11 +13,11 @@ var platform_browser_1 = require('@angular/platform-browser');
 var ionic_angular_1 = require('ionic-angular');
 var util_1 = require('../../utils/util');
 var OpenUrlModalCmp = (function () {
-    function OpenUrlModalCmp(_navParams, viewCtrl, sanitizer) {
-        this._navParams = _navParams;
+    function OpenUrlModalCmp(navParams, viewCtrl, sanitizer) {
+        this.navParams = navParams;
         this.viewCtrl = viewCtrl;
         this.sanitizer = sanitizer;
-        this.options = _navParams.get('openUrlModalOptions');
+        this.options = navParams.get('openUrlModalOptions');
         util_1.assert(this.options, 'openUrlModal options must be valid');
         this.safeUrl = sanitizer.bypassSecurityTrustResourceUrl(this.options.url);
         window.addEventListener('message', this.options.onmessage, false);
@@ -27,7 +27,8 @@ var OpenUrlModalCmp = (function () {
     };
     OpenUrlModalCmp = __decorate([
         core_1.Component({
-            template: "\n    <ion-header>\n      <ion-navbar [color]=\"options.color\">\n        <ion-buttons end>\n          <button ion-button icon-only (click)=\"dismiss()\">\n            <ion-icon name=\"close\"></ion-icon>\n          </button>\n        </ion-buttons>\n        <ion-title>{{options.title}}</ion-title>\n      </ion-navbar>\n    </ion-header>\n    <ion-content class=\"open-url-modal-content\">\n      <iframe [src]=\"safeUrl\"></iframe>\n    </ion-content>\n  "
+            template: "\n    <ion-header>\n      <ion-navbar [color]=\"options.color\">\n        <ion-buttons end>\n          <button ion-button icon-only (click)=\"dismiss()\">\n            <ion-icon name=\"close\"></ion-icon>\n          </button>\n        </ion-buttons>\n        <ion-title>{{options.title}}</ion-title>\n      </ion-navbar>\n    </ion-header>\n    <ion-content class=\"content\">\n      <iframe class=\"iframe\" [src]=\"safeUrl\"\n              sandbox=\"allow-scripts allow-top-navigation allow-pointer-lock allow-same-origin allow-popups allow-forms\">\n      </iframe>\n    </ion-content>\n  ",
+            styles: ["\n    .scroll-content {\n      overflow: hidden;\n    }\n\n    .content {\n      height: 100%;\n    }\n\n    .iframe {\n      width: 100%;\n      height: 100%;\n      border: none;\n    }\n  "]
         }), 
         __metadata('design:paramtypes', [ionic_angular_1.NavParams, ionic_angular_1.ViewController, platform_browser_1.DomSanitizer])
     ], OpenUrlModalCmp);

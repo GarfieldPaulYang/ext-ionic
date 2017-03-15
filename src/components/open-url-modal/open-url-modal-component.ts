@@ -17,17 +17,34 @@ import { OpenUrlModalOptions } from './open-url-modal-options';
         <ion-title>{{options.title}}</ion-title>
       </ion-navbar>
     </ion-header>
-    <ion-content class="open-url-modal-content">
-      <iframe [src]="safeUrl"></iframe>
+    <ion-content class="content">
+      <iframe class="iframe" [src]="safeUrl"
+              sandbox="allow-scripts allow-top-navigation allow-pointer-lock allow-same-origin allow-popups allow-forms">
+      </iframe>
     </ion-content>
-  `
+  `,
+  styles: [`
+    .scroll-content {
+      overflow: hidden;
+    }
+
+    .content {
+      height: 100%;
+    }
+
+    .iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  `]
 })
 export class OpenUrlModalCmp {
   options: OpenUrlModalOptions;
   safeUrl: SafeResourceUrl;
 
-  constructor(private _navParams: NavParams, private viewCtrl: ViewController, private sanitizer: DomSanitizer) {
-    this.options = _navParams.get('openUrlModalOptions');
+  constructor(private navParams: NavParams, private viewCtrl: ViewController, private sanitizer: DomSanitizer) {
+    this.options = navParams.get('openUrlModalOptions');
     assert(this.options, 'openUrlModal options must be valid');
 
     this.safeUrl = sanitizer.bypassSecurityTrustResourceUrl(this.options.url);
