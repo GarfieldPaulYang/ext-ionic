@@ -154,7 +154,7 @@ var CorsHttpProvider = (function () {
             options = {};
         }
         if (_.has(options, 'search')) {
-            search.setAll(options.search);
+            search.replaceAll(options.search);
         }
         return this.http.requestWithError(url, _.assign({}, options, { search: search })).then(function (result) {
             return result;

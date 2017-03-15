@@ -176,7 +176,7 @@ export class CorsHttpProvider {
     }
 
     if (_.has(options, 'search')) {
-      search.setAll(<URLSearchParams>options.search);
+      search.replaceAll(<URLSearchParams>options.search);
     }
 
     return this.http.requestWithError<T>(
