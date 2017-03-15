@@ -47,52 +47,46 @@ export class HotUpdater {
     if (!this.config.get().hotUpdateUrl) {
       return;
     }
-    let isios = this.platform.is('ios');
-    if (isios) {
-      this.updateIos();
-      return;
-    }
-    let isAndroid = this.platform.is('android');
-    if (isAndroid) {
+    this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', () => {
+      if (this.platform.is('ios')) {
+        this.updateIos();
+        return;
+      }
       this.updateAndroid();
-    }
+    });
   }
 
   updateIos() {
-    this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', () => {
-      window.location.href = this.config.get().hotUpdateUrl.ios;
-    });
+    window.location.href = this.config.get().hotUpdateUrl.ios;
   }
 
   updateAndroid() {
     var targetPath = cordova.file.externalApplicationStorageDirectory + '/app/app.apk';
-    this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', () => {
-      ExtLocalNotifications.schedule({
+    ExtLocalNotifications.schedule({
+      id: 1000,
+      title: '正在更新...',
+      progress: true,
+      maxProgress: 100,
+      currentProgress: 0
+    });
+    let transfer = new Transfer();
+    transfer.onProgress(event => {
+      let progress = ((event.loaded / event.total) * 100).toFixed(2);
+      ExtLocalNotifications.update({
         id: 1000,
         title: '正在更新...',
         progress: true,
         maxProgress: 100,
-        currentProgress: 0
+        currentProgress: Math.round(Number(progress))
       });
-      let transfer = new Transfer();
-      transfer.onProgress(event => {
-        let progress = ((event.loaded / event.total) * 100).toFixed(2);
-        ExtLocalNotifications.update({
-          id: 1000,
-          title: '正在更新...',
-          progress: true,
-          maxProgress: 100,
-          currentProgress: Math.round(Number(progress))
-        });
+    });
+    transfer.download(this.config.get().hotUpdateUrl.android, targetPath).then(() => {
+      ExtLocalNotifications.clear(1000);
+      this.dialog.confirm('更新通知', '新版本下载完成是否现在安装?', () => {
+        FileOpener.open(targetPath, 'application/vnd.android.package-archive');
       });
-      transfer.download(this.config.get().hotUpdateUrl.android, targetPath).then(() => {
-        ExtLocalNotifications.clear(1000);
-        this.dialog.confirm('更新通知', '新版本下载完成是否现在安装?', () => {
-          FileOpener.open(targetPath, 'application/vnd.android.package-archive');
-        });
-      }, e => {
-        console.log(e);
-      });
+    }, e => {
+      console.log(e);
     });
   }
 }

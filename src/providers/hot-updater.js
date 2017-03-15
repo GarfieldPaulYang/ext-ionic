@@ -48,55 +48,49 @@ var HotUpdater = (function () {
         });
     };
     HotUpdater.prototype.updateApp = function () {
+        var _this = this;
         if (!this.config.get().hotUpdateUrl) {
             return;
         }
-        var isios = this.platform.is('ios');
-        if (isios) {
-            this.updateIos();
-            return;
-        }
-        var isAndroid = this.platform.is('android');
-        if (isAndroid) {
-            this.updateAndroid();
-        }
+        this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', function () {
+            if (_this.platform.is('ios')) {
+                _this.updateIos();
+                return;
+            }
+            _this.updateAndroid();
+        });
     };
     HotUpdater.prototype.updateIos = function () {
-        var _this = this;
-        this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', function () {
-            window.location.href = _this.config.get().hotUpdateUrl.ios;
-        });
+        window.location.href = this.config.get().hotUpdateUrl.ios;
     };
     HotUpdater.prototype.updateAndroid = function () {
         var _this = this;
         var targetPath = cordova.file.externalApplicationStorageDirectory + '/app/app.apk';
-        this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', function () {
-            local_notifications_1.ExtLocalNotifications.schedule({
+        local_notifications_1.ExtLocalNotifications.schedule({
+            id: 1000,
+            title: '正在更新...',
+            progress: true,
+            maxProgress: 100,
+            currentProgress: 0
+        });
+        var transfer = new ionic_native_1.Transfer();
+        transfer.onProgress(function (event) {
+            var progress = ((event.loaded / event.total) * 100).toFixed(2);
+            local_notifications_1.ExtLocalNotifications.update({
                 id: 1000,
                 title: '正在更新...',
                 progress: true,
                 maxProgress: 100,
-                currentProgress: 0
+                currentProgress: Math.round(Number(progress))
             });
-            var transfer = new ionic_native_1.Transfer();
-            transfer.onProgress(function (event) {
-                var progress = ((event.loaded / event.total) * 100).toFixed(2);
-                local_notifications_1.ExtLocalNotifications.update({
-                    id: 1000,
-                    title: '正在更新...',
-                    progress: true,
-                    maxProgress: 100,
-                    currentProgress: Math.round(Number(progress))
-                });
+        });
+        transfer.download(this.config.get().hotUpdateUrl.android, targetPath).then(function () {
+            local_notifications_1.ExtLocalNotifications.clear(1000);
+            _this.dialog.confirm('更新通知', '新版本下载完成是否现在安装?', function () {
+                ionic_native_1.FileOpener.open(targetPath, 'application/vnd.android.package-archive');
             });
-            transfer.download(_this.config.get().hotUpdateUrl.android, targetPath).then(function () {
-                local_notifications_1.ExtLocalNotifications.clear(1000);
-                _this.dialog.confirm('更新通知', '新版本下载完成是否现在安装?', function () {
-                    ionic_native_1.FileOpener.open(targetPath, 'application/vnd.android.package-archive');
-                });
-            }, function (e) {
-                console.log(e);
-            });
+        }, function (e) {
+            console.log(e);
         });
     };
     HotUpdater = __decorate([
