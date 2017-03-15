@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Transfer, FileOpener, InAppBrowser } from 'ionic-native';
+import { Transfer, FileOpener } from 'ionic-native';
 
 import { HotCodePush } from '../native/hot-code-push';
 import { ConfigProvider } from '../config/config';
@@ -60,7 +60,7 @@ export class HotUpdater {
 
   updateIos() {
     this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', () => {
-      new InAppBrowser(this.config.get().hotUpdateUrl.ios, '_system');
+      window.location.href = this.config.get().hotUpdateUrl.ios;
     });
   }
 

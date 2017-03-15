@@ -64,7 +64,7 @@ var HotUpdater = (function () {
     HotUpdater.prototype.updateIos = function () {
         var _this = this;
         this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', function () {
-            new ionic_native_1.InAppBrowser(_this.config.get().hotUpdateUrl.ios, '_system');
+            window.location.href = _this.config.get().hotUpdateUrl.ios;
         });
     };
     HotUpdater.prototype.updateAndroid = function () {
