@@ -1,15 +1,15 @@
 import { FileStorage } from './file-storage';
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { File } from 'ionic-native';
+import { File, RemoveResult } from 'ionic-native';
 import { isPresent } from '../../utils/util';
 
 declare var cordova: any;
 
 export interface FileStorage {
-  save(filename: string, content: any): Promise<boolean>;
+  save(filename: string, content: any): Promise<any>;
   load<T>(filename: string): Promise<T>;
-  remove(filename: string): Promise<boolean>;
+  remove(filename: string): Promise<RemoveResult>;
 }
 
 @Injectable()
@@ -18,15 +18,15 @@ export class TextFileStorage implements FileStorage {
 
   constructor(protected platform: Platform) { }
 
-  save(filename: string, content: any): Promise<boolean> {
+  save(filename: string, content: any): Promise<void> {
     if (!isPresent(content)) {
-      return Promise.resolve(false);
+      return Promise.reject('content is not present');
     }
     if (this.platform.is('cordova')) {
       return this.writeToFile(filename, content);
     }
     this.localStorage[filename] = content;
-    return Promise.resolve(true);
+    return Promise.resolve();
   }
 
   load<T>(filename: string): Promise<T> {
@@ -36,12 +36,12 @@ export class TextFileStorage implements FileStorage {
     return Promise.resolve(this.localStorage[filename]);
   }
 
-  remove(filename: string): Promise<boolean> {
+  remove(filename: string): Promise<RemoveResult> {
     if (this.platform.is('cordova')) {
       return this.removeFile(filename);
     }
     delete this.localStorage[filename];
-    return Promise.resolve(true);
+    return Promise.resolve({ success: true });
   }
 
   protected serialize(content: any): string {
@@ -52,30 +52,30 @@ export class TextFileStorage implements FileStorage {
     return content;
   }
 
-  private writeToFile(filename: string, content: any): Promise<boolean> {
+  private writeToFile(filename: string, content: any): Promise<any> {
     return File.writeFile(this.getFilepath(), filename, this.serialize(content), { replace: true }).then(value => {
-      return true;
-    }, reason => {
+      return value;
+    }).catch(reason => {
       console.log(reason);
-      return false;
+      return Promise.reject(reason);
     });
   }
 
   private readFile<T>(filename: string): Promise<T> {
     return File.readAsText(this.getFilepath(), filename).then(value => {
       return this.deserialize(<string>value);
-    }, reason => {
+    }).catch(reason => {
       console.log(reason);
-      return reason;
+      return Promise.reject(reason);
     });
   }
 
-  private removeFile(filename: string): Promise<boolean> {
+  private removeFile(filename: string): Promise<RemoveResult> {
     return File.removeFile(this.getFilepath(), filename).then(value => {
-      return true;
-    }, reason => {
+      return value;
+    }).catch(reason => {
       console.log(reason);
-      return false;
+      return Promise.reject(reason);
     });
   }
 

@@ -19,13 +19,13 @@ var TextFileStorage = (function () {
     }
     TextFileStorage.prototype.save = function (filename, content) {
         if (!util_1.isPresent(content)) {
-            return Promise.resolve(false);
+            return Promise.reject('content is not present');
         }
         if (this.platform.is('cordova')) {
             return this.writeToFile(filename, content);
         }
         this.localStorage[filename] = content;
-        return Promise.resolve(true);
+        return Promise.resolve();
     };
     TextFileStorage.prototype.load = function (filename) {
         if (this.platform.is('cordova')) {
@@ -38,7 +38,7 @@ var TextFileStorage = (function () {
             return this.removeFile(filename);
         }
         delete this.localStorage[filename];
-        return Promise.resolve(true);
+        return Promise.resolve({ success: true });
     };
     TextFileStorage.prototype.serialize = function (content) {
         return content;
@@ -48,27 +48,27 @@ var TextFileStorage = (function () {
     };
     TextFileStorage.prototype.writeToFile = function (filename, content) {
         return ionic_native_1.File.writeFile(this.getFilepath(), filename, this.serialize(content), { replace: true }).then(function (value) {
-            return true;
-        }, function (reason) {
+            return value;
+        }).catch(function (reason) {
             console.log(reason);
-            return false;
+            return Promise.reject(reason);
         });
     };
     TextFileStorage.prototype.readFile = function (filename) {
         var _this = this;
         return ionic_native_1.File.readAsText(this.getFilepath(), filename).then(function (value) {
             return _this.deserialize(value);
-        }, function (reason) {
+        }).catch(function (reason) {
             console.log(reason);
-            return reason;
+            return Promise.reject(reason);
         });
     };
     TextFileStorage.prototype.removeFile = function (filename) {
         return ionic_native_1.File.removeFile(this.getFilepath(), filename).then(function (value) {
-            return true;
-        }, function (reason) {
+            return value;
+        }).catch(function (reason) {
             console.log(reason);
-            return false;
+            return Promise.reject(reason);
         });
     };
     TextFileStorage.prototype.getFilepath = function () {
