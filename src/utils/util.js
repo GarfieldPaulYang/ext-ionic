@@ -1,4 +1,5 @@
 "use strict";
+var _ = require('lodash');
 function isTrueProperty(val) {
     if (typeof val === 'string') {
         val = val.toLowerCase().trim();
@@ -22,4 +23,30 @@ function assert(actual, reason) {
     }
 }
 exports.assert = assert;
+function flattenObject(obj) {
+    return _.transform(obj, function (result, value, key) {
+        if (_.isObject(value)) {
+            var flatMap = _.mapKeys(flattenObject(value), function (mvalue, mkey) {
+                if (_.isArray(value)) {
+                    var index = mkey.indexOf('.');
+                    if (-1 !== index) {
+                        return key + "[" + mkey.slice(0, index) + "]" + mkey.slice(index);
+                    }
+                    return key + "[" + mkey + "]";
+                }
+                return key + "." + mkey;
+            });
+            _.assign(result, flatMap);
+        }
+        else {
+            result[key] = value;
+        }
+        return result;
+    }, {});
+}
+exports.flattenObject = flattenObject;
+function unFlattenObject(params) {
+    return _.reduce(params, function (result, value, key) { return _.set(result, key, value); }, {});
+}
+exports.unFlattenObject = unFlattenObject;
 //# sourceMappingURL=util.js.map

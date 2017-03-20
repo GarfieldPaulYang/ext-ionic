@@ -22,7 +22,7 @@ export { Ribbon, RibbnOptions } from './src/components/ribbon/ribbon';
 export { DownloadManagerCmp } from './src/components/download-manager/download-manager-component';
 export { DownloadManagerController, DownloadOptions } from './src/components/download-manager/download-manager';
 export { StringUtils } from './src/utils/string';
-export { assert, isTrueProperty, isPresent } from './src/utils/util';
+export { assert, isTrueProperty, isPresent, flattenObject, unFlattenObject } from './src/utils/util';
 export { Dialog } from './src/utils/dialog';
 export { HttpProviderOptionsArgs, HttpProviderOptions, LoginOptions, LoginResult, SubAcount, HttpProvider, CorsHttpProvider, ticket_expired } from './src/providers/http';
 import './src/rxjs-extensions';
