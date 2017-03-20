@@ -3,6 +3,21 @@ var http_1 = require('@angular/http');
 var _ = require('lodash');
 exports.URLParamsBuilder = {
     build: function (params) {
+        var setObject = function (key, value, searchParams) {
+            if (_.isArray(value)) {
+                value.forEach(function (v) {
+                    searchParams.append(key, v);
+                });
+                return;
+            }
+            if (_.isObject(value)) {
+                for (var subKey in value) {
+                    setObject(key + '.' + subKey, value[subKey], searchParams);
+                }
+                return;
+            }
+            searchParams.set(key, value);
+        };
         if (!_.isObject(params)) {
             return null;
         }
@@ -12,6 +27,10 @@ exports.URLParamsBuilder = {
                 params[key].forEach(function (v) {
                     result.append(key, v);
                 });
+                return "continue";
+            }
+            if (_.isObject(params[key])) {
+                setObject(key, params[key], result);
                 return "continue";
             }
             result.set(key, params[key]);
