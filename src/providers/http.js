@@ -30,6 +30,7 @@ var HttpProviderOptions = (function (_super) {
         _super.call(this, options);
         this.showErrorAlert = true;
         this.showLoading = options.showLoading;
+        this.loadingMsg = options.loadingMsg;
         this.showErrorAlert = options.showErrorAlert;
     }
     HttpProviderOptions.prototype.merge = function (options) {
@@ -37,6 +38,9 @@ var HttpProviderOptions = (function (_super) {
         result.showLoading = this.showLoading;
         if (util_1.isPresent(options.showLoading)) {
             result.showLoading = options.showLoading;
+        }
+        if (util_1.isPresent(options.loadingMsg)) {
+            result.loadingMsg = options.loadingMsg;
         }
         if (util_1.isPresent(options.showErrorAlert)) {
             result.showErrorAlert = options.showErrorAlert;
@@ -48,6 +52,7 @@ var HttpProviderOptions = (function (_super) {
 exports.HttpProviderOptions = HttpProviderOptions;
 var defaultRequestOptions = new HttpProviderOptions({
     showLoading: true,
+    loadingMsg: '正在加载...',
     showErrorAlert: true,
     method: http_1.RequestMethod.Get,
     responseType: http_1.ResponseContentType.Json
@@ -83,7 +88,7 @@ var HttpProvider = (function () {
         options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
         var loading;
         if (options.showLoading) {
-            loading = this.dialog.loading('正在加载...');
+            loading = this.dialog.loading(options.loadingMsg);
             loading.present();
         }
         return this.ajax(url, options).toPromise().then(function (result) {
