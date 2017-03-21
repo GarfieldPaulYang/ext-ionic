@@ -25,15 +25,8 @@ export function assert(actual: any, reason?: string) {
 
 export function flattenObject(obj) {
   return _.transform(obj, function (result, value, key) {
-    if (_.isObject(value)) {
+    if (_.isObject(value) && !_.isArray(value)) {
       let flatMap = _.mapKeys(flattenObject(value), function (mvalue, mkey) {
-        if (_.isArray(value)) {
-          let index = mkey.indexOf('.');
-          if (-1 !== index) {
-            return `${key}[${mkey.slice(0, index)}]${mkey.slice(index)}`;
-          }
-          return `${key}[${mkey}]`;
-        }
         return `${key}.${mkey}`;
       });
 

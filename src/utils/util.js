@@ -25,15 +25,8 @@ function assert(actual, reason) {
 exports.assert = assert;
 function flattenObject(obj) {
     return _.transform(obj, function (result, value, key) {
-        if (_.isObject(value)) {
+        if (_.isObject(value) && !_.isArray(value)) {
             var flatMap = _.mapKeys(flattenObject(value), function (mvalue, mkey) {
-                if (_.isArray(value)) {
-                    var index = mkey.indexOf('.');
-                    if (-1 !== index) {
-                        return key + "[" + mkey.slice(0, index) + "]" + mkey.slice(index);
-                    }
-                    return key + "[" + mkey + "]";
-                }
                 return key + "." + mkey;
             });
             _.assign(result, flatMap);
