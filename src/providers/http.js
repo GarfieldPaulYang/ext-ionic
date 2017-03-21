@@ -80,6 +80,7 @@ var HttpProvider = (function () {
         });
     };
     HttpProvider.prototype.request = function (url, options) {
+        options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
         var loading;
         if (options.showLoading) {
             loading = this.dialog.loading('正在加载...');
@@ -96,7 +97,6 @@ var HttpProvider = (function () {
         });
     };
     HttpProvider.prototype.ajax = function (url, options) {
-        options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
         if (options.method === http_1.RequestMethod.Post && util_1.isPresent(options.body) && !(options.body instanceof FormData)) {
             options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
         }
