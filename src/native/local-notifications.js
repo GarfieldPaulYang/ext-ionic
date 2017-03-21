@@ -13,40 +13,43 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var ionic_native_1 = require('ionic-native');
+var core_1 = require('@angular/core');
+var core_2 = require('@ionic-native/core');
+var local_notifications_1 = require('@ionic-native/local-notifications');
 var ExtLocalNotifications = (function (_super) {
     __extends(ExtLocalNotifications, _super);
     function ExtLocalNotifications() {
         _super.apply(this, arguments);
     }
-    ExtLocalNotifications.schedule = function (options) { };
-    ExtLocalNotifications.update = function (options) { };
+    ExtLocalNotifications.prototype.schedule = function (options) { };
+    ExtLocalNotifications.prototype.update = function (options) { };
     __decorate([
-        ionic_native_1.Cordova({
+        core_2.Cordova({
             sync: true
         }), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
-    ], ExtLocalNotifications, "schedule", null);
+    ], ExtLocalNotifications.prototype, "schedule", null);
     __decorate([
-        ionic_native_1.Cordova({
+        core_2.Cordova({
             sync: true
         }), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
-    ], ExtLocalNotifications, "update", null);
+    ], ExtLocalNotifications.prototype, "update", null);
     ExtLocalNotifications = __decorate([
-        ionic_native_1.Plugin({
+        core_2.Plugin({
             pluginName: 'LocalNotifications',
             plugin: 'de.appplant.cordova.plugin.local-notification',
             pluginRef: 'cordova.plugins.notification.local',
             repo: 'https://github.com/squallliu/cordova-plugin-local-notifications'
-        }), 
+        }),
+        core_1.Injectable(), 
         __metadata('design:paramtypes', [])
     ], ExtLocalNotifications);
     return ExtLocalNotifications;
-}(ionic_native_1.LocalNotifications));
+}(local_notifications_1.LocalNotifications));
 exports.ExtLocalNotifications = ExtLocalNotifications;
 //# sourceMappingURL=local-notifications.js.map

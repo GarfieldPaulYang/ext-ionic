@@ -1,6 +1,6 @@
 import { FileStorage } from './file-storage';
 import { Platform } from 'ionic-angular';
-import { RemoveResult } from 'ionic-native';
+import { File, RemoveResult } from '@ionic-native/file';
 export interface FileStorage {
     save(filename: string, content: any): Promise<any>;
     load<T>(filename: string): Promise<T>;
@@ -8,8 +8,9 @@ export interface FileStorage {
 }
 export declare class TextFileStorage implements FileStorage {
     protected platform: Platform;
+    protected file: File;
     private localStorage;
-    constructor(platform: Platform);
+    constructor(platform: Platform, file: File);
     save(filename: string, content: any): Promise<void>;
     load<T>(filename: string): Promise<T>;
     remove(filename: string): Promise<RemoveResult>;

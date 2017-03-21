@@ -1,4 +1,6 @@
-import { Cordova, Plugin, ILocalNotification, LocalNotifications } from 'ionic-native';
+import { Injectable } from '@angular/core';
+import { Cordova, Plugin } from '@ionic-native/core';
+import { ILocalNotification, LocalNotifications } from '@ionic-native/local-notifications';
 
 export interface ExtILocalNotification extends ILocalNotification {
   progress?: boolean;
@@ -13,14 +15,15 @@ export interface ExtILocalNotification extends ILocalNotification {
   pluginRef: 'cordova.plugins.notification.local',
   repo: 'https://github.com/squallliu/cordova-plugin-local-notifications'
 })
+@Injectable()
 export class ExtLocalNotifications extends LocalNotifications {
   @Cordova({
     sync: true
   })
-  static schedule(options?: ExtILocalNotification | Array<ExtILocalNotification>): void { }
+  schedule(options?: ExtILocalNotification | Array<ExtILocalNotification>): void { }
 
   @Cordova({
     sync: true
   })
-  static update(options?: ExtILocalNotification): void { }
+  update(options?: ExtILocalNotification): void { }
 }

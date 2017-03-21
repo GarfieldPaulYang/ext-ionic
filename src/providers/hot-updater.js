@@ -10,30 +10,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
-var ionic_native_1 = require('ionic-native');
+var transfer_1 = require('@ionic-native/transfer');
+var file_opener_1 = require('@ionic-native/file-opener');
 var hot_code_push_1 = require('../native/hot-code-push');
 var config_1 = require('../config/config');
 var dialog_1 = require('../utils/dialog');
 var local_notifications_1 = require('../native/local-notifications');
 var HotUpdater = (function () {
-    function HotUpdater(platform, dialog, config) {
+    function HotUpdater(platform, dialog, config, hotCodePush, localNotifications, transfer, fileOpener) {
         this.platform = platform;
         this.dialog = dialog;
         this.config = config;
+        this.hotCodePush = hotCodePush;
+        this.localNotifications = localNotifications;
+        this.transfer = transfer;
+        this.fileOpener = fileOpener;
     }
     HotUpdater.prototype.start = function () {
         var _this = this;
-        hot_code_push_1.HotCodePush.isUpdateAvailableForInstallation(function (error, data) {
+        this.hotCodePush.isUpdateAvailableForInstallation(function (error, data) {
             if (!error) {
-                hot_code_push_1.HotCodePush.installUpdate().then(function (error) {
+                _this.hotCodePush.installUpdate().then(function (error) {
                     console.log(error);
                 });
                 return;
             }
-            hot_code_push_1.HotCodePush.fetchUpdate(function (error, data) {
+            _this.hotCodePush.fetchUpdate(function (error, data) {
                 if (!error) {
                     _this.dialog.confirm('更新通知', '新版本更新成功,是否现在重启应用?', function () {
-                        hot_code_push_1.HotCodePush.installUpdate().then(function (e) {
+                        _this.hotCodePush.installUpdate().then(function (e) {
                             console.log(e);
                         });
                     });
@@ -66,17 +71,17 @@ var HotUpdater = (function () {
     HotUpdater.prototype.updateAndroid = function () {
         var _this = this;
         var targetPath = cordova.file.externalApplicationStorageDirectory + '/app/app.apk';
-        local_notifications_1.ExtLocalNotifications.schedule({
+        this.localNotifications.schedule({
             id: 1000,
             title: '正在更新...',
             progress: true,
             maxProgress: 100,
             currentProgress: 0
         });
-        var transfer = new ionic_native_1.Transfer();
+        var transfer = this.transfer.create();
         transfer.onProgress(function (event) {
             var progress = ((event.loaded / event.total) * 100).toFixed(2);
-            local_notifications_1.ExtLocalNotifications.update({
+            _this.localNotifications.update({
                 id: 1000,
                 title: '正在更新...',
                 progress: true,
@@ -85,9 +90,9 @@ var HotUpdater = (function () {
             });
         });
         transfer.download(this.config.get().hotUpdateUrl.android, targetPath).then(function () {
-            local_notifications_1.ExtLocalNotifications.clear(1000);
+            _this.localNotifications.clear(1000);
             _this.dialog.confirm('更新通知', '新版本下载完成是否现在安装?', function () {
-                ionic_native_1.FileOpener.open(targetPath, 'application/vnd.android.package-archive');
+                _this.fileOpener.open(targetPath, 'application/vnd.android.package-archive');
             });
         }, function (e) {
             console.log(e);
@@ -95,7 +100,7 @@ var HotUpdater = (function () {
     };
     HotUpdater = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [ionic_angular_1.Platform, dialog_1.Dialog, config_1.ConfigProvider])
+        __metadata('design:paramtypes', [ionic_angular_1.Platform, dialog_1.Dialog, config_1.ConfigProvider, hot_code_push_1.HotCodePush, local_notifications_1.ExtLocalNotifications, transfer_1.Transfer, file_opener_1.FileOpener])
     ], HotUpdater);
     return HotUpdater;
 }());

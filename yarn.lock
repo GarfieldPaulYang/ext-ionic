@@ -50,6 +50,30 @@
   dependencies:
     tsickle "^0.2"
 
+"@ionic-native/core@3.1.0":
+  version "3.1.0"
+  resolved "http://registry.npm.taobao.org/@ionic-native/core/download/@ionic-native/core-3.1.0.tgz#77aa905eb468dda3ac5d3885bea21903469ebfb9"
+
+"@ionic-native/device@^3.1.0":
+  version "3.1.0"
+  resolved "http://registry.npm.taobao.org/@ionic-native/device/download/@ionic-native/device-3.1.0.tgz#d01fade4851851fbab0eb5474de4b15e5f7a6f52"
+
+"@ionic-native/file-opener@3.1.0":
+  version "3.1.0"
+  resolved "http://registry.npm.taobao.org/@ionic-native/file-opener/download/@ionic-native/file-opener-3.1.0.tgz#137ff7134e543bc38efd247a0ef0b15012023bcc"
+
+"@ionic-native/file@3.1.0":
+  version "3.1.0"
+  resolved "http://registry.npm.taobao.org/@ionic-native/file/download/@ionic-native/file-3.1.0.tgz#ba3075d93f2305824c12f5786a1ca57acf4d752f"
+
+"@ionic-native/local-notifications@3.1.0":
+  version "3.1.0"
+  resolved "http://registry.npm.taobao.org/@ionic-native/local-notifications/download/@ionic-native/local-notifications-3.1.0.tgz#6377a563faf737fc47539430c21be7c9efb9e810"
+
+"@ionic-native/transfer@3.1.0":
+  version "3.1.0"
+  resolved "http://registry.npm.taobao.org/@ionic-native/transfer/download/@ionic-native/transfer-3.1.0.tgz#6b73563a2e6acb4dc53e0fbab1a9de7e5c44305d"
+
 "@ionic/storage@2.0.0":
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/@ionic/storage/download/@ionic/storage-2.0.0.tgz#28b7fb4deda642bcbdd037f9c95946828552103d"
@@ -375,12 +399,6 @@ inline-process-browser@^1.0.0:
 ionic-angular@2.2.0:
   version "2.2.0"
   resolved "http://registry.npm.taobao.org/ionic-angular/download/ionic-angular-2.2.0.tgz#5c48212d4c491626863ddce9292af0d3e6e2adca"
-
-ionic-native@2.8.1:
-  version "2.8.1"
-  resolved "http://registry.npm.taobao.org/ionic-native/download/ionic-native-2.8.1.tgz#6e5b883933aa5878528a1b65f2ed75e697984646"
-  dependencies:
-    rxjs "5.0.1"
 
 ionicons@3.0.0:
   version "3.0.0"

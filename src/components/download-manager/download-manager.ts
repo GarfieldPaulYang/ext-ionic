@@ -1,7 +1,7 @@
 
 import { Injectable, EventEmitter, NgZone } from '@angular/core';
 import { Platform, NavController } from 'ionic-angular';
-import { Transfer } from 'ionic-native';
+import { Transfer } from '@ionic-native/transfer';
 import { ExtLocalNotifications } from '../../native/local-notifications';
 import { isPresent } from '../../utils/util';
 import { DownloadManagerCmp } from './download-manager-component';
@@ -35,8 +35,12 @@ export class DownloadManagerController {
     return this._fileSystemRoot + this._rootDirectory;
   }
 
-  constructor(private platform: Platform,
-    private ngZone: NgZone) {
+  constructor(
+    private platform: Platform,
+    private transfer: Transfer,
+    private localNotifications: ExtLocalNotifications,
+    private ngZone: NgZone
+  ) {
     if (platform.is('cordova')) {
       this._fileSystemRoot = this.platform.is('android') ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory;
     }
@@ -55,7 +59,7 @@ export class DownloadManagerController {
     let notification: boolean = false;
     let first = true;
     let downloadProgress: number = 0;
-    let transfer = new Transfer();
+    let transfer = this.transfer.create();
     transfer.onProgress(event => {
       if (first) {
         first = false;
@@ -88,7 +92,7 @@ export class DownloadManagerController {
     }
     return transfer.download(encodeURI(option.url), target).then(entry => {
       if (notification && notificationId) {
-        ExtLocalNotifications.clear(notificationId);
+        this.localNotifications.clear(notificationId);
       }
       return entry;
     });
@@ -96,7 +100,7 @@ export class DownloadManagerController {
 
   private createId(): Promise<number> {
     this.id++;
-    return ExtLocalNotifications.isScheduled(this.id).then(isScheduled => {
+    return this.localNotifications.isScheduled(this.id).then(isScheduled => {
       if (isScheduled) {
         return this.createId();
       };
@@ -106,7 +110,7 @@ export class DownloadManagerController {
 
   private createNotification(fileName: string): Promise<number> {
     return this.createId().then(id => {
-      ExtLocalNotifications.schedule({
+      this.localNotifications.schedule({
         id: id,
         title: fileName + ' 开始下载...',
         progress: this.platform.is('android'),
@@ -118,7 +122,7 @@ export class DownloadManagerController {
   }
 
   private updateLocalNotification(fileName: string, id: number, progress: number) {
-    ExtLocalNotifications.update({
+    this.localNotifications.update({
       id: id,
       title: fileName + '下载中...',
       progress: this.platform.is('android'),

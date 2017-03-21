@@ -46,10 +46,10 @@ export declare class HotCodePush {
         UPDATE_INSTALLED: string;
         NOTHING_TO_INSTALL: string;
     };
-    static fetchUpdate(callback: HotCodeCallback, options?: HotCodePushOptions): void;
-    static installUpdate(): Promise<any>;
-    static isUpdateAvailableForInstallation(callback: HotCodeCallback): void;
-    static getVersionInfo(callback: HotCodeCallback): void;
-    static configure(config: HotCodePushConifg): Promise<any>;
-    static onUpdateInstalled(listener: EventListenerOrEventListenerObject): void;
+    fetchUpdate(callback: HotCodeCallback, options?: HotCodePushOptions): void;
+    installUpdate(): Promise<any>;
+    isUpdateAvailableForInstallation(callback: HotCodeCallback): void;
+    getVersionInfo(callback: HotCodeCallback): void;
+    configure(config: HotCodePushConifg): Promise<any>;
+    onUpdateInstalled(listener: EventListenerOrEventListenerObject): void;
 }

@@ -1,5 +1,7 @@
 import { EventEmitter, NgZone } from '@angular/core';
 import { Platform, NavController } from 'ionic-angular';
+import { Transfer } from '@ionic-native/transfer';
+import { ExtLocalNotifications } from '../../native/local-notifications';
 export interface DownloadOptions {
     fileName: string;
     filePath?: string;
@@ -12,6 +14,8 @@ export interface DownloadEvent {
 }
 export declare class DownloadManagerController {
     private platform;
+    private transfer;
+    private localNotifications;
     private ngZone;
     private _event;
     private id;
@@ -19,7 +23,7 @@ export declare class DownloadManagerController {
     private _rootDirectory;
     readonly event: EventEmitter<DownloadEvent>;
     readonly downloadDirectory: string;
-    constructor(platform: Platform, ngZone: NgZone);
+    constructor(platform: Platform, transfer: Transfer, localNotifications: ExtLocalNotifications, ngZone: NgZone);
     show(navCtrl: NavController): void;
     download(option: DownloadOptions): Promise<any>;
     private createId();

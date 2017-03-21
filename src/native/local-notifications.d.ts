@@ -1,4 +1,4 @@
-import { ILocalNotification, LocalNotifications } from 'ionic-native';
+import { ILocalNotification, LocalNotifications } from '@ionic-native/local-notifications';
 export interface ExtILocalNotification extends ILocalNotification {
     progress?: boolean;
     removeProgress?: boolean;
@@ -6,6 +6,6 @@ export interface ExtILocalNotification extends ILocalNotification {
     currentProgress?: number;
 }
 export declare class ExtLocalNotifications extends LocalNotifications {
-    static schedule(options?: ExtILocalNotification | Array<ExtILocalNotification>): void;
-    static update(options?: ExtILocalNotification): void;
+    schedule(options?: ExtILocalNotification | Array<ExtILocalNotification>): void;
+    update(options?: ExtILocalNotification): void;
 }

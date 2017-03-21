@@ -67,6 +67,13 @@ exports.HttpProvider = http_1.HttpProvider;
 exports.CorsHttpProvider = http_1.CorsHttpProvider;
 exports.ticket_expired = http_1.ticket_expired;
 require('./src/rxjs-extensions');
+var transfer_1 = require('@ionic-native/transfer');
+var file_opener_1 = require('@ionic-native/file-opener');
+var file_1 = require('@ionic-native/file');
+var device_1 = require('@ionic-native/device');
+var immerse_plugin_2 = require('./src/native/immerse-plugin');
+var hot_code_push_2 = require('./src/native/hot-code-push');
+var local_notifications_2 = require('./src/native/local-notifications');
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var config_2 = require('./src/config/config');
@@ -105,6 +112,10 @@ var ExtIonicModule = (function () {
         return {
             ngModule: ExtIonicModule,
             providers: [
+                transfer_1.Transfer,
+                file_1.File,
+                file_opener_1.FileOpener,
+                device_1.Device,
                 { provide: config_2.EXT_IONIC_CONFIG, useValue: config },
                 { provide: config_2.ConfigProvider, useFactory: config_2.setupConfig, deps: [config_2.EXT_IONIC_CONFIG] },
                 open_url_modal_2.OpenUrlModalController,
@@ -119,7 +130,10 @@ var ExtIonicModule = (function () {
                 component_registar_2.ComponentRegistar,
                 file_storage_2.TextFileStorage,
                 json_file_storage_2.JsonFileStorage,
-                download_manager_2.DownloadManagerController
+                download_manager_2.DownloadManagerController,
+                immerse_plugin_2.Immerse,
+                hot_code_push_2.HotCodePush,
+                local_notifications_2.ExtLocalNotifications
             ]
         };
     };

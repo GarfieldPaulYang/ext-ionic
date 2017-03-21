@@ -16,11 +16,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var file_storage_1 = require('./file-storage');
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
+var file_1 = require('@ionic-native/file');
 var JsonFileStorage = (function (_super) {
     __extends(JsonFileStorage, _super);
-    function JsonFileStorage(platform) {
-        _super.call(this, platform);
+    function JsonFileStorage(platform, file) {
+        _super.call(this, platform, file);
         this.platform = platform;
+        this.file = file;
     }
     JsonFileStorage.prototype.serialize = function (content) {
         return JSON.stringify(content);
@@ -30,7 +32,7 @@ var JsonFileStorage = (function (_super) {
     };
     JsonFileStorage = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [ionic_angular_1.Platform])
+        __metadata('design:paramtypes', [ionic_angular_1.Platform, file_1.File])
     ], JsonFileStorage);
     return JsonFileStorage;
 }(file_storage_1.TextFileStorage));

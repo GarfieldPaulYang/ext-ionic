@@ -8,21 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var ionic_native_1 = require('ionic-native');
+var core_1 = require('@angular/core');
+var core_2 = require('@ionic-native/core');
 var HotCodePush = (function () {
     function HotCodePush() {
     }
-    HotCodePush.fetchUpdate = function (callback, options) { };
+    HotCodePush.prototype.fetchUpdate = function (callback, options) { };
     ;
-    HotCodePush.installUpdate = function () { return; };
+    HotCodePush.prototype.installUpdate = function () { return; };
     ;
-    HotCodePush.isUpdateAvailableForInstallation = function (callback) { };
+    HotCodePush.prototype.isUpdateAvailableForInstallation = function (callback) { };
     ;
-    HotCodePush.getVersionInfo = function (callback) { };
+    HotCodePush.prototype.getVersionInfo = function (callback) { };
     ;
-    HotCodePush.configure = function (config) { return; };
+    HotCodePush.prototype.configure = function (config) { return; };
     ;
-    HotCodePush.onUpdateInstalled = function (listener) {
+    HotCodePush.prototype.onUpdateInstalled = function (listener) {
         document.addEventListener(HotCodePush.event.UPDATE_INSTALLED, listener, false);
     };
     HotCodePush.error = {
@@ -61,48 +62,49 @@ var HotCodePush = (function () {
         NOTHING_TO_INSTALL: 'chcp_nothingToInstall'
     };
     __decorate([
-        ionic_native_1.Cordova({
+        core_2.Cordova({
             sync: true
         }), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Function, Object]), 
         __metadata('design:returntype', void 0)
-    ], HotCodePush, "fetchUpdate", null);
+    ], HotCodePush.prototype, "fetchUpdate", null);
     __decorate([
-        ionic_native_1.Cordova(), 
+        core_2.Cordova(), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', []), 
         __metadata('design:returntype', Promise)
-    ], HotCodePush, "installUpdate", null);
+    ], HotCodePush.prototype, "installUpdate", null);
     __decorate([
-        ionic_native_1.Cordova({
+        core_2.Cordova({
             sync: true
         }), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Function]), 
         __metadata('design:returntype', void 0)
-    ], HotCodePush, "isUpdateAvailableForInstallation", null);
+    ], HotCodePush.prototype, "isUpdateAvailableForInstallation", null);
     __decorate([
-        ionic_native_1.Cordova({
+        core_2.Cordova({
             sync: true
         }), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Function]), 
         __metadata('design:returntype', void 0)
-    ], HotCodePush, "getVersionInfo", null);
+    ], HotCodePush.prototype, "getVersionInfo", null);
     __decorate([
-        ionic_native_1.Cordova(), 
+        core_2.Cordova(), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', Promise)
-    ], HotCodePush, "configure", null);
+    ], HotCodePush.prototype, "configure", null);
     HotCodePush = __decorate([
-        ionic_native_1.Plugin({
+        core_2.Plugin({
             pluginName: 'HotCodePush',
             plugin: 'cordova-hot-code-push-plugin',
             pluginRef: 'chcp',
             repo: 'https://github.com/nordnet/cordova-hot-code-push'
-        }), 
+        }),
+        core_1.Injectable(), 
         __metadata('design:paramtypes', [])
     ], HotCodePush);
     return HotCodePush;

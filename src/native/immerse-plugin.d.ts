@@ -1,3 +1,3 @@
 export declare class Immerse {
-    static setDarkMode(enable: boolean): void;
+    setDarkMode(enable: boolean): void;
 }

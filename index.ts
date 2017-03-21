@@ -53,6 +53,14 @@ export {
 
 import './src/rxjs-extensions';
 
+import { Transfer } from '@ionic-native/transfer';
+import { FileOpener } from '@ionic-native/file-opener';
+import { File } from '@ionic-native/file';
+import { Device } from '@ionic-native/device';
+import { Immerse } from './src/native/immerse-plugin';
+import { HotCodePush } from './src/native/hot-code-push';
+import { ExtLocalNotifications } from './src/native/local-notifications';
+
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
 
@@ -115,6 +123,11 @@ export class ExtIonicModule {
     return {
       ngModule: ExtIonicModule,
       providers: [
+        Transfer,
+        File,
+        FileOpener,
+        Device,
+
         { provide: EXT_IONIC_CONFIG, useValue: config },
         { provide: ConfigProvider, useFactory: setupConfig, deps: [EXT_IONIC_CONFIG] },
         OpenUrlModalController,
@@ -129,7 +142,11 @@ export class ExtIonicModule {
         ComponentRegistar,
         TextFileStorage,
         JsonFileStorage,
-        DownloadManagerController
+        DownloadManagerController,
+
+        Immerse,
+        HotCodePush,
+        ExtLocalNotifications
       ]
     };
   }

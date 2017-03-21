@@ -12,7 +12,7 @@ import {
   Headers
 } from '@angular/http';
 import { Events, Loading } from 'ionic-angular';
-import { Device } from 'ionic-native';
+import { Device } from '@ionic-native/device';
 import * as _ from 'lodash';
 
 import { ConfigProvider } from '../config/config';
@@ -143,7 +143,8 @@ export class CorsHttpProvider {
   constructor(
     private http: HttpProvider,
     private events: Events,
-    private config: ConfigProvider
+    private config: ConfigProvider,
+    private device: Device
   ) { }
 
   login(options: LoginOptions): Promise<LoginResult> {
@@ -151,7 +152,7 @@ export class CorsHttpProvider {
       headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
       method: RequestMethod.Post,
       body: URLParamsBuilder.build(options).toString(),
-      search: URLParamsBuilder.build({ __login__: true, __uuid__: Device.uuid, __model__: Device.model })
+      search: URLParamsBuilder.build({ __login__: true, __uuid__: this.device.uuid, __model__: this.device.model })
     });
   }
 

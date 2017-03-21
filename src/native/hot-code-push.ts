@@ -1,4 +1,5 @@
-import { Cordova, Plugin } from 'ionic-native';
+import { Injectable } from '@angular/core';
+import { Cordova, Plugin } from '@ionic-native/core';
 
 export interface HotCodePushConifg {
   'config-file'?: string;
@@ -21,6 +22,7 @@ export interface HotCodeCallback {
   pluginRef: 'chcp',
   repo: 'https://github.com/nordnet/cordova-hot-code-push'
 })
+@Injectable()
 export class HotCodePush {
   static error = {
     NOTHING_TO_INSTALL: 1,
@@ -65,25 +67,25 @@ export class HotCodePush {
   @Cordova({
     sync: true
   })
-  static fetchUpdate(callback: HotCodeCallback, options?: HotCodePushOptions): void { };
+  fetchUpdate(callback: HotCodeCallback, options?: HotCodePushOptions): void { };
 
   @Cordova()
-  static installUpdate(): Promise<any> { return; };
+  installUpdate(): Promise<any> { return; };
 
   @Cordova({
     sync: true
   })
-  static isUpdateAvailableForInstallation(callback: HotCodeCallback): void { };
+  isUpdateAvailableForInstallation(callback: HotCodeCallback): void { };
 
   @Cordova({
     sync: true
   })
-  static getVersionInfo(callback: HotCodeCallback) { };
+  getVersionInfo(callback: HotCodeCallback) { };
 
   @Cordova()
-  static configure(config: HotCodePushConifg): Promise<any> { return; };
+  configure(config: HotCodePushConifg): Promise<any> { return; };
 
-  static onUpdateInstalled(listener: EventListenerOrEventListenerObject) {
+  onUpdateInstalled(listener: EventListenerOrEventListenerObject) {
     document.addEventListener(HotCodePush.event.UPDATE_INSTALLED, listener, false);
   }
 }

@@ -10,13 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
-var ionic_native_1 = require('ionic-native');
+var transfer_1 = require('@ionic-native/transfer');
 var local_notifications_1 = require('../../native/local-notifications');
 var util_1 = require('../../utils/util');
 var download_manager_component_1 = require('./download-manager-component');
 var DownloadManagerController = (function () {
-    function DownloadManagerController(platform, ngZone) {
+    function DownloadManagerController(platform, transfer, localNotifications, ngZone) {
         this.platform = platform;
+        this.transfer = transfer;
+        this.localNotifications = localNotifications;
         this.ngZone = ngZone;
         this._event = new core_1.EventEmitter(true);
         this.id = 999;
@@ -52,7 +54,7 @@ var DownloadManagerController = (function () {
         var notification = false;
         var first = true;
         var downloadProgress = 0;
-        var transfer = new ionic_native_1.Transfer();
+        var transfer = this.transfer.create();
         transfer.onProgress(function (event) {
             if (first) {
                 first = false;
@@ -85,7 +87,7 @@ var DownloadManagerController = (function () {
         }
         return transfer.download(encodeURI(option.url), target).then(function (entry) {
             if (notification && notificationId) {
-                local_notifications_1.ExtLocalNotifications.clear(notificationId);
+                _this.localNotifications.clear(notificationId);
             }
             return entry;
         });
@@ -93,7 +95,7 @@ var DownloadManagerController = (function () {
     DownloadManagerController.prototype.createId = function () {
         var _this = this;
         this.id++;
-        return local_notifications_1.ExtLocalNotifications.isScheduled(this.id).then(function (isScheduled) {
+        return this.localNotifications.isScheduled(this.id).then(function (isScheduled) {
             if (isScheduled) {
                 return _this.createId();
             }
@@ -104,7 +106,7 @@ var DownloadManagerController = (function () {
     DownloadManagerController.prototype.createNotification = function (fileName) {
         var _this = this;
         return this.createId().then(function (id) {
-            local_notifications_1.ExtLocalNotifications.schedule({
+            _this.localNotifications.schedule({
                 id: id,
                 title: fileName + ' 开始下载...',
                 progress: _this.platform.is('android'),
@@ -115,7 +117,7 @@ var DownloadManagerController = (function () {
         });
     };
     DownloadManagerController.prototype.updateLocalNotification = function (fileName, id, progress) {
-        local_notifications_1.ExtLocalNotifications.update({
+        this.localNotifications.update({
             id: id,
             title: fileName + '下载中...',
             progress: this.platform.is('android'),
@@ -126,7 +128,7 @@ var DownloadManagerController = (function () {
     };
     DownloadManagerController = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [ionic_angular_1.Platform, core_1.NgZone])
+        __metadata('design:paramtypes', [ionic_angular_1.Platform, transfer_1.Transfer, local_notifications_1.ExtLocalNotifications, core_1.NgZone])
     ], DownloadManagerController);
     return DownloadManagerController;
 }());

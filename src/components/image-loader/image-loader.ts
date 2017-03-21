@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { File, FileEntry, Transfer } from 'ionic-native';
+import { Transfer } from '@ionic-native/transfer';
+import { File, FileEntry } from '@ionic-native/file';
 
 import { ConfigProvider } from '../../config/config';
 import { StringUtils } from '../../utils/string';
@@ -12,7 +13,12 @@ export class ImageLoaderController {
   private isCacheReady: boolean = false;
   private isInit: boolean = false;
 
-  constructor(platform: Platform, private config: ConfigProvider) {
+  constructor(
+    private platform: Platform,
+    private transfer: Transfer,
+    private file: File,
+    private config: ConfigProvider
+  ) {
     if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
       this.isInit = true;
       this.throwWarning('You are running on a browser or using livereload, IonicImageLoader will not function, falling back to browser loading.');
@@ -68,7 +74,7 @@ export class ImageLoaderController {
       return;
     }
 
-    File.removeFile(this.cacheDirectory, localPath.substr(localPath.lastIndexOf('/') + 1)).catch(e => {
+    this.file.removeFile(this.cacheDirectory, localPath.substr(localPath.lastIndexOf('/') + 1)).catch(e => {
       this.throwError(e);
     });
   }
@@ -78,13 +84,13 @@ export class ImageLoaderController {
       return;
     }
 
-    File.removeDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName).catch(e => {
+    this.file.removeDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName).catch(e => {
       this.throwError(e);
     });
   }
 
   private downloadImage(imageUrl: string, localPath: string): Promise<any> {
-    let transfer = new Transfer();
+    let transfer = this.transfer.create();
     return transfer.download(imageUrl, localPath);
   }
 
@@ -123,7 +129,7 @@ export class ImageLoaderController {
       }
 
       let fileName = this.createFileName(url);
-      File.resolveLocalFilesystemUrl(this.cacheDirectory + '/' + fileName).then((fileEntry: FileEntry) => {
+      this.file.resolveLocalFilesystemUrl(this.cacheDirectory + '/' + fileName).then((fileEntry: FileEntry) => {
         resolve(fileEntry.nativeURL);
       }).catch(reject);
     });
@@ -146,7 +152,7 @@ export class ImageLoaderController {
   }
 
   private get cacheDirectoryExists(): Promise<boolean> {
-    return <Promise<boolean>>File.checkDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName);
+    return <Promise<boolean>>this.file.checkDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName);
   }
 
   private get cacheDirectory(): string {
@@ -154,7 +160,7 @@ export class ImageLoaderController {
   }
 
   private createCacheDirectory(replace: boolean = false): Promise<any> {
-    return File.createDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName, replace);
+    return this.file.createDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName, replace);
   }
 
   private createFileName(url: string): string {

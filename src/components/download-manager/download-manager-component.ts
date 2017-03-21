@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, OnChanges, SimpleChanges, NgZone } from '@angular/core';
 import { DownloadManagerController, DownloadEvent } from './download-manager';
-import { File, Entry, DirectoryEntry, DirectoryReader } from 'ionic-native';
+import { File, Entry, DirectoryEntry, DirectoryReader } from '@ionic-native/file';
 import * as _ from 'lodash';
 import { isPresent } from '../../utils/util';
 
@@ -63,8 +63,9 @@ export class DownloadManagerCmp implements OnInit, OnDestroy, OnChanges {
 
   constructor(
     private downloadManagerCtl: DownloadManagerController,
-    private ngZone: NgZone) {
-  }
+    private file: File,
+    private ngZone: NgZone
+  ) { }
 
   ngOnInit(): void {
     this.destroy = false;
@@ -105,7 +106,7 @@ export class DownloadManagerCmp implements OnInit, OnDestroy, OnChanges {
   }
 
   loadFileList(directoryPath: string, push: boolean) {
-    File.resolveDirectoryUrl(directoryPath).then(directory => {
+    this.file.resolveDirectoryUrl(directoryPath).then(directory => {
       if (push) {
         this.breadcrumbs.push(directory);
       }

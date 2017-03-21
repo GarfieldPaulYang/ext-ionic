@@ -1,7 +1,7 @@
 import { FileStorage } from './file-storage';
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { File, RemoveResult } from 'ionic-native';
+import { File, RemoveResult } from '@ionic-native/file';
 import { isPresent } from '../../utils/util';
 
 declare var cordova: any;
@@ -16,7 +16,7 @@ export interface FileStorage {
 export class TextFileStorage implements FileStorage {
   private localStorage: any = {};
 
-  constructor(protected platform: Platform) { }
+  constructor(protected platform: Platform, protected file: File) { }
 
   save(filename: string, content: any): Promise<void> {
     if (!isPresent(content)) {
@@ -53,7 +53,7 @@ export class TextFileStorage implements FileStorage {
   }
 
   private writeToFile(filename: string, content: any): Promise<any> {
-    return File.writeFile(this.getFilepath(), filename, this.serialize(content), { replace: true }).then(value => {
+    return this.file.writeFile(this.getFilepath(), filename, this.serialize(content), { replace: true }).then(value => {
       return value;
     }).catch(reason => {
       console.log(reason);
@@ -62,7 +62,7 @@ export class TextFileStorage implements FileStorage {
   }
 
   private readFile<T>(filename: string): Promise<T> {
-    return File.readAsText(this.getFilepath(), filename).then(value => {
+    return this.file.readAsText(this.getFilepath(), filename).then(value => {
       return this.deserialize(<string>value);
     }).catch(reason => {
       console.log(reason);
@@ -71,7 +71,7 @@ export class TextFileStorage implements FileStorage {
   }
 
   private removeFile(filename: string): Promise<RemoveResult> {
-    return File.removeFile(this.getFilepath(), filename).then(value => {
+    return this.file.removeFile(this.getFilepath(), filename).then(value => {
       return value;
     }).catch(reason => {
       console.log(reason);

@@ -8,26 +8,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var ionic_native_1 = require('ionic-native');
+var core_1 = require('@angular/core');
+var core_2 = require('@ionic-native/core');
 var Immerse = (function () {
     function Immerse() {
     }
-    Immerse.setDarkMode = function (enable) { };
+    Immerse.prototype.setDarkMode = function (enable) { };
     __decorate([
-        ionic_native_1.Cordova({
+        core_2.Cordova({
             sync: true
         }), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Boolean]), 
         __metadata('design:returntype', void 0)
-    ], Immerse, "setDarkMode", null);
+    ], Immerse.prototype, "setDarkMode", null);
     Immerse = __decorate([
-        ionic_native_1.Plugin({
+        core_2.Plugin({
             pluginName: 'ImmersePlugin',
             plugin: 'cordova-plugin-Immerse',
             pluginRef: 'ImmersePlugin',
             repo: 'https://github.com/squallliu/cordova-plugin-Immerse'
-        }), 
+        }),
+        core_1.Injectable(), 
         __metadata('design:paramtypes', [])
     ], Immerse);
     return Immerse;

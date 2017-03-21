@@ -10,12 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var download_manager_1 = require('./download-manager');
-var ionic_native_1 = require('ionic-native');
+var file_1 = require('@ionic-native/file');
 var _ = require('lodash');
 var util_1 = require('../../utils/util');
 var DownloadManagerCmp = (function () {
-    function DownloadManagerCmp(downloadManagerCtl, ngZone) {
+    function DownloadManagerCmp(downloadManagerCtl, file, ngZone) {
         this.downloadManagerCtl = downloadManagerCtl;
+        this.file = file;
         this.ngZone = ngZone;
         this.segmentValue = 'downloading';
     }
@@ -55,7 +56,7 @@ var DownloadManagerCmp = (function () {
     };
     DownloadManagerCmp.prototype.loadFileList = function (directoryPath, push) {
         var _this = this;
-        ionic_native_1.File.resolveDirectoryUrl(directoryPath).then(function (directory) {
+        this.file.resolveDirectoryUrl(directoryPath).then(function (directory) {
             if (push) {
                 _this.breadcrumbs.push(directory);
             }
@@ -88,7 +89,7 @@ var DownloadManagerCmp = (function () {
             styles: ["\n    .breadcrumb{\n      display: flex;\n      flex-direction: row;\n      list-style:none;\n      padding-left: 10px;\n    }\n    .breadcrumb ion-icon{\n      padding-left: 5px;\n      padding-right: 5px;\n      font-size: 1em;\n    }\n  "],
             template: "\n    <ion-header>\n      <ion-navbar>\n        <ion-title>\u6587\u4EF6\u4E0B\u8F7D</ion-title>\n      </ion-navbar>\n      <ion-segment [(ngModel)]=\"segmentValue\">\n        <ion-segment-button value=\"downloading\">\u6B63\u5728\u4E0B\u8F7D</ion-segment-button>\n        <ion-segment-button value=\"history\">\u4E0B\u8F7D\u5386\u53F2</ion-segment-button>\n      </ion-segment>\n    </ion-header>\n    <ion-content>\n      <div [ngSwitch]=\"segmentValue\">\n        <ion-list *ngSwitchCase=\"'downloading'\">\n          <ion-item *ngFor=\"let item of downloadManager.downloadingList\">\n            <div>{{item.fileName}}({{item.progress}}%)</div>\n            <div>\n              <progress value=\"{{item.progress}}\" max=\"100\"></progress>\n            </div>\n          </ion-item>\n        </ion-list>\n        <ion-list *ngSwitchCase=\"'history'\">\n          <ul class=\"breadcrumb\">\n            <li *ngFor=\"let item of breadcrumbs; let last = last\" (click)=\"breadcrubCheck(item)\">\n              <a>{{item.name}}</a><ion-icon *ngIf=\"!last\" name=\"ios-arrow-forward-outline\"></ion-icon>\n            </li>\n          </ul>\n          <ion-item-divider *ngFor=\"let item of downloadManager.fileList\" (click)=\"itemCheck(item)\">\n            <ion-icon name=\"{{item.isFile ? 'document': 'folder'}}\" item-left></ion-icon>\n            {{item.name}}\n            <ion-icon *ngIf=\"!last\" name=\"ios-arrow-forward-outline\" item-right></ion-icon>\n          </ion-item-divider>\n        </ion-list>\n      </div>\n    </ion-content>\n  "
         }), 
-        __metadata('design:paramtypes', [download_manager_1.DownloadManagerController, core_1.NgZone])
+        __metadata('design:paramtypes', [download_manager_1.DownloadManagerController, file_1.File, core_1.NgZone])
     ], DownloadManagerCmp);
     return DownloadManagerCmp;
 }());

@@ -10,12 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
-var ionic_native_1 = require('ionic-native');
+var transfer_1 = require('@ionic-native/transfer');
+var file_1 = require('@ionic-native/file');
 var config_1 = require('../../config/config');
 var string_1 = require('../../utils/string');
 var ImageLoaderController = (function () {
-    function ImageLoaderController(platform, config) {
+    function ImageLoaderController(platform, transfer, file, config) {
         var _this = this;
+        this.platform = platform;
+        this.transfer = transfer;
+        this.file = file;
         this.config = config;
         this.isCacheReady = false;
         this.isInit = false;
@@ -69,7 +73,7 @@ var ImageLoaderController = (function () {
         if (!localPath) {
             return;
         }
-        ionic_native_1.File.removeFile(this.cacheDirectory, localPath.substr(localPath.lastIndexOf('/') + 1)).catch(function (e) {
+        this.file.removeFile(this.cacheDirectory, localPath.substr(localPath.lastIndexOf('/') + 1)).catch(function (e) {
             _this.throwError(e);
         });
     };
@@ -78,12 +82,12 @@ var ImageLoaderController = (function () {
         if (!this.isCacheReady) {
             return;
         }
-        ionic_native_1.File.removeDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName).catch(function (e) {
+        this.file.removeDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName).catch(function (e) {
             _this.throwError(e);
         });
     };
     ImageLoaderController.prototype.downloadImage = function (imageUrl, localPath) {
-        var transfer = new ionic_native_1.Transfer();
+        var transfer = this.transfer.create();
         return transfer.download(imageUrl, localPath);
     };
     ImageLoaderController.prototype.needDownload = function (imageUrl) {
@@ -119,7 +123,7 @@ var ImageLoaderController = (function () {
                 return reject();
             }
             var fileName = _this.createFileName(url);
-            ionic_native_1.File.resolveLocalFilesystemUrl(_this.cacheDirectory + '/' + fileName).then(function (fileEntry) {
+            _this.file.resolveLocalFilesystemUrl(_this.cacheDirectory + '/' + fileName).then(function (fileEntry) {
                 resolve(fileEntry.nativeURL);
             }).catch(reject);
         });
@@ -143,7 +147,7 @@ var ImageLoaderController = (function () {
     });
     Object.defineProperty(ImageLoaderController.prototype, "cacheDirectoryExists", {
         get: function () {
-            return ionic_native_1.File.checkDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName);
+            return this.file.checkDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName);
         },
         enumerable: true,
         configurable: true
@@ -157,14 +161,14 @@ var ImageLoaderController = (function () {
     });
     ImageLoaderController.prototype.createCacheDirectory = function (replace) {
         if (replace === void 0) { replace = false; }
-        return ionic_native_1.File.createDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName, replace);
+        return this.file.createDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName, replace);
     };
     ImageLoaderController.prototype.createFileName = function (url) {
         return string_1.StringUtils.hash(url).toString();
     };
     ImageLoaderController = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [ionic_angular_1.Platform, config_1.ConfigProvider])
+        __metadata('design:paramtypes', [ionic_angular_1.Platform, transfer_1.Transfer, file_1.File, config_1.ConfigProvider])
     ], ImageLoaderController);
     return ImageLoaderController;
 }());

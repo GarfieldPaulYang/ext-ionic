@@ -10,11 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
-var ionic_native_1 = require('ionic-native');
+var file_1 = require('@ionic-native/file');
 var util_1 = require('../../utils/util');
 var TextFileStorage = (function () {
-    function TextFileStorage(platform) {
+    function TextFileStorage(platform, file) {
         this.platform = platform;
+        this.file = file;
         this.localStorage = {};
     }
     TextFileStorage.prototype.save = function (filename, content) {
@@ -47,7 +48,7 @@ var TextFileStorage = (function () {
         return content;
     };
     TextFileStorage.prototype.writeToFile = function (filename, content) {
-        return ionic_native_1.File.writeFile(this.getFilepath(), filename, this.serialize(content), { replace: true }).then(function (value) {
+        return this.file.writeFile(this.getFilepath(), filename, this.serialize(content), { replace: true }).then(function (value) {
             return value;
         }).catch(function (reason) {
             console.log(reason);
@@ -56,7 +57,7 @@ var TextFileStorage = (function () {
     };
     TextFileStorage.prototype.readFile = function (filename) {
         var _this = this;
-        return ionic_native_1.File.readAsText(this.getFilepath(), filename).then(function (value) {
+        return this.file.readAsText(this.getFilepath(), filename).then(function (value) {
             return _this.deserialize(value);
         }).catch(function (reason) {
             console.log(reason);
@@ -64,7 +65,7 @@ var TextFileStorage = (function () {
         });
     };
     TextFileStorage.prototype.removeFile = function (filename) {
-        return ionic_native_1.File.removeFile(this.getFilepath(), filename).then(function (value) {
+        return this.file.removeFile(this.getFilepath(), filename).then(function (value) {
             return value;
         }).catch(function (reason) {
             console.log(reason);
@@ -76,7 +77,7 @@ var TextFileStorage = (function () {
     };
     TextFileStorage = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [ionic_angular_1.Platform])
+        __metadata('design:paramtypes', [ionic_angular_1.Platform, file_1.File])
     ], TextFileStorage);
     return TextFileStorage;
 }());

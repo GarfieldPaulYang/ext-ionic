@@ -16,7 +16,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var ionic_angular_1 = require('ionic-angular');
-var ionic_native_1 = require('ionic-native');
+var device_1 = require('@ionic-native/device');
 var _ = require('lodash');
 var config_1 = require('../config/config');
 var dialog_1 = require('../utils/dialog');
@@ -110,10 +110,11 @@ var HttpProvider = (function () {
 }());
 exports.HttpProvider = HttpProvider;
 var CorsHttpProvider = (function () {
-    function CorsHttpProvider(http, events, config) {
+    function CorsHttpProvider(http, events, config, device) {
         this.http = http;
         this.events = events;
         this.config = config;
+        this.device = device;
         this._ticket = null;
     }
     Object.defineProperty(CorsHttpProvider.prototype, "ticket", {
@@ -131,7 +132,7 @@ var CorsHttpProvider = (function () {
             headers: new http_1.Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
             method: http_1.RequestMethod.Post,
             body: url_params_builder_1.URLParamsBuilder.build(options).toString(),
-            search: url_params_builder_1.URLParamsBuilder.build({ __login__: true, __uuid__: ionic_native_1.Device.uuid, __model__: ionic_native_1.Device.model })
+            search: url_params_builder_1.URLParamsBuilder.build({ __login__: true, __uuid__: this.device.uuid, __model__: this.device.model })
         });
     };
     CorsHttpProvider.prototype.logout = function () {
@@ -167,7 +168,7 @@ var CorsHttpProvider = (function () {
     };
     CorsHttpProvider = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [HttpProvider, ionic_angular_1.Events, config_1.ConfigProvider])
+        __metadata('design:paramtypes', [HttpProvider, ionic_angular_1.Events, config_1.ConfigProvider, device_1.Device])
     ], CorsHttpProvider);
     return CorsHttpProvider;
 }());
