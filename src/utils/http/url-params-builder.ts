@@ -12,7 +12,15 @@ export const URLParamsBuilder = {
     let paramsObj = flattenObject(params);
     let result: URLSearchParams = new URLSearchParams();
     for (let key in paramsObj) {
-      result.set(key, <string>paramsObj[key]);
+      let value = paramsObj[key];
+      if (_.isArray(value)) {
+        (<string[]>value).forEach(v => {
+          result.append(key, v);
+        });
+        continue;
+      }
+
+      result.set(key, <string>value);
     }
     return result;
   }

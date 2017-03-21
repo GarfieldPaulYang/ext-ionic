@@ -9,8 +9,18 @@ exports.URLParamsBuilder = {
         }
         var paramsObj = util_1.flattenObject(params);
         var result = new http_1.URLSearchParams();
+        var _loop_1 = function(key) {
+            var value = paramsObj[key];
+            if (_.isArray(value)) {
+                value.forEach(function (v) {
+                    result.append(key, v);
+                });
+                return "continue";
+            }
+            result.set(key, value);
+        };
         for (var key in paramsObj) {
-            result.set(key, paramsObj[key]);
+            _loop_1(key);
         }
         return result;
     }
