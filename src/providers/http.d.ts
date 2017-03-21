@@ -8,12 +8,12 @@ import { ResponseResult } from '../utils/http/response/response-result';
 export declare const ticket_expired: string;
 export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
     showLoading?: boolean;
-    loadingMsg?: string;
+    loadingContent?: string;
     showErrorAlert?: boolean;
 }
 export declare class HttpProviderOptions extends RequestOptions {
     showLoading: boolean;
-    loadingMsg: string;
+    loadingContent: string;
     showErrorAlert: boolean;
     constructor(options: HttpProviderOptionsArgs);
     merge(options?: HttpProviderOptionsArgs): HttpProviderOptions;

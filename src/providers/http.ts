@@ -25,19 +25,19 @@ export const ticket_expired: string = 'ticket_expired';
 
 export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
   showLoading?: boolean;
-  loadingMsg?: string;
+  loadingContent?: string;
   showErrorAlert?: boolean;
 }
 
 export class HttpProviderOptions extends RequestOptions {
   showLoading: boolean;
-  loadingMsg: string;
+  loadingContent: string;
   showErrorAlert: boolean = true;
 
   constructor(options: HttpProviderOptionsArgs) {
     super(options);
     this.showLoading = options.showLoading;
-    this.loadingMsg = options.loadingMsg;
+    this.loadingContent = options.loadingContent;
     this.showErrorAlert = options.showErrorAlert;
   }
 
@@ -49,8 +49,8 @@ export class HttpProviderOptions extends RequestOptions {
       result.showLoading = options.showLoading;
     }
 
-    if (isPresent(options.loadingMsg)) {
-      result.loadingMsg = options.loadingMsg;
+    if (isPresent(options.loadingContent)) {
+      result.loadingContent = options.loadingContent;
     }
 
     if (isPresent(options.showErrorAlert)) {
@@ -62,7 +62,7 @@ export class HttpProviderOptions extends RequestOptions {
 
 const defaultRequestOptions: HttpProviderOptions = new HttpProviderOptions({
   showLoading: true,
-  loadingMsg: '正在加载...',
+  loadingContent: '正在加载...',
   showErrorAlert: true,
   method: RequestMethod.Get,
   responseType: ResponseContentType.Json
@@ -113,7 +113,7 @@ export class HttpProvider {
     options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
     let loading: Loading;
     if (options.showLoading) {
-      loading = this.dialog.loading(options.loadingMsg);
+      loading = this.dialog.loading(options.loadingContent);
       loading.present();
     }
     return this.ajax(url, options).toPromise().then(result => {
