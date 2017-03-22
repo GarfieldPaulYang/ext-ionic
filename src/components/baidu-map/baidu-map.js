@@ -22,6 +22,10 @@ var BaiduMapController = (function () {
         return new Promise(function (resolve, reject) {
             baidu_map_loader_1.baiduMapLoader().then(function () {
                 _this.initDeclarations();
+                if (!ele || !opts) {
+                    resolve();
+                    return;
+                }
                 _this.map = new exports.BMap.Map(ele);
                 setTimeout(function () {
                     _this.map.centerAndZoom(new exports.BMap.Point(opts.center.lng, opts.center.lat), opts.zoom);

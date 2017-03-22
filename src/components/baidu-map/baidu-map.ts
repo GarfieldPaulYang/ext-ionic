@@ -19,10 +19,15 @@ var BMAP_POINT_SHAPE_CIRCLE;
 export class BaiduMapController {
   private map: any;
 
-  init(opts: BaiduMapOptions, ele: HTMLElement): Promise<void> {
+  init(opts?: BaiduMapOptions, ele?: HTMLElement): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       baiduMapLoader().then(() => {
         this.initDeclarations();
+
+        if (!ele || !opts) {
+          resolve();
+          return;
+        }
 
         this.map = new BMap.Map(ele);
         setTimeout(() => {
