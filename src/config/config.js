@@ -29,7 +29,7 @@ var defaultConfig = {
         navCtrl: true,
         scaleCtrl: true,
         overviewCtrl: true,
-        enableScrollWheelZoom: false,
+        enableScrollWheelZoom: true,
         zoom: 10,
         city: '武汉',
         mass: {

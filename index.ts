@@ -15,10 +15,12 @@ export { JsonFileStorage } from './src/providers/file-storage/json-file-storage'
 export { MapToIterable } from './src/pipes/map-to-iterable';
 export { OrderBy } from './src/pipes/order-by';
 
-export { AlphaScroll } from './src/components/alpha-scroll/alpha-scroll';
+export { AlphaScrollModule } from './src/components/alpha-scroll/alpha-scroll.module';
+export { OpenUrlModalModule } from './src/components/open-url-modal/open-url-modal.module';
 export { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
 
-export { BaiduMap } from './src/components/baidu-map/baidu-map-component';
+export { BaiduMapModule } from './src/components/baidu-map/baidu-map.module';
+export { BaiduMapController } from './src/components/baidu-map/baidu-map';
 export {
   GpsPoint,
   MarkerSize,
@@ -29,12 +31,11 @@ export {
   BaiduMapOptions
 } from './src/components/baidu-map/baidu-map-options';
 
-export { ImageLoaderCmp } from './src/components/image-loader/image-loader-component';
-export { ImageLoaderOptions } from './src/components/image-loader/image-loader-options';
+export { ImageLoaderModule } from './src/components/image-loader/image-loader.module';
 
-export { StarRatingCmp } from './src/components/star-rating/star-rating';
-export { Ribbon, RibbnOptions } from './src/components/ribbon/ribbon';
-export { DownloadManagerCmp } from './src/components/download-manager/download-manager-component';
+export { StarRatingModule } from './src/components/star-rating/star-rating.module';
+export { RibbonModule } from './src/components/ribbon/ribbon.module';
+export { DownloadManagerModule } from './src/components/download-manager/download-manager.module';
 export { DownloadManagerController, DownloadOptions } from './src/components/download-manager/download-manager';
 
 export { StringUtils } from './src/utils/string';
@@ -76,46 +77,42 @@ import { JsonFileStorage } from './src/providers/file-storage/json-file-storage'
 import { MapToIterable } from './src/pipes/map-to-iterable';
 import { OrderBy } from './src/pipes/order-by';
 
-import { AlphaScroll } from './src/components/alpha-scroll/alpha-scroll';
-
-import { OpenUrlModalCmp } from './src/components/open-url-modal/open-url-modal-component';
-import { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
-
-import { BaiduMapController } from './src/components/baidu-map/baidu-map';
-import { BaiduMap } from './src/components/baidu-map/baidu-map-component';
-
-import { ImageLoaderCmp } from './src/components/image-loader/image-loader-component';
-import { ImageLoaderController } from './src/components/image-loader/image-loader';
-
-import { StarRatingCmp } from './src/components/star-rating/star-rating';
-import { Ribbon } from './src/components/ribbon/ribbon';
-import { DownloadManagerCmp } from './src/components/download-manager/download-manager-component';
-import { DownloadManagerController } from './src/components/download-manager/download-manager';
-
+import { AlphaScrollModule } from './src/components/alpha-scroll/alpha-scroll.module';
+import { OpenUrlModalModule } from './src/components/open-url-modal/open-url-modal.module';
+import { BaiduMapModule } from './src/components/baidu-map/baidu-map.module';
+import { ImageLoaderModule } from './src/components/image-loader/image-loader.module';
+import { StarRatingModule } from './src/components/star-rating/star-rating.module';
+import { RibbonModule } from './src/components/ribbon/ribbon.module';
+import { DownloadManagerModule } from './src/components/download-manager/download-manager.module';
 
 const EXPORTS: Array<any> = [
   MapToIterable,
-  OrderBy,
-  AlphaScroll,
-  BaiduMap,
-  ImageLoaderCmp,
-  StarRatingCmp,
-  Ribbon
+  OrderBy
 ];
 
 @NgModule({
   imports: [
-    IonicModule
+    IonicModule,
+    AlphaScrollModule.forRoot(),
+    BaiduMapModule.forRoot(),
+    ImageLoaderModule.forRoot(),
+    DownloadManagerModule.forRoot(),
+    OpenUrlModalModule.forRoot(),
+    RibbonModule.forRoot(),
+    StarRatingModule.forRoot()
   ],
-  exports: EXPORTS,
+  exports: [
+    AlphaScrollModule,
+    BaiduMapModule,
+    ImageLoaderModule,
+    DownloadManagerModule,
+    OpenUrlModalModule,
+    RibbonModule,
+    StarRatingModule,
+    EXPORTS
+  ],
   declarations: [
-    EXPORTS,
-    OpenUrlModalCmp,
-    DownloadManagerCmp
-  ],
-  entryComponents: [
-    OpenUrlModalCmp,
-    DownloadManagerCmp
+    EXPORTS
   ]
 })
 export class ExtIonicModule {
@@ -130,9 +127,6 @@ export class ExtIonicModule {
 
         { provide: EXT_IONIC_CONFIG, useValue: config },
         { provide: ConfigProvider, useFactory: setupConfig, deps: [EXT_IONIC_CONFIG] },
-        OpenUrlModalController,
-        BaiduMapController,
-        ImageLoaderController,
         Dialog,
         HttpProvider,
         CorsHttpProvider,
@@ -142,7 +136,6 @@ export class ExtIonicModule {
         ComponentRegistar,
         TextFileStorage,
         JsonFileStorage,
-        DownloadManagerController,
 
         Immerse,
         HotCodePush,

@@ -35,20 +35,24 @@ var map_to_iterable_1 = require('./src/pipes/map-to-iterable');
 exports.MapToIterable = map_to_iterable_1.MapToIterable;
 var order_by_1 = require('./src/pipes/order-by');
 exports.OrderBy = order_by_1.OrderBy;
-var alpha_scroll_1 = require('./src/components/alpha-scroll/alpha-scroll');
-exports.AlphaScroll = alpha_scroll_1.AlphaScroll;
+var alpha_scroll_module_1 = require('./src/components/alpha-scroll/alpha-scroll.module');
+exports.AlphaScrollModule = alpha_scroll_module_1.AlphaScrollModule;
+var open_url_modal_module_1 = require('./src/components/open-url-modal/open-url-modal.module');
+exports.OpenUrlModalModule = open_url_modal_module_1.OpenUrlModalModule;
 var open_url_modal_1 = require('./src/components/open-url-modal/open-url-modal');
 exports.OpenUrlModalController = open_url_modal_1.OpenUrlModalController;
-var baidu_map_component_1 = require('./src/components/baidu-map/baidu-map-component');
-exports.BaiduMap = baidu_map_component_1.BaiduMap;
-var image_loader_component_1 = require('./src/components/image-loader/image-loader-component');
-exports.ImageLoaderCmp = image_loader_component_1.ImageLoaderCmp;
-var star_rating_1 = require('./src/components/star-rating/star-rating');
-exports.StarRatingCmp = star_rating_1.StarRatingCmp;
-var ribbon_1 = require('./src/components/ribbon/ribbon');
-exports.Ribbon = ribbon_1.Ribbon;
-var download_manager_component_1 = require('./src/components/download-manager/download-manager-component');
-exports.DownloadManagerCmp = download_manager_component_1.DownloadManagerCmp;
+var baidu_map_module_1 = require('./src/components/baidu-map/baidu-map.module');
+exports.BaiduMapModule = baidu_map_module_1.BaiduMapModule;
+var baidu_map_1 = require('./src/components/baidu-map/baidu-map');
+exports.BaiduMapController = baidu_map_1.BaiduMapController;
+var image_loader_module_1 = require('./src/components/image-loader/image-loader.module');
+exports.ImageLoaderModule = image_loader_module_1.ImageLoaderModule;
+var star_rating_module_1 = require('./src/components/star-rating/star-rating.module');
+exports.StarRatingModule = star_rating_module_1.StarRatingModule;
+var ribbon_module_1 = require('./src/components/ribbon/ribbon.module');
+exports.RibbonModule = ribbon_module_1.RibbonModule;
+var download_manager_module_1 = require('./src/components/download-manager/download-manager.module');
+exports.DownloadManagerModule = download_manager_module_1.DownloadManagerModule;
 var download_manager_1 = require('./src/components/download-manager/download-manager');
 exports.DownloadManagerController = download_manager_1.DownloadManagerController;
 var string_1 = require('./src/utils/string');
@@ -85,25 +89,16 @@ var file_storage_2 = require('./src/providers/file-storage/file-storage');
 var json_file_storage_2 = require('./src/providers/file-storage/json-file-storage');
 var map_to_iterable_2 = require('./src/pipes/map-to-iterable');
 var order_by_2 = require('./src/pipes/order-by');
-var alpha_scroll_2 = require('./src/components/alpha-scroll/alpha-scroll');
-var open_url_modal_component_1 = require('./src/components/open-url-modal/open-url-modal-component');
-var open_url_modal_2 = require('./src/components/open-url-modal/open-url-modal');
-var baidu_map_1 = require('./src/components/baidu-map/baidu-map');
-var baidu_map_component_2 = require('./src/components/baidu-map/baidu-map-component');
-var image_loader_component_2 = require('./src/components/image-loader/image-loader-component');
-var image_loader_1 = require('./src/components/image-loader/image-loader');
-var star_rating_2 = require('./src/components/star-rating/star-rating');
-var ribbon_2 = require('./src/components/ribbon/ribbon');
-var download_manager_component_2 = require('./src/components/download-manager/download-manager-component');
-var download_manager_2 = require('./src/components/download-manager/download-manager');
+var alpha_scroll_module_2 = require('./src/components/alpha-scroll/alpha-scroll.module');
+var open_url_modal_module_2 = require('./src/components/open-url-modal/open-url-modal.module');
+var baidu_map_module_2 = require('./src/components/baidu-map/baidu-map.module');
+var image_loader_module_2 = require('./src/components/image-loader/image-loader.module');
+var star_rating_module_2 = require('./src/components/star-rating/star-rating.module');
+var ribbon_module_2 = require('./src/components/ribbon/ribbon.module');
+var download_manager_module_2 = require('./src/components/download-manager/download-manager.module');
 var EXPORTS = [
     map_to_iterable_2.MapToIterable,
-    order_by_2.OrderBy,
-    alpha_scroll_2.AlphaScroll,
-    baidu_map_component_2.BaiduMap,
-    image_loader_component_2.ImageLoaderCmp,
-    star_rating_2.StarRatingCmp,
-    ribbon_2.Ribbon
+    order_by_2.OrderBy
 ];
 var ExtIonicModule = (function () {
     function ExtIonicModule() {
@@ -118,9 +113,6 @@ var ExtIonicModule = (function () {
                 device_1.Device,
                 { provide: config_2.EXT_IONIC_CONFIG, useValue: config },
                 { provide: config_2.ConfigProvider, useFactory: config_2.setupConfig, deps: [config_2.EXT_IONIC_CONFIG] },
-                open_url_modal_2.OpenUrlModalController,
-                baidu_map_1.BaiduMapController,
-                image_loader_1.ImageLoaderController,
                 dialog_2.Dialog,
                 http_2.HttpProvider,
                 http_2.CorsHttpProvider,
@@ -130,7 +122,6 @@ var ExtIonicModule = (function () {
                 component_registar_2.ComponentRegistar,
                 file_storage_2.TextFileStorage,
                 json_file_storage_2.JsonFileStorage,
-                download_manager_2.DownloadManagerController,
                 immerse_plugin_2.Immerse,
                 hot_code_push_2.HotCodePush,
                 local_notifications_2.ExtLocalNotifications
@@ -140,17 +131,27 @@ var ExtIonicModule = (function () {
     ExtIonicModule = __decorate([
         core_1.NgModule({
             imports: [
-                ionic_angular_1.IonicModule
+                ionic_angular_1.IonicModule,
+                alpha_scroll_module_2.AlphaScrollModule.forRoot(),
+                baidu_map_module_2.BaiduMapModule.forRoot(),
+                image_loader_module_2.ImageLoaderModule.forRoot(),
+                download_manager_module_2.DownloadManagerModule.forRoot(),
+                open_url_modal_module_2.OpenUrlModalModule.forRoot(),
+                ribbon_module_2.RibbonModule.forRoot(),
+                star_rating_module_2.StarRatingModule.forRoot()
             ],
-            exports: EXPORTS,
+            exports: [
+                alpha_scroll_module_2.AlphaScrollModule,
+                baidu_map_module_2.BaiduMapModule,
+                image_loader_module_2.ImageLoaderModule,
+                download_manager_module_2.DownloadManagerModule,
+                open_url_modal_module_2.OpenUrlModalModule,
+                ribbon_module_2.RibbonModule,
+                star_rating_module_2.StarRatingModule,
+                EXPORTS
+            ],
             declarations: [
-                EXPORTS,
-                open_url_modal_component_1.OpenUrlModalCmp,
-                download_manager_component_2.DownloadManagerCmp
-            ],
-            entryComponents: [
-                open_url_modal_component_1.OpenUrlModalCmp,
-                download_manager_component_2.DownloadManagerCmp
+                EXPORTS
             ]
         }), 
         __metadata('design:paramtypes', [])
