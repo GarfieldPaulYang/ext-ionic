@@ -157,16 +157,23 @@ export class CorsHttpProvider {
 
   login(options: LoginOptions): Promise<LoginResult> {
     return this.request<LoginResult>(this.config.get().login.url, {
-      headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+      headers: new Headers({
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'login': 'true',
+        'uuid': this.device.uuid,
+        'model': this.device.model
+      }),
       method: RequestMethod.Post,
-      body: URLParamsBuilder.build(options).toString(),
-      search: URLParamsBuilder.build({ __login__: true, __uuid__: this.device.uuid, __model__: this.device.model })
+      body: URLParamsBuilder.build(options).toString()
     });
   }
 
   logout(): Promise<string> {
-    let search = URLParamsBuilder.build({ '__logout__': true });
-    return this.request<string>(this.config.get().login.url, { search: search }).then(result => {
+    return this.request<string>(this.config.get().login.url, {
+      headers: new Headers({
+        'logout': 'true'
+      })
+    }).then(result => {
       this.ticket = null;
       return result;
     });
@@ -176,13 +183,17 @@ export class CorsHttpProvider {
     let search = URLParamsBuilder.build({
       'appKey': this.config.get().login.appKey,
       'devMode': this.config.get().devMode,
-      '__ticket__': this.ticket,
       '__cors-request__': true
     });
 
     if (_.isUndefined(options)) {
       options = {};
     }
+
+    if (!isPresent(options.headers)) {
+      options.headers = new Headers();
+    }
+    options.headers.set('ticket', this.ticket);
 
     if (_.has(options, 'search')) {
       search.replaceAll(<URLSearchParams>options.search);

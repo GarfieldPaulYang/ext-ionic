@@ -134,16 +134,23 @@ var CorsHttpProvider = (function () {
     });
     CorsHttpProvider.prototype.login = function (options) {
         return this.request(this.config.get().login.url, {
-            headers: new http_1.Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+            headers: new http_1.Headers({
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'login': 'true',
+                'uuid': this.device.uuid,
+                'model': this.device.model
+            }),
             method: http_1.RequestMethod.Post,
-            body: url_params_builder_1.URLParamsBuilder.build(options).toString(),
-            search: url_params_builder_1.URLParamsBuilder.build({ __login__: true, __uuid__: this.device.uuid, __model__: this.device.model })
+            body: url_params_builder_1.URLParamsBuilder.build(options).toString()
         });
     };
     CorsHttpProvider.prototype.logout = function () {
         var _this = this;
-        var search = url_params_builder_1.URLParamsBuilder.build({ '__logout__': true });
-        return this.request(this.config.get().login.url, { search: search }).then(function (result) {
+        return this.request(this.config.get().login.url, {
+            headers: new http_1.Headers({
+                'logout': 'true'
+            })
+        }).then(function (result) {
             _this.ticket = null;
             return result;
         });
@@ -153,12 +160,15 @@ var CorsHttpProvider = (function () {
         var search = url_params_builder_1.URLParamsBuilder.build({
             'appKey': this.config.get().login.appKey,
             'devMode': this.config.get().devMode,
-            '__ticket__': this.ticket,
             '__cors-request__': true
         });
         if (_.isUndefined(options)) {
             options = {};
         }
+        if (!util_1.isPresent(options.headers)) {
+            options.headers = new http_1.Headers();
+        }
+        options.headers.set('ticket', this.ticket);
         if (_.has(options, 'search')) {
             search.replaceAll(options.search);
         }
