@@ -50,29 +50,29 @@
   dependencies:
     tsickle "^0.2"
 
-"@ionic-native/core@3.1.0":
-  version "3.1.0"
-  resolved "http://registry.npm.taobao.org/@ionic-native/core/download/@ionic-native/core-3.1.0.tgz#77aa905eb468dda3ac5d3885bea21903469ebfb9"
+"@ionic-native/core@3.1.1":
+  version "3.1.1"
+  resolved "http://registry.npm.taobao.org/@ionic-native/core/download/@ionic-native/core-3.1.1.tgz#46c76a39acb50211e3a0bc423eb7883679648672"
 
-"@ionic-native/device@^3.1.0":
-  version "3.1.0"
-  resolved "http://registry.npm.taobao.org/@ionic-native/device/download/@ionic-native/device-3.1.0.tgz#d01fade4851851fbab0eb5474de4b15e5f7a6f52"
+"@ionic-native/device@3.1.1":
+  version "3.1.1"
+  resolved "http://registry.npm.taobao.org/@ionic-native/device/download/@ionic-native/device-3.1.1.tgz#14e31b65c447919e6b391fce7b6538f9920452a0"
 
-"@ionic-native/file-opener@3.1.0":
-  version "3.1.0"
-  resolved "http://registry.npm.taobao.org/@ionic-native/file-opener/download/@ionic-native/file-opener-3.1.0.tgz#137ff7134e543bc38efd247a0ef0b15012023bcc"
+"@ionic-native/file-opener@3.1.1":
+  version "3.1.1"
+  resolved "http://registry.npm.taobao.org/@ionic-native/file-opener/download/@ionic-native/file-opener-3.1.1.tgz#df9cc2204301322dab58d20b9285fdd277dcb1ba"
 
-"@ionic-native/file@3.1.0":
-  version "3.1.0"
-  resolved "http://registry.npm.taobao.org/@ionic-native/file/download/@ionic-native/file-3.1.0.tgz#ba3075d93f2305824c12f5786a1ca57acf4d752f"
+"@ionic-native/file@3.1.1":
+  version "3.1.1"
+  resolved "http://registry.npm.taobao.org/@ionic-native/file/download/@ionic-native/file-3.1.1.tgz#813e3c724973b2fbf05b718a92a776622ce2421a"
 
-"@ionic-native/local-notifications@3.1.0":
-  version "3.1.0"
-  resolved "http://registry.npm.taobao.org/@ionic-native/local-notifications/download/@ionic-native/local-notifications-3.1.0.tgz#6377a563faf737fc47539430c21be7c9efb9e810"
+"@ionic-native/local-notifications@3.1.1":
+  version "3.1.1"
+  resolved "http://registry.npm.taobao.org/@ionic-native/local-notifications/download/@ionic-native/local-notifications-3.1.1.tgz#7582ac0fa091e038cec9b0b4a4ff286d46ba0144"
 
-"@ionic-native/transfer@3.1.0":
-  version "3.1.0"
-  resolved "http://registry.npm.taobao.org/@ionic-native/transfer/download/@ionic-native/transfer-3.1.0.tgz#6b73563a2e6acb4dc53e0fbab1a9de7e5c44305d"
+"@ionic-native/transfer@3.1.1":
+  version "3.1.1"
+  resolved "http://registry.npm.taobao.org/@ionic-native/transfer/download/@ionic-native/transfer-3.1.1.tgz#1c08d92ab4bb59e22c4c3ed266db10f0b1ad3989"
 
 "@ionic/storage@2.0.0":
   version "2.0.0"
