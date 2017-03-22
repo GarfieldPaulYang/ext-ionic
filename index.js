@@ -79,7 +79,6 @@ var immerse_plugin_2 = require('./src/native/immerse-plugin');
 var hot_code_push_2 = require('./src/native/hot-code-push');
 var local_notifications_2 = require('./src/native/local-notifications');
 var core_1 = require('@angular/core');
-var ionic_angular_1 = require('ionic-angular');
 var config_2 = require('./src/config/config');
 var dialog_2 = require('./src/utils/dialog');
 var http_2 = require('./src/providers/http');
@@ -131,7 +130,6 @@ var ExtIonicModule = (function () {
     ExtIonicModule = __decorate([
         core_1.NgModule({
             imports: [
-                ionic_angular_1.IonicModule,
                 alpha_scroll_module_2.AlphaScrollModule.forRoot(),
                 baidu_map_module_2.BaiduMapModule.forRoot(),
                 image_loader_module_2.ImageLoaderModule.forRoot(),

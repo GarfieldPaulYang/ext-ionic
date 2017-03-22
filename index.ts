@@ -63,7 +63,6 @@ import { HotCodePush } from './src/native/hot-code-push';
 import { ExtLocalNotifications } from './src/native/local-notifications';
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { IonicModule } from 'ionic-angular';
 
 import { EXT_IONIC_CONFIG, Config, ConfigProvider, setupConfig } from './src/config/config';
 import { Dialog } from './src/utils/dialog';
@@ -92,7 +91,6 @@ const EXPORTS: Array<any> = [
 
 @NgModule({
   imports: [
-    IonicModule,
     AlphaScrollModule.forRoot(),
     BaiduMapModule.forRoot(),
     ImageLoaderModule.forRoot(),
