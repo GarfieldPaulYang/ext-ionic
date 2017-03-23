@@ -23,7 +23,7 @@ var dialog_1 = require('../utils/dialog');
 var util_1 = require('../utils/util');
 var response_result_1 = require('../utils/http/response/response-result');
 var url_params_builder_1 = require('../utils/http/url-params-builder');
-exports.ticket_expired = 'ticket_expired';
+exports.ticket_expired = 'ticket-expired';
 var HttpProviderOptions = (function (_super) {
     __extends(HttpProviderOptions, _super);
     function HttpProviderOptions(options) {
