@@ -32,7 +32,11 @@ var TextFileStorage = (function () {
         if (this.platform.is('cordova')) {
             return this.readFile(filename);
         }
-        return Promise.resolve(this.localStorage[filename]);
+        var content = this.localStorage[filename];
+        if (!content) {
+            return Promise.reject('file not found.');
+        }
+        return Promise.resolve(content);
     };
     TextFileStorage.prototype.remove = function (filename) {
         if (this.platform.is('cordova')) {

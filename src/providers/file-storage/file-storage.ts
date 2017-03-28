@@ -33,7 +33,13 @@ export class TextFileStorage implements FileStorage {
     if (this.platform.is('cordova')) {
       return this.readFile(filename);
     }
-    return Promise.resolve(this.localStorage[filename]);
+
+    let content = this.localStorage[filename];
+    if (!content) {
+      return Promise.reject('file not found.');
+    }
+
+    return Promise.resolve(content);
   }
 
   remove(filename: string): Promise<RemoveResult> {
