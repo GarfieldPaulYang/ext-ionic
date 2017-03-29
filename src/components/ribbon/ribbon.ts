@@ -1,4 +1,4 @@
-import { Component, Renderer, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, Renderer, ElementRef, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { isPresent } from '../../utils/util';
 
 export interface RibbnOptions {
@@ -18,7 +18,8 @@ export interface RibbnOptions {
       <div>{{ribbonOption.ribbonText}}</div>
     </div>
     <ng-content></ng-content>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Ribbon implements OnInit {
   riangleStyleOne: any;

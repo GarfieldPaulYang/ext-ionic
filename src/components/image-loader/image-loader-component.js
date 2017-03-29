@@ -137,7 +137,8 @@ var ImageLoaderCmp = (function () {
         core_1.Component({
             selector: 'ion-image-loader',
             template: '<ion-spinner *ngIf="spinner && isLoading"></ion-spinner>',
-            styles: ["\n    ion-spinner {\n      display: block;\n      margin: auto;\n    }\n  "]
+            styles: ["\n    ion-spinner {\n      display: block;\n      margin: auto;\n    }\n  "],
+            changeDetection: core_1.ChangeDetectionStrategy.OnPush
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer, image_loader_1.ImageLoaderController, config_1.ConfigProvider])
     ], ImageLoaderCmp);

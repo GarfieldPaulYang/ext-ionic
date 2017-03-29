@@ -1,4 +1,4 @@
-import { AfterViewInit, OnChanges, EventEmitter, ElementRef, SimpleChange } from '@angular/core';
+import { AfterViewInit, OnChanges, EventEmitter, ElementRef, SimpleChanges } from '@angular/core';
 import { ConfigProvider } from '../../config/config';
 import { BaiduMapOptions } from './baidu-map-options';
 import { BaiduMapController } from './baidu-map';
@@ -15,9 +15,7 @@ export declare class BaiduMap implements AfterViewInit, OnChanges {
     private mapLoaded;
     constructor(_elementRef: ElementRef, baiduMapCtrl: BaiduMapController, config: ConfigProvider);
     ngAfterViewInit(): void;
-    ngOnChanges(changes: {
-        [propertyName: string]: SimpleChange;
-    }): void;
+    ngOnChanges(changes: SimpleChanges): void;
     private reDraw(opts);
     private draw(markers);
     private getOptions();

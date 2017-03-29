@@ -6,7 +6,8 @@ import {
   Output,
   EventEmitter,
   ElementRef,
-  SimpleChange
+  SimpleChange,
+  SimpleChanges
 } from '@angular/core';
 import * as _ from 'lodash';
 
@@ -56,7 +57,7 @@ export class BaiduMap implements AfterViewInit, OnChanges {
     });
   }
 
-  ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
+  ngOnChanges(changes: SimpleChanges) {
     if (!this.mapLoaded) {
       return;
     }

@@ -41,7 +41,8 @@ var Ribbon = (function () {
     Ribbon = __decorate([
         core_1.Component({
             selector: '[ribbon]',
-            template: "\n    <div class=\"triangle\" [ngStyle]=\"riangleStyleOne\"></div>\n    <div class=\"triangle\" [ngStyle]=\"triangleStyleTwo\"></div>\n    <div class=\"ribbon-text-box\" [ngStyle]=\"textStyle\">\n      <div>{{ribbonOption.ribbonText}}</div>\n    </div>\n    <ng-content></ng-content>\n  "
+            template: "\n    <div class=\"triangle\" [ngStyle]=\"riangleStyleOne\"></div>\n    <div class=\"triangle\" [ngStyle]=\"triangleStyleTwo\"></div>\n    <div class=\"ribbon-text-box\" [ngStyle]=\"textStyle\">\n      <div>{{ribbonOption.ribbonText}}</div>\n    </div>\n    <ng-content></ng-content>\n  ",
+            changeDetection: core_1.ChangeDetectionStrategy.OnPush
         }), 
         __metadata('design:paramtypes', [core_1.Renderer, core_1.ElementRef])
     ], Ribbon);
