@@ -104,7 +104,7 @@ export class HttpProvider {
           this.dialog.alert('系统提示', result.msg);
         }
         if (isPresent(result.data) && !_.isEqual({}, result.data)) {
-          return Promise.reject(result.data);
+          return Promise.reject(result);
         }
         return Promise.reject(result.msg);
       }
@@ -169,6 +169,7 @@ export class CorsHttpProvider {
         'model': this.device.model
       }),
       method: RequestMethod.Post,
+      showErrorAlert: false,
       body: URLParamsBuilder.build(options).toString()
     });
   }

@@ -80,7 +80,7 @@ var HttpProvider = (function () {
                     _this.dialog.alert('系统提示', result.msg);
                 }
                 if (util_1.isPresent(result.data) && !_.isEqual({}, result.data)) {
-                    return Promise.reject(result.data);
+                    return Promise.reject(result);
                 }
                 return Promise.reject(result.msg);
             }
@@ -146,6 +146,7 @@ var CorsHttpProvider = (function () {
                 'model': this.device.model
             }),
             method: http_1.RequestMethod.Post,
+            showErrorAlert: false,
             body: url_params_builder_1.URLParamsBuilder.build(options).toString()
         });
     };
