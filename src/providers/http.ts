@@ -95,6 +95,9 @@ export class HttpProvider {
   }
 
   requestWithError<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T> {
+    if (!isPresent(options.showErrorAlert)) {
+      options.showErrorAlert = true;
+    }
     return this.request<T>(url, options).then((result: ResponseResult<T>) => {
       if (result.status === 1) {
         if (options.showErrorAlert) {
@@ -106,6 +109,8 @@ export class HttpProvider {
         return Promise.reject(result.msg);
       }
       return result.data;
+    }).catch(err => {
+      return Promise.reject(err);
     });
   }
 
@@ -206,8 +211,8 @@ export class CorsHttpProvider {
     }).catch(err => {
       if (err && _.isString(err) && err.toString() === ticket_expired) {
         this.events.publish(ticket_expired);
-        return Promise.reject(ticket_expired);
       }
+      return Promise.reject(err);
     });
   }
 }

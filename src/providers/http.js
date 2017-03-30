@@ -71,6 +71,9 @@ var HttpProvider = (function () {
     });
     HttpProvider.prototype.requestWithError = function (url, options) {
         var _this = this;
+        if (!util_1.isPresent(options.showErrorAlert)) {
+            options.showErrorAlert = true;
+        }
         return this.request(url, options).then(function (result) {
             if (result.status === 1) {
                 if (options.showErrorAlert) {
@@ -82,6 +85,8 @@ var HttpProvider = (function () {
                 return Promise.reject(result.msg);
             }
             return result.data;
+        }).catch(function (err) {
+            return Promise.reject(err);
         });
     };
     HttpProvider.prototype.request = function (url, options) {
@@ -177,8 +182,8 @@ var CorsHttpProvider = (function () {
         }).catch(function (err) {
             if (err && _.isString(err) && err.toString() === exports.ticket_expired) {
                 _this.events.publish(exports.ticket_expired);
-                return Promise.reject(exports.ticket_expired);
             }
+            return Promise.reject(err);
         });
     };
     CorsHttpProvider = __decorate([
