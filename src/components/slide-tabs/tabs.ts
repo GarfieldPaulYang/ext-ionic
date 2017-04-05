@@ -12,8 +12,8 @@ import { Observable } from 'rxjs/Observable';
     <ion-toolbar [color]="toolbarColor" #toolbar mode="md">
       <ion-segment [color]="tabsColor" [(ngModel)]="selectedTabIndex" mode="md">
         <ion-segment-button *ngFor="let tab of tabs; let i = index" [value]="i" (ionSelect)="onTabSelect(i)">
-            <ion-icon *ngIf="tab.icon" [name]="tab.icon"></ion-icon>
-            {{tab.title}}
+          <ion-icon *ngIf="tab.icon" [name]="tab.icon"></ion-icon>
+          {{tab.title}}
         </ion-segment-button>
       </ion-segment>
       <div class="slide" #slide [style.left]="slidePosition" [class.ease]="shouldSlideEase" [style.width]="slideWidth"></div>
