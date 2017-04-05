@@ -1,0 +1,36 @@
+import { AfterViewInit, ElementRef, OnDestroy, QueryList, Renderer } from '@angular/core';
+import { TabCmp } from './tab';
+import { NavController, Slides, Toolbar } from 'ionic-angular';
+export declare class TabsCmp implements OnDestroy, AfterViewInit {
+    private el;
+    private render;
+    rootNavCtrl: NavController;
+    toolbarColor: string;
+    tabsColor: string;
+    sliderColor: string;
+    height: string;
+    selectedTabIndex: number;
+    slideTabs: QueryList<TabCmp>;
+    tabs: TabCmp[];
+    slides: Slides;
+    toolbar: Toolbar;
+    slider: ElementRef;
+    slidesHeight: number;
+    maxSlidePosition: number;
+    slidePosition: string;
+    slideWidth: string;
+    shouldSlideEase: boolean;
+    private _selectedTabIndex;
+    private validSliderLocations;
+    private screenOrientationWatch;
+    constructor(el: ElementRef, render: Renderer);
+    ngAfterViewInit(): void;
+    ngOnDestroy(): void;
+    onDrag(ev: Slides): void;
+    onSlideWillChange(): void;
+    onSlideDidChange(): void;
+    onTabSelect(index: number): void;
+    private ensureSliderLocationIsValid();
+    private alignSlidePosition();
+    private setHeights();
+}

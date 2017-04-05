@@ -51,6 +51,8 @@ var star_rating_module_1 = require('./src/components/star-rating/star-rating.mod
 exports.StarRatingModule = star_rating_module_1.StarRatingModule;
 var ribbon_module_1 = require('./src/components/ribbon/ribbon.module');
 exports.RibbonModule = ribbon_module_1.RibbonModule;
+var tabs_module_1 = require('./src/components/slide-tabs/tabs.module');
+exports.TabsModule = tabs_module_1.TabsModule;
 var download_manager_module_1 = require('./src/components/download-manager/download-manager.module');
 exports.DownloadManagerModule = download_manager_module_1.DownloadManagerModule;
 var download_manager_1 = require('./src/components/download-manager/download-manager');
@@ -94,6 +96,7 @@ var baidu_map_module_2 = require('./src/components/baidu-map/baidu-map.module');
 var image_loader_module_2 = require('./src/components/image-loader/image-loader.module');
 var star_rating_module_2 = require('./src/components/star-rating/star-rating.module');
 var ribbon_module_2 = require('./src/components/ribbon/ribbon.module');
+var tabs_module_2 = require('./src/components/slide-tabs/tabs.module');
 var download_manager_module_2 = require('./src/components/download-manager/download-manager.module');
 var EXPORTS = [
     map_to_iterable_2.MapToIterable,
@@ -136,6 +139,7 @@ var ExtIonicModule = (function () {
                 download_manager_module_2.DownloadManagerModule.forRoot(),
                 open_url_modal_module_2.OpenUrlModalModule.forRoot(),
                 ribbon_module_2.RibbonModule.forRoot(),
+                tabs_module_2.TabsModule.forRoot(),
                 star_rating_module_2.StarRatingModule.forRoot()
             ],
             exports: [
@@ -145,6 +149,7 @@ var ExtIonicModule = (function () {
                 download_manager_module_2.DownloadManagerModule,
                 open_url_modal_module_2.OpenUrlModalModule,
                 ribbon_module_2.RibbonModule,
+                tabs_module_2.TabsModule,
                 star_rating_module_2.StarRatingModule,
                 EXPORTS
             ],

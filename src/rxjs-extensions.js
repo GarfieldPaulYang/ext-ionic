@@ -1,6 +1,7 @@
 "use strict";
 require('rxjs/add/observable/of');
 require('rxjs/add/observable/throw');
+require('rxjs/add/observable/fromEvent');
 require('rxjs/add/operator/toPromise');
 require('rxjs/add/operator/catch');
 require('rxjs/add/operator/debounceTime');
