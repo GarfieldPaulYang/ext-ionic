@@ -8,12 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var ionic_angular_1 = require('ionic-angular');
-var transfer_1 = require('@ionic-native/transfer');
-var file_1 = require('@ionic-native/file');
-var config_1 = require('../../config/config');
-var string_1 = require('../../utils/string');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var ionic_angular_1 = require("ionic-angular");
+var transfer_1 = require("@ionic-native/transfer");
+var file_1 = require("@ionic-native/file");
+var config_1 = require("../../config/config");
+var string_1 = require("../../utils/string");
 var ImageLoaderController = (function () {
     function ImageLoaderController(platform, transfer, file, config) {
         var _this = this;
@@ -166,11 +167,14 @@ var ImageLoaderController = (function () {
     ImageLoaderController.prototype.createFileName = function (url) {
         return string_1.StringUtils.hash(url).toString();
     };
-    ImageLoaderController = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [ionic_angular_1.Platform, transfer_1.Transfer, file_1.File, config_1.ConfigProvider])
-    ], ImageLoaderController);
     return ImageLoaderController;
 }());
+ImageLoaderController = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [ionic_angular_1.Platform,
+        transfer_1.Transfer,
+        file_1.File,
+        config_1.ConfigProvider])
+], ImageLoaderController);
 exports.ImageLoaderController = ImageLoaderController;
 //# sourceMappingURL=image-loader.js.map

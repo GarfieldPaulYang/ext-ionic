@@ -20,8 +20,8 @@ import { OrderBy } from '../../pipes/order-by';
     <ion-list class="ion-alpha-list">
       <div *ngFor="let item of sortedItems">
         <ion-item-divider id="scroll-letter-{{item.letter}}" *ngIf="item.isDivider">{{item.letter}}</ion-item-divider>
-        <template [ngTemplateOutlet]="itemTemplate" [ngOutletContext]="{'item': item, 'currentPageClass': currentPageClass}" *ngIf="!item.isDivider">
-        </template>
+        <ng-template [ngTemplateOutlet]="itemTemplate" [ngOutletContext]="{'item': item, 'currentPageClass': currentPageClass}" *ngIf="!item.isDivider">
+        </ng-template>
       </div>
     </ion-list>
     <ul class="ion-alpha-sidebar" [ngStyle]="calculateDimensionsForSidebar()">

@@ -8,10 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var tab_1 = require('./tab');
-var ionic_angular_1 = require('ionic-angular');
-var Observable_1 = require('rxjs/Observable');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var tab_1 = require("./tab");
+var ionic_angular_1 = require("ionic-angular");
+var Observable_1 = require("rxjs/Observable");
 var TabsCmp = (function () {
     function TabsCmp(el, render) {
         var _this = this;
@@ -110,56 +111,56 @@ var TabsCmp = (function () {
     TabsCmp.prototype.setHeights = function () {
         this.slidesHeight = this.el.nativeElement.offsetHeight - this.toolbar.getNativeElement().offsetHeight;
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', ionic_angular_1.NavController)
-    ], TabsCmp.prototype, "rootNavCtrl", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], TabsCmp.prototype, "toolbarColor", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], TabsCmp.prototype, "tabsColor", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], TabsCmp.prototype, "sliderColor", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String), 
-        __metadata('design:paramtypes', [String])
-    ], TabsCmp.prototype, "height", null);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Number), 
-        __metadata('design:paramtypes', [Number])
-    ], TabsCmp.prototype, "selectedTabIndex", null);
-    __decorate([
-        core_1.ContentChildren(tab_1.TabCmp), 
-        __metadata('design:type', core_1.QueryList)
-    ], TabsCmp.prototype, "slideTabs", void 0);
-    __decorate([
-        core_1.ViewChild(ionic_angular_1.Slides), 
-        __metadata('design:type', ionic_angular_1.Slides)
-    ], TabsCmp.prototype, "slides", void 0);
-    __decorate([
-        core_1.ViewChild('toolbar'), 
-        __metadata('design:type', ionic_angular_1.Toolbar)
-    ], TabsCmp.prototype, "toolbar", void 0);
-    __decorate([
-        core_1.ViewChild('slide'), 
-        __metadata('design:type', core_1.ElementRef)
-    ], TabsCmp.prototype, "slider", void 0);
-    TabsCmp = __decorate([
-        core_1.Component({
-            selector: 'ion-slide-tabs',
-            template: "\n    <ion-toolbar [color]=\"toolbarColor\" #toolbar mode=\"md\">\n      <ion-segment [color]=\"tabsColor\" [(ngModel)]=\"selectedTabIndex\" mode=\"md\">\n        <ion-segment-button *ngFor=\"let tab of tabs; let i = index\" [value]=\"i\" (ionSelect)=\"onTabSelect(i)\">\n          <ion-icon *ngIf=\"tab.icon\" [name]=\"tab.icon\"></ion-icon>\n          {{tab.title}}\n        </ion-segment-button>\n      </ion-segment>\n      <div class=\"slide\" #slide [style.left]=\"slidePosition\" [class.ease]=\"shouldSlideEase\" [style.width]=\"slideWidth\"></div>\n    </ion-toolbar>\n    <ion-slides [style.height]=\"slidesHeight + 'px'\" (ionSlideDrag)=\"onDrag($event)\" (ionSlideWillChange)=\"onSlideWillChange()\" (ionSlideDidChange)=\"onSlideDidChange()\" [initialSlide]=\"selectedTabIndex\">\n      <ion-slide *ngFor=\"let tab of tabs\">\n          <ion-nav [root]=\"tab.tabRoot\" [rootParams]=\"tab.navParams\"></ion-nav>\n      </ion-slide>\n    </ion-slides>\n  "
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer])
-    ], TabsCmp);
     return TabsCmp;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", ionic_angular_1.NavController)
+], TabsCmp.prototype, "rootNavCtrl", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], TabsCmp.prototype, "toolbarColor", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], TabsCmp.prototype, "tabsColor", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], TabsCmp.prototype, "sliderColor", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String),
+    __metadata("design:paramtypes", [String])
+], TabsCmp.prototype, "height", null);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Number),
+    __metadata("design:paramtypes", [Number])
+], TabsCmp.prototype, "selectedTabIndex", null);
+__decorate([
+    core_1.ContentChildren(tab_1.TabCmp),
+    __metadata("design:type", core_1.QueryList)
+], TabsCmp.prototype, "slideTabs", void 0);
+__decorate([
+    core_1.ViewChild(ionic_angular_1.Slides),
+    __metadata("design:type", ionic_angular_1.Slides)
+], TabsCmp.prototype, "slides", void 0);
+__decorate([
+    core_1.ViewChild('toolbar'),
+    __metadata("design:type", ionic_angular_1.Toolbar)
+], TabsCmp.prototype, "toolbar", void 0);
+__decorate([
+    core_1.ViewChild('slide'),
+    __metadata("design:type", core_1.ElementRef)
+], TabsCmp.prototype, "slider", void 0);
+TabsCmp = __decorate([
+    core_1.Component({
+        selector: 'ion-slide-tabs',
+        template: "\n    <ion-toolbar [color]=\"toolbarColor\" #toolbar mode=\"md\">\n      <ion-segment [color]=\"tabsColor\" [(ngModel)]=\"selectedTabIndex\" mode=\"md\">\n        <ion-segment-button *ngFor=\"let tab of tabs; let i = index\" [value]=\"i\" (ionSelect)=\"onTabSelect(i)\">\n          <ion-icon *ngIf=\"tab.icon\" [name]=\"tab.icon\"></ion-icon>\n          {{tab.title}}\n        </ion-segment-button>\n      </ion-segment>\n      <div class=\"slide\" #slide [style.left]=\"slidePosition\" [class.ease]=\"shouldSlideEase\" [style.width]=\"slideWidth\"></div>\n    </ion-toolbar>\n    <ion-slides [style.height]=\"slidesHeight + 'px'\" (ionSlideDrag)=\"onDrag($event)\" (ionSlideWillChange)=\"onSlideWillChange()\" (ionSlideDidChange)=\"onSlideDidChange()\" [initialSlide]=\"selectedTabIndex\">\n      <ion-slide *ngFor=\"let tab of tabs\">\n          <ion-nav [root]=\"tab.tabRoot\" [rootParams]=\"tab.navParams\"></ion-nav>\n      </ion-slide>\n    </ion-slides>\n  "
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer])
+], TabsCmp);
 exports.TabsCmp = TabsCmp;
 //# sourceMappingURL=tabs.js.map

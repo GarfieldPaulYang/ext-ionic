@@ -8,12 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var ionic_angular_1 = require('ionic-angular');
-var transfer_1 = require('@ionic-native/transfer');
-var local_notifications_1 = require('../../native/local-notifications');
-var util_1 = require('../../utils/util');
-var download_manager_component_1 = require('./download-manager-component');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var ionic_angular_1 = require("ionic-angular");
+var transfer_1 = require("@ionic-native/transfer");
+var local_notifications_1 = require("../../native/local-notifications");
+var util_1 = require("../../utils/util");
+var download_manager_component_1 = require("./download-manager-component");
 var DownloadManagerController = (function () {
     function DownloadManagerController(platform, transfer, localNotifications, ngZone) {
         this.platform = platform;
@@ -126,11 +127,14 @@ var DownloadManagerController = (function () {
             sound: null
         });
     };
-    DownloadManagerController = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [ionic_angular_1.Platform, transfer_1.Transfer, local_notifications_1.ExtLocalNotifications, core_1.NgZone])
-    ], DownloadManagerController);
     return DownloadManagerController;
 }());
+DownloadManagerController = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [ionic_angular_1.Platform,
+        transfer_1.Transfer,
+        local_notifications_1.ExtLocalNotifications,
+        core_1.NgZone])
+], DownloadManagerController);
 exports.DownloadManagerController = DownloadManagerController;
 //# sourceMappingURL=download-manager.js.map

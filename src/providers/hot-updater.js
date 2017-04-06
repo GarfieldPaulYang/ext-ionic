@@ -8,14 +8,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var ionic_angular_1 = require('ionic-angular');
-var transfer_1 = require('@ionic-native/transfer');
-var file_opener_1 = require('@ionic-native/file-opener');
-var hot_code_push_1 = require('../native/hot-code-push');
-var config_1 = require('../config/config');
-var dialog_1 = require('../utils/dialog');
-var local_notifications_1 = require('../native/local-notifications');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var ionic_angular_1 = require("ionic-angular");
+var transfer_1 = require("@ionic-native/transfer");
+var file_opener_1 = require("@ionic-native/file-opener");
+var hot_code_push_1 = require("../native/hot-code-push");
+var config_1 = require("../config/config");
+var dialog_1 = require("../utils/dialog");
+var local_notifications_1 = require("../native/local-notifications");
 var HotUpdater = (function () {
     function HotUpdater(platform, dialog, config, hotCodePush, localNotifications, transfer, fileOpener) {
         this.platform = platform;
@@ -98,11 +99,17 @@ var HotUpdater = (function () {
             console.log(e);
         });
     };
-    HotUpdater = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [ionic_angular_1.Platform, dialog_1.Dialog, config_1.ConfigProvider, hot_code_push_1.HotCodePush, local_notifications_1.ExtLocalNotifications, transfer_1.Transfer, file_opener_1.FileOpener])
-    ], HotUpdater);
     return HotUpdater;
 }());
+HotUpdater = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [ionic_angular_1.Platform,
+        dialog_1.Dialog,
+        config_1.ConfigProvider,
+        hot_code_push_1.HotCodePush,
+        local_notifications_1.ExtLocalNotifications,
+        transfer_1.Transfer,
+        file_opener_1.FileOpener])
+], HotUpdater);
 exports.HotUpdater = HotUpdater;
 //# sourceMappingURL=hot-updater.js.map

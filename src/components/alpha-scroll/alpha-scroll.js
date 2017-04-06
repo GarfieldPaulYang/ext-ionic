@@ -11,10 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _ = require('lodash');
-var core_1 = require('@angular/core');
-var ionic_angular_1 = require('ionic-angular');
-var order_by_1 = require('../../pipes/order-by');
+Object.defineProperty(exports, "__esModule", { value: true });
+var _ = require("lodash");
+var core_1 = require("@angular/core");
+var ionic_angular_1 = require("ionic-angular");
+var order_by_1 = require("../../pipes/order-by");
 var AlphaScroll = (function () {
     function AlphaScroll(elementRef, orderBy, content) {
         this.elementRef = elementRef;
@@ -115,32 +116,32 @@ var AlphaScroll = (function () {
         }
         return result;
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], AlphaScroll.prototype, "listData", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], AlphaScroll.prototype, "key", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', core_1.TemplateRef)
-    ], AlphaScroll.prototype, "itemTemplate", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], AlphaScroll.prototype, "currentPageClass", void 0);
-    AlphaScroll = __decorate([
-        core_1.Component({
-            selector: 'ion-alpha-scroll',
-            template: "\n    <ion-list class=\"ion-alpha-list\">\n      <div *ngFor=\"let item of sortedItems\">\n        <ion-item-divider id=\"scroll-letter-{{item.letter}}\" *ngIf=\"item.isDivider\">{{item.letter}}</ion-item-divider>\n        <template [ngTemplateOutlet]=\"itemTemplate\" [ngOutletContext]=\"{'item': item, 'currentPageClass': currentPageClass}\" *ngIf=\"!item.isDivider\">\n        </template>\n      </div>\n    </ion-list>\n    <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"calculateDimensionsForSidebar()\">\n      <li *ngFor=\"let alpha of alphabet\" [class]=\"setAlphaClass(alpha)\" tappable (click)=\"alphaScrollGoToList(alpha.letter)\">\n        <a>{{alpha.letter}}</a>\n      </li>\n    </ul>\n  ",
-            changeDetection: core_1.ChangeDetectionStrategy.OnPush
-        }),
-        __param(2, core_1.Host()), 
-        __metadata('design:paramtypes', [core_1.ElementRef, order_by_1.OrderBy, ionic_angular_1.Content])
-    ], AlphaScroll);
     return AlphaScroll;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], AlphaScroll.prototype, "listData", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], AlphaScroll.prototype, "key", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", core_1.TemplateRef)
+], AlphaScroll.prototype, "itemTemplate", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], AlphaScroll.prototype, "currentPageClass", void 0);
+AlphaScroll = __decorate([
+    core_1.Component({
+        selector: 'ion-alpha-scroll',
+        template: "\n    <ion-list class=\"ion-alpha-list\">\n      <div *ngFor=\"let item of sortedItems\">\n        <ion-item-divider id=\"scroll-letter-{{item.letter}}\" *ngIf=\"item.isDivider\">{{item.letter}}</ion-item-divider>\n        <ng-template [ngTemplateOutlet]=\"itemTemplate\" [ngOutletContext]=\"{'item': item, 'currentPageClass': currentPageClass}\" *ngIf=\"!item.isDivider\">\n        </ng-template>\n      </div>\n    </ion-list>\n    <ul class=\"ion-alpha-sidebar\" [ngStyle]=\"calculateDimensionsForSidebar()\">\n      <li *ngFor=\"let alpha of alphabet\" [class]=\"setAlphaClass(alpha)\" tappable (click)=\"alphaScrollGoToList(alpha.letter)\">\n        <a>{{alpha.letter}}</a>\n      </li>\n    </ul>\n  ",
+        changeDetection: core_1.ChangeDetectionStrategy.OnPush
+    }),
+    __param(2, core_1.Host()),
+    __metadata("design:paramtypes", [core_1.ElementRef, order_by_1.OrderBy, ionic_angular_1.Content])
+], AlphaScroll);
 exports.AlphaScroll = AlphaScroll;
 //# sourceMappingURL=alpha-scroll.js.map

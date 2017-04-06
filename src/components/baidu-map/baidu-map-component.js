@@ -8,10 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var _ = require('lodash');
-var config_1 = require('../../config/config');
-var baidu_map_1 = require('./baidu-map');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var _ = require("lodash");
+var config_1 = require("../../config/config");
+var baidu_map_1 = require("./baidu-map");
 var BaiduMap = (function () {
     function BaiduMap(_elementRef, baiduMapCtrl, config) {
         this._elementRef = _elementRef;
@@ -64,34 +65,36 @@ var BaiduMap = (function () {
     BaiduMap.prototype.getOptions = function () {
         return _.assign({}, this.config.get().baiduMap, this.options);
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], BaiduMap.prototype, "options", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], BaiduMap.prototype, "onMapLoaded", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], BaiduMap.prototype, "onMapLoadFialed", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], BaiduMap.prototype, "onMapClick", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], BaiduMap.prototype, "onMarkerClick", void 0);
-    BaiduMap = __decorate([
-        core_1.Component({
-            selector: 'ion-baidu-map',
-            template: "\n    <div class=\"offlinePanel\" [style.opacity]=\"opacity\">\n      <label>\u5509\u5440\uFF0C\u7F51\u7EDC\u51FA\u95EE\u9898\u4E86</label>\n    </div>\n  "
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef, baidu_map_1.BaiduMapController, config_1.ConfigProvider])
-    ], BaiduMap);
     return BaiduMap;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], BaiduMap.prototype, "options", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], BaiduMap.prototype, "onMapLoaded", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], BaiduMap.prototype, "onMapLoadFialed", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], BaiduMap.prototype, "onMapClick", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], BaiduMap.prototype, "onMarkerClick", void 0);
+BaiduMap = __decorate([
+    core_1.Component({
+        selector: 'ion-baidu-map',
+        template: "\n    <div class=\"offlinePanel\" [style.opacity]=\"opacity\">\n      <label>\u5509\u5440\uFF0C\u7F51\u7EDC\u51FA\u95EE\u9898\u4E86</label>\n    </div>\n  "
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef,
+        baidu_map_1.BaiduMapController,
+        config_1.ConfigProvider])
+], BaiduMap);
 exports.BaiduMap = BaiduMap;
 //# sourceMappingURL=baidu-map-component.js.map

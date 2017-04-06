@@ -1,9 +1,14 @@
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -13,25 +18,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
-var ionic_angular_1 = require('ionic-angular');
-var device_1 = require('@ionic-native/device');
-var _ = require('lodash');
-var config_1 = require('../config/config');
-var dialog_1 = require('../utils/dialog');
-var util_1 = require('../utils/util');
-var response_result_1 = require('../utils/http/response/response-result');
-var url_params_builder_1 = require('../utils/http/url-params-builder');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var http_1 = require("@angular/http");
+var ionic_angular_1 = require("ionic-angular");
+var device_1 = require("@ionic-native/device");
+var _ = require("lodash");
+var config_1 = require("../config/config");
+var dialog_1 = require("../utils/dialog");
+var util_1 = require("../utils/util");
+var response_result_1 = require("../utils/http/response/response-result");
+var url_params_builder_1 = require("../utils/http/url-params-builder");
 exports.ticket_expired = 'ticket-expired';
 var HttpProviderOptions = (function (_super) {
     __extends(HttpProviderOptions, _super);
     function HttpProviderOptions(options) {
-        _super.call(this, options);
-        this.showErrorAlert = true;
-        this.showLoading = options.showLoading;
-        this.loadingContent = options.loadingContent;
-        this.showErrorAlert = options.showErrorAlert;
+        var _this = _super.call(this, options) || this;
+        _this.showErrorAlert = true;
+        _this.showLoading = options.showLoading;
+        _this.loadingContent = options.loadingContent;
+        _this.showErrorAlert = options.showErrorAlert;
+        return _this;
     }
     HttpProviderOptions.prototype.merge = function (options) {
         var result = _super.prototype.merge.call(this, options);
@@ -112,12 +119,12 @@ var HttpProvider = (function () {
         }
         return this.http.request(url, options).map(function (r) { return new response_result_1.ResponseResult(r.json()); });
     };
-    HttpProvider = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, dialog_1.Dialog])
-    ], HttpProvider);
     return HttpProvider;
 }());
+HttpProvider = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [http_1.Http, dialog_1.Dialog])
+], HttpProvider);
 exports.HttpProvider = HttpProvider;
 var CorsHttpProvider = (function () {
     function CorsHttpProvider(http, events, config, device) {
@@ -187,11 +194,14 @@ var CorsHttpProvider = (function () {
             return Promise.reject(err);
         });
     };
-    CorsHttpProvider = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [HttpProvider, ionic_angular_1.Events, config_1.ConfigProvider, device_1.Device])
-    ], CorsHttpProvider);
     return CorsHttpProvider;
 }());
+CorsHttpProvider = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [HttpProvider,
+        ionic_angular_1.Events,
+        config_1.ConfigProvider,
+        device_1.Device])
+], CorsHttpProvider);
 exports.CorsHttpProvider = CorsHttpProvider;
 //# sourceMappingURL=http.js.map

@@ -8,8 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var util_1 = require('../../utils/util');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var util_1 = require("../../utils/util");
 var Ribbon = (function () {
     function Ribbon(renderer, elementRef) {
         this.renderer = renderer;
@@ -34,19 +35,19 @@ var Ribbon = (function () {
             this.textStyle['font-size'] = this.ribbonOption.fontSize;
         }
     };
-    __decorate([
-        core_1.Input('ribbon-option'), 
-        __metadata('design:type', Object)
-    ], Ribbon.prototype, "ribbonOption", void 0);
-    Ribbon = __decorate([
-        core_1.Component({
-            selector: '[ribbon]',
-            template: "\n    <div class=\"triangle\" [ngStyle]=\"riangleStyleOne\"></div>\n    <div class=\"triangle\" [ngStyle]=\"triangleStyleTwo\"></div>\n    <div class=\"ribbon-text-box\" [ngStyle]=\"textStyle\">\n      <div>{{ribbonOption.ribbonText}}</div>\n    </div>\n    <ng-content></ng-content>\n  ",
-            changeDetection: core_1.ChangeDetectionStrategy.OnPush
-        }), 
-        __metadata('design:paramtypes', [core_1.Renderer, core_1.ElementRef])
-    ], Ribbon);
     return Ribbon;
 }());
+__decorate([
+    core_1.Input('ribbon-option'),
+    __metadata("design:type", Object)
+], Ribbon.prototype, "ribbonOption", void 0);
+Ribbon = __decorate([
+    core_1.Component({
+        selector: '[ribbon]',
+        template: "\n    <div class=\"triangle\" [ngStyle]=\"riangleStyleOne\"></div>\n    <div class=\"triangle\" [ngStyle]=\"triangleStyleTwo\"></div>\n    <div class=\"ribbon-text-box\" [ngStyle]=\"textStyle\">\n      <div>{{ribbonOption.ribbonText}}</div>\n    </div>\n    <ng-content></ng-content>\n  ",
+        changeDetection: core_1.ChangeDetectionStrategy.OnPush
+    }),
+    __metadata("design:paramtypes", [core_1.Renderer, core_1.ElementRef])
+], Ribbon);
 exports.Ribbon = Ribbon;
 //# sourceMappingURL=ribbon.js.map

@@ -5,11 +5,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var core_1 = require('@angular/core');
-var util_1 = require('../utils/util');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var util_1 = require("../utils/util");
 var ComponentRegistar = (function () {
     function ComponentRegistar() {
         this.components = {};
@@ -46,11 +44,10 @@ var ComponentRegistar = (function () {
     ComponentRegistar.prototype.isPresent = function (component) {
         return util_1.isPresent(component) && util_1.isPresent(component.name);
     };
-    ComponentRegistar = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], ComponentRegistar);
     return ComponentRegistar;
 }());
+ComponentRegistar = __decorate([
+    core_1.Injectable()
+], ComponentRegistar);
 exports.ComponentRegistar = ComponentRegistar;
 //# sourceMappingURL=component-registar.js.map

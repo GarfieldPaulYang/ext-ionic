@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.StringUtils = {
     startsWith: function (str, searchStrings) {
         for (var i = 0; i < searchStrings.length; i++) {

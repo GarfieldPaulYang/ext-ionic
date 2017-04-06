@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.baiduMapLoader = function () {
     return new Promise(function (resolve, reject) {
         window['baiduMapLoaded'] = function () {

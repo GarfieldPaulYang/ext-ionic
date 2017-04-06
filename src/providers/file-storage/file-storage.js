@@ -8,10 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var ionic_angular_1 = require('ionic-angular');
-var file_1 = require('@ionic-native/file');
-var util_1 = require('../../utils/util');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var ionic_angular_1 = require("ionic-angular");
+var file_1 = require("@ionic-native/file");
+var util_1 = require("../../utils/util");
 var TextFileStorage = (function () {
     function TextFileStorage(platform, file) {
         this.platform = platform;
@@ -79,11 +80,11 @@ var TextFileStorage = (function () {
     TextFileStorage.prototype.getFilepath = function () {
         return cordova.file.dataDirectory;
     };
-    TextFileStorage = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [ionic_angular_1.Platform, file_1.File])
-    ], TextFileStorage);
     return TextFileStorage;
 }());
+TextFileStorage = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [ionic_angular_1.Platform, file_1.File])
+], TextFileStorage);
 exports.TextFileStorage = TextFileStorage;
 //# sourceMappingURL=file-storage.js.map

@@ -8,10 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var ionic_angular_1 = require('ionic-angular');
-var util_1 = require('../../utils/util');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var platform_browser_1 = require("@angular/platform-browser");
+var ionic_angular_1 = require("ionic-angular");
+var util_1 = require("../../utils/util");
 var OpenUrlModalCmp = (function () {
     function OpenUrlModalCmp(navParams, viewCtrl, sanitizer) {
         this.navParams = navParams;
@@ -25,14 +26,14 @@ var OpenUrlModalCmp = (function () {
     OpenUrlModalCmp.prototype.dismiss = function () {
         this.viewCtrl.dismiss(this.options);
     };
-    OpenUrlModalCmp = __decorate([
-        core_1.Component({
-            template: "\n    <ion-header>\n      <ion-navbar [color]=\"options.color\">\n        <ion-buttons end>\n          <button ion-button icon-only (click)=\"dismiss()\">\n            <ion-icon name=\"close\"></ion-icon>\n          </button>\n        </ion-buttons>\n        <ion-title>{{options.title}}</ion-title>\n      </ion-navbar>\n    </ion-header>\n    <ion-content class=\"content\">\n      <iframe class=\"iframe\" [src]=\"safeUrl\"\n              sandbox=\"allow-scripts allow-top-navigation allow-pointer-lock allow-same-origin allow-popups allow-forms\">\n      </iframe>\n    </ion-content>\n  ",
-            styles: ["\n    .scroll-content {\n      overflow: hidden;\n    }\n\n    .content {\n      height: 100%;\n    }\n\n    .iframe {\n      width: 100%;\n      height: 100%;\n      border: none;\n    }\n  "]
-        }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavParams, ionic_angular_1.ViewController, platform_browser_1.DomSanitizer])
-    ], OpenUrlModalCmp);
     return OpenUrlModalCmp;
 }());
+OpenUrlModalCmp = __decorate([
+    core_1.Component({
+        template: "\n    <ion-header>\n      <ion-navbar [color]=\"options.color\">\n        <ion-buttons end>\n          <button ion-button icon-only (click)=\"dismiss()\">\n            <ion-icon name=\"close\"></ion-icon>\n          </button>\n        </ion-buttons>\n        <ion-title>{{options.title}}</ion-title>\n      </ion-navbar>\n    </ion-header>\n    <ion-content class=\"content\">\n      <iframe class=\"iframe\" [src]=\"safeUrl\"\n              sandbox=\"allow-scripts allow-top-navigation allow-pointer-lock allow-same-origin allow-popups allow-forms\">\n      </iframe>\n    </ion-content>\n  ",
+        styles: ["\n    .scroll-content {\n      overflow: hidden;\n    }\n\n    .content {\n      height: 100%;\n    }\n\n    .iframe {\n      width: 100%;\n      height: 100%;\n      border: none;\n    }\n  "]
+    }),
+    __metadata("design:paramtypes", [ionic_angular_1.NavParams, ionic_angular_1.ViewController, platform_browser_1.DomSanitizer])
+], OpenUrlModalCmp);
 exports.OpenUrlModalCmp = OpenUrlModalCmp;
 //# sourceMappingURL=open-url-modal-component.js.map

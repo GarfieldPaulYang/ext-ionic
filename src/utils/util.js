@@ -1,5 +1,6 @@
 "use strict";
-var _ = require('lodash');
+Object.defineProperty(exports, "__esModule", { value: true });
+var _ = require("lodash");
 function isTrueProperty(val) {
     if (typeof val === 'string') {
         val = val.toLowerCase().trim();

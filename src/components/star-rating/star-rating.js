@@ -8,9 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var forms_1 = require('@angular/forms');
-var _ = require('lodash');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var forms_1 = require("@angular/forms");
+var _ = require("lodash");
 exports.STAR_RATING_VALUE_ACCESSOR = {
     provide: forms_1.NG_VALUE_ACCESSOR,
     useExisting: core_1.forwardRef(function () { return StarRatingCmp; }),
@@ -111,23 +112,23 @@ var StarRatingCmp = (function () {
         }
         this.range = states;
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Number)
-    ], StarRatingCmp.prototype, "max", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], StarRatingCmp.prototype, "readonly", void 0);
-    StarRatingCmp = __decorate([
-        core_1.Component({
-            selector: 'ion-star-rating',
-            template: "\n    <ul class=\"rating\">\n      <li *ngFor=\"let r of range; let i = index\" tappable (click)=\"rate(i + 1)\" attr.index=\"{{i + 1}}\">\n        <ion-icon [name]=\"setIcon(r)\"></ion-icon>\n      </li>\n    </ul>\n  ",
-            providers: [exports.STAR_RATING_VALUE_ACCESSOR]
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], StarRatingCmp);
     return StarRatingCmp;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Number)
+], StarRatingCmp.prototype, "max", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], StarRatingCmp.prototype, "readonly", void 0);
+StarRatingCmp = __decorate([
+    core_1.Component({
+        selector: 'ion-star-rating',
+        template: "\n    <ul class=\"rating\">\n      <li *ngFor=\"let r of range; let i = index\" tappable (click)=\"rate(i + 1)\" attr.index=\"{{i + 1}}\">\n        <ion-icon [name]=\"setIcon(r)\"></ion-icon>\n      </li>\n    </ul>\n  ",
+        providers: [exports.STAR_RATING_VALUE_ACCESSOR]
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], StarRatingCmp);
 exports.StarRatingCmp = StarRatingCmp;
 //# sourceMappingURL=star-rating.js.map
