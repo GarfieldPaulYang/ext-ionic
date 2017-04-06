@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   Http,
@@ -11,7 +11,7 @@ import {
   URLSearchParams,
   Headers
 } from '@angular/http';
-import { Events, Loading } from 'ionic-angular';
+import { Loading } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
 import * as _ from 'lodash';
 
@@ -155,7 +155,7 @@ export class CorsHttpProvider {
 
   constructor(
     private http: HttpProvider,
-    private events: Events,
+    private events: EventEmitter<String>,
     private config: ConfigProvider,
     private device: Device
   ) { }
@@ -211,7 +211,7 @@ export class CorsHttpProvider {
       return result;
     }).catch(err => {
       if (err && _.isString(err) && err.toString() === ticket_expired) {
-        this.events.publish(ticket_expired);
+        this.events.emit(ticket_expired);
       }
       return Promise.reject(err);
     });

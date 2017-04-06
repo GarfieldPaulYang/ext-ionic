@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
 const http_1 = require("@angular/http");
-const ionic_angular_1 = require("ionic-angular");
 const device_1 = require("@ionic-native/device");
 const _ = require("lodash");
 const config_1 = require("../config/config");
@@ -164,7 +163,7 @@ let CorsHttpProvider = class CorsHttpProvider {
             return result;
         }).catch(err => {
             if (err && _.isString(err) && err.toString() === exports.ticket_expired) {
-                this.events.publish(exports.ticket_expired);
+                this.events.emit(exports.ticket_expired);
             }
             return Promise.reject(err);
         });
@@ -173,7 +172,7 @@ let CorsHttpProvider = class CorsHttpProvider {
 CorsHttpProvider = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [HttpProvider,
-        ionic_angular_1.Events,
+        core_1.EventEmitter,
         config_1.ConfigProvider,
         device_1.Device])
 ], CorsHttpProvider);
