@@ -9,14 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var core_2 = require("@ionic-native/core");
-var Immerse = (function () {
-    function Immerse() {
-    }
-    Immerse.prototype.setDarkMode = function (enable) { };
-    return Immerse;
-}());
+const core_1 = require("@angular/core");
+const core_2 = require("@ionic-native/core");
+let Immerse = class Immerse {
+    setDarkMode(enable) { }
+};
 __decorate([
     core_2.Cordova({
         sync: true

@@ -9,24 +9,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var ionic_angular_1 = require("ionic-angular");
-var Dialog = (function () {
-    function Dialog(loadingCtrl, alertCtrl, toastCtrl) {
+const core_1 = require("@angular/core");
+const ionic_angular_1 = require("ionic-angular");
+let Dialog = class Dialog {
+    constructor(loadingCtrl, alertCtrl, toastCtrl) {
         this.loadingCtrl = loadingCtrl;
         this.alertCtrl = alertCtrl;
         this.toastCtrl = toastCtrl;
     }
-    Dialog.prototype.alert = function (title, message) {
-        var alert = this.alertCtrl.create({
+    alert(title, message) {
+        let alert = this.alertCtrl.create({
             title: title,
             message: message,
             buttons: ['确定']
         });
         alert.present();
-    };
-    Dialog.prototype.confirm = function (title, message, handler) {
-        var alert = this.alertCtrl.create({
+    }
+    confirm(title, message, handler) {
+        let alert = this.alertCtrl.create({
             title: title,
             message: message,
             buttons: [{
@@ -38,23 +38,21 @@ var Dialog = (function () {
                 }]
         });
         alert.present();
-    };
-    Dialog.prototype.loading = function (content) {
+    }
+    loading(content) {
         return this.loadingCtrl.create({
             content: content
         });
-    };
-    Dialog.prototype.toast = function (message, position) {
-        if (position === void 0) { position = 'top'; }
-        var toast = this.toastCtrl.create({
+    }
+    toast(message, position = 'top') {
+        let toast = this.toastCtrl.create({
             message: message,
             duration: 5000,
             position: position
         });
         toast.present();
-    };
-    return Dialog;
-}());
+    }
+};
 Dialog = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [ionic_angular_1.LoadingController,

@@ -6,22 +6,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var baidu_map_1 = require("./baidu-map");
-var baidu_map_component_1 = require("./baidu-map-component");
-var BaiduMapModule = BaiduMapModule_1 = (function () {
-    function BaiduMapModule() {
-    }
-    BaiduMapModule.forRoot = function () {
+const core_1 = require("@angular/core");
+const baidu_map_1 = require("./baidu-map");
+const baidu_map_component_1 = require("./baidu-map-component");
+let BaiduMapModule = BaiduMapModule_1 = class BaiduMapModule {
+    static forRoot() {
         return {
             ngModule: BaiduMapModule_1,
             providers: [
                 baidu_map_1.BaiduMapController
             ]
         };
-    };
-    return BaiduMapModule;
-}());
+    }
+};
 BaiduMapModule = BaiduMapModule_1 = __decorate([
     core_1.NgModule({
         exports: [

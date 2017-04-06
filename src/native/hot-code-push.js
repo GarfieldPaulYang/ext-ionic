@@ -9,26 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var core_2 = require("@ionic-native/core");
-var HotCodePush = HotCodePush_1 = (function () {
-    function HotCodePush() {
-    }
-    HotCodePush.prototype.fetchUpdate = function (callback, options) { };
+const core_1 = require("@angular/core");
+const core_2 = require("@ionic-native/core");
+let HotCodePush = HotCodePush_1 = class HotCodePush {
+    fetchUpdate(callback, options) { }
     ;
-    HotCodePush.prototype.installUpdate = function () { return; };
+    installUpdate() { return; }
     ;
-    HotCodePush.prototype.isUpdateAvailableForInstallation = function (callback) { };
+    isUpdateAvailableForInstallation(callback) { }
     ;
-    HotCodePush.prototype.getVersionInfo = function (callback) { };
+    getVersionInfo(callback) { }
     ;
-    HotCodePush.prototype.configure = function (config) { return; };
+    configure(config) { return; }
     ;
-    HotCodePush.prototype.onUpdateInstalled = function (listener) {
+    onUpdateInstalled(listener) {
         document.addEventListener(HotCodePush_1.event.UPDATE_INSTALLED, listener, false);
-    };
-    return HotCodePush;
-}());
+    }
+};
 HotCodePush.error = {
     NOTHING_TO_INSTALL: 1,
     NOTHING_TO_UPDATE: 2,

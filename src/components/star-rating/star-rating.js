@@ -9,47 +9,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var forms_1 = require("@angular/forms");
-var _ = require("lodash");
+const core_1 = require("@angular/core");
+const forms_1 = require("@angular/forms");
+const _ = require("lodash");
 exports.STAR_RATING_VALUE_ACCESSOR = {
     provide: forms_1.NG_VALUE_ACCESSOR,
-    useExisting: core_1.forwardRef(function () { return StarRatingCmp; }),
+    useExisting: core_1.forwardRef(() => StarRatingCmp),
     multi: true
 };
-var StarRatingCmp = (function () {
-    function StarRatingCmp(elementRef) {
+let StarRatingCmp = class StarRatingCmp {
+    constructor(elementRef) {
         this.elementRef = elementRef;
         this.max = 5;
         this.readonly = false;
-        this.onChangeCallback = function () { };
+        this.onChangeCallback = () => { };
     }
-    Object.defineProperty(StarRatingCmp.prototype, "value", {
-        get: function () {
-            return this.innerValue;
-        },
-        set: function (v) {
-            if (v !== this.innerValue) {
-                this.innerValue = v;
-                this.fullStates();
-                this.onChangeCallback(v);
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    StarRatingCmp.prototype.ngOnInit = function () {
-        var _this = this;
-        setTimeout(function () {
-            _this.setupHammerHandlers();
+    get value() {
+        return this.innerValue;
+    }
+    set value(v) {
+        if (v !== this.innerValue) {
+            this.innerValue = v;
+            this.fullStates();
+            this.onChangeCallback(v);
+        }
+    }
+    ngOnInit() {
+        setTimeout(() => {
+            this.setupHammerHandlers();
         });
-    };
-    StarRatingCmp.prototype.ngOnDestroy = function () {
+    }
+    ngOnDestroy() {
         if (this.hammer) {
             this.hammer.destroy();
         }
-    };
-    StarRatingCmp.prototype.setIcon = function (r) {
+    }
+    setIcon(r) {
         if (r === 1) {
             return 'star';
         }
@@ -57,8 +52,8 @@ var StarRatingCmp = (function () {
             return 'star-half';
         }
         return 'star-outline';
-    };
-    StarRatingCmp.prototype.writeValue = function (val) {
+    }
+    writeValue(val) {
         if (_.isUndefined(val)) {
             return;
         }
@@ -66,12 +61,12 @@ var StarRatingCmp = (function () {
             this.innerValue = val;
             this.fullStates();
         }
-    };
-    StarRatingCmp.prototype.registerOnChange = function (fn) {
+    }
+    registerOnChange(fn) {
         this.onChangeCallback = fn;
-    };
-    StarRatingCmp.prototype.registerOnTouched = function (fn) { };
-    StarRatingCmp.prototype.rate = function (amount) {
+    }
+    registerOnTouched(fn) { }
+    rate(amount) {
         if (this.readonly) {
             return;
         }
@@ -79,10 +74,9 @@ var StarRatingCmp = (function () {
             amount = amount - 1;
         }
         this.value = amount;
-    };
-    StarRatingCmp.prototype.setupHammerHandlers = function () {
-        var _this = this;
-        var ratingEle = this.elementRef.nativeElement.querySelector('.rating');
+    }
+    setupHammerHandlers() {
+        let ratingEle = this.elementRef.nativeElement.querySelector('.rating');
         if (!ratingEle)
             return;
         this.hammer = new Hammer(ratingEle, {
@@ -90,16 +84,16 @@ var StarRatingCmp = (function () {
                 [Hammer.Pan, { direction: Hammer.DIRECTION_HORIZONTAL }],
             ]
         });
-        this.hammer.on('panleft panright', _.throttle(function (e) {
-            var closestEle = document.elementFromPoint(e.center.x, e.center.y);
+        this.hammer.on('panleft panright', _.throttle((e) => {
+            let closestEle = document.elementFromPoint(e.center.x, e.center.y);
             if (closestEle && ['LI'].indexOf(closestEle.tagName) > -1) {
-                _this.rate(Number(closestEle.getAttribute('index')));
+                this.rate(Number(closestEle.getAttribute('index')));
             }
         }, 50));
-    };
-    StarRatingCmp.prototype.fullStates = function () {
-        var states = [];
-        for (var i = 0; i < this.max; i++) {
+    }
+    fullStates() {
+        let states = [];
+        for (let i = 0; i < this.max; i++) {
             if (this.value > i && this.value < i + 1) {
                 states[i] = 2;
             }
@@ -111,9 +105,8 @@ var StarRatingCmp = (function () {
             }
         }
         this.range = states;
-    };
-    return StarRatingCmp;
-}());
+    }
+};
 __decorate([
     core_1.Input(),
     __metadata("design:type", Number)
@@ -125,7 +118,13 @@ __decorate([
 StarRatingCmp = __decorate([
     core_1.Component({
         selector: 'ion-star-rating',
-        template: "\n    <ul class=\"rating\">\n      <li *ngFor=\"let r of range; let i = index\" tappable (click)=\"rate(i + 1)\" attr.index=\"{{i + 1}}\">\n        <ion-icon [name]=\"setIcon(r)\"></ion-icon>\n      </li>\n    </ul>\n  ",
+        template: `
+    <ul class="rating">
+      <li *ngFor="let r of range; let i = index" tappable (click)="rate(i + 1)" attr.index="{{i + 1}}">
+        <ion-icon [name]="setIcon(r)"></ion-icon>
+      </li>
+    </ul>
+  `,
         providers: [exports.STAR_RATING_VALUE_ACCESSOR]
     }),
     __metadata("design:paramtypes", [core_1.ElementRef])

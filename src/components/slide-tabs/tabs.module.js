@@ -6,20 +6,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var ionic_angular_1 = require("ionic-angular");
-var core_1 = require("@angular/core");
-var tab_1 = require("./tab");
-var tabs_1 = require("./tabs");
-var TabsModule = TabsModule_1 = (function () {
-    function TabsModule() {
-    }
-    TabsModule.forRoot = function () {
+const ionic_angular_1 = require("ionic-angular");
+const core_1 = require("@angular/core");
+const tab_1 = require("./tab");
+const tabs_1 = require("./tabs");
+let TabsModule = TabsModule_1 = class TabsModule {
+    static forRoot() {
         return {
             ngModule: TabsModule_1, providers: []
         };
-    };
-    return TabsModule;
-}());
+    }
+};
 TabsModule = TabsModule_1 = __decorate([
     core_1.NgModule({
         imports: [

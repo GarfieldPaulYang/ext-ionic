@@ -6,46 +6,43 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var util_1 = require("../utils/util");
-var ComponentRegistar = (function () {
-    function ComponentRegistar() {
+const core_1 = require("@angular/core");
+const util_1 = require("../utils/util");
+let ComponentRegistar = class ComponentRegistar {
+    constructor() {
         this.components = {};
     }
-    ComponentRegistar.prototype.registerComponent = function (component) {
+    registerComponent(component) {
         if (!this.isPresent(component)) {
             return;
         }
         this.components[component.name] = component;
-    };
-    ComponentRegistar.prototype.unregisterComponent = function (component) {
+    }
+    unregisterComponent(component) {
         if (!this.isPresent(component)) {
             return;
         }
         delete this.components[component.name];
-    };
-    ComponentRegistar.prototype.registerComponents = function (components) {
-        var _this = this;
+    }
+    registerComponents(components) {
         if (!util_1.isPresent(components)) {
             return;
         }
-        components.forEach(function (component) { return _this.registerComponent(component); });
-    };
-    ComponentRegistar.prototype.unregisterComponents = function (components) {
-        var _this = this;
+        components.forEach(component => this.registerComponent(component));
+    }
+    unregisterComponents(components) {
         if (!util_1.isPresent(components)) {
             return;
         }
-        components.forEach(function (component) { return _this.unregisterComponent(component); });
-    };
-    ComponentRegistar.prototype.getComponent = function (componentname) {
+        components.forEach(component => this.unregisterComponent(component));
+    }
+    getComponent(componentname) {
         return this.components[componentname];
-    };
-    ComponentRegistar.prototype.isPresent = function (component) {
+    }
+    isPresent(component) {
         return util_1.isPresent(component) && util_1.isPresent(component.name);
-    };
-    return ComponentRegistar;
-}());
+    }
+};
 ComponentRegistar = __decorate([
     core_1.Injectable()
 ], ComponentRegistar);

@@ -9,12 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var _ = require("lodash");
-var config_1 = require("../../config/config");
-var baidu_map_1 = require("./baidu-map");
-var BaiduMap = (function () {
-    function BaiduMap(_elementRef, baiduMapCtrl, config) {
+const core_1 = require("@angular/core");
+const _ = require("lodash");
+const config_1 = require("../../config/config");
+const baidu_map_1 = require("./baidu-map");
+let BaiduMap = class BaiduMap {
+    constructor(_elementRef, baiduMapCtrl, config) {
         this._elementRef = _elementRef;
         this.baiduMapCtrl = baiduMapCtrl;
         this.config = config;
@@ -25,48 +25,46 @@ var BaiduMap = (function () {
         this.opacity = 0;
         this.mapLoaded = false;
     }
-    BaiduMap.prototype.ngAfterViewInit = function () {
-        var _this = this;
-        var opts = this.getOptions();
-        this.baiduMapCtrl.init(opts, this._elementRef.nativeElement).then(function () {
-            _this.baiduMapCtrl.addEventListener('click', _this.onMapClick);
-            _this.reDraw(opts);
-            _this.onMapLoaded.emit();
-            _this.mapLoaded = true;
-        }, function (e) {
-            _this.opacity = 1;
-            _this.onMapLoadFialed.emit(e);
+    ngAfterViewInit() {
+        let opts = this.getOptions();
+        this.baiduMapCtrl.init(opts, this._elementRef.nativeElement).then(() => {
+            this.baiduMapCtrl.addEventListener('click', this.onMapClick);
+            this.reDraw(opts);
+            this.onMapLoaded.emit();
+            this.mapLoaded = true;
+        }, e => {
+            this.opacity = 1;
+            this.onMapLoadFialed.emit(e);
         });
-    };
-    BaiduMap.prototype.ngOnChanges = function (changes) {
+    }
+    ngOnChanges(changes) {
         if (!this.mapLoaded) {
             return;
         }
-        var options = changes['options'];
+        let options = changes['options'];
         if (options.isFirstChange) {
             return;
         }
         if (options && !_.isEqual(options.previousValue, options.currentValue)) {
             this.reDraw(this.getOptions());
         }
-    };
-    BaiduMap.prototype.reDraw = function (opts) {
+    }
+    reDraw(opts) {
         this.baiduMapCtrl.panTo(new baidu_map_1.BMap.Point(opts.center.lng, opts.center.lat));
         this.draw(opts.markers);
-    };
-    BaiduMap.prototype.draw = function (markers) {
-        var opts = this.getOptions();
+    }
+    draw(markers) {
+        let opts = this.getOptions();
         if (opts.mass.enabled) {
             this.baiduMapCtrl.drawMassPoints(markers, opts.mass.options, this.onMarkerClick);
             return;
         }
         this.baiduMapCtrl.drawMarkers(markers, this.onMarkerClick);
-    };
-    BaiduMap.prototype.getOptions = function () {
+    }
+    getOptions() {
         return _.assign({}, this.config.get().baiduMap, this.options);
-    };
-    return BaiduMap;
-}());
+    }
+};
 __decorate([
     core_1.Input(),
     __metadata("design:type", Object)
@@ -90,7 +88,11 @@ __decorate([
 BaiduMap = __decorate([
     core_1.Component({
         selector: 'ion-baidu-map',
-        template: "\n    <div class=\"offlinePanel\" [style.opacity]=\"opacity\">\n      <label>\u5509\u5440\uFF0C\u7F51\u7EDC\u51FA\u95EE\u9898\u4E86</label>\n    </div>\n  "
+        template: `
+    <div class="offlinePanel" [style.opacity]="opacity">
+      <label>唉呀，网络出问题了</label>
+    </div>
+  `
     }),
     __metadata("design:paramtypes", [core_1.ElementRef,
         baidu_map_1.BaiduMapController,

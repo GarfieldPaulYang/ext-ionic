@@ -71,39 +71,37 @@ exports.HttpProvider = http_1.HttpProvider;
 exports.CorsHttpProvider = http_1.CorsHttpProvider;
 exports.ticket_expired = http_1.ticket_expired;
 require("./src/rxjs-extensions");
-var transfer_1 = require("@ionic-native/transfer");
-var file_opener_1 = require("@ionic-native/file-opener");
-var file_1 = require("@ionic-native/file");
-var device_1 = require("@ionic-native/device");
-var immerse_plugin_2 = require("./src/native/immerse-plugin");
-var hot_code_push_2 = require("./src/native/hot-code-push");
-var local_notifications_2 = require("./src/native/local-notifications");
-var core_1 = require("@angular/core");
-var config_2 = require("./src/config/config");
-var dialog_2 = require("./src/utils/dialog");
-var http_2 = require("./src/providers/http");
-var hot_updater_2 = require("./src/providers/hot-updater");
-var component_registar_2 = require("./src/providers/component-registar");
-var file_storage_2 = require("./src/providers/file-storage/file-storage");
-var json_file_storage_2 = require("./src/providers/file-storage/json-file-storage");
-var map_to_iterable_2 = require("./src/pipes/map-to-iterable");
-var order_by_2 = require("./src/pipes/order-by");
-var alpha_scroll_module_2 = require("./src/components/alpha-scroll/alpha-scroll.module");
-var open_url_modal_module_2 = require("./src/components/open-url-modal/open-url-modal.module");
-var baidu_map_module_2 = require("./src/components/baidu-map/baidu-map.module");
-var image_loader_module_2 = require("./src/components/image-loader/image-loader.module");
-var star_rating_module_2 = require("./src/components/star-rating/star-rating.module");
-var ribbon_module_2 = require("./src/components/ribbon/ribbon.module");
-var tabs_module_2 = require("./src/components/slide-tabs/tabs.module");
-var download_manager_module_2 = require("./src/components/download-manager/download-manager.module");
-var EXPORTS = [
+const transfer_1 = require("@ionic-native/transfer");
+const file_opener_1 = require("@ionic-native/file-opener");
+const file_1 = require("@ionic-native/file");
+const device_1 = require("@ionic-native/device");
+const immerse_plugin_2 = require("./src/native/immerse-plugin");
+const hot_code_push_2 = require("./src/native/hot-code-push");
+const local_notifications_2 = require("./src/native/local-notifications");
+const core_1 = require("@angular/core");
+const config_2 = require("./src/config/config");
+const dialog_2 = require("./src/utils/dialog");
+const http_2 = require("./src/providers/http");
+const hot_updater_2 = require("./src/providers/hot-updater");
+const component_registar_2 = require("./src/providers/component-registar");
+const file_storage_2 = require("./src/providers/file-storage/file-storage");
+const json_file_storage_2 = require("./src/providers/file-storage/json-file-storage");
+const map_to_iterable_2 = require("./src/pipes/map-to-iterable");
+const order_by_2 = require("./src/pipes/order-by");
+const alpha_scroll_module_2 = require("./src/components/alpha-scroll/alpha-scroll.module");
+const open_url_modal_module_2 = require("./src/components/open-url-modal/open-url-modal.module");
+const baidu_map_module_2 = require("./src/components/baidu-map/baidu-map.module");
+const image_loader_module_2 = require("./src/components/image-loader/image-loader.module");
+const star_rating_module_2 = require("./src/components/star-rating/star-rating.module");
+const ribbon_module_2 = require("./src/components/ribbon/ribbon.module");
+const tabs_module_2 = require("./src/components/slide-tabs/tabs.module");
+const download_manager_module_2 = require("./src/components/download-manager/download-manager.module");
+const EXPORTS = [
     map_to_iterable_2.MapToIterable,
     order_by_2.OrderBy
 ];
-var ExtIonicModule = ExtIonicModule_1 = (function () {
-    function ExtIonicModule() {
-    }
-    ExtIonicModule.forRoot = function (config) {
+let ExtIonicModule = ExtIonicModule_1 = class ExtIonicModule {
+    static forRoot(config) {
         return {
             ngModule: ExtIonicModule_1,
             providers: [
@@ -127,9 +125,8 @@ var ExtIonicModule = ExtIonicModule_1 = (function () {
                 local_notifications_2.ExtLocalNotifications
             ]
         };
-    };
-    return ExtIonicModule;
-}());
+    }
+};
 ExtIonicModule = ExtIonicModule_1 = __decorate([
     core_1.NgModule({
         imports: [

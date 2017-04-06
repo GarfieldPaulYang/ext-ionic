@@ -1,14 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -19,29 +9,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
-var ionic_angular_1 = require("ionic-angular");
-var device_1 = require("@ionic-native/device");
-var _ = require("lodash");
-var config_1 = require("../config/config");
-var dialog_1 = require("../utils/dialog");
-var util_1 = require("../utils/util");
-var response_result_1 = require("../utils/http/response/response-result");
-var url_params_builder_1 = require("../utils/http/url-params-builder");
+const core_1 = require("@angular/core");
+const http_1 = require("@angular/http");
+const ionic_angular_1 = require("ionic-angular");
+const device_1 = require("@ionic-native/device");
+const _ = require("lodash");
+const config_1 = require("../config/config");
+const dialog_1 = require("../utils/dialog");
+const util_1 = require("../utils/util");
+const response_result_1 = require("../utils/http/response/response-result");
+const url_params_builder_1 = require("../utils/http/url-params-builder");
 exports.ticket_expired = 'ticket-expired';
-var HttpProviderOptions = (function (_super) {
-    __extends(HttpProviderOptions, _super);
-    function HttpProviderOptions(options) {
-        var _this = _super.call(this, options) || this;
-        _this.showErrorAlert = true;
-        _this.showLoading = options.showLoading;
-        _this.loadingContent = options.loadingContent;
-        _this.showErrorAlert = options.showErrorAlert;
-        return _this;
+class HttpProviderOptions extends http_1.RequestOptions {
+    constructor(options) {
+        super(options);
+        this.showErrorAlert = true;
+        this.showLoading = options.showLoading;
+        this.loadingContent = options.loadingContent;
+        this.showErrorAlert = options.showErrorAlert;
     }
-    HttpProviderOptions.prototype.merge = function (options) {
-        var result = _super.prototype.merge.call(this, options);
+    merge(options) {
+        let result = super.merge(options);
         result.showLoading = this.showLoading;
         if (util_1.isPresent(options.showLoading)) {
             result.showLoading = options.showLoading;
@@ -53,38 +41,32 @@ var HttpProviderOptions = (function (_super) {
             result.showErrorAlert = options.showErrorAlert;
         }
         return result;
-    };
-    return HttpProviderOptions;
-}(http_1.RequestOptions));
+    }
+}
 exports.HttpProviderOptions = HttpProviderOptions;
-var defaultRequestOptions = new HttpProviderOptions({
+const defaultRequestOptions = new HttpProviderOptions({
     showLoading: true,
     loadingContent: '正在加载...',
     showErrorAlert: true,
     method: http_1.RequestMethod.Get,
     responseType: http_1.ResponseContentType.Json
 });
-var HttpProvider = (function () {
-    function HttpProvider(_http, dialog) {
+let HttpProvider = class HttpProvider {
+    constructor(_http, dialog) {
         this._http = _http;
         this.dialog = dialog;
     }
-    Object.defineProperty(HttpProvider.prototype, "http", {
-        get: function () {
-            return this._http;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    HttpProvider.prototype.requestWithError = function (url, options) {
-        var _this = this;
+    get http() {
+        return this._http;
+    }
+    requestWithError(url, options) {
         if (!util_1.isPresent(options.showErrorAlert)) {
             options.showErrorAlert = true;
         }
-        return this.request(url, options).then(function (result) {
+        return this.request(url, options).then((result) => {
             if (result.status === 1) {
                 if (options.showErrorAlert) {
-                    _this.dialog.alert('系统提示', result.msg);
+                    this.dialog.alert('系统提示', result.msg);
                 }
                 if (util_1.isPresent(result.data) && !_.isEqual({}, result.data)) {
                     return Promise.reject(result);
@@ -92,59 +74,54 @@ var HttpProvider = (function () {
                 return Promise.reject(result.msg);
             }
             return result.data;
-        }).catch(function (err) {
+        }).catch(err => {
             return Promise.reject(err);
         });
-    };
-    HttpProvider.prototype.request = function (url, options) {
+    }
+    request(url, options) {
         options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
-        var loading;
+        let loading;
         if (options.showLoading) {
             loading = this.dialog.loading(options.loadingContent);
             loading.present();
         }
-        return this.ajax(url, options).toPromise().then(function (result) {
+        return this.ajax(url, options).toPromise().then(result => {
             if (loading)
                 loading.dismiss();
             return result;
-        }).catch(function (err) {
+        }).catch(err => {
             if (loading)
                 loading.dismiss();
             return Promise.reject(err);
         });
-    };
-    HttpProvider.prototype.ajax = function (url, options) {
+    }
+    ajax(url, options) {
         if (options.method === http_1.RequestMethod.Post && util_1.isPresent(options.body) && !(options.body instanceof FormData)) {
             options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
         }
-        return this.http.request(url, options).map(function (r) { return new response_result_1.ResponseResult(r.json()); });
-    };
-    return HttpProvider;
-}());
+        return this.http.request(url, options).map((r) => new response_result_1.ResponseResult(r.json()));
+    }
+};
 HttpProvider = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [http_1.Http, dialog_1.Dialog])
 ], HttpProvider);
 exports.HttpProvider = HttpProvider;
-var CorsHttpProvider = (function () {
-    function CorsHttpProvider(http, events, config, device) {
+let CorsHttpProvider = class CorsHttpProvider {
+    constructor(http, events, config, device) {
         this.http = http;
         this.events = events;
         this.config = config;
         this.device = device;
         this._ticket = null;
     }
-    Object.defineProperty(CorsHttpProvider.prototype, "ticket", {
-        get: function () {
-            return this._ticket;
-        },
-        set: function (t) {
-            this._ticket = t;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    CorsHttpProvider.prototype.login = function (options) {
+    get ticket() {
+        return this._ticket;
+    }
+    set ticket(t) {
+        this._ticket = t;
+    }
+    login(options) {
         return this.request(this.config.get().login.url, {
             headers: new http_1.Headers({
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -156,21 +133,19 @@ var CorsHttpProvider = (function () {
             showErrorAlert: false,
             body: url_params_builder_1.URLParamsBuilder.build(options).toString()
         });
-    };
-    CorsHttpProvider.prototype.logout = function () {
-        var _this = this;
+    }
+    logout() {
         return this.request(this.config.get().login.url, {
             headers: new http_1.Headers({
                 'logout': 'true'
             })
-        }).then(function (result) {
-            _this.ticket = null;
+        }).then(result => {
+            this.ticket = null;
             return result;
         });
-    };
-    CorsHttpProvider.prototype.request = function (url, options) {
-        var _this = this;
-        var search = url_params_builder_1.URLParamsBuilder.build({
+    }
+    request(url, options) {
+        let search = url_params_builder_1.URLParamsBuilder.build({
             'appKey': this.config.get().login.appKey,
             'devMode': this.config.get().devMode,
             '__cors-request__': true
@@ -185,17 +160,16 @@ var CorsHttpProvider = (function () {
         if (_.has(options, 'search')) {
             search.replaceAll(options.search);
         }
-        return this.http.requestWithError(url, _.assign({}, options, { search: search })).then(function (result) {
+        return this.http.requestWithError(url, _.assign({}, options, { search: search })).then(result => {
             return result;
-        }).catch(function (err) {
+        }).catch(err => {
             if (err && _.isString(err) && err.toString() === exports.ticket_expired) {
-                _this.events.publish(exports.ticket_expired);
+                this.events.publish(exports.ticket_expired);
             }
             return Promise.reject(err);
         });
-    };
-    return CorsHttpProvider;
-}());
+    }
+};
 CorsHttpProvider = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [HttpProvider,

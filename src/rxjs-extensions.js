@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+// Observable class extensions
 require("rxjs/add/observable/of");
 require("rxjs/add/observable/throw");
 require("rxjs/add/observable/fromEvent");
+// Observable operators
 require("rxjs/add/operator/toPromise");
 require("rxjs/add/operator/catch");
 require("rxjs/add/operator/debounceTime");

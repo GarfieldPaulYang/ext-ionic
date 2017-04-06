@@ -6,48 +6,44 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var _ = require("lodash");
-var OrderBy = (function () {
-    function OrderBy() {
-    }
-    OrderBy.prototype.transform = function (input, orderConfigs) {
-        if (orderConfigs === void 0) { orderConfigs = '+'; }
+const core_1 = require("@angular/core");
+const _ = require("lodash");
+let OrderBy = class OrderBy {
+    transform(input, orderConfigs = '+') {
         if (!Array.isArray(input)) {
             return input;
         }
         if (this.isSingle(orderConfigs)) {
-            var orderConfig = !Array.isArray(orderConfigs) ? orderConfigs : orderConfigs[0];
-            var config = this.parseProperty(orderConfig);
+            let orderConfig = !Array.isArray(orderConfigs) ? orderConfigs : orderConfigs[0];
+            let config = this.parseProperty(orderConfig);
+            // Basic array
             if (config.property === '') {
                 return _.orderBy(input, [], config.order);
             }
             return _.orderBy(input, [config.property], [config.order]);
         }
-        var configs = this.parseProperties(orderConfigs);
+        let configs = this.parseProperties(orderConfigs);
         return _.orderBy(input, configs.properties, configs.orders);
-    };
-    OrderBy.prototype.isSingle = function (orderConfigs) {
+    }
+    isSingle(orderConfigs) {
         return !Array.isArray(orderConfigs) || (Array.isArray(orderConfigs) && orderConfigs.length === 1);
-    };
-    OrderBy.prototype.parseProperty = function (config) {
-        var orderChar = config.substr(0, 1);
-        var isDesc = orderChar === '-';
-        var hasOrder = orderChar || orderChar === '+';
+    }
+    parseProperty(config) {
+        let orderChar = config.substr(0, 1);
+        let isDesc = orderChar === '-';
+        let hasOrder = orderChar || orderChar === '+';
         return { order: isDesc ? 'desc' : 'asc', property: hasOrder ? config.substr(1) : config };
-    };
-    OrderBy.prototype.parseProperties = function (configs) {
-        var _this = this;
-        var result = { orders: [], properties: [] };
-        configs.forEach(function (configStr) {
-            var config = _this.parseProperty(configStr);
+    }
+    parseProperties(configs) {
+        let result = { orders: [], properties: [] };
+        configs.forEach(configStr => {
+            let config = this.parseProperty(configStr);
             result.orders.push(config.order);
             result.properties.push(config.property);
         });
         return result;
-    };
-    return OrderBy;
-}());
+    }
+};
 OrderBy = __decorate([
     core_1.Pipe({
         name: 'orderBy'

@@ -9,13 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var tab_1 = require("./tab");
-var ionic_angular_1 = require("ionic-angular");
-var Observable_1 = require("rxjs/Observable");
-var TabsCmp = (function () {
-    function TabsCmp(el, render) {
-        var _this = this;
+const core_1 = require("@angular/core");
+const tab_1 = require("./tab");
+const ionic_angular_1 = require("ionic-angular");
+const Observable_1 = require("rxjs/Observable");
+let TabsCmp = class TabsCmp {
+    constructor(el, render) {
         this.el = el;
         this.render = render;
         this.sliderColor = 'primary';
@@ -26,93 +25,82 @@ var TabsCmp = (function () {
         this.shouldSlideEase = false;
         this._selectedTabIndex = 0;
         this.validSliderLocations = [];
-        this.screenOrientationWatch = Observable_1.Observable.fromEvent(window, 'orientationchange').subscribe(function () { return _this.setHeights(); });
+        this.screenOrientationWatch = Observable_1.Observable.fromEvent(window, 'orientationchange').subscribe(() => this.setHeights());
     }
-    Object.defineProperty(TabsCmp.prototype, "height", {
-        set: function (val) {
-            this.render.setElementStyle(this.el.nativeElement, 'height', val);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TabsCmp.prototype, "selectedTabIndex", {
-        get: function () {
-            return this._selectedTabIndex;
-        },
-        set: function (val) {
-            this._selectedTabIndex = val;
-            this.alignSlidePosition();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    TabsCmp.prototype.ngAfterViewInit = function () {
-        var _this = this;
-        this.slideTabs.forEach(function (tab) {
+    set height(val) {
+        this.render.setElementStyle(this.el.nativeElement, 'height', val);
+    }
+    set selectedTabIndex(val) {
+        this._selectedTabIndex = val;
+        this.alignSlidePosition();
+    }
+    get selectedTabIndex() {
+        return this._selectedTabIndex;
+    }
+    ngAfterViewInit() {
+        this.slideTabs.forEach(tab => {
             tab.navParams = tab.navParams || {};
-            tab.navParams.rootNavCtrl = _this.rootNavCtrl;
-            _this.tabs.push(tab);
+            tab.navParams.rootNavCtrl = this.rootNavCtrl;
+            this.tabs.push(tab);
         });
         this.slideWidth = this.el.nativeElement.offsetWidth / this.tabs.length + 'px';
         this.maxSlidePosition = this.el.nativeElement.offsetWidth - (this.el.nativeElement.offsetWidth / this.tabs.length);
         this.slides.speed = 250;
         this.render.setElementClass(this.slider.nativeElement, 'button-md-' + this.sliderColor, true);
         setTimeout(this.setHeights.bind(this), 100);
-        var segmentButtonWidth = this.slides.renderedWidth / this.tabs.length;
+        const segmentButtonWidth = this.slides.renderedWidth / this.tabs.length;
         this.validSliderLocations = [];
-        for (var i = 0; i < this.tabs.length; i++) {
+        for (let i = 0; i < this.tabs.length; i++) {
             this.validSliderLocations.push(i * segmentButtonWidth);
         }
-        this.slides.ionSlideTouchEnd.subscribe(function () { return _this.ensureSliderLocationIsValid(); });
-    };
-    TabsCmp.prototype.ngOnDestroy = function () {
+        this.slides.ionSlideTouchEnd.subscribe(() => this.ensureSliderLocationIsValid());
+    }
+    ngOnDestroy() {
         if (this.screenOrientationWatch && this.screenOrientationWatch.unsubscribe) {
             this.screenOrientationWatch.unsubscribe();
         }
-    };
-    TabsCmp.prototype.onDrag = function (ev) {
+    }
+    onDrag(ev) {
         if (ev._translate > 0 || ev._translate < -((this.tabs.length - 1) * this.slides.renderedWidth)) {
             return;
         }
-        var percentage = Math.abs(ev._translate / ev._virtualSize);
-        var singleSlideSize = ev._renderedSize;
-        var slidePosition = percentage * singleSlideSize;
+        const percentage = Math.abs(ev._translate / ev._virtualSize);
+        const singleSlideSize = ev._renderedSize;
+        let slidePosition = percentage * singleSlideSize;
         if (slidePosition > this.maxSlidePosition) {
             slidePosition = this.maxSlidePosition;
         }
         this.slidePosition = slidePosition + 'px';
-    };
-    TabsCmp.prototype.onSlideWillChange = function () {
+    }
+    onSlideWillChange() {
         if (this.slides.getActiveIndex() <= this.tabs.length) {
             this.shouldSlideEase = true;
             this.selectedTabIndex = this.slides.getActiveIndex();
         }
-    };
-    TabsCmp.prototype.onSlideDidChange = function () {
+    }
+    onSlideDidChange() {
         this.shouldSlideEase = false;
-    };
-    TabsCmp.prototype.onTabSelect = function (index) {
+    }
+    onTabSelect(index) {
         if (index <= this.tabs.length) {
             this.slides.slideTo(index);
         }
-    };
-    TabsCmp.prototype.ensureSliderLocationIsValid = function () {
-        var _this = this;
+    }
+    ensureSliderLocationIsValid() {
         if (this.validSliderLocations.indexOf(Number(this.slidePosition)) === -1) {
             this.shouldSlideEase = true;
             this.alignSlidePosition();
-            setTimeout(function () { return _this.shouldSlideEase = false; }, 250);
+            setTimeout(() => this.shouldSlideEase = false, 250);
         }
-    };
-    TabsCmp.prototype.alignSlidePosition = function () {
-        var slidePosition = this.selectedTabIndex * this.slides.renderedWidth / this.tabs.length;
+    }
+    alignSlidePosition() {
+        let slidePosition = this.selectedTabIndex * this.slides.renderedWidth / this.tabs.length;
         this.slidePosition = slidePosition <= this.maxSlidePosition ? slidePosition + 'px' : this.maxSlidePosition + 'px';
-    };
-    TabsCmp.prototype.setHeights = function () {
+    }
+    setHeights() {
         this.slidesHeight = this.el.nativeElement.offsetHeight - this.toolbar.getNativeElement().offsetHeight;
-    };
-    return TabsCmp;
-}());
+    }
+};
 __decorate([
     core_1.Input(),
     __metadata("design:type", ionic_angular_1.NavController)
@@ -158,7 +146,22 @@ __decorate([
 TabsCmp = __decorate([
     core_1.Component({
         selector: 'ion-slide-tabs',
-        template: "\n    <ion-toolbar [color]=\"toolbarColor\" #toolbar mode=\"md\">\n      <ion-segment [color]=\"tabsColor\" [(ngModel)]=\"selectedTabIndex\" mode=\"md\">\n        <ion-segment-button *ngFor=\"let tab of tabs; let i = index\" [value]=\"i\" (ionSelect)=\"onTabSelect(i)\">\n          <ion-icon *ngIf=\"tab.icon\" [name]=\"tab.icon\"></ion-icon>\n          {{tab.title}}\n        </ion-segment-button>\n      </ion-segment>\n      <div class=\"slide\" #slide [style.left]=\"slidePosition\" [class.ease]=\"shouldSlideEase\" [style.width]=\"slideWidth\"></div>\n    </ion-toolbar>\n    <ion-slides [style.height]=\"slidesHeight + 'px'\" (ionSlideDrag)=\"onDrag($event)\" (ionSlideWillChange)=\"onSlideWillChange()\" (ionSlideDidChange)=\"onSlideDidChange()\" [initialSlide]=\"selectedTabIndex\">\n      <ion-slide *ngFor=\"let tab of tabs\">\n          <ion-nav [root]=\"tab.tabRoot\" [rootParams]=\"tab.navParams\"></ion-nav>\n      </ion-slide>\n    </ion-slides>\n  "
+        template: `
+    <ion-toolbar [color]="toolbarColor" #toolbar mode="md">
+      <ion-segment [color]="tabsColor" [(ngModel)]="selectedTabIndex" mode="md">
+        <ion-segment-button *ngFor="let tab of tabs; let i = index" [value]="i" (ionSelect)="onTabSelect(i)">
+          <ion-icon *ngIf="tab.icon" [name]="tab.icon"></ion-icon>
+          {{tab.title}}
+        </ion-segment-button>
+      </ion-segment>
+      <div class="slide" #slide [style.left]="slidePosition" [class.ease]="shouldSlideEase" [style.width]="slideWidth"></div>
+    </ion-toolbar>
+    <ion-slides [style.height]="slidesHeight + 'px'" (ionSlideDrag)="onDrag($event)" (ionSlideWillChange)="onSlideWillChange()" (ionSlideDidChange)="onSlideDidChange()" [initialSlide]="selectedTabIndex">
+      <ion-slide *ngFor="let tab of tabs">
+          <ion-nav [root]="tab.tabRoot" [rootParams]="tab.navParams"></ion-nav>
+      </ion-slide>
+    </ion-slides>
+  `
     }),
     __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer])
 ], TabsCmp);

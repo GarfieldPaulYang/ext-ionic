@@ -23,7 +23,7 @@ export function assert(actual: any, reason?: string) {
   }
 }
 
-export function flattenObject(obj) {
+export function flattenObject(obj: any) {
   return _.transform(obj, function (result, value, key) {
     if (_.isObject(value) && !_.isArray(value)) {
       let flatMap = _.mapKeys(flattenObject(value), function (mvalue, mkey) {
@@ -38,6 +38,6 @@ export function flattenObject(obj) {
   }, {});
 }
 
-export function unFlattenObject(params) {
+export function unFlattenObject(params: any) {
   return _.reduce(params, (result, value, key) => { return _.set(result, key, value); }, {});
 }

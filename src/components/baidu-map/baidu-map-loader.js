@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.baiduMapLoader = function () {
-    return new Promise(function (resolve, reject) {
-        window['baiduMapLoaded'] = function () {
+exports.baiduMapLoader = () => {
+    return new Promise((resolve, reject) => {
+        window['baiduMapLoaded'] = () => {
             resolve();
         };
-        var script = document.createElement('script');
+        let script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = 'http://api.map.baidu.com/api?v=2.0&ak=DmMSdcEILbFTUHs4QvlcV2G0&callback=baiduMapLoaded';
-        script.onerror = function () {
+        script.onerror = () => {
             document.body.removeChild(script);
             reject();
         };

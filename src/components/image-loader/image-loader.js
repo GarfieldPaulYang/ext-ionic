@@ -9,15 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var ionic_angular_1 = require("ionic-angular");
-var transfer_1 = require("@ionic-native/transfer");
-var file_1 = require("@ionic-native/file");
-var config_1 = require("../../config/config");
-var string_1 = require("../../utils/string");
-var ImageLoaderController = (function () {
-    function ImageLoaderController(platform, transfer, file, config) {
-        var _this = this;
+const core_1 = require("@angular/core");
+const ionic_angular_1 = require("ionic-angular");
+const transfer_1 = require("@ionic-native/transfer");
+const file_1 = require("@ionic-native/file");
+const config_1 = require("../../config/config");
+const string_1 = require("../../utils/string");
+let ImageLoaderController = class ImageLoaderController {
+    constructor(platform, transfer, file, config) {
         this.platform = platform;
         this.transfer = transfer;
         this.file = file;
@@ -29,146 +28,127 @@ var ImageLoaderController = (function () {
             this.throwWarning('You are running on a browser or using livereload, IonicImageLoader will not function, falling back to browser loading.');
             return;
         }
-        platform.ready().then(function () { return _this.initCache(); });
+        platform.ready().then(() => this.initCache());
     }
-    ImageLoaderController.prototype.getImagePath = function (imageUrl) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            if (!_this.needDownload(imageUrl)) {
+    getImagePath(imageUrl) {
+        return new Promise((resolve, reject) => {
+            if (!this.needDownload(imageUrl)) {
                 resolve(imageUrl);
                 return;
             }
-            var getImage = function () {
-                _this.getCachedImagePath(imageUrl).then(function (imagePath) {
+            let getImage = () => {
+                this.getCachedImagePath(imageUrl).then(imagePath => {
                     resolve(imagePath);
-                }).catch(function () {
-                    var localPath = _this.cacheDirectory + '/' + _this.createFileName(imageUrl);
-                    _this.downloadImage(imageUrl, localPath).then(function () {
+                }).catch(() => {
+                    let localPath = this.cacheDirectory + '/' + this.createFileName(imageUrl);
+                    this.downloadImage(imageUrl, localPath).then(() => {
                         resolve(localPath);
-                    }).catch(function (e) {
+                    }).catch(e => {
                         reject();
-                        _this.throwError(e);
+                        this.throwError(e);
                     });
                 });
             };
-            var check = function () {
-                if (_this.isInit) {
-                    if (_this.isCacheReady) {
+            let check = () => {
+                if (this.isInit) {
+                    if (this.isCacheReady) {
                         getImage();
                         return;
                     }
-                    _this.throwWarning('The cache system is not running. Images will be loaded by your browser instead.');
+                    this.throwWarning('The cache system is not running. Images will be loaded by your browser instead.');
                     resolve(imageUrl);
                     return;
                 }
-                setTimeout(function () { return check(); }, 250);
+                setTimeout(() => check(), 250);
             };
             check();
         });
-    };
-    ImageLoaderController.prototype.removeCacheFile = function (localPath) {
-        var _this = this;
+    }
+    removeCacheFile(localPath) {
         if (!this.isCacheReady) {
             return;
         }
         if (!localPath) {
             return;
         }
-        this.file.removeFile(this.cacheDirectory, localPath.substr(localPath.lastIndexOf('/') + 1)).catch(function (e) {
-            _this.throwError(e);
+        this.file.removeFile(this.cacheDirectory, localPath.substr(localPath.lastIndexOf('/') + 1)).catch(e => {
+            this.throwError(e);
         });
-    };
-    ImageLoaderController.prototype.clearCache = function () {
-        var _this = this;
+    }
+    clearCache() {
         if (!this.isCacheReady) {
             return;
         }
-        this.file.removeDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName).catch(function (e) {
-            _this.throwError(e);
+        this.file.removeDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName).catch(e => {
+            this.throwError(e);
         });
-    };
-    ImageLoaderController.prototype.downloadImage = function (imageUrl, localPath) {
-        var transfer = this.transfer.create();
+    }
+    downloadImage(imageUrl, localPath) {
+        let transfer = this.transfer.create();
         return transfer.download(imageUrl, localPath);
-    };
-    ImageLoaderController.prototype.needDownload = function (imageUrl) {
+    }
+    needDownload(imageUrl) {
         return string_1.StringUtils.startsWith(imageUrl, [
             'http://',
             'https://',
             'ftp://'
         ]);
-    };
-    ImageLoaderController.prototype.initCache = function (replace) {
-        var _this = this;
+    }
+    initCache(replace) {
         if (!this.filePluginExists) {
             this.isInit = true;
             return;
         }
-        this.cacheDirectoryExists.then(function () {
-            _this.isCacheReady = true;
-            _this.isInit = true;
-        }).catch(function () {
-            _this.createCacheDirectory(replace).then(function () {
-                _this.isCacheReady = true;
-                _this.isInit = true;
-            }).catch(function (e) {
-                _this.throwError(e);
-                _this.isInit = true;
+        this.cacheDirectoryExists.then(() => {
+            this.isCacheReady = true;
+            this.isInit = true;
+        }).catch(() => {
+            this.createCacheDirectory(replace).then(() => {
+                this.isCacheReady = true;
+                this.isInit = true;
+            }).catch(e => {
+                this.throwError(e);
+                this.isInit = true;
             });
         });
-    };
-    ImageLoaderController.prototype.getCachedImagePath = function (url) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            if (!_this.isCacheReady) {
+    }
+    getCachedImagePath(url) {
+        return new Promise((resolve, reject) => {
+            if (!this.isCacheReady) {
                 return reject();
             }
-            var fileName = _this.createFileName(url);
-            _this.file.resolveLocalFilesystemUrl(_this.cacheDirectory + '/' + fileName).then(function (fileEntry) {
+            let fileName = this.createFileName(url);
+            this.file.resolveLocalFilesystemUrl(this.cacheDirectory + '/' + fileName).then((fileEntry) => {
                 resolve(fileEntry.nativeURL);
             }).catch(reject);
         });
-    };
-    ImageLoaderController.prototype.throwError = function (error) {
+    }
+    throwError(error) {
         console.error('ImageLoader Error', error);
-    };
-    ImageLoaderController.prototype.throwWarning = function (error) {
+    }
+    throwWarning(error) {
         console.warn('ImageLoader Warning', error);
-    };
-    Object.defineProperty(ImageLoaderController.prototype, "filePluginExists", {
-        get: function () {
-            if (!cordova || !cordova.file) {
-                this.throwWarning('Unable to find the cordova file plugin. ImageLoader will not cache images.');
-                return false;
-            }
-            return true;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ImageLoaderController.prototype, "cacheDirectoryExists", {
-        get: function () {
-            return this.file.checkDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ImageLoaderController.prototype, "cacheDirectory", {
-        get: function () {
-            return cordova.file.cacheDirectory + this.config.get().imageLoader.cacheDirectoryName;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ImageLoaderController.prototype.createCacheDirectory = function (replace) {
-        if (replace === void 0) { replace = false; }
+    }
+    get filePluginExists() {
+        if (!cordova || !cordova.file) {
+            this.throwWarning('Unable to find the cordova file plugin. ImageLoader will not cache images.');
+            return false;
+        }
+        return true;
+    }
+    get cacheDirectoryExists() {
+        return this.file.checkDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName);
+    }
+    get cacheDirectory() {
+        return cordova.file.cacheDirectory + this.config.get().imageLoader.cacheDirectoryName;
+    }
+    createCacheDirectory(replace = false) {
         return this.file.createDir(cordova.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName, replace);
-    };
-    ImageLoaderController.prototype.createFileName = function (url) {
+    }
+    createFileName(url) {
         return string_1.StringUtils.hash(url).toString();
-    };
-    return ImageLoaderController;
-}());
+    }
+};
 ImageLoaderController = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [ionic_angular_1.Platform,

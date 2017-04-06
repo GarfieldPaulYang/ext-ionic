@@ -13,7 +13,7 @@ export interface HotCodePushOptions {
 }
 
 export interface HotCodeCallback {
-  (error, data): void;
+  (error: any, data: any): void;
 }
 
 @Plugin({

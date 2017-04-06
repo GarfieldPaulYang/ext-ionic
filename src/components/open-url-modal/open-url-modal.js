@@ -9,32 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var ionic_angular_1 = require("ionic-angular");
-var _ = require("lodash");
-var config_1 = require("../../config/config");
-var open_url_modal_component_1 = require("./open-url-modal-component");
-var OpenUrlModalController = (function () {
-    function OpenUrlModalController(modalCtrl, config) {
+const core_1 = require("@angular/core");
+const ionic_angular_1 = require("ionic-angular");
+const _ = require("lodash");
+const config_1 = require("../../config/config");
+const open_url_modal_component_1 = require("./open-url-modal-component");
+let OpenUrlModalController = class OpenUrlModalController {
+    constructor(modalCtrl, config) {
         this.modalCtrl = modalCtrl;
         this.config = config;
         this.options = {};
     }
-    OpenUrlModalController.prototype.open = function (opts, modalOpts) {
-        if (opts === void 0) { opts = {}; }
-        if (modalOpts === void 0) { modalOpts = {}; }
+    open(opts = {}, modalOpts = {}) {
         this.options = _.assign({}, this.config.get().openUrlModal, opts);
         this.modal = this.modalCtrl.create(open_url_modal_component_1.OpenUrlModalCmp, { openUrlModalOptions: opts }, modalOpts);
-        this.modal.onDidDismiss(function (data) {
+        this.modal.onDidDismiss((data) => {
             window.removeEventListener('message', data.onmessage, false);
         });
         this.modal.present();
-    };
-    OpenUrlModalController.prototype.close = function () {
+    }
+    close() {
         this.modal.dismiss(this.options);
-    };
-    return OpenUrlModalController;
-}());
+    }
+};
 OpenUrlModalController = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [ionic_angular_1.ModalController, config_1.ConfigProvider])

@@ -9,14 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var ionic_angular_1 = require("ionic-angular");
-var transfer_1 = require("@ionic-native/transfer");
-var local_notifications_1 = require("../../native/local-notifications");
-var util_1 = require("../../utils/util");
-var download_manager_component_1 = require("./download-manager-component");
-var DownloadManagerController = (function () {
-    function DownloadManagerController(platform, transfer, localNotifications, ngZone) {
+const core_1 = require("@angular/core");
+const ionic_angular_1 = require("ionic-angular");
+const transfer_1 = require("@ionic-native/transfer");
+const local_notifications_1 = require("../../native/local-notifications");
+const util_1 = require("../../utils/util");
+const download_manager_component_1 = require("./download-manager-component");
+let DownloadManagerController = class DownloadManagerController {
+    constructor(platform, transfer, localNotifications, ngZone) {
         this.platform = platform;
         this.transfer = transfer;
         this.localNotifications = localNotifications;
@@ -28,53 +28,44 @@ var DownloadManagerController = (function () {
             this._fileSystemRoot = this.platform.is('android') ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory;
         }
     }
-    Object.defineProperty(DownloadManagerController.prototype, "event", {
-        get: function () {
-            return this._event;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(DownloadManagerController.prototype, "downloadDirectory", {
-        get: function () {
-            return this._fileSystemRoot + this._rootDirectory;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    DownloadManagerController.prototype.show = function (navCtrl) {
+    get event() {
+        return this._event;
+    }
+    get downloadDirectory() {
+        return this._fileSystemRoot + this._rootDirectory;
+    }
+    show(navCtrl) {
         navCtrl.push(download_manager_component_1.DownloadManagerCmp);
-    };
-    DownloadManagerController.prototype.download = function (option) {
-        var _this = this;
+    }
+    download(option) {
         if (!util_1.isPresent(option.filePath)) {
             option.filePath = '';
         }
-        var filePath = this.downloadDirectory + option.filePath;
-        var notificationId;
-        var notification = false;
-        var first = true;
-        var downloadProgress = 0;
-        var transfer = this.transfer.create();
-        transfer.onProgress(function (event) {
+        let filePath = this.downloadDirectory + option.filePath;
+        let notificationId;
+        let notification = false;
+        let first = true;
+        let downloadProgress = 0;
+        let transfer = this.transfer.create();
+        transfer.onProgress(event => {
             if (first) {
                 first = false;
                 notification = event.total > (1024 * 1024 * 5);
                 if (notification) {
-                    _this.createNotification(option.fileName).then(function (id) {
+                    this.createNotification(option.fileName).then(id => {
                         notificationId = id;
                     });
                 }
                 return;
             }
-            var progress = Math.round((event.loaded / event.total) * 100);
+            let progress = Math.round((event.loaded / event.total) * 100);
             if (progress > downloadProgress) {
                 downloadProgress = progress;
                 if (notification && notificationId) {
-                    _this.updateLocalNotification(option.fileName, notificationId, progress);
+                    this.updateLocalNotification(option.fileName, notificationId, progress);
                 }
-                _this.ngZone.run(function () {
-                    _this._event.emit({
+                this.ngZone.run(() => {
+                    this._event.emit({
                         progress: progress,
                         fileName: option.fileName,
                         filePath: filePath
@@ -82,42 +73,40 @@ var DownloadManagerController = (function () {
                 });
             }
         });
-        var target = filePath + option.fileName;
+        let target = filePath + option.fileName;
         if (this.platform.is('ios')) {
             target = encodeURI(target);
         }
-        return transfer.download(encodeURI(option.url), target).then(function (entry) {
+        return transfer.download(encodeURI(option.url), target).then(entry => {
             if (notification && notificationId) {
-                _this.localNotifications.clear(notificationId);
+                this.localNotifications.clear(notificationId);
             }
             return entry;
         });
-    };
-    DownloadManagerController.prototype.createId = function () {
-        var _this = this;
+    }
+    createId() {
         this.id++;
-        return this.localNotifications.isScheduled(this.id).then(function (isScheduled) {
+        return this.localNotifications.isScheduled(this.id).then(isScheduled => {
             if (isScheduled) {
-                return _this.createId();
+                return this.createId();
             }
             ;
-            return _this.id;
+            return this.id;
         });
-    };
-    DownloadManagerController.prototype.createNotification = function (fileName) {
-        var _this = this;
-        return this.createId().then(function (id) {
-            _this.localNotifications.schedule({
+    }
+    createNotification(fileName) {
+        return this.createId().then(id => {
+            this.localNotifications.schedule({
                 id: id,
                 title: fileName + ' 开始下载...',
-                progress: _this.platform.is('android'),
+                progress: this.platform.is('android'),
                 maxProgress: 100,
                 currentProgress: 0
             });
             return id;
         });
-    };
-    DownloadManagerController.prototype.updateLocalNotification = function (fileName, id, progress) {
+    }
+    updateLocalNotification(fileName, id, progress) {
         this.localNotifications.update({
             id: id,
             title: fileName + '下载中...',
@@ -126,9 +115,8 @@ var DownloadManagerController = (function () {
             currentProgress: progress,
             sound: null
         });
-    };
-    return DownloadManagerController;
-}());
+    }
+};
 DownloadManagerController = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [ionic_angular_1.Platform,

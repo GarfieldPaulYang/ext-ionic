@@ -6,23 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var ionic_angular_1 = require("ionic-angular");
-var image_loader_component_1 = require("./image-loader-component");
-var image_loader_1 = require("./image-loader");
-var ImageLoaderModule = ImageLoaderModule_1 = (function () {
-    function ImageLoaderModule() {
-    }
-    ImageLoaderModule.forRoot = function () {
+const core_1 = require("@angular/core");
+const ionic_angular_1 = require("ionic-angular");
+const image_loader_component_1 = require("./image-loader-component");
+const image_loader_1 = require("./image-loader");
+let ImageLoaderModule = ImageLoaderModule_1 = class ImageLoaderModule {
+    static forRoot() {
         return {
             ngModule: ImageLoaderModule_1,
             providers: [
                 image_loader_1.ImageLoaderController
             ]
         };
-    };
-    return ImageLoaderModule;
-}());
+    }
+};
 ImageLoaderModule = ImageLoaderModule_1 = __decorate([
     core_1.NgModule({
         imports: [

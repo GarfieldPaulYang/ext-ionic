@@ -6,19 +6,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var common_1 = require("@angular/common");
-var core_1 = require("@angular/core");
-var ribbon_1 = require("./ribbon");
-var RibbonModule = RibbonModule_1 = (function () {
-    function RibbonModule() {
-    }
-    RibbonModule.forRoot = function () {
+const common_1 = require("@angular/common");
+const core_1 = require("@angular/core");
+const ribbon_1 = require("./ribbon");
+let RibbonModule = RibbonModule_1 = class RibbonModule {
+    static forRoot() {
         return {
             ngModule: RibbonModule_1, providers: []
         };
-    };
-    return RibbonModule;
-}());
+    }
+};
 RibbonModule = RibbonModule_1 = __decorate([
     core_1.NgModule({
         imports: [

@@ -6,19 +6,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var ionic_angular_1 = require("ionic-angular");
-var star_rating_1 = require("./star-rating");
-var StarRatingModule = StarRatingModule_1 = (function () {
-    function StarRatingModule() {
-    }
-    StarRatingModule.forRoot = function () {
+const core_1 = require("@angular/core");
+const ionic_angular_1 = require("ionic-angular");
+const star_rating_1 = require("./star-rating");
+let StarRatingModule = StarRatingModule_1 = class StarRatingModule {
+    static forRoot() {
         return {
             ngModule: StarRatingModule_1, providers: []
         };
-    };
-    return StarRatingModule;
-}());
+    }
+};
 StarRatingModule = StarRatingModule_1 = __decorate([
     core_1.NgModule({
         imports: [

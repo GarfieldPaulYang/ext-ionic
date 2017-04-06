@@ -4,13 +4,16 @@
     "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["dom", "es2015"],
+    "lib": [
+      "dom",
+      "es2015"
+    ],
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": false,
-    "removeComments": true,
+    "removeComments": false,
     "sourceMap": true,
-    "target": "es5"
+    "target": "es2015"
   },
   "angularCompilerOptions": {
     "genDir": "aot",

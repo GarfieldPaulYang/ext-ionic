@@ -6,31 +6,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var MapToIterable = (function () {
-    function MapToIterable() {
-    }
-    MapToIterable.prototype.transform = function (value) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
-        var result = [];
+const core_1 = require("@angular/core");
+let MapToIterable = class MapToIterable {
+    transform(value, ...args) {
+        let result = [];
         if (value.entries) {
-            for (var _a = 0, _b = value.entries(); _a < _b.length; _a++) {
-                var _c = _b[_a], key = _c[0], value = _c[1];
-                result.push({ key: key, value: value });
+            for (var [key, value] of value.entries()) {
+                result.push({ key, value });
             }
         }
         else {
-            for (var key_1 in value) {
-                result.push({ key: key_1, value: value[key_1] });
+            for (let key in value) {
+                result.push({ key, value: value[key] });
             }
         }
         return result;
-    };
-    return MapToIterable;
-}());
+    }
+};
 MapToIterable = __decorate([
     core_1.Pipe({
         name: 'mapToIterable'

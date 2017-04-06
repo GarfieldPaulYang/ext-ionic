@@ -10,10 +10,10 @@ import {
   PointCollectionOptions
 } from './baidu-map-options';
 
-export var BMap;
-var BMAP_STATUS_SUCCESS;
-var BMAP_POINT_SIZE_SMALL;
-var BMAP_POINT_SHAPE_CIRCLE;
+export var BMap: any;
+var BMAP_STATUS_SUCCESS: any;
+var BMAP_POINT_SIZE_SMALL: any;
+var BMAP_POINT_SHAPE_CIRCLE: any;
 
 @Injectable()
 export class BaiduMapController {

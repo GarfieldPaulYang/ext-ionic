@@ -6,12 +6,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _ = require("lodash");
-var core_1 = require("@angular/core");
-var defaultConfig = {
+const _ = require("lodash");
+const core_1 = require("@angular/core");
+const defaultConfig = {
     devMode: false,
     openUrlModal: {
-        onmessage: function (e) { }
+        onmessage: (e) => { }
     },
     imageLoader: {
         spinnerEnabled: true,
@@ -35,23 +35,20 @@ var defaultConfig = {
         }
     }
 };
-var ConfigProvider = (function () {
-    function ConfigProvider() {
-    }
-    ConfigProvider.prototype.get = function () {
+let ConfigProvider = class ConfigProvider {
+    get() {
         return this._config;
-    };
-    ConfigProvider.prototype.init = function (config) {
+    }
+    init(config) {
         this._config = _.isUndefined(config) ? defaultConfig : _.assign({}, defaultConfig, config);
-    };
-    return ConfigProvider;
-}());
+    }
+};
 ConfigProvider = __decorate([
     core_1.Injectable()
 ], ConfigProvider);
 exports.ConfigProvider = ConfigProvider;
 function setupConfig(userConfig) {
-    var conifg = new ConfigProvider();
+    const conifg = new ConfigProvider();
     conifg.init(userConfig);
     return conifg;
 }

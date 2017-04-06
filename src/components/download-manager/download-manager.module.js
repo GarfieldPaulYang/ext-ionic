@@ -6,23 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var ionic_angular_1 = require("ionic-angular");
-var download_manager_component_1 = require("./download-manager-component");
-var download_manager_1 = require("./download-manager");
-var DownloadManagerModule = DownloadManagerModule_1 = (function () {
-    function DownloadManagerModule() {
-    }
-    DownloadManagerModule.forRoot = function () {
+const core_1 = require("@angular/core");
+const ionic_angular_1 = require("ionic-angular");
+const download_manager_component_1 = require("./download-manager-component");
+const download_manager_1 = require("./download-manager");
+let DownloadManagerModule = DownloadManagerModule_1 = class DownloadManagerModule {
+    static forRoot() {
         return {
             ngModule: DownloadManagerModule_1,
             providers: [
                 download_manager_1.DownloadManagerController
             ]
         };
-    };
-    return DownloadManagerModule;
-}());
+    }
+};
 DownloadManagerModule = DownloadManagerModule_1 = __decorate([
     core_1.NgModule({
         imports: [

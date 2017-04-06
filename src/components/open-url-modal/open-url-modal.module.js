@@ -6,23 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var ionic_angular_1 = require("ionic-angular");
-var open_url_modal_component_1 = require("./open-url-modal-component");
-var open_url_modal_1 = require("./open-url-modal");
-var OpenUrlModalModule = OpenUrlModalModule_1 = (function () {
-    function OpenUrlModalModule() {
-    }
-    OpenUrlModalModule.forRoot = function () {
+const core_1 = require("@angular/core");
+const ionic_angular_1 = require("ionic-angular");
+const open_url_modal_component_1 = require("./open-url-modal-component");
+const open_url_modal_1 = require("./open-url-modal");
+let OpenUrlModalModule = OpenUrlModalModule_1 = class OpenUrlModalModule {
+    static forRoot() {
         return {
             ngModule: OpenUrlModalModule_1,
             providers: [
                 open_url_modal_1.OpenUrlModalController
             ]
         };
-    };
-    return OpenUrlModalModule;
-}());
+    }
+};
 OpenUrlModalModule = OpenUrlModalModule_1 = __decorate([
     core_1.NgModule({
         imports: [

@@ -9,21 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var util_1 = require("../../utils/util");
-var _ = require("lodash");
-var image_loader_1 = require("./image-loader");
-var config_1 = require("../../config/config");
-var ImageLoaderCmp = (function () {
-    function ImageLoaderCmp(element, renderer, imageLoader, config) {
+const core_1 = require("@angular/core");
+const util_1 = require("../../utils/util");
+const _ = require("lodash");
+const image_loader_1 = require("./image-loader");
+const config_1 = require("../../config/config");
+let ImageLoaderCmp = class ImageLoaderCmp {
+    constructor(element, renderer, imageLoader, config) {
         this.element = element;
         this.renderer = renderer;
         this.imageLoader = imageLoader;
         this.config = config;
         this.isLoading = true;
     }
-    ImageLoaderCmp.prototype.ngOnInit = function () {
-        var _this = this;
+    ngOnInit() {
         if (!this.spinner && this.config.get().imageLoader.spinnerEnabled) {
             this.spinner = true;
         }
@@ -56,26 +55,25 @@ var ImageLoaderCmp = (function () {
             this.isLoading = false;
             return;
         }
-        this.imageLoader.getImagePath(this.imageUrl).then(function (imageUrl) {
-            _this.setImage(imageUrl);
-        }).catch(function () {
-            if (_this.fallbackUrl) {
-                _this.setImage(_this.fallbackUrl);
+        this.imageLoader.getImagePath(this.imageUrl).then((imageUrl) => {
+            this.setImage(imageUrl);
+        }).catch(() => {
+            if (this.fallbackUrl) {
+                this.setImage(this.fallbackUrl);
             }
         });
-    };
-    ImageLoaderCmp.prototype.setImage = function (imageUrl) {
-        var _this = this;
-        var element;
+    }
+    setImage(imageUrl) {
+        let element;
         this.isLoading = false;
         if (this.useImg) {
             this.renderer.createElement(this.element.nativeElement, 'img');
             element = this.element.nativeElement.getElementsByTagName('IMG')[0];
             this.renderer.setElementAttribute(element, 'src', imageUrl);
-            this.renderer.listen(element, 'error', function (event) {
-                _this.imageLoader.removeCacheFile(imageUrl);
-                if (_this.fallbackUrl) {
-                    _this.renderer.setElementAttribute(element, 'src', _this.fallbackUrl);
+            this.renderer.listen(element, 'error', (event) => {
+                this.imageLoader.removeCacheFile(imageUrl);
+                if (this.fallbackUrl) {
+                    this.renderer.setElementAttribute(element, 'src', this.fallbackUrl);
                 }
             });
             return;
@@ -97,9 +95,8 @@ var ImageLoaderCmp = (function () {
             this.renderer.setElementStyle(element, 'background-repeat', this.backgroundRepeat);
         }
         this.renderer.setElementStyle(element, 'background-image', 'url(\'' + imageUrl + '\')');
-    };
-    return ImageLoaderCmp;
-}());
+    }
+};
 __decorate([
     core_1.Input('src'),
     __metadata("design:type", String)
@@ -140,7 +137,12 @@ ImageLoaderCmp = __decorate([
     core_1.Component({
         selector: 'ion-image-loader',
         template: '<ion-spinner *ngIf="spinner && isLoading"></ion-spinner>',
-        styles: ["\n    ion-spinner {\n      display: block;\n      margin: auto;\n    }\n  "],
+        styles: [`
+    ion-spinner {
+      display: block;
+      margin: auto;
+    }
+  `],
         changeDetection: core_1.ChangeDetectionStrategy.OnPush
     }),
     __metadata("design:paramtypes", [core_1.ElementRef,

@@ -9,17 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var ionic_angular_1 = require("ionic-angular");
-var file_1 = require("@ionic-native/file");
-var util_1 = require("../../utils/util");
-var TextFileStorage = (function () {
-    function TextFileStorage(platform, file) {
+const core_1 = require("@angular/core");
+const ionic_angular_1 = require("ionic-angular");
+const file_1 = require("@ionic-native/file");
+const util_1 = require("../../utils/util");
+let TextFileStorage = class TextFileStorage {
+    constructor(platform, file) {
         this.platform = platform;
         this.file = file;
         this.localStorage = {};
     }
-    TextFileStorage.prototype.save = function (filename, content) {
+    save(filename, content) {
         if (!util_1.isPresent(content)) {
             return Promise.reject('content is not present');
         }
@@ -28,60 +28,58 @@ var TextFileStorage = (function () {
         }
         this.localStorage[filename] = content;
         return Promise.resolve();
-    };
-    TextFileStorage.prototype.load = function (filename) {
+    }
+    load(filename) {
         if (this.platform.is('cordova')) {
             return this.readFile(filename);
         }
-        var content = this.localStorage[filename];
+        let content = this.localStorage[filename];
         if (!content) {
             return Promise.reject('file not found.');
         }
         return Promise.resolve(content);
-    };
-    TextFileStorage.prototype.remove = function (filename) {
+    }
+    remove(filename) {
         if (this.platform.is('cordova')) {
             return this.removeFile(filename);
         }
         delete this.localStorage[filename];
         return Promise.resolve({ success: true });
-    };
-    TextFileStorage.prototype.serialize = function (content) {
+    }
+    serialize(content) {
         return content;
-    };
-    TextFileStorage.prototype.deserialize = function (content) {
+    }
+    deserialize(content) {
         return content;
-    };
-    TextFileStorage.prototype.writeToFile = function (filename, content) {
-        return this.file.writeFile(this.getFilepath(), filename, this.serialize(content), { replace: true }).then(function (value) {
+    }
+    writeToFile(filename, content) {
+        return this.file.writeFile(this.getFilepath(), filename, this.serialize(content), { replace: true }).then(value => {
             return value;
-        }).catch(function (reason) {
+        }).catch(reason => {
             console.log(reason);
             return Promise.reject(reason);
         });
-    };
-    TextFileStorage.prototype.readFile = function (filename) {
-        var _this = this;
-        return this.file.readAsText(this.getFilepath(), filename).then(function (value) {
-            return _this.deserialize(value);
-        }).catch(function (reason) {
+    }
+    readFile(filename) {
+        return this.file.readAsText(this.getFilepath(), filename).then(value => {
+            return this.deserialize(value);
+        }).catch(reason => {
             console.log(reason);
             return Promise.reject(reason);
         });
-    };
-    TextFileStorage.prototype.removeFile = function (filename) {
-        return this.file.removeFile(this.getFilepath(), filename).then(function (value) {
+    }
+    removeFile(filename) {
+        return this.file.removeFile(this.getFilepath(), filename).then(value => {
             return value;
-        }).catch(function (reason) {
+        }).catch(reason => {
             console.log(reason);
             return Promise.reject(reason);
         });
-    };
-    TextFileStorage.prototype.getFilepath = function () {
+    }
+    getFilepath() {
         return cordova.file.dataDirectory;
-    };
-    return TextFileStorage;
-}());
+    }
+};
 TextFileStorage = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [ionic_angular_1.Platform, file_1.File])

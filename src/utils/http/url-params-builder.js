@@ -1,27 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var http_1 = require("@angular/http");
-var _ = require("lodash");
-var util_1 = require("../../utils/util");
+const http_1 = require("@angular/http");
+const _ = require("lodash");
+const util_1 = require("../../utils/util");
 exports.URLParamsBuilder = {
-    build: function (params) {
+    build: (params) => {
         if (!_.isObject(params)) {
             return null;
         }
-        var paramsObj = util_1.flattenObject(params);
-        var result = new http_1.URLSearchParams();
-        var _loop_1 = function (key) {
-            var value = paramsObj[key];
+        let paramsObj = util_1.flattenObject(params);
+        let result = new http_1.URLSearchParams();
+        for (let key in paramsObj) {
+            let value = paramsObj[key];
             if (_.isArray(value)) {
-                value.forEach(function (v) {
+                value.forEach(v => {
                     result.append(key, v);
                 });
-                return "continue";
+                continue;
             }
             result.set(key, value);
-        };
-        for (var key in paramsObj) {
-            _loop_1(key);
         }
         return result;
     }
