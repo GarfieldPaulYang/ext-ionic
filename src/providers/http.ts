@@ -23,16 +23,26 @@ import { URLParamsBuilder } from '../utils/http/url-params-builder';
 
 export const ticket_expired: string = 'ticket-expired';
 
+export interface HttpInterceptor {
+  before(options: HttpProviderOptionsArgs): void;
+  successed(options: HttpProviderOptionsArgs, result: any): void;
+  failed(options: HttpProviderOptionsArgs, error: any): void;
+}
+
 export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
   showLoading?: boolean;
   loadingContent?: string;
   showErrorAlert?: boolean;
+  interceptors?: Array<HttpInterceptor>;
+  interceptorParams?: any;
 }
 
 export class HttpProviderOptions extends RequestOptions {
   showLoading: boolean;
   loadingContent: string;
   showErrorAlert: boolean = true;
+  interceptors: Array<HttpInterceptor> = [];
+  interceptorParams: any = {};
 
   constructor(options: HttpProviderOptionsArgs) {
     super(options);
@@ -44,6 +54,9 @@ export class HttpProviderOptions extends RequestOptions {
   merge(options?: HttpProviderOptionsArgs): HttpProviderOptions {
     let result = <HttpProviderOptions>super.merge(options);
     result.showLoading = this.showLoading;
+    result.showErrorAlert = this.showErrorAlert;
+    result.interceptors = this.interceptors;
+    result.interceptorParams = this.interceptorParams;
 
     if (isPresent(options.showLoading)) {
       result.showLoading = options.showLoading;
@@ -55,6 +68,14 @@ export class HttpProviderOptions extends RequestOptions {
 
     if (isPresent(options.showErrorAlert)) {
       result.showErrorAlert = options.showErrorAlert;
+    }
+
+    if (isPresent(options.interceptors)) {
+      result.interceptors = options.interceptors;
+    }
+
+    if (isPresent(options.interceptorParams)) {
+      result.interceptorParams = options.interceptorParams;
     }
     return result;
   }
@@ -88,7 +109,7 @@ export interface LoginResult {
 
 @Injectable()
 export class HttpProvider {
-  constructor(private _http: Http, private dialog: Dialog) { }
+  constructor(private _http: Http, private config: ConfigProvider, private dialog: Dialog) { }
 
   get http(): Http {
     return this._http;
@@ -116,16 +137,26 @@ export class HttpProvider {
 
   request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
     options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
+    options.interceptors = this.config.get().interceptors.concat(options.interceptors);
     let loading: Loading;
     if (options.showLoading) {
       loading = this.dialog.loading(options.loadingContent);
       loading.present();
     }
+    options.interceptors.forEach(interceptor => {
+      interceptor.before(options);
+    });
     return this.ajax(url, options).toPromise().then(result => {
       if (loading) loading.dismiss();
+      options.interceptors.forEach(interceptor => {
+        interceptor.successed(options, result);
+      });
       return result;
     }).catch(err => {
       if (loading) loading.dismiss();
+      options.interceptors.forEach(interceptor => {
+        interceptor.failed(options, err);
+      });
       return Promise.reject(err);
     });
   }
@@ -186,7 +217,7 @@ export class CorsHttpProvider {
   }
 
   request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T> {
-    let search = URLParamsBuilder.build({
+    let params = URLParamsBuilder.build({
       'appKey': this.config.get().login.appKey,
       'devMode': this.config.get().devMode,
       '__cors-request__': true
@@ -201,12 +232,17 @@ export class CorsHttpProvider {
     }
     options.headers.set('ticket', this.ticket);
 
+    /** @deprecated from 4.0.0. Use params instead. */
     if (_.has(options, 'search')) {
-      search.replaceAll(<URLSearchParams>options.search);
+      params.replaceAll(<URLSearchParams>options.search);
+    }
+
+    if (_.has(options, 'params')) {
+      params.replaceAll(<URLSearchParams>options.params);
     }
 
     return this.http.requestWithError<T>(
-      url, _.assign({}, options, { search: search })
+      url, _.assign({}, options, { params: params })
     ).then(result => {
       return result;
     }).catch(err => {

@@ -6,15 +6,24 @@ import { ConfigProvider } from '../config/config';
 import { Dialog } from '../utils/dialog';
 import { ResponseResult } from '../utils/http/response/response-result';
 export declare const ticket_expired: string;
+export interface HttpInterceptor {
+    before(options: HttpProviderOptionsArgs): void;
+    successed(options: HttpProviderOptionsArgs, result: any): void;
+    failed(options: HttpProviderOptionsArgs, error: any): void;
+}
 export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
     showLoading?: boolean;
     loadingContent?: string;
     showErrorAlert?: boolean;
+    interceptors?: Array<HttpInterceptor>;
+    interceptorParams?: any;
 }
 export declare class HttpProviderOptions extends RequestOptions {
     showLoading: boolean;
     loadingContent: string;
     showErrorAlert: boolean;
+    interceptors: Array<HttpInterceptor>;
+    interceptorParams: any;
     constructor(options: HttpProviderOptionsArgs);
     merge(options?: HttpProviderOptionsArgs): HttpProviderOptions;
 }
@@ -35,8 +44,9 @@ export interface LoginResult {
 }
 export declare class HttpProvider {
     private _http;
+    private config;
     private dialog;
-    constructor(_http: Http, dialog: Dialog);
+    constructor(_http: Http, config: ConfigProvider, dialog: Dialog);
     readonly http: Http;
     requestWithError<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T>;
     request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>>;

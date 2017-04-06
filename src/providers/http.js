@@ -24,6 +24,8 @@ class HttpProviderOptions extends http_1.RequestOptions {
     constructor(options) {
         super(options);
         this.showErrorAlert = true;
+        this.interceptors = [];
+        this.interceptorParams = {};
         this.showLoading = options.showLoading;
         this.loadingContent = options.loadingContent;
         this.showErrorAlert = options.showErrorAlert;
@@ -31,6 +33,9 @@ class HttpProviderOptions extends http_1.RequestOptions {
     merge(options) {
         let result = super.merge(options);
         result.showLoading = this.showLoading;
+        result.showErrorAlert = this.showErrorAlert;
+        result.interceptors = this.interceptors;
+        result.interceptorParams = this.interceptorParams;
         if (util_1.isPresent(options.showLoading)) {
             result.showLoading = options.showLoading;
         }
@@ -39,6 +44,12 @@ class HttpProviderOptions extends http_1.RequestOptions {
         }
         if (util_1.isPresent(options.showErrorAlert)) {
             result.showErrorAlert = options.showErrorAlert;
+        }
+        if (util_1.isPresent(options.interceptors)) {
+            result.interceptors = options.interceptors;
+        }
+        if (util_1.isPresent(options.interceptorParams)) {
+            result.interceptorParams = options.interceptorParams;
         }
         return result;
     }
@@ -52,8 +63,9 @@ const defaultRequestOptions = new HttpProviderOptions({
     responseType: http_1.ResponseContentType.Json
 });
 let HttpProvider = class HttpProvider {
-    constructor(_http, dialog) {
+    constructor(_http, config, dialog) {
         this._http = _http;
+        this.config = config;
         this.dialog = dialog;
     }
     get http() {
@@ -80,18 +92,28 @@ let HttpProvider = class HttpProvider {
     }
     request(url, options) {
         options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
+        options.interceptors = this.config.get().interceptors.concat(options.interceptors);
         let loading;
         if (options.showLoading) {
             loading = this.dialog.loading(options.loadingContent);
             loading.present();
         }
+        options.interceptors.forEach(interceptor => {
+            interceptor.before(options);
+        });
         return this.ajax(url, options).toPromise().then(result => {
             if (loading)
                 loading.dismiss();
+            options.interceptors.forEach(interceptor => {
+                interceptor.successed(options, result);
+            });
             return result;
         }).catch(err => {
             if (loading)
                 loading.dismiss();
+            options.interceptors.forEach(interceptor => {
+                interceptor.failed(options, err);
+            });
             return Promise.reject(err);
         });
     }
@@ -104,7 +126,7 @@ let HttpProvider = class HttpProvider {
 };
 HttpProvider = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http, dialog_1.Dialog])
+    __metadata("design:paramtypes", [http_1.Http, config_1.ConfigProvider, dialog_1.Dialog])
 ], HttpProvider);
 exports.HttpProvider = HttpProvider;
 let CorsHttpProvider = class CorsHttpProvider {
@@ -145,7 +167,7 @@ let CorsHttpProvider = class CorsHttpProvider {
         });
     }
     request(url, options) {
-        let search = url_params_builder_1.URLParamsBuilder.build({
+        let params = url_params_builder_1.URLParamsBuilder.build({
             'appKey': this.config.get().login.appKey,
             'devMode': this.config.get().devMode,
             '__cors-request__': true
@@ -157,10 +179,14 @@ let CorsHttpProvider = class CorsHttpProvider {
             options.headers = new http_1.Headers();
         }
         options.headers.set('ticket', this.ticket);
+        /** @deprecated from 4.0.0. Use params instead. */
         if (_.has(options, 'search')) {
-            search.replaceAll(options.search);
+            params.replaceAll(options.search);
         }
-        return this.http.requestWithError(url, _.assign({}, options, { search: search })).then(result => {
+        if (_.has(options, 'params')) {
+            params.replaceAll(options.params);
+        }
+        return this.http.requestWithError(url, _.assign({}, options, { params: params })).then(result => {
             return result;
         }).catch(err => {
             if (err && _.isString(err) && err.toString() === exports.ticket_expired) {

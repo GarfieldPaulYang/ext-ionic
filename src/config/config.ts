@@ -4,6 +4,7 @@ import { OpaqueToken, Injectable } from '@angular/core';
 import { OpenUrlModalOptions } from '../components/open-url-modal/open-url-modal-options';
 import { ImageLoaderOptions } from '../components/image-loader/image-loader-options';
 import { BaiduMapOptions } from '../components/baidu-map/baidu-map-options';
+import { HttpInterceptor } from '../providers/http';
 
 export interface LoginConfig {
   appKey?: string;
@@ -18,6 +19,7 @@ export interface Config {
   openUrlModal?: OpenUrlModalOptions;
   imageLoader?: ImageLoaderOptions;
   baiduMap?: BaiduMapOptions;
+  interceptors?: Array<HttpInterceptor>;
 }
 
 const defaultConfig: Config = {
@@ -45,7 +47,8 @@ const defaultConfig: Config = {
     mass: {
       enabled: false
     }
-  }
+  },
+  interceptors: []
 };
 
 @Injectable()
