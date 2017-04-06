@@ -1,6 +1,6 @@
-import { EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Http, Request, RequestOptionsArgs, RequestOptions } from '@angular/http';
+import { Events } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
 import { ConfigProvider } from '../config/config';
 import { Dialog } from '../utils/dialog';
@@ -49,7 +49,7 @@ export declare class CorsHttpProvider {
     private device;
     private _ticket;
     ticket: string;
-    constructor(http: HttpProvider, events: EventEmitter<String>, config: ConfigProvider, device: Device);
+    constructor(http: HttpProvider, events: Events, config: ConfigProvider, device: Device);
     login(options: LoginOptions): Promise<LoginResult>;
     logout(): Promise<string>;
     request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T>;
