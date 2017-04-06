@@ -7,8 +7,7 @@ import {
   Host,
   Input,
   ElementRef,
-  TemplateRef,
-  ChangeDetectionStrategy
+  TemplateRef
 } from '@angular/core';
 import { Content } from 'ionic-angular';
 
@@ -29,8 +28,7 @@ import { OrderBy } from '../../pipes/order-by';
         <a>{{alpha.letter}}</a>
       </li>
     </ul>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  `
 })
 export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   @Input() listData: any;
