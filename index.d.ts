@@ -9,8 +9,7 @@ export { HotUpdater } from './src/providers/hot-updater';
 export { ComponentRegistar } from './src/providers/component-registar';
 export { FileStorage, TextFileStorage } from './src/providers/file-storage/file-storage';
 export { JsonFileStorage } from './src/providers/file-storage/json-file-storage';
-export { MapToIterable } from './src/pipes/map-to-iterable';
-export { OrderBy } from './src/pipes/order-by';
+export { PipesModule } from './src/pipes/pipes.module';
 export { AlphaScrollModule } from './src/components/alpha-scroll/alpha-scroll.module';
 export { OpenUrlModalModule } from './src/components/open-url-modal/open-url-modal.module';
 export { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
@@ -31,5 +30,8 @@ import './src/rxjs-extensions';
 import { ModuleWithProviders } from '@angular/core';
 import { Config } from './src/config/config';
 export declare class ExtIonicModule {
+    static forRoot(config?: Config): ModuleWithProviders;
+}
+export declare class ExtIonicLazyModule {
     static forRoot(config?: Config): ModuleWithProviders;
 }

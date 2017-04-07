@@ -12,8 +12,7 @@ export { ComponentRegistar } from './src/providers/component-registar';
 export { FileStorage, TextFileStorage } from './src/providers/file-storage/file-storage';
 export { JsonFileStorage } from './src/providers/file-storage/json-file-storage';
 
-export { MapToIterable } from './src/pipes/map-to-iterable';
-export { OrderBy } from './src/pipes/order-by';
+export { PipesModule } from './src/pipes/pipes.module';
 
 export { AlphaScrollModule } from './src/components/alpha-scroll/alpha-scroll.module';
 export { OpenUrlModalModule } from './src/components/open-url-modal/open-url-modal.module';
@@ -75,8 +74,7 @@ import { ComponentRegistar } from './src/providers/component-registar';
 import { TextFileStorage } from './src/providers/file-storage/file-storage';
 import { JsonFileStorage } from './src/providers/file-storage/json-file-storage';
 
-import { MapToIterable } from './src/pipes/map-to-iterable';
-import { OrderBy } from './src/pipes/order-by';
+import { PipesModule } from './src/pipes/pipes.module';
 
 import { AlphaScrollModule } from './src/components/alpha-scroll/alpha-scroll.module';
 import { OpenUrlModalModule } from './src/components/open-url-modal/open-url-modal.module';
@@ -87,9 +85,23 @@ import { RibbonModule } from './src/components/ribbon/ribbon.module';
 import { TabsModule } from './src/components/slide-tabs/tabs.module';
 import { DownloadManagerModule } from './src/components/download-manager/download-manager.module';
 
-const EXPORTS: Array<any> = [
-  MapToIterable,
-  OrderBy
+const PROVIDERS: Array<any> = [
+  Transfer,
+  File,
+  FileOpener,
+  Device,
+
+  Dialog,
+  HttpProvider,
+  CorsHttpProvider,
+  HotUpdater,
+  ComponentRegistar,
+  TextFileStorage,
+  JsonFileStorage,
+
+  Immerse,
+  HotCodePush,
+  ExtLocalNotifications
 ];
 
 @NgModule({
@@ -101,7 +113,8 @@ const EXPORTS: Array<any> = [
     OpenUrlModalModule.forRoot(),
     RibbonModule.forRoot(),
     TabsModule.forRoot(),
-    StarRatingModule.forRoot()
+    StarRatingModule.forRoot(),
+    PipesModule.forRoot()
   ],
   exports: [
     AlphaScrollModule,
@@ -112,10 +125,7 @@ const EXPORTS: Array<any> = [
     RibbonModule,
     TabsModule,
     StarRatingModule,
-    EXPORTS
-  ],
-  declarations: [
-    EXPORTS
+    PipesModule
   ]
 })
 export class ExtIonicModule {
@@ -123,26 +133,23 @@ export class ExtIonicModule {
     return {
       ngModule: ExtIonicModule,
       providers: [
-        Transfer,
-        File,
-        FileOpener,
-        Device,
-
         { provide: EXT_IONIC_CONFIG, useValue: config },
         { provide: ConfigProvider, useFactory: setupConfig, deps: [EXT_IONIC_CONFIG] },
-        Dialog,
-        HttpProvider,
-        CorsHttpProvider,
-        MapToIterable,
-        OrderBy,
-        HotUpdater,
-        ComponentRegistar,
-        TextFileStorage,
-        JsonFileStorage,
+        PROVIDERS
+      ]
+    };
+  }
+}
 
-        Immerse,
-        HotCodePush,
-        ExtLocalNotifications
+@NgModule()
+export class ExtIonicLazyModule {
+  static forRoot(config?: Config): ModuleWithProviders {
+    return {
+      ngModule: ExtIonicLazyModule,
+      providers: [
+        { provide: EXT_IONIC_CONFIG, useValue: config },
+        { provide: ConfigProvider, useFactory: setupConfig, deps: [EXT_IONIC_CONFIG] },
+        PROVIDERS
       ]
     };
   }

@@ -29,10 +29,8 @@ var file_storage_1 = require("./src/providers/file-storage/file-storage");
 exports.TextFileStorage = file_storage_1.TextFileStorage;
 var json_file_storage_1 = require("./src/providers/file-storage/json-file-storage");
 exports.JsonFileStorage = json_file_storage_1.JsonFileStorage;
-var map_to_iterable_1 = require("./src/pipes/map-to-iterable");
-exports.MapToIterable = map_to_iterable_1.MapToIterable;
-var order_by_1 = require("./src/pipes/order-by");
-exports.OrderBy = order_by_1.OrderBy;
+var pipes_module_1 = require("./src/pipes/pipes.module");
+exports.PipesModule = pipes_module_1.PipesModule;
 var alpha_scroll_module_1 = require("./src/components/alpha-scroll/alpha-scroll.module");
 exports.AlphaScrollModule = alpha_scroll_module_1.AlphaScrollModule;
 var open_url_modal_module_1 = require("./src/components/open-url-modal/open-url-modal.module");
@@ -86,8 +84,7 @@ const hot_updater_2 = require("./src/providers/hot-updater");
 const component_registar_2 = require("./src/providers/component-registar");
 const file_storage_2 = require("./src/providers/file-storage/file-storage");
 const json_file_storage_2 = require("./src/providers/file-storage/json-file-storage");
-const map_to_iterable_2 = require("./src/pipes/map-to-iterable");
-const order_by_2 = require("./src/pipes/order-by");
+const pipes_module_2 = require("./src/pipes/pipes.module");
 const alpha_scroll_module_2 = require("./src/components/alpha-scroll/alpha-scroll.module");
 const open_url_modal_module_2 = require("./src/components/open-url-modal/open-url-modal.module");
 const baidu_map_module_2 = require("./src/components/baidu-map/baidu-map.module");
@@ -96,33 +93,30 @@ const star_rating_module_2 = require("./src/components/star-rating/star-rating.m
 const ribbon_module_2 = require("./src/components/ribbon/ribbon.module");
 const tabs_module_2 = require("./src/components/slide-tabs/tabs.module");
 const download_manager_module_2 = require("./src/components/download-manager/download-manager.module");
-const EXPORTS = [
-    map_to_iterable_2.MapToIterable,
-    order_by_2.OrderBy
+const PROVIDERS = [
+    transfer_1.Transfer,
+    file_1.File,
+    file_opener_1.FileOpener,
+    device_1.Device,
+    dialog_2.Dialog,
+    http_2.HttpProvider,
+    http_2.CorsHttpProvider,
+    hot_updater_2.HotUpdater,
+    component_registar_2.ComponentRegistar,
+    file_storage_2.TextFileStorage,
+    json_file_storage_2.JsonFileStorage,
+    immerse_plugin_2.Immerse,
+    hot_code_push_2.HotCodePush,
+    local_notifications_2.ExtLocalNotifications
 ];
 let ExtIonicModule = ExtIonicModule_1 = class ExtIonicModule {
     static forRoot(config) {
         return {
             ngModule: ExtIonicModule_1,
             providers: [
-                transfer_1.Transfer,
-                file_1.File,
-                file_opener_1.FileOpener,
-                device_1.Device,
                 { provide: config_2.EXT_IONIC_CONFIG, useValue: config },
                 { provide: config_2.ConfigProvider, useFactory: config_2.setupConfig, deps: [config_2.EXT_IONIC_CONFIG] },
-                dialog_2.Dialog,
-                http_2.HttpProvider,
-                http_2.CorsHttpProvider,
-                map_to_iterable_2.MapToIterable,
-                order_by_2.OrderBy,
-                hot_updater_2.HotUpdater,
-                component_registar_2.ComponentRegistar,
-                file_storage_2.TextFileStorage,
-                json_file_storage_2.JsonFileStorage,
-                immerse_plugin_2.Immerse,
-                hot_code_push_2.HotCodePush,
-                local_notifications_2.ExtLocalNotifications
+                PROVIDERS
             ]
         };
     }
@@ -137,7 +131,8 @@ ExtIonicModule = ExtIonicModule_1 = __decorate([
             open_url_modal_module_2.OpenUrlModalModule.forRoot(),
             ribbon_module_2.RibbonModule.forRoot(),
             tabs_module_2.TabsModule.forRoot(),
-            star_rating_module_2.StarRatingModule.forRoot()
+            star_rating_module_2.StarRatingModule.forRoot(),
+            pipes_module_2.PipesModule.forRoot()
         ],
         exports: [
             alpha_scroll_module_2.AlphaScrollModule,
@@ -148,13 +143,26 @@ ExtIonicModule = ExtIonicModule_1 = __decorate([
             ribbon_module_2.RibbonModule,
             tabs_module_2.TabsModule,
             star_rating_module_2.StarRatingModule,
-            EXPORTS
-        ],
-        declarations: [
-            EXPORTS
+            pipes_module_2.PipesModule
         ]
     })
 ], ExtIonicModule);
 exports.ExtIonicModule = ExtIonicModule;
-var ExtIonicModule_1;
+let ExtIonicLazyModule = ExtIonicLazyModule_1 = class ExtIonicLazyModule {
+    static forRoot(config) {
+        return {
+            ngModule: ExtIonicLazyModule_1,
+            providers: [
+                { provide: config_2.EXT_IONIC_CONFIG, useValue: config },
+                { provide: config_2.ConfigProvider, useFactory: config_2.setupConfig, deps: [config_2.EXT_IONIC_CONFIG] },
+                PROVIDERS
+            ]
+        };
+    }
+};
+ExtIonicLazyModule = ExtIonicLazyModule_1 = __decorate([
+    core_1.NgModule()
+], ExtIonicLazyModule);
+exports.ExtIonicLazyModule = ExtIonicLazyModule;
+var ExtIonicModule_1, ExtIonicLazyModule_1;
 //# sourceMappingURL=index.js.map
