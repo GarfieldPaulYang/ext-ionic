@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, Renderer, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ElementRef, Renderer, OnInit } from '@angular/core';
 import { isTrueProperty } from '../../utils/util';
 import * as _ from 'lodash';
 
@@ -13,8 +13,7 @@ import { ConfigProvider } from '../../config/config';
       display: block;
       margin: auto;
     }
-  `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  `]
 })
 export class ImageLoaderCmp implements OnInit {
   @Input('src') imageUrl: string;

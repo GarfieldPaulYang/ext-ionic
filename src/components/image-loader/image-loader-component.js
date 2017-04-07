@@ -142,8 +142,7 @@ ImageLoaderCmp = __decorate([
       display: block;
       margin: auto;
     }
-  `],
-        changeDetection: core_1.ChangeDetectionStrategy.OnPush
+  `]
     }),
     __metadata("design:paramtypes", [core_1.ElementRef,
         core_1.Renderer,
