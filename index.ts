@@ -67,7 +67,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 
 import { EXT_IONIC_CONFIG, Config, ConfigProvider, setupConfig } from './src/config/config';
 import { Dialog } from './src/utils/dialog';
-import { HttpProvider, CorsHttpProvider, HttpInterceptor } from './src/providers/http';
+import { HttpProvider, CorsHttpProvider } from './src/providers/http';
 
 import { HotUpdater } from './src/providers/hot-updater';
 import { ComponentRegistar } from './src/providers/component-registar';
@@ -132,20 +132,6 @@ export class ExtIonicModule {
   static forRoot(config?: Config): ModuleWithProviders {
     return {
       ngModule: ExtIonicModule,
-      providers: [
-        { provide: EXT_IONIC_CONFIG, useValue: config },
-        { provide: ConfigProvider, useFactory: setupConfig, deps: [EXT_IONIC_CONFIG] },
-        PROVIDERS
-      ]
-    };
-  }
-}
-
-@NgModule()
-export class ExtIonicLazyModule {
-  static forRoot(config?: Config): ModuleWithProviders {
-    return {
-      ngModule: ExtIonicLazyModule,
       providers: [
         { provide: EXT_IONIC_CONFIG, useValue: config },
         { provide: ConfigProvider, useFactory: setupConfig, deps: [EXT_IONIC_CONFIG] },

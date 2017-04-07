@@ -32,6 +32,3 @@ import { Config } from './src/config/config';
 export declare class ExtIonicModule {
     static forRoot(config?: Config): ModuleWithProviders;
 }
-export declare class ExtIonicLazyModule {
-    static forRoot(config?: Config): ModuleWithProviders;
-}

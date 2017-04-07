@@ -148,21 +148,5 @@ ExtIonicModule = ExtIonicModule_1 = __decorate([
     })
 ], ExtIonicModule);
 exports.ExtIonicModule = ExtIonicModule;
-let ExtIonicLazyModule = ExtIonicLazyModule_1 = class ExtIonicLazyModule {
-    static forRoot(config) {
-        return {
-            ngModule: ExtIonicLazyModule_1,
-            providers: [
-                { provide: config_2.EXT_IONIC_CONFIG, useValue: config },
-                { provide: config_2.ConfigProvider, useFactory: config_2.setupConfig, deps: [config_2.EXT_IONIC_CONFIG] },
-                PROVIDERS
-            ]
-        };
-    }
-};
-ExtIonicLazyModule = ExtIonicLazyModule_1 = __decorate([
-    core_1.NgModule()
-], ExtIonicLazyModule);
-exports.ExtIonicLazyModule = ExtIonicLazyModule;
-var ExtIonicModule_1, ExtIonicLazyModule_1;
+var ExtIonicModule_1;
 //# sourceMappingURL=index.js.map
