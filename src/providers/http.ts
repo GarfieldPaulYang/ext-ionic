@@ -221,12 +221,13 @@ export class CorsHttpProvider {
     }
 
     if (!isPresent(options.headers)) {
-      options.headers = new Headers();
+      options.headers = new Headers({
+        '__cors-request__': 'true',
+        '__app-key__': this.config.get().login.appKey,
+        '__dev-mode__': this.config.get().devMode + '',
+        '__ticket__': this.ticket
+      });
     }
-    options.headers.set('__cors-request__', 'true');
-    options.headers.set('__app-key__', this.config.get().login.appKey);
-    options.headers.set('__dev-mode__', this.config.get().devMode + '');
-    options.headers.set('__ticket__', this.ticket);
 
     return this.http.requestWithError<T>(url, options).then(result => {
       return result;
