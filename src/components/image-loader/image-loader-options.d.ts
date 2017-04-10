@@ -8,4 +8,7 @@ export interface ImageLoaderOptions {
     useImg?: boolean;
     fallbackUrl?: string;
     cacheDirectoryName?: string;
+    concurrency?: number;
+    maxCacheSize?: number;
+    maxCacheAge?: number;
 }

@@ -1,12 +1,14 @@
-import { ElementRef, Renderer, OnInit } from '@angular/core';
+import { ElementRef, Renderer, OnInit, EventEmitter } from '@angular/core';
 import { ImageLoaderController } from './image-loader';
 import { ConfigProvider } from '../../config/config';
 export declare class ImageLoaderCmp implements OnInit {
-    private element;
+    private elementRef;
     private renderer;
     private imageLoader;
     private config;
-    imageUrl: string;
+    private _src;
+    src: string;
+    cache: boolean;
     fallbackUrl: string;
     spinner: boolean;
     useImg: boolean;
@@ -15,8 +17,12 @@ export declare class ImageLoaderCmp implements OnInit {
     display: string;
     backgroundSize: string;
     backgroundRepeat: string;
+    load: EventEmitter<ImageLoaderCmp>;
     isLoading: boolean;
-    constructor(element: ElementRef, renderer: Renderer, imageLoader: ImageLoaderController, config: ConfigProvider);
+    private element;
+    constructor(elementRef: ElementRef, renderer: Renderer, imageLoader: ImageLoaderController, config: ConfigProvider);
     ngOnInit(): void;
+    private processImageUrl(imageUrl);
+    private updateImage(imageUrl);
     private setImage(imageUrl);
 }

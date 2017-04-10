@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Transfer } from '@ionic-native/transfer';
+import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 
 import { HotCodePush } from '../native/hot-code-push';
 import { ConfigProvider } from '../config/config';
 import { Dialog } from '../utils/dialog';
 import { ExtLocalNotifications } from '../native/local-notifications';
-
-declare var cordova: any;
 
 @Injectable()
 export class HotUpdater {
@@ -19,6 +18,7 @@ export class HotUpdater {
     private hotCodePush: HotCodePush,
     private localNotifications: ExtLocalNotifications,
     private transfer: Transfer,
+    private file: File,
     private fileOpener: FileOpener
   ) { }
 
@@ -66,7 +66,7 @@ export class HotUpdater {
   }
 
   updateAndroid() {
-    var targetPath = cordova.file.externalApplicationStorageDirectory + '/app/app.apk';
+    var targetPath = this.file.externalApplicationStorageDirectory + '/app/app.apk';
     this.localNotifications.schedule({
       id: 1000,
       title: '正在更新...',

@@ -11,96 +11,106 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
 const util_1 = require("../../utils/util");
-const _ = require("lodash");
 const image_loader_1 = require("./image-loader");
 const config_1 = require("../../config/config");
 let ImageLoaderCmp = class ImageLoaderCmp {
-    constructor(element, renderer, imageLoader, config) {
-        this.element = element;
+    constructor(elementRef, renderer, imageLoader, config) {
+        this.elementRef = elementRef;
         this.renderer = renderer;
         this.imageLoader = imageLoader;
         this.config = config;
+        this.cache = true;
+        this.fallbackUrl = this.config.get().imageLoader.fallbackUrl;
+        this.spinner = this.config.get().imageLoader.spinnerEnabled;
+        this.useImg = this.config.get().imageLoader.useImg;
+        this.width = this.config.get().imageLoader.width;
+        this.height = this.config.get().imageLoader.height;
+        this.display = this.config.get().imageLoader.display;
+        this.backgroundSize = this.config.get().imageLoader.backgroundSize;
+        this.backgroundRepeat = this.config.get().imageLoader.backgroundRepeat;
+        this.load = new core_1.EventEmitter();
         this.isLoading = true;
     }
+    set src(imageUrl) {
+        this._src = this.processImageUrl(imageUrl);
+        this.updateImage(this._src);
+    }
+    ;
+    get src() {
+        return this._src;
+    }
     ngOnInit() {
-        if (!this.spinner && this.config.get().imageLoader.spinnerEnabled) {
-            this.spinner = true;
-        }
-        if (!this.fallbackUrl) {
-            this.fallbackUrl = this.config.get().imageLoader.fallbackUrl;
-        }
-        if (_.isUndefined(this.useImg)) {
-            this.useImg = this.config.get().imageLoader.useImg;
-        }
         this.useImg = util_1.isTrueProperty(this.useImg);
-        if (!this.width) {
-            this.width = this.config.get().imageLoader.width;
-        }
-        if (!this.height) {
-            this.height = this.config.get().imageLoader.height;
-        }
-        if (!this.display) {
-            this.display = this.config.get().imageLoader.display;
-        }
-        if (!this.backgroundSize) {
-            this.backgroundSize = this.config.get().imageLoader.backgroundSize;
-        }
-        if (!this.backgroundRepeat) {
-            this.backgroundRepeat = this.config.get().imageLoader.backgroundRepeat;
-        }
-        if (!this.imageUrl) {
+        this.cache = util_1.isTrueProperty(this.cache);
+        if (!this.src) {
             if (this.fallbackUrl) {
                 this.setImage(this.fallbackUrl);
             }
             this.isLoading = false;
             return;
         }
-        this.imageLoader.getImagePath(this.imageUrl).then((imageUrl) => {
-            this.setImage(imageUrl);
-        }).catch(() => {
-            if (this.fallbackUrl) {
-                this.setImage(this.fallbackUrl);
+    }
+    processImageUrl(imageUrl) {
+        if (this.cache === false) {
+            if (imageUrl.indexOf('?') === -1) {
+                imageUrl += '?';
             }
-        });
+            if (['&', '?'].indexOf(imageUrl.charAt(imageUrl.length)) === -1) {
+                imageUrl += '&';
+            }
+            imageUrl += 'cache_buster=' + Date.now();
+        }
+        return imageUrl;
+    }
+    updateImage(imageUrl) {
+        this.imageLoader.getImagePath(imageUrl).then((imageUrl) => this.setImage(imageUrl))
+            .catch((error) => this.setImage(this.fallbackUrl || imageUrl));
     }
     setImage(imageUrl) {
-        let element;
         this.isLoading = false;
         if (this.useImg) {
-            this.renderer.createElement(this.element.nativeElement, 'img');
-            element = this.element.nativeElement.getElementsByTagName('IMG')[0];
-            this.renderer.setElementAttribute(element, 'src', imageUrl);
-            this.renderer.listen(element, 'error', (event) => {
-                this.imageLoader.removeCacheFile(imageUrl);
-                if (this.fallbackUrl) {
-                    this.renderer.setElementAttribute(element, 'src', this.fallbackUrl);
-                }
-            });
-            return;
+            if (!this.element) {
+                this.element = this.renderer.createElement(this.elementRef.nativeElement, 'img');
+            }
+            /*this.renderer.listen(this.imgElement, 'error', (event: any) => {
+              this.imageLoader.removeCacheFile(imageUrl);
+              if (this.fallbackUrl) {
+                this.renderer.setElementAttribute(this.imgElement, 'src', this.fallbackUrl);
+              }
+            });*/
+            this.renderer.setElementAttribute(this.element, 'src', imageUrl);
         }
-        element = this.element.nativeElement;
-        if (this.display) {
-            this.renderer.setElementStyle(element, 'display', this.display);
+        else {
+            this.element = this.elementRef.nativeElement;
+            if (this.display) {
+                this.renderer.setElementStyle(this.element, 'display', this.display);
+            }
+            if (this.height) {
+                this.renderer.setElementStyle(this.element, 'height', this.height);
+            }
+            if (this.width) {
+                this.renderer.setElementStyle(this.element, 'width', this.width);
+            }
+            if (this.backgroundSize) {
+                this.renderer.setElementStyle(this.element, 'background-size', this.backgroundSize);
+            }
+            if (this.backgroundRepeat) {
+                this.renderer.setElementStyle(this.element, 'background-repeat', this.backgroundRepeat);
+            }
+            this.renderer.setElementStyle(this.element, 'background-image', 'url(\'' + imageUrl + '\')');
         }
-        if (this.height) {
-            this.renderer.setElementStyle(element, 'height', this.height);
-        }
-        if (this.width) {
-            this.renderer.setElementStyle(element, 'width', this.width);
-        }
-        if (this.backgroundSize) {
-            this.renderer.setElementStyle(element, 'background-size', this.backgroundSize);
-        }
-        if (this.backgroundRepeat) {
-            this.renderer.setElementStyle(element, 'background-repeat', this.backgroundRepeat);
-        }
-        this.renderer.setElementStyle(element, 'background-image', 'url(\'' + imageUrl + '\')');
+        this.load.emit(this);
     }
 };
 __decorate([
-    core_1.Input('src'),
-    __metadata("design:type", String)
-], ImageLoaderCmp.prototype, "imageUrl", void 0);
+    core_1.Input(),
+    __metadata("design:type", String),
+    __metadata("design:paramtypes", [String])
+], ImageLoaderCmp.prototype, "src", null);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], ImageLoaderCmp.prototype, "cache", void 0);
 __decorate([
     core_1.Input('fallback'),
     __metadata("design:type", String)
@@ -133,12 +143,17 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", String)
 ], ImageLoaderCmp.prototype, "backgroundRepeat", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], ImageLoaderCmp.prototype, "load", void 0);
 ImageLoaderCmp = __decorate([
     core_1.Component({
         selector: 'ion-image-loader',
         template: '<ion-spinner *ngIf="spinner && isLoading"></ion-spinner>',
         styles: [`
     ion-spinner {
+      float: none;
       display: block;
       margin: auto;
     }

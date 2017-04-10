@@ -21,7 +21,10 @@ const defaultConfig = {
         width: '100%',
         height: '100%',
         useImg: true,
-        cacheDirectoryName: 'image-loader-cache'
+        cacheDirectoryName: 'image-loader-cache',
+        concurrency: 5,
+        maxCacheSize: -1,
+        maxCacheAge: -1
     },
     baiduMap: {
         navCtrl: true,

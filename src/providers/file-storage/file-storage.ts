@@ -4,8 +4,6 @@ import { Platform } from 'ionic-angular';
 import { File, RemoveResult } from '@ionic-native/file';
 import { isPresent } from '../../utils/util';
 
-declare var cordova: any;
-
 export interface FileStorage {
   save(filename: string, content: any): Promise<any>;
   load<T>(filename: string): Promise<T>;
@@ -86,6 +84,6 @@ export class TextFileStorage implements FileStorage {
   }
 
   private getFilepath(): string {
-    return cordova.file.dataDirectory;
+    return this.file.dataDirectory;
   }
 }

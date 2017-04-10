@@ -1,5 +1,6 @@
 import { Platform } from 'ionic-angular';
 import { Transfer } from '@ionic-native/transfer';
+import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 import { HotCodePush } from '../native/hot-code-push';
 import { ConfigProvider } from '../config/config';
@@ -12,8 +13,9 @@ export declare class HotUpdater {
     private hotCodePush;
     private localNotifications;
     private transfer;
+    private file;
     private fileOpener;
-    constructor(platform: Platform, dialog: Dialog, config: ConfigProvider, hotCodePush: HotCodePush, localNotifications: ExtLocalNotifications, transfer: Transfer, fileOpener: FileOpener);
+    constructor(platform: Platform, dialog: Dialog, config: ConfigProvider, hotCodePush: HotCodePush, localNotifications: ExtLocalNotifications, transfer: Transfer, file: File, fileOpener: FileOpener);
     start(): void;
     updateApp(): void;
     updateIos(): void;

@@ -12,20 +12,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
 const ionic_angular_1 = require("ionic-angular");
 const transfer_1 = require("@ionic-native/transfer");
+const file_1 = require("@ionic-native/file");
 const local_notifications_1 = require("../../native/local-notifications");
 const util_1 = require("../../utils/util");
 const download_manager_component_1 = require("./download-manager-component");
 let DownloadManagerController = class DownloadManagerController {
-    constructor(platform, transfer, localNotifications, ngZone) {
+    constructor(platform, transfer, file, localNotifications, ngZone) {
         this.platform = platform;
         this.transfer = transfer;
+        this.file = file;
         this.localNotifications = localNotifications;
         this.ngZone = ngZone;
         this._event = new core_1.EventEmitter(true);
         this.id = 999;
         this._rootDirectory = 'download/';
         if (platform.is('cordova')) {
-            this._fileSystemRoot = this.platform.is('android') ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory;
+            this._fileSystemRoot = this.platform.is('android') ? this.file.externalApplicationStorageDirectory : this.file.documentsDirectory;
         }
     }
     get event() {
@@ -121,6 +123,7 @@ DownloadManagerController = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [ionic_angular_1.Platform,
         transfer_1.Transfer,
+        file_1.File,
         local_notifications_1.ExtLocalNotifications,
         core_1.NgZone])
 ], DownloadManagerController);

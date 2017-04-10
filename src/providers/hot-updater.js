@@ -12,19 +12,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
 const ionic_angular_1 = require("ionic-angular");
 const transfer_1 = require("@ionic-native/transfer");
+const file_1 = require("@ionic-native/file");
 const file_opener_1 = require("@ionic-native/file-opener");
 const hot_code_push_1 = require("../native/hot-code-push");
 const config_1 = require("../config/config");
 const dialog_1 = require("../utils/dialog");
 const local_notifications_1 = require("../native/local-notifications");
 let HotUpdater = class HotUpdater {
-    constructor(platform, dialog, config, hotCodePush, localNotifications, transfer, fileOpener) {
+    constructor(platform, dialog, config, hotCodePush, localNotifications, transfer, file, fileOpener) {
         this.platform = platform;
         this.dialog = dialog;
         this.config = config;
         this.hotCodePush = hotCodePush;
         this.localNotifications = localNotifications;
         this.transfer = transfer;
+        this.file = file;
         this.fileOpener = fileOpener;
     }
     start() {
@@ -68,7 +70,7 @@ let HotUpdater = class HotUpdater {
         window.location.href = this.config.get().hotUpdateUrl.ios;
     }
     updateAndroid() {
-        var targetPath = cordova.file.externalApplicationStorageDirectory + '/app/app.apk';
+        var targetPath = this.file.externalApplicationStorageDirectory + '/app/app.apk';
         this.localNotifications.schedule({
             id: 1000,
             title: '正在更新...',
@@ -105,6 +107,7 @@ HotUpdater = __decorate([
         hot_code_push_1.HotCodePush,
         local_notifications_1.ExtLocalNotifications,
         transfer_1.Transfer,
+        file_1.File,
         file_opener_1.FileOpener])
 ], HotUpdater);
 exports.HotUpdater = HotUpdater;

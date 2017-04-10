@@ -77,7 +77,7 @@ let TextFileStorage = class TextFileStorage {
         });
     }
     getFilepath() {
-        return cordova.file.dataDirectory;
+        return this.file.dataDirectory;
     }
 };
 TextFileStorage = __decorate([

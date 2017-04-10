@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, Renderer, OnInit } from '@angular/core';
+import { Component, Input, ElementRef, Renderer, OnInit, Output, EventEmitter } from '@angular/core';
 import { isTrueProperty } from '../../utils/util';
 import * as _ from 'lodash';
 
@@ -10,120 +10,121 @@ import { ConfigProvider } from '../../config/config';
   template: '<ion-spinner *ngIf="spinner && isLoading"></ion-spinner>',
   styles: [`
     ion-spinner {
+      float: none;
       display: block;
       margin: auto;
     }
   `]
 })
 export class ImageLoaderCmp implements OnInit {
-  @Input('src') imageUrl: string;
-  @Input('fallback') fallbackUrl: string;
-  @Input() spinner: boolean;
-  @Input() useImg: boolean;
-  @Input() width: string;
-  @Input() height: string;
-  @Input() display: string;
-  @Input() backgroundSize: string;
-  @Input() backgroundRepeat: string;
+  private _src: string;
+
+  @Input()
+  set src(imageUrl: string) {
+    this._src = this.processImageUrl(imageUrl);
+    this.updateImage(this._src);
+  };
+
+  get src(): string {
+    return this._src;
+  }
+
+  @Input() cache: boolean = true;
+  @Input('fallback') fallbackUrl: string = this.config.get().imageLoader.fallbackUrl;
+  @Input() spinner: boolean = this.config.get().imageLoader.spinnerEnabled;
+  @Input() useImg: boolean = this.config.get().imageLoader.useImg;
+  @Input() width: string = this.config.get().imageLoader.width;
+  @Input() height: string = this.config.get().imageLoader.height;
+  @Input() display: string = this.config.get().imageLoader.display;
+  @Input() backgroundSize: string = this.config.get().imageLoader.backgroundSize;
+  @Input() backgroundRepeat: string = this.config.get().imageLoader.backgroundRepeat;
+
+  @Output()
+  load: EventEmitter<ImageLoaderCmp> = new EventEmitter<ImageLoaderCmp>();
 
   isLoading: boolean = true;
 
+  private element: HTMLElement;
+
   constructor(
-    private element: ElementRef,
+    private elementRef: ElementRef,
     private renderer: Renderer,
     private imageLoader: ImageLoaderController,
     private config: ConfigProvider
   ) { }
 
   ngOnInit(): void {
-    if (!this.spinner && this.config.get().imageLoader.spinnerEnabled) {
-      this.spinner = true;
-    }
-
-    if (!this.fallbackUrl) {
-      this.fallbackUrl = this.config.get().imageLoader.fallbackUrl;
-    }
-
-    if (_.isUndefined(this.useImg)) {
-      this.useImg = this.config.get().imageLoader.useImg;
-    }
     this.useImg = isTrueProperty(this.useImg);
+    this.cache = isTrueProperty(this.cache);
 
-    if (!this.width) {
-      this.width = this.config.get().imageLoader.width;
-    }
-
-    if (!this.height) {
-      this.height = this.config.get().imageLoader.height;
-    }
-
-    if (!this.display) {
-      this.display = this.config.get().imageLoader.display;
-    }
-
-    if (!this.backgroundSize) {
-      this.backgroundSize = this.config.get().imageLoader.backgroundSize;
-    }
-
-    if (!this.backgroundRepeat) {
-      this.backgroundRepeat = this.config.get().imageLoader.backgroundRepeat;
-    }
-
-    if (!this.imageUrl) {
+    if (!this.src) {
       if (this.fallbackUrl) {
         this.setImage(this.fallbackUrl);
       }
       this.isLoading = false;
       return;
     }
+  }
 
-    this.imageLoader.getImagePath(this.imageUrl).then((imageUrl: string) => {
-      this.setImage(imageUrl);
-    }).catch(() => {
-      if (this.fallbackUrl) {
-        this.setImage(this.fallbackUrl);
+  private processImageUrl(imageUrl: string): string {
+    if (this.cache === false) {
+      if (imageUrl.indexOf('?') === -1) {
+        imageUrl += '?';
       }
-    });
+
+      if (['&', '?'].indexOf(imageUrl.charAt(imageUrl.length)) === -1) {
+        imageUrl += '&';
+      }
+
+      imageUrl += 'cache_buster=' + Date.now();
+    }
+
+    return imageUrl;
+  }
+
+  private updateImage(imageUrl: string) {
+    this.imageLoader.getImagePath(imageUrl).then((imageUrl: string) => this.setImage(imageUrl))
+      .catch((error: any) => this.setImage(this.fallbackUrl || imageUrl));
   }
 
   private setImage(imageUrl: string): void {
-    let element: HTMLImageElement;
     this.isLoading = false;
 
     if (this.useImg) {
-      this.renderer.createElement(this.element.nativeElement, 'img');
-      element = <HTMLImageElement>this.element.nativeElement.getElementsByTagName('IMG')[0];
-      this.renderer.setElementAttribute(element, 'src', imageUrl);
-      this.renderer.listen(element, 'error', (event: any) => {
+      if (!this.element) {
+        this.element = this.renderer.createElement(this.elementRef.nativeElement, 'img');
+      }
+      /*this.renderer.listen(this.imgElement, 'error', (event: any) => {
         this.imageLoader.removeCacheFile(imageUrl);
         if (this.fallbackUrl) {
-          this.renderer.setElementAttribute(element, 'src', this.fallbackUrl);
+          this.renderer.setElementAttribute(this.imgElement, 'src', this.fallbackUrl);
         }
-      });
-      return;
-    }
+      });*/
+      this.renderer.setElementAttribute(this.element, 'src', imageUrl);
+    } else {
+      this.element = this.elementRef.nativeElement;
+      if (this.display) {
+        this.renderer.setElementStyle(this.element, 'display', this.display);
+      }
 
-    element = this.element.nativeElement;
-    if (this.display) {
-      this.renderer.setElementStyle(element, 'display', this.display);
-    }
+      if (this.height) {
+        this.renderer.setElementStyle(this.element, 'height', this.height);
+      }
 
-    if (this.height) {
-      this.renderer.setElementStyle(element, 'height', this.height);
-    }
+      if (this.width) {
+        this.renderer.setElementStyle(this.element, 'width', this.width);
+      }
 
-    if (this.width) {
-      this.renderer.setElementStyle(element, 'width', this.width);
-    }
+      if (this.backgroundSize) {
+        this.renderer.setElementStyle(this.element, 'background-size', this.backgroundSize);
+      }
 
-    if (this.backgroundSize) {
-      this.renderer.setElementStyle(element, 'background-size', this.backgroundSize);
-    }
+      if (this.backgroundRepeat) {
+        this.renderer.setElementStyle(this.element, 'background-repeat', this.backgroundRepeat);
+      }
 
-    if (this.backgroundRepeat) {
-      this.renderer.setElementStyle(element, 'background-repeat', this.backgroundRepeat);
+      this.renderer.setElementStyle(this.element, 'background-image', 'url(\'' + imageUrl + '\')');
     }
-
-    this.renderer.setElementStyle(element, 'background-image', 'url(\'' + imageUrl + '\')');
+    this.load.emit(this);
   }
 }

@@ -2,11 +2,10 @@
 import { Injectable, EventEmitter, NgZone } from '@angular/core';
 import { Platform, NavController } from 'ionic-angular';
 import { Transfer } from '@ionic-native/transfer';
+import { File } from '@ionic-native/file';
 import { ExtLocalNotifications } from '../../native/local-notifications';
 import { isPresent } from '../../utils/util';
 import { DownloadManagerCmp } from './download-manager-component';
-
-declare var cordova: any;
 
 export interface DownloadOptions {
   fileName: string;
@@ -38,11 +37,12 @@ export class DownloadManagerController {
   constructor(
     private platform: Platform,
     private transfer: Transfer,
+    private file: File,
     private localNotifications: ExtLocalNotifications,
     private ngZone: NgZone
   ) {
     if (platform.is('cordova')) {
-      this._fileSystemRoot = this.platform.is('android') ? cordova.file.externalApplicationStorageDirectory : cordova.file.documentsDirectory;
+      this._fileSystemRoot = this.platform.is('android') ? this.file.externalApplicationStorageDirectory : this.file.documentsDirectory;
     }
   }
 
