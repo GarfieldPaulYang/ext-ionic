@@ -8,7 +8,6 @@ import {
   ResponseContentType,
   RequestMethod,
   RequestOptions,
-  URLSearchParams,
   Headers
 } from '@angular/http';
 import { Events, Loading } from 'ionic-angular';
@@ -195,9 +194,9 @@ export class CorsHttpProvider {
     return this.request<LoginResult>(this.config.get().login.url, {
       headers: new Headers({
         'Content-Type': 'application/x-www-form-urlencoded',
-        'login': 'true',
-        'uuid': this.device.uuid,
-        'model': this.device.model
+        '__login__': 'true',
+        '__uuid__': this.device.uuid,
+        '__model__': this.device.model
       }),
       method: RequestMethod.Post,
       showErrorAlert: false,
@@ -208,7 +207,7 @@ export class CorsHttpProvider {
   logout(): Promise<string> {
     return this.request<string>(this.config.get().login.url, {
       headers: new Headers({
-        'logout': 'true'
+        '__logout__': 'true'
       })
     }).then(result => {
       this.ticket = null;
@@ -217,12 +216,6 @@ export class CorsHttpProvider {
   }
 
   request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T> {
-    let params = URLParamsBuilder.build({
-      'appKey': this.config.get().login.appKey,
-      'devMode': this.config.get().devMode,
-      '__cors-request__': true
-    });
-
     if (_.isUndefined(options)) {
       options = {};
     }
@@ -230,20 +223,12 @@ export class CorsHttpProvider {
     if (!isPresent(options.headers)) {
       options.headers = new Headers();
     }
-    options.headers.set('ticket', this.ticket);
+    options.headers.set('__cors-request__', 'true');
+    options.headers.set('__app-key__', this.config.get().login.appKey);
+    options.headers.set('__dev-mode__', this.config.get().devMode + '');
+    options.headers.set('__ticket__', this.ticket);
 
-    /** @deprecated from 4.0.0. Use params instead. */
-    if (_.has(options, 'search')) {
-      params.replaceAll(<URLSearchParams>options.search);
-    }
-
-    if (_.has(options, 'params')) {
-      params.replaceAll(<URLSearchParams>options.params);
-    }
-
-    return this.http.requestWithError<T>(
-      url, _.assign({}, options, { params: params })
-    ).then(result => {
+    return this.http.requestWithError<T>(url, options).then(result => {
       return result;
     }).catch(err => {
       if (err && _.isString(err) && err.toString() === ticket_expired) {

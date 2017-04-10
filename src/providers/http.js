@@ -147,9 +147,9 @@ let CorsHttpProvider = class CorsHttpProvider {
         return this.request(this.config.get().login.url, {
             headers: new http_1.Headers({
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'login': 'true',
-                'uuid': this.device.uuid,
-                'model': this.device.model
+                '__login__': 'true',
+                '__uuid__': this.device.uuid,
+                '__model__': this.device.model
             }),
             method: http_1.RequestMethod.Post,
             showErrorAlert: false,
@@ -159,7 +159,7 @@ let CorsHttpProvider = class CorsHttpProvider {
     logout() {
         return this.request(this.config.get().login.url, {
             headers: new http_1.Headers({
-                'logout': 'true'
+                '__logout__': 'true'
             })
         }).then(result => {
             this.ticket = null;
@@ -167,26 +167,17 @@ let CorsHttpProvider = class CorsHttpProvider {
         });
     }
     request(url, options) {
-        let params = url_params_builder_1.URLParamsBuilder.build({
-            'appKey': this.config.get().login.appKey,
-            'devMode': this.config.get().devMode,
-            '__cors-request__': true
-        });
         if (_.isUndefined(options)) {
             options = {};
         }
         if (!util_1.isPresent(options.headers)) {
             options.headers = new http_1.Headers();
         }
-        options.headers.set('ticket', this.ticket);
-        /** @deprecated from 4.0.0. Use params instead. */
-        if (_.has(options, 'search')) {
-            params.replaceAll(options.search);
-        }
-        if (_.has(options, 'params')) {
-            params.replaceAll(options.params);
-        }
-        return this.http.requestWithError(url, _.assign({}, options, { params: params })).then(result => {
+        options.headers.set('__cors-request__', 'true');
+        options.headers.set('__app-key__', this.config.get().login.appKey);
+        options.headers.set('__dev-mode__', this.config.get().devMode + '');
+        options.headers.set('__ticket__', this.ticket);
+        return this.http.requestWithError(url, options).then(result => {
             return result;
         }).catch(err => {
             if (err && _.isString(err) && err.toString() === exports.ticket_expired) {
