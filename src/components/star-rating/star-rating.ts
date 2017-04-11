@@ -47,6 +47,7 @@ export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
       this.setupHammerHandlers();
     });
   }
+
   ngOnDestroy() {
     if (this.hammer) {
       this.hammer.destroy();
@@ -81,6 +82,8 @@ export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   registerOnTouched(fn: any) { }
+
+  setDisabledState(isDisabled: boolean) { }
 
   rate(amount: number) {
     if (this.readonly) {
