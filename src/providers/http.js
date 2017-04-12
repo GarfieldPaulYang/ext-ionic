@@ -118,6 +118,10 @@ let HttpProvider = class HttpProvider {
         });
     }
     ajax(url, options) {
+        if (!util_1.isPresent(options.headers)) {
+            options.headers = new http_1.Headers();
+        }
+        options.headers.set('__cors-request__', 'true');
         if (options.method === http_1.RequestMethod.Post && util_1.isPresent(options.body) && !(options.body instanceof FormData)) {
             options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
         }
@@ -171,13 +175,11 @@ let CorsHttpProvider = class CorsHttpProvider {
             options = {};
         }
         if (!util_1.isPresent(options.headers)) {
-            options.headers = new http_1.Headers({
-                '__cors-request__': 'true',
-                '__app-key__': this.config.get().login.appKey,
-                '__dev-mode__': this.config.get().devMode + '',
-                '__ticket__': this.ticket
-            });
+            options.headers = new http_1.Headers();
         }
+        options.headers.set('__app-key__', this.config.get().login.appKey);
+        options.headers.set('__dev-mode__', this.config.get().devMode + '');
+        options.headers.set('__ticket__', this.ticket);
         return this.http.requestWithError(url, options).then(result => {
             return result;
         }).catch(err => {
