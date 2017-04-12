@@ -28,6 +28,9 @@ OpenUrlModalModule = OpenUrlModalModule_1 = __decorate([
         declarations: [
             open_url_modal_component_1.OpenUrlModalCmp
         ],
+        exports: [
+            open_url_modal_component_1.OpenUrlModalCmp
+        ],
         entryComponents: [
             open_url_modal_component_1.OpenUrlModalCmp
         ]

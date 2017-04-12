@@ -17,6 +17,7 @@ export declare class StarRatingCmp implements OnInit, OnDestroy, ControlValueAcc
     writeValue(val: any): void;
     registerOnChange(fn: any): void;
     registerOnTouched(fn: any): void;
+    setDisabledState(isDisabled: boolean): void;
     rate(amount: number): void;
     private setupHammerHandlers();
     private fullStates();

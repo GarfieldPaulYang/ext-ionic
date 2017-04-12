@@ -66,6 +66,7 @@ let StarRatingCmp = class StarRatingCmp {
         this.onChangeCallback = fn;
     }
     registerOnTouched(fn) { }
+    setDisabledState(isDisabled) { }
     rate(amount) {
         if (this.readonly) {
             return;

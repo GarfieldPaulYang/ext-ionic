@@ -10,6 +10,9 @@ import { OpenUrlModalController } from './open-url-modal';
   declarations: [
     OpenUrlModalCmp
   ],
+  exports: [
+    OpenUrlModalCmp
+  ],
   entryComponents: [
     OpenUrlModalCmp
   ]

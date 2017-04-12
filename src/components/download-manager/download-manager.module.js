@@ -28,6 +28,9 @@ DownloadManagerModule = DownloadManagerModule_1 = __decorate([
         declarations: [
             download_manager_component_1.DownloadManagerCmp
         ],
+        exports: [
+            download_manager_component_1.DownloadManagerCmp
+        ],
         entryComponents: [
             download_manager_component_1.DownloadManagerCmp
         ]

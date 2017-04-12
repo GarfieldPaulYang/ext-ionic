@@ -10,6 +10,9 @@ import { DownloadManagerController } from './download-manager';
   declarations: [
     DownloadManagerCmp
   ],
+  exports: [
+    DownloadManagerCmp
+  ],
   entryComponents: [
     DownloadManagerCmp
   ]
