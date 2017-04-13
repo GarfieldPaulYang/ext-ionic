@@ -8,6 +8,7 @@ import {
   ResponseContentType,
   RequestMethod,
   RequestOptions,
+  URLSearchParams,
   Headers
 } from '@angular/http';
 import { Events, Loading } from 'ionic-angular';
@@ -161,6 +162,15 @@ export class HttpProvider {
   }
 
   ajax<T>(url: string | Request, options?: HttpProviderOptionsArgs): Observable<ResponseResult<T>> {
+    let params = URLParamsBuilder.build({ '__cors-request__': true });
+    if (isPresent(options.search)) {
+      params.replaceAll(<URLSearchParams>options.search);
+    }
+    if (isPresent(options.params)) {
+      params.replaceAll(<URLSearchParams>options.params);
+    }
+    options.params = params;
+
     if (options.method === RequestMethod.Post && isPresent(options.body) && !(options.body instanceof FormData)) {
       options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
     }

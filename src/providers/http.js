@@ -118,6 +118,14 @@ let HttpProvider = class HttpProvider {
         });
     }
     ajax(url, options) {
+        let params = url_params_builder_1.URLParamsBuilder.build({ '__cors-request__': true });
+        if (util_1.isPresent(options.search)) {
+            params.replaceAll(options.search);
+        }
+        if (util_1.isPresent(options.params)) {
+            params.replaceAll(options.params);
+        }
+        options.params = params;
         if (options.method === http_1.RequestMethod.Post && util_1.isPresent(options.body) && !(options.body instanceof FormData)) {
             options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
         }
