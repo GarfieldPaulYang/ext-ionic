@@ -32,6 +32,7 @@ export declare class ImageLoaderController {
     private throwError(...args);
     private throwWarning(...args);
     private readonly cacheDirectoryExists;
+    private readonly cacheRootDirectory;
     private readonly cacheDirectory;
     private readonly shouldIndex;
     private createCacheDirectory(replace?);

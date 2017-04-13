@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Transfer } from '@ionic-native/transfer';
-import { File, FileEntry, FileReader } from '@ionic-native/file';
+import { File, FileEntry } from '@ionic-native/file';
 
 import * as _ from 'lodash';
 
@@ -108,7 +108,7 @@ export class ImageLoaderController {
       }
 
       this.isInit = false;
-      this.file.removeRecursively(this.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName).then(() => {
+      this.file.removeRecursively(this.cacheRootDirectory, this.config.get().imageLoader.cacheDirectoryName).then(() => {
         this.initCache(true);
       }).catch(this.throwError.bind(this));
     };
@@ -166,7 +166,7 @@ export class ImageLoaderController {
 
     this.cacheIndex = [];
     return this.file.listDir(
-      this.file.cacheDirectory,
+      this.cacheRootDirectory,
       this.config.get().imageLoader.cacheDirectoryName
     ).then(files => Promise.all(files.map(this.addFileToIndex.bind(this)))).then(() => {
       this.cacheIndex = _.sortBy(this.cacheIndex, 'modificationTime');
@@ -250,18 +250,7 @@ export class ImageLoaderController {
 
       const fileName = this.createFileName(url);
       this.file.resolveLocalFilesystemUrl(this.cacheDirectory + '/' + fileName).then((fileEntry: FileEntry) => {
-        // now check if iOS device & using WKWebView Engine
-        if (this.platform.is('ios') && (<any>window).webkit) {
-          fileEntry.file(file => {
-            const reader = new FileReader();
-            reader.onloadend = function () {
-              resolve(this.result);
-            };
-            reader.readAsDataURL(file);
-          }, reject);
-        } else {
-          resolve(fileEntry.nativeURL);
-        }
+        resolve(fileEntry.nativeURL);
       }).catch(reject);
     });
   }
@@ -277,11 +266,15 @@ export class ImageLoaderController {
   }
 
   private get cacheDirectoryExists(): Promise<boolean> {
-    return this.file.checkDir(this.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName);
+    return this.file.checkDir(this.cacheRootDirectory, this.config.get().imageLoader.cacheDirectoryName);
+  }
+
+  private get cacheRootDirectory(): string {
+    return this.platform.is('ios') ? this.file.tempDirectory : this.cacheRootDirectory;
   }
 
   private get cacheDirectory(): string {
-    return this.file.cacheDirectory + this.config.get().imageLoader.cacheDirectoryName;
+    return this.cacheRootDirectory + this.config.get().imageLoader.cacheDirectoryName;
   }
 
   private get shouldIndex() {
@@ -289,7 +282,7 @@ export class ImageLoaderController {
   }
 
   private createCacheDirectory(replace: boolean = false): Promise<any> {
-    return this.file.createDir(this.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName, replace);
+    return this.file.createDir(this.cacheRootDirectory, this.config.get().imageLoader.cacheDirectoryName, replace);
   }
 
   private createFileName(url: string): string {

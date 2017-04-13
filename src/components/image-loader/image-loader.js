@@ -89,7 +89,7 @@ let ImageLoaderController = class ImageLoaderController {
                 return;
             }
             this.isInit = false;
-            this.file.removeRecursively(this.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName).then(() => {
+            this.file.removeRecursively(this.cacheRootDirectory, this.config.get().imageLoader.cacheDirectoryName).then(() => {
                 this.initCache(true);
             }).catch(this.throwError.bind(this));
         };
@@ -138,7 +138,7 @@ let ImageLoaderController = class ImageLoaderController {
         if (!this.shouldIndex)
             return Promise.resolve();
         this.cacheIndex = [];
-        return this.file.listDir(this.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName).then(files => Promise.all(files.map(this.addFileToIndex.bind(this)))).then(() => {
+        return this.file.listDir(this.cacheRootDirectory, this.config.get().imageLoader.cacheDirectoryName).then(files => Promise.all(files.map(this.addFileToIndex.bind(this)))).then(() => {
             this.cacheIndex = _.sortBy(this.cacheIndex, 'modificationTime');
             this.indexed = true;
             return Promise.resolve();
@@ -208,19 +208,7 @@ let ImageLoaderController = class ImageLoaderController {
             }
             const fileName = this.createFileName(url);
             this.file.resolveLocalFilesystemUrl(this.cacheDirectory + '/' + fileName).then((fileEntry) => {
-                // now check if iOS device & using WKWebView Engine
-                if (this.platform.is('ios') && window.webkit) {
-                    fileEntry.file(file => {
-                        const reader = new file_1.FileReader();
-                        reader.onloadend = function () {
-                            resolve(this.result);
-                        };
-                        reader.readAsDataURL(file);
-                    }, reject);
-                }
-                else {
-                    resolve(fileEntry.nativeURL);
-                }
+                resolve(fileEntry.nativeURL);
             }).catch(reject);
         });
     }
@@ -233,16 +221,19 @@ let ImageLoaderController = class ImageLoaderController {
         console.warn.apply(console, args);
     }
     get cacheDirectoryExists() {
-        return this.file.checkDir(this.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName);
+        return this.file.checkDir(this.cacheRootDirectory, this.config.get().imageLoader.cacheDirectoryName);
+    }
+    get cacheRootDirectory() {
+        return this.platform.is('ios') ? this.file.tempDirectory : this.cacheRootDirectory;
     }
     get cacheDirectory() {
-        return this.file.cacheDirectory + this.config.get().imageLoader.cacheDirectoryName;
+        return this.cacheRootDirectory + this.config.get().imageLoader.cacheDirectoryName;
     }
     get shouldIndex() {
         return (this.config.get().imageLoader.maxCacheAge > -1) || (this.config.get().imageLoader.maxCacheSize > -1);
     }
     createCacheDirectory(replace = false) {
-        return this.file.createDir(this.file.cacheDirectory, this.config.get().imageLoader.cacheDirectoryName, replace);
+        return this.file.createDir(this.cacheRootDirectory, this.config.get().imageLoader.cacheDirectoryName, replace);
     }
     createFileName(url) {
         return string_1.StringUtils.hash(url).toString();

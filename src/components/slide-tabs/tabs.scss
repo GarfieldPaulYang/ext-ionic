@@ -19,7 +19,7 @@ ion-slide-tabs {
       height: 2px;
 
       &.ease {
-        transition: left .25s ease-in;
+        transition: left .25s ease-out;
       }
     }
   }
