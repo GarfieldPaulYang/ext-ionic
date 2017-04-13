@@ -161,11 +161,6 @@ export class HttpProvider {
   }
 
   ajax<T>(url: string | Request, options?: HttpProviderOptionsArgs): Observable<ResponseResult<T>> {
-    if (!isPresent(options.headers)) {
-      options.headers = new Headers();
-    }
-    options.headers.set('__cors-request__', 'true');
-
     if (options.method === RequestMethod.Post && isPresent(options.body) && !(options.body instanceof FormData)) {
       options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
     }
