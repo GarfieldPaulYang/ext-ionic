@@ -94,12 +94,12 @@ export class ImageLoaderCmp implements OnInit {
       if (!this.element) {
         this.element = this.renderer.createElement(this.elementRef.nativeElement, 'img');
       }
-      /*this.renderer.listen(this.imgElement, 'error', (event: any) => {
+      this.renderer.listen(this.element, 'error', (event: any) => {
         this.imageLoader.removeCacheFile(imageUrl);
         if (this.fallbackUrl) {
-          this.renderer.setElementAttribute(this.imgElement, 'src', this.fallbackUrl);
+          this.renderer.setElementAttribute(this.element, 'src', this.fallbackUrl);
         }
-      });*/
+      });
       this.renderer.setElementAttribute(this.element, 'src', imageUrl);
     } else {
       this.element = this.elementRef.nativeElement;
