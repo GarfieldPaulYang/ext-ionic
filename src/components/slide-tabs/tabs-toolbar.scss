@@ -1,0 +1,78 @@
+ion-slide-tabs-toolbar {
+  $super-tabs-transition: all 150ms ease-in-out;
+
+  width: 100%;
+  display: block;
+
+  &:not([no-shadow]) {
+    >ion-toolbar.toolbar {
+      @extend .header-md;
+      z-index: 100000 !important;
+      contain: inherit;
+      display: block;
+      overflow: visible;
+    }
+  }
+
+  >ion-toolbar.toolbar {
+    padding: 4px 0 0 0;
+
+    &.ease {
+      .tab-buttons-container .indicator {
+        transition: $super-tabs-transition;
+      }
+
+      &.scroll-tabs {
+        .tab-buttons-container ion-segment {
+          transition: $super-tabs-transition;
+        }
+      }
+    }
+
+    min-height: 0;
+
+    .tab-buttons-container {
+      overflow: hidden;
+
+      ion-segment.segment.segment-md {
+        ion-segment-button {
+          border-bottom: 0;
+          height: inherit;
+          font-size: 14px;
+          ion-icon {
+            display: block;
+          }
+        }
+      }
+
+      .indicator {
+        bottom: 0;
+        position: absolute;
+        z-index: 2;
+        height: 2px;
+      }
+    }
+
+    &.scroll-tabs {
+      .tab-buttons-container {
+        ion-segment.segment.segment-md {
+          position: relative;
+          justify-content: flex-start;
+          ion-segment-button {
+            min-width: 50px;
+            max-width: 100%;
+            width: auto;
+            display: inline-table;
+            overflow: visible;
+            margin: 0 5px;
+          }
+        }
+
+        .indicator {
+          position: relative;
+          margin-top: -2px;
+        }
+      }
+    }
+  }
+}

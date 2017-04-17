@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'ion-slide-tab',
   template: ''
 })
-export class TabCmp {
+export class SlideTab {
   @Input()
   tabRoot: any;
 

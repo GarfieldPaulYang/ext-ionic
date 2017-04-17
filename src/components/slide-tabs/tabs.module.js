@@ -10,28 +10,31 @@ const ionic_angular_1 = require("ionic-angular");
 const core_1 = require("@angular/core");
 const tab_1 = require("./tab");
 const tabs_1 = require("./tabs");
-let TabsModule = TabsModule_1 = class TabsModule {
+const tabs_controller_1 = require("./tabs-controller");
+const tabs_toolbar_1 = require("./tabs-toolbar");
+let SlideTabsModule = SlideTabsModule_1 = class SlideTabsModule {
     static forRoot() {
         return {
-            ngModule: TabsModule_1, providers: []
+            ngModule: SlideTabsModule_1, providers: [tabs_controller_1.SlideTabsController]
         };
     }
 };
-TabsModule = TabsModule_1 = __decorate([
+SlideTabsModule = SlideTabsModule_1 = __decorate([
     core_1.NgModule({
         imports: [
             ionic_angular_1.IonicModule
         ],
         exports: [
-            tab_1.TabCmp,
-            tabs_1.TabsCmp
+            tab_1.SlideTab,
+            tabs_1.SlideTabs
         ],
         declarations: [
-            tab_1.TabCmp,
-            tabs_1.TabsCmp
+            tab_1.SlideTab,
+            tabs_1.SlideTabs,
+            tabs_toolbar_1.SlideTabsToolbar
         ]
     })
-], TabsModule);
-exports.TabsModule = TabsModule;
-var TabsModule_1;
+], SlideTabsModule);
+exports.SlideTabsModule = SlideTabsModule;
+var SlideTabsModule_1;
 //# sourceMappingURL=tabs.module.js.map

@@ -10,29 +10,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
-let TabCmp = class TabCmp {
+let SlideTab = class SlideTab {
 };
 __decorate([
     core_1.Input(),
     __metadata("design:type", Object)
-], TabCmp.prototype, "tabRoot", void 0);
+], SlideTab.prototype, "tabRoot", void 0);
 __decorate([
     core_1.Input(),
     __metadata("design:type", Object)
-], TabCmp.prototype, "navParams", void 0);
+], SlideTab.prototype, "navParams", void 0);
 __decorate([
     core_1.Input(),
     __metadata("design:type", String)
-], TabCmp.prototype, "title", void 0);
+], SlideTab.prototype, "title", void 0);
 __decorate([
     core_1.Input(),
     __metadata("design:type", String)
-], TabCmp.prototype, "icon", void 0);
-TabCmp = __decorate([
+], SlideTab.prototype, "icon", void 0);
+SlideTab = __decorate([
     core_1.Component({
         selector: 'ion-slide-tab',
         template: ''
     })
-], TabCmp);
-exports.TabCmp = TabCmp;
+], SlideTab);
+exports.SlideTab = SlideTab;
 //# sourceMappingURL=tab.js.map

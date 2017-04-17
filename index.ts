@@ -34,7 +34,7 @@ export { ImageLoaderModule } from './src/components/image-loader/image-loader.mo
 
 export { StarRatingModule } from './src/components/star-rating/star-rating.module';
 export { RibbonModule } from './src/components/ribbon/ribbon.module';
-export { TabsModule } from './src/components/slide-tabs/tabs.module';
+export { SlideTabsModule } from './src/components/slide-tabs/tabs.module';
 export { DownloadManagerModule } from './src/components/download-manager/download-manager.module';
 export { DownloadManagerController, DownloadOptions } from './src/components/download-manager/download-manager';
 
@@ -82,7 +82,7 @@ import { BaiduMapModule } from './src/components/baidu-map/baidu-map.module';
 import { ImageLoaderModule } from './src/components/image-loader/image-loader.module';
 import { StarRatingModule } from './src/components/star-rating/star-rating.module';
 import { RibbonModule } from './src/components/ribbon/ribbon.module';
-import { TabsModule } from './src/components/slide-tabs/tabs.module';
+import { SlideTabsModule } from './src/components/slide-tabs/tabs.module';
 import { DownloadManagerModule } from './src/components/download-manager/download-manager.module';
 
 const PROVIDERS: Array<any> = [
@@ -112,7 +112,7 @@ const PROVIDERS: Array<any> = [
     DownloadManagerModule.forRoot(),
     OpenUrlModalModule.forRoot(),
     RibbonModule.forRoot(),
-    TabsModule.forRoot(),
+    SlideTabsModule.forRoot(),
     StarRatingModule.forRoot(),
     PipesModule.forRoot()
   ],
@@ -123,7 +123,7 @@ const PROVIDERS: Array<any> = [
     DownloadManagerModule,
     OpenUrlModalModule,
     RibbonModule,
-    TabsModule,
+    SlideTabsModule,
     StarRatingModule,
     PipesModule
   ]

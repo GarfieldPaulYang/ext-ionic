@@ -48,7 +48,7 @@ exports.StarRatingModule = star_rating_module_1.StarRatingModule;
 var ribbon_module_1 = require("./src/components/ribbon/ribbon.module");
 exports.RibbonModule = ribbon_module_1.RibbonModule;
 var tabs_module_1 = require("./src/components/slide-tabs/tabs.module");
-exports.TabsModule = tabs_module_1.TabsModule;
+exports.SlideTabsModule = tabs_module_1.SlideTabsModule;
 var download_manager_module_1 = require("./src/components/download-manager/download-manager.module");
 exports.DownloadManagerModule = download_manager_module_1.DownloadManagerModule;
 var download_manager_1 = require("./src/components/download-manager/download-manager");
@@ -130,7 +130,7 @@ ExtIonicModule = ExtIonicModule_1 = __decorate([
             download_manager_module_2.DownloadManagerModule.forRoot(),
             open_url_modal_module_2.OpenUrlModalModule.forRoot(),
             ribbon_module_2.RibbonModule.forRoot(),
-            tabs_module_2.TabsModule.forRoot(),
+            tabs_module_2.SlideTabsModule.forRoot(),
             star_rating_module_2.StarRatingModule.forRoot(),
             pipes_module_2.PipesModule.forRoot()
         ],
@@ -141,7 +141,7 @@ ExtIonicModule = ExtIonicModule_1 = __decorate([
             download_manager_module_2.DownloadManagerModule,
             open_url_modal_module_2.OpenUrlModalModule,
             ribbon_module_2.RibbonModule,
-            tabs_module_2.TabsModule,
+            tabs_module_2.SlideTabsModule,
             star_rating_module_2.StarRatingModule,
             pipes_module_2.PipesModule
         ]

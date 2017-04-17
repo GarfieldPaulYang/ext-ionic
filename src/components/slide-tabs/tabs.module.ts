@@ -1,25 +1,28 @@
 import { IonicModule } from 'ionic-angular';
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { TabCmp } from './tab';
-import { TabsCmp } from './tabs';
+import { SlideTab } from './tab';
+import { SlideTabs } from './tabs';
+import { SlideTabsController } from './tabs-controller';
+import { SlideTabsToolbar } from './tabs-toolbar';
 
 @NgModule({
   imports: [
     IonicModule
   ],
   exports: [
-    TabCmp,
-    TabsCmp
+    SlideTab,
+    SlideTabs
   ],
   declarations: [
-    TabCmp,
-    TabsCmp
+    SlideTab,
+    SlideTabs,
+    SlideTabsToolbar
   ]
 })
-export class TabsModule {
+export class SlideTabsModule {
   public static forRoot(): ModuleWithProviders {
     return {
-      ngModule: TabsModule, providers: []
+      ngModule: SlideTabsModule, providers: [SlideTabsController]
     };
   }
 }

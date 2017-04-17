@@ -1,36 +1,13 @@
 ion-slide-tabs {
+  height: 100%;
   display: block;
 
-  ion-segment.segment.segment-md {
-    ion-segment-button {
-      border-bottom: 0;
-      height: inherit;
-      line-height: inherit;
-
-      ion-icon {
-        display: block;
-      }
-    }
-
-    + .slide {
-      bottom: 0;
-      position: absolute;
-      z-index: 2;
-      height: 2px;
-
-      &.ease {
-        transition: left .25s ease-out;
-      }
-    }
-  }
-
-  ion-slides {
+  >ion-slides {
     text-align: inherit;
     font-size: inherit;
-
-    .swiper-slide,
     ion-slide,
-    ion-slide .slide-zoom {
+    ion-slide .slide-zoom,
+    .swiper-slide {
       text-align: inherit;
       font-size: inherit;
     }
