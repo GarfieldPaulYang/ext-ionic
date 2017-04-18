@@ -1,4 +1,7 @@
-import { Component, Input, Output, EventEmitter, ElementRef, ViewChild, ViewChildren, QueryList, Renderer } from '@angular/core';
+import {
+  Component, Input, Output, EventEmitter, ElementRef,
+  ViewChild, ViewChildren, QueryList, Renderer, AfterViewInit
+} from '@angular/core';
 import { Segment, SegmentButton, Platform } from 'ionic-angular';
 
 @Component({
@@ -22,9 +25,7 @@ import { Segment, SegmentButton, Platform } from 'ionic-angular';
       </div>
     </ion-toolbar>`
 })
-export class SlideTabsToolbar {
-  // Inputs
-
+export class SlideTabsToolbar implements AfterViewInit {
   @Input()
   color: string = '';
 
@@ -52,14 +53,8 @@ export class SlideTabsToolbar {
   @Input()
   selectedTab: number = 0;
 
-
-  // Outputs
-
   @Output()
   tabSelect: EventEmitter<any> = new EventEmitter<any>();
-
-
-  // View children
 
   @ViewChildren(SegmentButton)
   private segmentButtons: QueryList<SegmentButton>;
@@ -69,9 +64,6 @@ export class SlideTabsToolbar {
 
   @ViewChild('indicator')
   private indicator: ElementRef;
-
-
-  // View bindings
 
   /**
    * @private
@@ -107,8 +99,6 @@ export class SlideTabsToolbar {
    */
   private init: boolean = false;
 
-
-  // Initialization methods
   constructor(
     private rnd: Renderer,
     private el: ElementRef,
@@ -116,7 +106,6 @@ export class SlideTabsToolbar {
   ) { }
 
   ngAfterViewInit() {
-    // this.segment.writeValue(this.selectedTab);
     this.init = true;
 
     if (this.scrollTabs) {
@@ -128,13 +117,9 @@ export class SlideTabsToolbar {
     this.setIndicatorColor(this.indicatorColor);
   }
 
-  initToolbar() {
-
-  }
-
-  // Event handlers
   onTabButtonsContainerTouch(name: string, ev: any) {
     if (!this.scrollTabs) return;
+
     switch (name) {
       case 'touchstart':
         this.lastTouchPositionX = ev.touches[0].clientX;
@@ -162,8 +147,6 @@ export class SlideTabsToolbar {
     this.tabSelect.emit(index);
   }
 
-
-  // Public methods
   setIndicatorProperties(position: number, width: number, shouldEase: boolean = false) {
     shouldEase && this.toggleEase();
     this.setIndicatorPosition(position, false);
@@ -185,9 +168,6 @@ export class SlideTabsToolbar {
     this.rnd.setElementStyle(this.segment.getNativeElement(), 'transform', `translate3d(${-1 * position}px, 0, 0)`);
   }
 
-
-  // Private methods
-
   private toggleEase() {
     this.ease = true;
     setTimeout(() => this.ease = false, 150);
@@ -202,13 +182,9 @@ export class SlideTabsToolbar {
     this.segmentButtons.forEach((btn: SegmentButton, i: number) => {
       const el = <ElementRef>(<any>btn)._elementRef;
       index[i] = el.nativeElement.offsetWidth;
-      // total += index[i] + 12;
     });
 
     total = index.reduce((a, b) => a + b + 10, 0);
-
-    console.log(index);
-    console.log(total);
 
     this.segmentButtonWidths = index;
     this.segmentWidth = total;
@@ -221,10 +197,10 @@ export class SlideTabsToolbar {
     if (!this.init) {
       this._indicatorColor = color;
       return;
-    } else {
-      this.rnd.setElementClass(this.indicator.nativeElement, `button-md-${this._indicatorColor}`, false);
-      this.rnd.setElementClass(this.indicator.nativeElement, `button-md-${color}`, true);
-      this._indicatorColor = color;
     }
+
+    this.rnd.setElementClass(this.indicator.nativeElement, `button-md-${this._indicatorColor}`, false);
+    this.rnd.setElementClass(this.indicator.nativeElement, `button-md-${color}`, true);
+    this._indicatorColor = color;
   }
 }

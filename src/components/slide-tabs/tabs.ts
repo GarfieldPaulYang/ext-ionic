@@ -135,7 +135,6 @@ export class SlideTabs implements AfterContentInit, AfterViewInit, OnDestroy {
     this.superTabs.forEach((tab: SlideTab) => {
       tab.navParams = tab.navParams || {};
       tab.navParams.rootNavCtrl = this.rootNavCtrl;
-      // this.tabs.push(tab);
 
       this.tabs.push(tab);
 
