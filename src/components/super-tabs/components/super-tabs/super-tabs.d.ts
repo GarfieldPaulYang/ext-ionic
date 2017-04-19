@@ -1,6 +1,6 @@
 import { AfterViewInit, ElementRef, OnInit, OnDestroy, Renderer2, AfterContentInit, EventEmitter } from '@angular/core';
 import { SuperTab } from '../super-tab/super-tab';
-import { NavController, RootNode, NavControllerBase, ViewController, App } from 'ionic-angular';
+import { NavController, RootNode, NavControllerBase, ViewController, App, DeepLinker } from 'ionic-angular';
 import { SuperTabsController } from '../../providers/super-tabs-controller';
 export interface SuperTabsConfig {
     /**
@@ -38,6 +38,7 @@ export declare class SuperTabs implements OnInit, AfterContentInit, AfterViewIni
     private el;
     private rnd;
     private superTabsCtrl;
+    private linker;
     /**
      * Color of the toolbar behind the tab buttons
      */
@@ -74,11 +75,14 @@ export declare class SuperTabs implements OnInit, AfterContentInit, AfterViewIni
     scrollTabs: boolean;
     tabsPlacement: string;
     tabSelect: EventEmitter<any>;
+    /**
+     * @private
+     */
     isToolbarVisible: boolean;
     /**
      * @private
      */
-    tabs: SuperTab[];
+    _tabs: SuperTab[];
     private toolbar;
     private tabsContainer;
     private maxIndicatorPosition;
@@ -87,8 +91,9 @@ export declare class SuperTabs implements OnInit, AfterContentInit, AfterViewIni
     private watches;
     private hasIcons;
     private hasTitles;
+    private init;
     parent: NavControllerBase;
-    constructor(parent: NavController, viewCtrl: ViewController, _app: App, el: ElementRef, rnd: Renderer2, superTabsCtrl: SuperTabsController);
+    constructor(parent: NavController, viewCtrl: ViewController, _app: App, el: ElementRef, rnd: Renderer2, superTabsCtrl: SuperTabsController, linker: DeepLinker);
     ngOnInit(): void;
     ngAfterContentInit(): void;
     ngAfterViewInit(): void;
@@ -107,7 +112,7 @@ export declare class SuperTabs implements OnInit, AfterContentInit, AfterViewIni
      * We listen to drag events to move the "slide" thingy along with the slides
      * @param ev
      */
-    onDrag(ev: TouchEvent): void;
+    onDrag(): void;
     /**
      * We need to disable animation after the slide is done changing
      * Any further movement should happen instantly as the user swipes through the tabs
@@ -117,8 +122,12 @@ export declare class SuperTabs implements OnInit, AfterContentInit, AfterViewIni
      * Runs when the user clicks on a segment button
      * @param index
      */
-    onTabSelect(index: number): void;
-    onTabEnter(index: number): void;
+    onTabChange(index: number): void;
+    onToolbarTabSelect(index: number): void;
+    onContainerTabSelect(ev: {
+        index: number;
+        changed: boolean;
+    }): void;
     private updateTabWidth();
     private refreshContainerHeight();
     private refreshTabWidths();
@@ -134,9 +143,10 @@ export declare class SuperTabs implements OnInit, AfterContentInit, AfterViewIni
      * Aligns slide position with selected tab
      */
     private alignIndicatorPosition(ease?);
-    private getTabIndexById(tabId);
-    private getTabById(tabId);
+    getTabIndexById(tabId: string): number;
+    getTabById(tabId: string): SuperTab;
     getElementRef(): ElementRef;
     initPane(): boolean;
     paneChanged(): void;
+    getSelected(): void;
 }

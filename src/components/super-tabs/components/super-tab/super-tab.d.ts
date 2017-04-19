@@ -6,6 +6,8 @@ export declare class SuperTab extends NavControllerBase implements OnInit, After
     private linker;
     private _dom;
     title: string;
+    readonly tabTitle: string;
+    readonly index: any;
     icon: string;
     /**
      * @input {Page} Set the root page for this tab.
@@ -16,6 +18,7 @@ export declare class SuperTab extends NavControllerBase implements OnInit, After
      */
     rootParams: any;
     tabId: string;
+    readonly _tabId: string;
     badge: number;
     /**
      * @hidden
@@ -30,5 +33,4 @@ export declare class SuperTab extends NavControllerBase implements OnInit, After
     increaseBadge(increaseBy: number): void;
     decreaseBadge(decreaseBy: number): void;
     setWidth(width: number): void;
-    getActiveChildNav(): any;
 }

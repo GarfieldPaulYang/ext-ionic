@@ -14,11 +14,11 @@ const ionic_angular_1 = require("ionic-angular");
 const super_tabs_pan_gesture_1 = require("../../super-tabs-pan-gesture");
 let SuperTabsToolbar = class SuperTabsToolbar {
     // Initialization methods
-    constructor(el, plt, rnd) {
+    constructor(el, plt, rnd, domCtrl) {
         this.el = el;
         this.plt = plt;
         this.rnd = rnd;
-        // Inputs
+        this.domCtrl = domCtrl;
         this.color = '';
         this.tabsColor = '';
         this.badgeColor = '';
@@ -27,14 +27,11 @@ let SuperTabsToolbar = class SuperTabsToolbar {
         this.selectedTab = 0;
         this.indicatorPosition = 0;
         this.indicatorWidth = 0;
-        // Outputs
         this.tabSelect = new core_1.EventEmitter();
-        // View bindings
         /**
          * @private
          */
         this.segmentPosition = 0;
-        // Public values to be accessed by parent SuperTabs component
         /**
          * The width of each button
          */
@@ -44,15 +41,8 @@ let SuperTabsToolbar = class SuperTabsToolbar {
          */
         this.segmentWidth = 0;
         this.tabs = [];
-        // Private values for tracking, calculations ...etc
-        /**
-         * Indicates whether this component is initialized
-         */
-        this.init = false;
     }
     ngAfterViewInit() {
-        // this.segment.writeValue(this.selectedTab);
-        this.init = true;
         this.gesture = new super_tabs_pan_gesture_1.SuperTabsPanGesture(this.plt, this.tabButtonsContainer.nativeElement, this.config, this.rnd);
         this.gesture.onMove = (delta) => {
             let newCPos = this.segmentPosition + delta;
@@ -73,24 +63,30 @@ let SuperTabsToolbar = class SuperTabsToolbar {
         this.tabSelect.emit(index);
     }
     alignIndicator(position, width, animate) {
-        this.toggleAnimation(this.indicator.nativeElement, animate);
+        this.toggleAnimation(this.indicator, animate);
         this.setIndicatorWidth(width, animate);
         this.setIndicatorPosition(position, animate);
     }
     setIndicatorPosition(position, animate) {
         this.indicatorPosition = position;
-        this.toggleAnimation(this.indicator.nativeElement, animate);
-        this.rnd.setStyle(this.indicator.nativeElement, this.plt.Css.transform, 'translate3d(' + (position - this.segmentPosition) + 'px, 0, 0)');
+        this.toggleAnimation(this.indicator, animate);
+        this.domCtrl.write(() => {
+            this.rnd.setStyle(this.indicator.nativeElement, this.plt.Css.transform, 'translate3d(' + (position - this.segmentPosition) + 'px, 0, 0)');
+        });
     }
     setIndicatorWidth(width, animate) {
         this.indicatorWidth = width;
-        this.toggleAnimation(this.indicator.nativeElement, animate);
-        this.rnd.setStyle(this.indicator.nativeElement, 'width', width + 'px');
+        this.toggleAnimation(this.indicator, animate);
+        this.domCtrl.write(() => {
+            this.rnd.setStyle(this.indicator.nativeElement, 'width', width + 'px');
+        });
     }
     setSegmentPosition(position, animate) {
         this.segmentPosition = position;
-        this.toggleAnimation(this.segment.getNativeElement(), animate);
-        this.rnd.setStyle(this.segment.getNativeElement(), this.plt.Css.transform, `translate3d(${-1 * position}px,0,0)`);
+        this.toggleAnimation(this.segment.getElementRef(), animate);
+        this.domCtrl.write(() => {
+            this.rnd.setStyle(this.segment.getNativeElement(), this.plt.Css.transform, `translate3d(${-1 * position}px,0,0)`);
+        });
         this.setIndicatorPosition(this.indicatorPosition, animate);
     }
     /**
@@ -101,14 +97,19 @@ let SuperTabsToolbar = class SuperTabsToolbar {
     toggleAnimation(el, animate) {
         if (!this.config || this.config.transitionDuration === 0)
             return;
-        if (animate) {
-            // ease isn't enabled and needs to be enabled
-            this.rnd.setStyle(el, this.plt.Css.transition, `all ${this.config.transitionDuration}ms ${this.config.transitionEase}`);
-        }
-        else {
-            // ease is already enabled and needs to be disabled
-            this.rnd.setStyle(el, this.plt.Css.transition, 'initial');
-        }
+        this.domCtrl.read(() => {
+            const _el = el.nativeElement;
+            this.domCtrl.write(() => {
+                if (animate) {
+                    // ease isn't enabled and needs to be enabled
+                    this.rnd.setStyle(_el, this.plt.Css.transition, `all ${this.config.transitionDuration}ms ${this.config.transitionEase}`);
+                }
+                else {
+                    // ease is already enabled and needs to be disabled
+                    this.rnd.setStyle(_el, this.plt.Css.transition, 'initial');
+                }
+            });
+        });
     }
     /**
      * Indexes the segment button widths
@@ -196,7 +197,8 @@ SuperTabsToolbar = __decorate([
     }),
     __metadata("design:paramtypes", [core_1.ElementRef,
         ionic_angular_1.Platform,
-        core_1.Renderer2])
+        core_1.Renderer2,
+        ionic_angular_1.DomController])
 ], SuperTabsToolbar);
 exports.SuperTabsToolbar = SuperTabsToolbar;
 //# sourceMappingURL=super-tabs-toolbar.js.map

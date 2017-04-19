@@ -1,14 +1,19 @@
-import { Renderer2, ElementRef, EventEmitter, AfterViewInit, OnDestroy } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Renderer2, ElementRef, EventEmitter, AfterViewInit, OnDestroy, NgZone } from '@angular/core';
+import { DomController, Platform } from 'ionic-angular';
 import { SuperTabsConfig } from '../super-tabs/super-tabs';
 export declare class SuperTabsContainer implements AfterViewInit, OnDestroy {
     private el;
     private rnd;
     private plt;
+    private domCtrl;
+    private ngZone;
     config: SuperTabsConfig;
     tabsCount: number;
     selectedTabIndex: number;
-    tabSelect: EventEmitter<number>;
+    tabSelect: EventEmitter<{
+        index: number;
+        changed: boolean;
+    }>;
     tabWillChange: EventEmitter<any>;
     tabDidChange: EventEmitter<any>;
     onDrag: EventEmitter<TouchEvent>;
@@ -16,14 +21,12 @@ export declare class SuperTabsContainer implements AfterViewInit, OnDestroy {
     container: ElementRef;
     tabWidth: number;
     containerWidth: number;
-    leftThreshold: number;
-    rightThreshold: number;
     private minPosX;
     private maxPosX;
     private gesture;
     private globalSwipeEnabled;
     private swipeEnabledPerTab;
-    constructor(el: ElementRef, rnd: Renderer2, plt: Platform);
+    constructor(el: ElementRef, rnd: Renderer2, plt: Platform, domCtrl: DomController, ngZone: NgZone);
     ngAfterViewInit(): void;
     ngOnDestroy(): void;
     enableTabsSwipe(enable: boolean): void;
@@ -35,7 +38,7 @@ export declare class SuperTabsContainer implements AfterViewInit, OnDestroy {
     private calculateContainerWidth();
     setHeight(height: number): void;
     private setContainerWidth();
-    slideTo(index: number): void;
-    private moveContainer(animate?, positionX?);
+    slideTo(index: number, animate?: boolean): void;
+    private moveContainer(animate?, positionX?, callback?);
     private refreshMinMax();
 }

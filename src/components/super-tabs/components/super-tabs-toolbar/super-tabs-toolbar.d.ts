@@ -1,10 +1,11 @@
 import { EventEmitter, ElementRef, Renderer2, AfterViewInit, OnDestroy } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform, DomController } from 'ionic-angular';
 import { SuperTabsConfig } from '../super-tabs/super-tabs';
 export declare class SuperTabsToolbar implements AfterViewInit, OnDestroy {
     private el;
     private plt;
     private rnd;
+    private domCtrl;
     color: string;
     tabsColor: string;
     badgeColor: string;
@@ -33,12 +34,8 @@ export declare class SuperTabsToolbar implements AfterViewInit, OnDestroy {
      */
     segmentWidth: number;
     tabs: any[];
-    /**
-     * Indicates whether this component is initialized
-     */
-    private init;
     private gesture;
-    constructor(el: ElementRef, plt: Platform, rnd: Renderer2);
+    constructor(el: ElementRef, plt: Platform, rnd: Renderer2, domCtrl: DomController);
     ngAfterViewInit(): void;
     ngOnDestroy(): void;
     onTabSelect(index: number): void;

@@ -23,6 +23,15 @@ let SuperTab = class SuperTab extends ionic_angular_1.NavControllerBase {
         this._dom = _dom;
         this.badge = 0;
     }
+    get tabTitle() {
+        return this.title;
+    }
+    get index() {
+        return this.parent.getTabIndexById(this.tabId);
+    }
+    get _tabId() {
+        return this.tabId;
+    }
     /**
      * @hidden
      */
@@ -33,7 +42,7 @@ let SuperTab = class SuperTab extends ionic_angular_1.NavControllerBase {
         this.parent.addTab(this);
     }
     ngAfterViewInit() {
-        this.push(this.root, this.rootParams);
+        this.push(this.root, this.rootParams, { animate: false });
     }
     ngOnDestroy() {
         this.destroy();
@@ -52,9 +61,6 @@ let SuperTab = class SuperTab extends ionic_angular_1.NavControllerBase {
     }
     setWidth(width) {
         this.setElementStyle('width', width + 'px');
-    }
-    getActiveChildNav() {
-        return null;
     }
 };
 __decorate([

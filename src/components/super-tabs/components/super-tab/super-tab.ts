@@ -15,6 +15,14 @@ export class SuperTab extends NavControllerBase implements OnInit, AfterViewInit
   @Input()
   title: string;
 
+  get tabTitle() {
+    return this.title;
+  }
+
+  get index() {
+    return this.parent.getTabIndexById(this.tabId);
+  }
+
   @Input()
   icon: string;
 
@@ -30,6 +38,10 @@ export class SuperTab extends NavControllerBase implements OnInit, AfterViewInit
 
   @Input('id')
   tabId: string;
+
+  get _tabId() {
+    return this.tabId;
+  }
 
   @Input()
   badge: number = 0;
@@ -65,7 +77,7 @@ export class SuperTab extends NavControllerBase implements OnInit, AfterViewInit
   }
 
   ngAfterViewInit() {
-    this.push(this.root, this.rootParams);
+    this.push(this.root, this.rootParams, { animate: false });
   }
 
   ngOnDestroy() {
@@ -90,9 +102,5 @@ export class SuperTab extends NavControllerBase implements OnInit, AfterViewInit
 
   setWidth(width: number) {
     this.setElementStyle('width', width + 'px');
-  }
-
-  getActiveChildNav() {
-    return null;
   }
 }

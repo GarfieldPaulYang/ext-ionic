@@ -13,10 +13,12 @@ const core_1 = require("@angular/core");
 const ionic_angular_1 = require("ionic-angular");
 const super_tabs_pan_gesture_1 = require("../../super-tabs-pan-gesture");
 let SuperTabsContainer = class SuperTabsContainer {
-    constructor(el, rnd, plt) {
+    constructor(el, rnd, plt, domCtrl, ngZone) {
         this.el = el;
         this.rnd = rnd;
         this.plt = plt;
+        this.domCtrl = domCtrl;
+        this.ngZone = ngZone;
         this.tabsCount = 0;
         this.tabSelect = new core_1.EventEmitter();
         this.tabWillChange = new core_1.EventEmitter();
@@ -26,9 +28,6 @@ let SuperTabsContainer = class SuperTabsContainer {
         this.containerPosition = 0;
         this.tabWidth = 0;
         this.containerWidth = 0;
-        // Animation stuff
-        this.leftThreshold = 50;
-        this.rightThreshold = 0;
         this.globalSwipeEnabled = true;
         this.swipeEnabledPerTab = {};
     }
@@ -79,16 +78,16 @@ let SuperTabsContainer = class SuperTabsContainer {
             // get location based on tab index
             const position = Math.max(this.minPosX, Math.min(this.maxPosX, tabIndex * this.tabWidth));
             tabIndex = position / this.tabWidth;
-            // set selected tab
-            this.setSelectedTab(tabIndex);
             // move container if we changed position
             if (position !== this.containerPosition) {
-                this.moveContainer(true, position);
+                this.moveContainer(true, position, () => this.ngZone.run(() => this.setSelectedTab(tabIndex)));
             }
+            else
+                this.setSelectedTab(tabIndex);
         };
     }
     setSelectedTab(index) {
-        index !== this.selectedTabIndex && this.tabSelect.emit(index);
+        this.tabSelect.emit({ index, changed: index !== this.selectedTabIndex });
         this.selectedTabIndex = index;
     }
     calculateContainerWidth() {
@@ -100,28 +99,39 @@ let SuperTabsContainer = class SuperTabsContainer {
     setContainerWidth() {
         this.rnd.setStyle(this.container.nativeElement, 'width', this.containerWidth + 'px');
     }
-    slideTo(index) {
-        this.moveContainer(true, index * this.tabWidth);
+    slideTo(index, animate = true) {
+        this.moveContainer(animate, index * this.tabWidth);
     }
-    moveContainer(animate = false, positionX) {
-        const el = this.container.nativeElement;
-        if (animate) {
-            if (el.style[this.plt.Css.transform].indexOf('all') === -1) {
-                this.rnd.setStyle(el, this.plt.Css.transition, `all ${this.config.transitionDuration}ms ${this.config.transitionEase}`);
-            }
-            this.rnd.setStyle(el, this.plt.Css.transform, `translate3d(${-1 * positionX}px, 0, 0)`);
-            this.containerPosition = positionX;
-        }
-        else {
-            if (positionX) {
+    moveContainer(animate = false, positionX, callback = () => { }) {
+        this.domCtrl.read(() => {
+            const el = this.container.nativeElement;
+            if (animate) {
+                if (el.style[this.plt.Css.transform].indexOf('all') === -1) {
+                    this.domCtrl.write(() => {
+                        this.rnd.setStyle(el, this.plt.Css.transition, `all ${this.config.transitionDuration}ms ${this.config.transitionEase}`);
+                    });
+                }
+                this.domCtrl.write(() => {
+                    this.rnd.setStyle(el, this.plt.Css.transform, `translate3d(${-1 * positionX}px, 0, 0)`);
+                });
                 this.containerPosition = positionX;
             }
-            if (el.style[this.plt.Css.transform] !== 'initial') {
-                this.rnd.setStyle(el, this.plt.Css.transition, 'initial');
+            else {
+                if (positionX) {
+                    this.containerPosition = positionX;
+                }
+                if (el.style[this.plt.Css.transform] !== 'initial') {
+                    this.domCtrl.write(() => {
+                        this.rnd.setStyle(el, this.plt.Css.transition, 'initial');
+                    });
+                }
+                this.containerPosition = Math.max(this.minPosX, Math.min(this.maxPosX, this.containerPosition));
+                this.domCtrl.write(() => {
+                    this.rnd.setStyle(el, this.plt.Css.transform, `translate3d(${-1 * this.containerPosition}px, 0, 0)`);
+                });
             }
-            this.containerPosition = Math.max(this.minPosX, Math.min(this.maxPosX, this.containerPosition));
-            this.rnd.setStyle(el, this.plt.Css.transform, `translate3d(${-1 * this.containerPosition}px, 0, 0)`);
-        }
+            callback();
+        });
     }
     refreshMinMax() {
         this.minPosX = 0;
@@ -168,7 +178,9 @@ SuperTabsContainer = __decorate([
     }),
     __metadata("design:paramtypes", [core_1.ElementRef,
         core_1.Renderer2,
-        ionic_angular_1.Platform])
+        ionic_angular_1.Platform,
+        ionic_angular_1.DomController,
+        core_1.NgZone])
 ], SuperTabsContainer);
 exports.SuperTabsContainer = SuperTabsContainer;
 //# sourceMappingURL=super-tabs-container.js.map
