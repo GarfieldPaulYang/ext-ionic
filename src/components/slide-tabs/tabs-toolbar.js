@@ -12,12 +12,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
 const ionic_angular_1 = require("ionic-angular");
 let SlideTabsToolbar = class SlideTabsToolbar {
-    // Initialization methods
     constructor(rnd, el, plt) {
         this.rnd = rnd;
         this.el = el;
         this.plt = plt;
-        // Inputs
         this.color = '';
         this.tabsColor = '';
         this.scrollTabs = false;
@@ -25,9 +23,7 @@ let SlideTabsToolbar = class SlideTabsToolbar {
         this.indicatorPosition = 0;
         this.indicatorWidth = 0;
         this.selectedTab = 0;
-        // Outputs
         this.tabSelect = new core_1.EventEmitter();
-        // View bindings
         /**
          * @private
          */
@@ -54,7 +50,6 @@ let SlideTabsToolbar = class SlideTabsToolbar {
         return this._indicatorColor;
     }
     ngAfterViewInit() {
-        // this.segment.writeValue(this.selectedTab);
         this.init = true;
         if (this.scrollTabs) {
             this.plt.timeout(() => {
@@ -63,9 +58,6 @@ let SlideTabsToolbar = class SlideTabsToolbar {
         }
         this.setIndicatorColor(this.indicatorColor);
     }
-    initToolbar() {
-    }
-    // Event handlers
     onTabButtonsContainerTouch(name, ev) {
         if (!this.scrollTabs)
             return;
@@ -91,7 +83,6 @@ let SlideTabsToolbar = class SlideTabsToolbar {
     onTabSelect(index) {
         this.tabSelect.emit(index);
     }
-    // Public methods
     setIndicatorProperties(position, width, shouldEase = false) {
         shouldEase && this.toggleEase();
         this.setIndicatorPosition(position, false);
@@ -109,7 +100,6 @@ let SlideTabsToolbar = class SlideTabsToolbar {
         this.segmentPosition = position;
         this.rnd.setElementStyle(this.segment.getNativeElement(), 'transform', `translate3d(${-1 * position}px, 0, 0)`);
     }
-    // Private methods
     toggleEase() {
         this.ease = true;
         setTimeout(() => this.ease = false, 150);
@@ -123,11 +113,8 @@ let SlideTabsToolbar = class SlideTabsToolbar {
         this.segmentButtons.forEach((btn, i) => {
             const el = btn._elementRef;
             index[i] = el.nativeElement.offsetWidth;
-            // total += index[i] + 12;
         });
         total = index.reduce((a, b) => a + b + 10, 0);
-        console.log(index);
-        console.log(total);
         this.segmentButtonWidths = index;
         this.segmentWidth = total;
     }
@@ -139,11 +126,9 @@ let SlideTabsToolbar = class SlideTabsToolbar {
             this._indicatorColor = color;
             return;
         }
-        else {
-            this.rnd.setElementClass(this.indicator.nativeElement, `button-md-${this._indicatorColor}`, false);
-            this.rnd.setElementClass(this.indicator.nativeElement, `button-md-${color}`, true);
-            this._indicatorColor = color;
-        }
+        this.rnd.setElementClass(this.indicator.nativeElement, `button-md-${this._indicatorColor}`, false);
+        this.rnd.setElementClass(this.indicator.nativeElement, `button-md-${color}`, true);
+        this._indicatorColor = color;
     }
 };
 __decorate([

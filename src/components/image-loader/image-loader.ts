@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Transfer } from '@ionic-native/transfer';
-import { File, FileEntry } from '@ionic-native/file';
+import { File, FileEntry, Metadata, FileError } from '@ionic-native/file';
 
 import * as _ from 'lodash';
 
@@ -142,22 +142,23 @@ export class ImageLoaderController {
   }
 
   private addFileToIndex(file: FileEntry): Promise<any> {
-    return new Promise<any>((resolve, reject) => file.getMetadata(resolve, reject)).then(metadata => {
-      if (
-        this.config.get().imageLoader.maxCacheAge > -1
-        && (Date.now() - metadata.modificationTime.getTime()) > this.config.get().imageLoader.maxCacheAge
-      ) {
-        return this.file.removeFile(this.cacheDirectory, file.name);
-      } else {
-        this.currentCacheSize += metadata.size;
+    return new Promise<any>((resolve, reject) => {
+      file.getMetadata((metadata: Metadata) => {
+        if (
+          this.config.get().imageLoader.maxCacheAge > -1
+          && (Date.now() - metadata.modificationTime.getTime()) > this.config.get().imageLoader.maxCacheAge
+        ) {
+          return this.file.removeFile(this.cacheDirectory, file.name);
+        }
 
+        this.currentCacheSize += metadata.size;
         this.cacheIndex.push({
           name: file.name,
           modificationTime: metadata.modificationTime,
           size: metadata.size
         });
-        return Promise.resolve();
-      }
+        resolve();
+      }, (error: FileError) => reject(error));
     });
   }
 

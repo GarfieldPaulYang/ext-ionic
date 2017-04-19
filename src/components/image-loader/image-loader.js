@@ -118,20 +118,20 @@ let ImageLoaderController = class ImageLoaderController {
         });
     }
     addFileToIndex(file) {
-        return new Promise((resolve, reject) => file.getMetadata(resolve, reject)).then(metadata => {
-            if (this.config.get().imageLoader.maxCacheAge > -1
-                && (Date.now() - metadata.modificationTime.getTime()) > this.config.get().imageLoader.maxCacheAge) {
-                return this.file.removeFile(this.cacheDirectory, file.name);
-            }
-            else {
+        return new Promise((resolve, reject) => {
+            file.getMetadata((metadata) => {
+                if (this.config.get().imageLoader.maxCacheAge > -1
+                    && (Date.now() - metadata.modificationTime.getTime()) > this.config.get().imageLoader.maxCacheAge) {
+                    return this.file.removeFile(this.cacheDirectory, file.name);
+                }
                 this.currentCacheSize += metadata.size;
                 this.cacheIndex.push({
                     name: file.name,
                     modificationTime: metadata.modificationTime,
                     size: metadata.size
                 });
-                return Promise.resolve();
-            }
+                resolve();
+            }, (error) => reject(error));
         });
     }
     indexCache() {

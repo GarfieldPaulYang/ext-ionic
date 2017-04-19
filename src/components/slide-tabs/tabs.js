@@ -71,7 +71,6 @@ let SlideTabs = class SlideTabs {
         this.superTabs.forEach((tab) => {
             tab.navParams = tab.navParams || {};
             tab.navParams.rootNavCtrl = this.rootNavCtrl;
-            // this.tabs.push(tab);
             this.tabs.push(tab);
             if (tab.icon) {
                 this.hasIcons = true;

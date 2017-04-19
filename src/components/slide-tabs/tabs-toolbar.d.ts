@@ -1,6 +1,6 @@
-import { EventEmitter, ElementRef, Renderer } from '@angular/core';
+import { EventEmitter, ElementRef, Renderer, AfterViewInit } from '@angular/core';
 import { Platform } from 'ionic-angular';
-export declare class SlideTabsToolbar {
+export declare class SlideTabsToolbar implements AfterViewInit {
     private rnd;
     private el;
     private plt;
@@ -40,7 +40,6 @@ export declare class SlideTabsToolbar {
     private init;
     constructor(rnd: Renderer, el: ElementRef, plt: Platform);
     ngAfterViewInit(): void;
-    initToolbar(): void;
     onTabButtonsContainerTouch(name: string, ev: any): void;
     onTabSelect(index: number): void;
     setIndicatorProperties(position: number, width: number, shouldEase?: boolean): void;
