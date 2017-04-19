@@ -23,34 +23,19 @@ exports.ticket_expired = 'ticket-expired';
 class HttpProviderOptions extends http_1.RequestOptions {
     constructor(options) {
         super(options);
-        this.showErrorAlert = true;
-        this.interceptors = [];
-        this.interceptorParams = {};
         this.showLoading = options.showLoading;
         this.loadingContent = options.loadingContent;
         this.showErrorAlert = options.showErrorAlert;
+        this.interceptors = options.interceptors;
+        this.interceptorParams = options.interceptorParams;
     }
     merge(options) {
         let result = super.merge(options);
-        result.showLoading = this.showLoading;
-        result.showErrorAlert = this.showErrorAlert;
-        result.interceptors = this.interceptors;
-        result.interceptorParams = this.interceptorParams;
-        if (util_1.isPresent(options.showLoading)) {
-            result.showLoading = options.showLoading;
-        }
-        if (util_1.isPresent(options.loadingContent)) {
-            result.loadingContent = options.loadingContent;
-        }
-        if (util_1.isPresent(options.showErrorAlert)) {
-            result.showErrorAlert = options.showErrorAlert;
-        }
-        if (util_1.isPresent(options.interceptors)) {
-            result.interceptors = options.interceptors;
-        }
-        if (util_1.isPresent(options.interceptorParams)) {
-            result.interceptorParams = options.interceptorParams;
-        }
+        result.showLoading = util_1.isPresent(options.showLoading) ? options.showLoading : this.showLoading;
+        result.showErrorAlert = util_1.isPresent(options.showErrorAlert) ? options.showErrorAlert : this.showErrorAlert;
+        result.loadingContent = options.loadingContent ? options.loadingContent : this.loadingContent;
+        result.interceptors = options.interceptors ? options.interceptors : [];
+        result.interceptorParams = options.interceptorParams ? options.interceptorParams : {};
         return result;
     }
 }
@@ -59,6 +44,8 @@ const defaultRequestOptions = new HttpProviderOptions({
     showLoading: true,
     loadingContent: '正在加载...',
     showErrorAlert: true,
+    interceptors: [],
+    interceptorParams: {},
     method: http_1.RequestMethod.Get,
     responseType: http_1.ResponseContentType.Json
 });
@@ -91,7 +78,7 @@ let HttpProvider = class HttpProvider {
         });
     }
     request(url, options) {
-        options = _.isUndefined(options) ? defaultRequestOptions : defaultRequestOptions.merge(options);
+        options = options ? defaultRequestOptions.merge(options) : defaultRequestOptions;
         options.interceptors = this.config.get().interceptors.concat(options.interceptors);
         let loading;
         if (options.showLoading) {
@@ -119,15 +106,21 @@ let HttpProvider = class HttpProvider {
     }
     ajax(url, options) {
         let params = url_params_builder_1.URLParamsBuilder.build({ '__cors-request__': true });
-        if (util_1.isPresent(options.search)) {
+        if (options.search) {
             params.replaceAll(options.search);
         }
-        if (util_1.isPresent(options.params)) {
+        if (options.params) {
             params.replaceAll(options.params);
         }
         options.params = params;
-        if (options.method === http_1.RequestMethod.Post && util_1.isPresent(options.body) && !(options.body instanceof FormData)) {
-            options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
+        if (options.method === http_1.RequestMethod.Post) {
+            if (util_1.isPresent(options.body) && !(options.body instanceof FormData)) {
+                options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
+            }
+            else {
+                options.headers = options.headers || new http_1.Headers();
+                options.headers.set('Content-Type', 'application/json');
+            }
         }
         return this.http.request(url, options).map((r) => new response_result_1.ResponseResult(r.json()));
     }
@@ -175,12 +168,8 @@ let CorsHttpProvider = class CorsHttpProvider {
         });
     }
     request(url, options) {
-        if (_.isUndefined(options)) {
-            options = {};
-        }
-        if (!util_1.isPresent(options.headers)) {
-            options.headers = new http_1.Headers();
-        }
+        options = options || {};
+        options.headers = options.headers || new http_1.Headers();
         options.headers.set('__app-key__', this.config.get().login.appKey);
         options.headers.set('__dev-mode__', this.config.get().devMode + '');
         options.headers.set('__ticket__', this.ticket);
