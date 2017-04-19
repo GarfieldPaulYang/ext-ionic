@@ -47,7 +47,6 @@ export { assert, isTrueProperty, isPresent, flattenObject, unFlattenObject } fro
 export { Dialog } from './src/utils/dialog';
 export {
   HttpProviderOptionsArgs,
-  HttpInterceptor,
   HttpProviderOptions,
   LoginOptions,
   LoginResult,

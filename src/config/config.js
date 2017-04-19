@@ -36,8 +36,7 @@ const defaultConfig = {
         mass: {
             enabled: false
         }
-    },
-    interceptors: []
+    }
 };
 let ConfigProvider = class ConfigProvider {
     get() {

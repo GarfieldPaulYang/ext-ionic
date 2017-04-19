@@ -26,16 +26,12 @@ class HttpProviderOptions extends http_1.RequestOptions {
         this.showLoading = options.showLoading;
         this.loadingContent = options.loadingContent;
         this.showErrorAlert = options.showErrorAlert;
-        this.interceptors = options.interceptors;
-        this.interceptorParams = options.interceptorParams;
     }
     merge(options) {
         let result = super.merge(options);
         result.showLoading = util_1.isPresent(options.showLoading) ? options.showLoading : this.showLoading;
         result.showErrorAlert = util_1.isPresent(options.showErrorAlert) ? options.showErrorAlert : this.showErrorAlert;
         result.loadingContent = options.loadingContent ? options.loadingContent : this.loadingContent;
-        result.interceptors = options.interceptors ? options.interceptors : [];
-        result.interceptorParams = options.interceptorParams ? options.interceptorParams : {};
         return result;
     }
 }
@@ -44,8 +40,6 @@ const defaultRequestOptions = new HttpProviderOptions({
     showLoading: true,
     loadingContent: '正在加载...',
     showErrorAlert: true,
-    interceptors: [],
-    interceptorParams: {},
     method: http_1.RequestMethod.Get,
     responseType: http_1.ResponseContentType.Json
 });
@@ -79,28 +73,18 @@ let HttpProvider = class HttpProvider {
     }
     request(url, options) {
         options = options ? defaultRequestOptions.merge(options) : defaultRequestOptions;
-        options.interceptors = this.config.get().interceptors.concat(options.interceptors);
         let loading;
         if (options.showLoading) {
             loading = this.dialog.loading(options.loadingContent);
             loading.present();
         }
-        options.interceptors.forEach(interceptor => {
-            interceptor.before(options);
-        });
         return this.ajax(url, options).toPromise().then(result => {
             if (loading)
                 loading.dismiss();
-            options.interceptors.forEach(interceptor => {
-                interceptor.successed(options, result);
-            });
             return result;
         }).catch(err => {
             if (loading)
                 loading.dismiss();
-            options.interceptors.forEach(interceptor => {
-                interceptor.failed(options, err);
-            });
             return Promise.reject(err);
         });
     }

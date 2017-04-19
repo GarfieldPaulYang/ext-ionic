@@ -23,26 +23,16 @@ import { URLParamsBuilder } from '../utils/http/url-params-builder';
 
 export const ticket_expired: string = 'ticket-expired';
 
-export interface HttpInterceptor {
-  before(options: HttpProviderOptionsArgs): void;
-  successed(options: HttpProviderOptionsArgs, result: any): void;
-  failed(options: HttpProviderOptionsArgs, error: any): void;
-}
-
 export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
   showLoading?: boolean;
   loadingContent?: string;
   showErrorAlert?: boolean;
-  interceptors?: Array<HttpInterceptor>;
-  interceptorParams?: any;
 }
 
 export class HttpProviderOptions extends RequestOptions {
   showLoading: boolean;
   loadingContent: string;
   showErrorAlert: boolean;
-  interceptors: Array<HttpInterceptor>;
-  interceptorParams: any;
 
   constructor(options: HttpProviderOptionsArgs) {
     super(options);
@@ -50,8 +40,6 @@ export class HttpProviderOptions extends RequestOptions {
     this.showLoading = options.showLoading;
     this.loadingContent = options.loadingContent;
     this.showErrorAlert = options.showErrorAlert;
-    this.interceptors = options.interceptors;
-    this.interceptorParams = options.interceptorParams;
   }
 
   merge(options?: HttpProviderOptionsArgs): HttpProviderOptions {
@@ -60,8 +48,6 @@ export class HttpProviderOptions extends RequestOptions {
     result.showLoading = isPresent(options.showLoading) ? options.showLoading : this.showLoading;
     result.showErrorAlert = isPresent(options.showErrorAlert) ? options.showErrorAlert : this.showErrorAlert;
     result.loadingContent = options.loadingContent ? options.loadingContent : this.loadingContent;
-    result.interceptors = options.interceptors ? options.interceptors : [];
-    result.interceptorParams = options.interceptorParams ? options.interceptorParams : {};
 
     return result;
   }
@@ -71,8 +57,6 @@ const defaultRequestOptions: HttpProviderOptions = new HttpProviderOptions({
   showLoading: true,
   loadingContent: '正在加载...',
   showErrorAlert: true,
-  interceptors: [],
-  interceptorParams: {},
   method: RequestMethod.Get,
   responseType: ResponseContentType.Json
 });
@@ -125,26 +109,16 @@ export class HttpProvider {
 
   request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
     options = options ? defaultRequestOptions.merge(options) : defaultRequestOptions;
-    options.interceptors = this.config.get().interceptors.concat(options.interceptors);
     let loading: Loading;
     if (options.showLoading) {
       loading = this.dialog.loading(options.loadingContent);
       loading.present();
     }
-    options.interceptors.forEach(interceptor => {
-      interceptor.before(options);
-    });
     return this.ajax(url, options).toPromise().then(result => {
       if (loading) loading.dismiss();
-      options.interceptors.forEach(interceptor => {
-        interceptor.successed(options, result);
-      });
       return result;
     }).catch(err => {
       if (loading) loading.dismiss();
-      options.interceptors.forEach(interceptor => {
-        interceptor.failed(options, err);
-      });
       return Promise.reject(err);
     });
   }
