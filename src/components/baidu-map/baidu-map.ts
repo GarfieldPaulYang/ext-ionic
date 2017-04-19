@@ -1,6 +1,5 @@
 // 封装参考官方API，http://developer.baidu.com/map/reference/index.php
 import { Injectable, EventEmitter } from '@angular/core';
-import * as _ from 'lodash';
 
 import { baiduMapLoader } from './baidu-map-loader';
 import {
@@ -149,13 +148,12 @@ export class BaiduMapController {
           points.push(new BMap.Point(marker.point.lng, marker.point.lat));
         });
 
-        var pointCollection = new BMap.PointCollection(
-          points, _.assign({}, {
-            size: BMAP_POINT_SIZE_SMALL,
-            shape: BMAP_POINT_SHAPE_CIRCLE,
-            color: '#d340c3'
-          }, opts)
-        );
+        var pointCollection = new BMap.PointCollection(points, {
+          size: BMAP_POINT_SIZE_SMALL,
+          shape: BMAP_POINT_SHAPE_CIRCLE,
+          color: '#d340c3',
+          ...opts
+        });
         pointCollection.addEventListener('click', (e: any) => {
           clickHandler.emit(e);
         });

@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
 const ionic_angular_1 = require("ionic-angular");
-const _ = require("lodash");
 const config_1 = require("../../config/config");
 const open_url_modal_component_1 = require("./open-url-modal-component");
 let OpenUrlModalController = class OpenUrlModalController {
@@ -21,7 +20,7 @@ let OpenUrlModalController = class OpenUrlModalController {
         this.options = {};
     }
     open(opts = {}, modalOpts = {}) {
-        this.options = _.assign({}, this.config.get().openUrlModal, opts);
+        this.options = Object.assign({}, this.config.get().openUrlModal, opts);
         this.modal = this.modalCtrl.create(open_url_modal_component_1.OpenUrlModalCmp, { openUrlModalOptions: opts }, modalOpts);
         this.modal.onDidDismiss((data) => {
             window.removeEventListener('message', data.onmessage, false);

@@ -44,7 +44,7 @@ let ConfigProvider = class ConfigProvider {
         return this._config;
     }
     init(config) {
-        this._config = _.isUndefined(config) ? defaultConfig : _.assign({}, defaultConfig, config);
+        this._config = _.isUndefined(config) ? defaultConfig : Object.assign({}, defaultConfig, config);
     }
 };
 ConfigProvider = __decorate([

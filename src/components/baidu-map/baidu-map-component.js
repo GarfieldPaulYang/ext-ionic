@@ -62,7 +62,7 @@ let BaiduMap = class BaiduMap {
         this.baiduMapCtrl.drawMarkers(markers, this.onMarkerClick);
     }
     getOptions() {
-        return _.assign({}, this.config.get().baiduMap, this.options);
+        return Object.assign({}, this.config.get().baiduMap, this.options);
     }
 };
 __decorate([

@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 // 封装参考官方API，http://developer.baidu.com/map/reference/index.php
 const core_1 = require("@angular/core");
-const _ = require("lodash");
 const baidu_map_loader_1 = require("./baidu-map-loader");
 var BMAP_STATUS_SUCCESS;
 var BMAP_POINT_SIZE_SMALL;
@@ -130,11 +129,7 @@ let BaiduMapController = class BaiduMapController {
                 markers.forEach(marker => {
                     points.push(new exports.BMap.Point(marker.point.lng, marker.point.lat));
                 });
-                var pointCollection = new exports.BMap.PointCollection(points, _.assign({}, {
-                    size: BMAP_POINT_SIZE_SMALL,
-                    shape: BMAP_POINT_SHAPE_CIRCLE,
-                    color: '#d340c3'
-                }, opts));
+                var pointCollection = new exports.BMap.PointCollection(points, Object.assign({ size: BMAP_POINT_SIZE_SMALL, shape: BMAP_POINT_SHAPE_CIRCLE, color: '#d340c3' }, opts));
                 pointCollection.addEventListener('click', (e) => {
                     clickHandler.emit(e);
                 });

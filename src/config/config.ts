@@ -63,7 +63,7 @@ export class ConfigProvider {
   }
 
   init(config: Config) {
-    this._config = _.isUndefined(config) ? defaultConfig : _.assign({}, defaultConfig, config);
+    this._config = _.isUndefined(config) ? defaultConfig : { ...defaultConfig, ...config };
   }
 }
 

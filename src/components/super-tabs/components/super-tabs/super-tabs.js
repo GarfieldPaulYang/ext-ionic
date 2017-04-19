@@ -111,10 +111,7 @@ let SuperTabs = SuperTabs_1 = class SuperTabs {
             transitionEase: 'cubic-bezier(0.35, 0, 0.25, 1)',
             shortSwipeDuration: 300
         };
-        for (let prop in this.config) {
-            defaultConfig[prop] = this.config[prop];
-        }
-        this.config = defaultConfig;
+        this.config = Object.assign({}, defaultConfig, this.config);
         this.id = this.id || `ion-super-tabs-${++superTabsIds}`;
         this.superTabsCtrl.registerInstance(this);
         if (this.tabsPlacement === 'bottom') {
@@ -406,10 +403,9 @@ SuperTabs = SuperTabs_1 = __decorate([
     core_1.Component({
         selector: 'ion-super-tabs',
         template: `
-    <ion-super-tabs-toolbar [tabsPlacement]="tabsPlacement" [hidden]="!isToolbarVisible" [config]="config" [color]="toolbarBackground"
-                        [tabsColor]="toolbarColor" [indicatorColor]="indicatorColor" [badgeColor]="badgeColor"
-                        [scrollTabs]="scrollTabs"
-                        [selectedTab]="selectedTabIndex"
+    <ion-super-tabs-toolbar [tabsPlacement]="tabsPlacement" [hidden]="!isToolbarVisible" [config]="config"
+                        [color]="toolbarBackground" [tabsColor]="toolbarColor" [indicatorColor]="indicatorColor"
+                        [badgeColor]="badgeColor" [scrollTabs]="scrollTabs" [selectedTab]="selectedTabIndex"
                         (tabSelect)="onTabSelect($event)"></ion-super-tabs-toolbar>
     <ion-super-tabs-container [config]="config" [tabsCount]="tabs.length" [selectedTabIndex]="selectedTabIndex"
                           (tabSelect)="onTabEnter($event)" (onDrag)="onDrag($event)" (tabDidChange)="onSlideDidChange($event)">

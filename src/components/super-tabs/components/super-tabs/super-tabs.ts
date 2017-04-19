@@ -45,10 +45,9 @@ export interface SuperTabsConfig {
 @Component({
   selector: 'ion-super-tabs',
   template: `
-    <ion-super-tabs-toolbar [tabsPlacement]="tabsPlacement" [hidden]="!isToolbarVisible" [config]="config" [color]="toolbarBackground"
-                        [tabsColor]="toolbarColor" [indicatorColor]="indicatorColor" [badgeColor]="badgeColor"
-                        [scrollTabs]="scrollTabs"
-                        [selectedTab]="selectedTabIndex"
+    <ion-super-tabs-toolbar [tabsPlacement]="tabsPlacement" [hidden]="!isToolbarVisible" [config]="config"
+                        [color]="toolbarBackground" [tabsColor]="toolbarColor" [indicatorColor]="indicatorColor"
+                        [badgeColor]="badgeColor" [scrollTabs]="scrollTabs" [selectedTab]="selectedTabIndex"
                         (tabSelect)="onTabSelect($event)"></ion-super-tabs-toolbar>
     <ion-super-tabs-container [config]="config" [tabsCount]="tabs.length" [selectedTabIndex]="selectedTabIndex"
                           (tabSelect)="onTabEnter($event)" (onDrag)="onDrag($event)" (tabDidChange)="onSlideDidChange($event)">
@@ -214,11 +213,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
       shortSwipeDuration: 300
     };
 
-    for (let prop in this.config) {
-      defaultConfig[prop] = this.config[prop];
-    }
-
-    this.config = defaultConfig;
+    this.config = { ...defaultConfig, ...this.config };
 
     this.id = this.id || `ion-super-tabs-${++superTabsIds}`;
     this.superTabsCtrl.registerInstance(this);
