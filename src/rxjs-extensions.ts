@@ -2,6 +2,7 @@
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/merge';
 
 // Observable operators
 import 'rxjs/add/operator/toPromise';

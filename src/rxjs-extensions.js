@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("rxjs/add/observable/of");
 require("rxjs/add/observable/throw");
 require("rxjs/add/observable/fromEvent");
+require("rxjs/add/observable/merge");
 // Observable operators
 require("rxjs/add/operator/toPromise");
 require("rxjs/add/operator/catch");

@@ -19,7 +19,9 @@ export { GpsPoint, MarkerSize, MarkerInfoWindow, MarkerOptions, PointCollectionO
 export { ImageLoaderModule } from './src/components/image-loader/image-loader.module';
 export { StarRatingModule } from './src/components/star-rating/star-rating.module';
 export { RibbonModule } from './src/components/ribbon/ribbon.module';
-export { SlideTabsModule } from './src/components/slide-tabs/tabs.module';
+export { SuperTabsModule } from './src/components/super-tabs/super-tabs.module';
+export { SuperTabsConfig } from './src/components/super-tabs/components/super-tabs/super-tabs';
+export { SuperTabsController } from './src/components/super-tabs/providers/super-tabs-controller';
 export { DownloadManagerModule } from './src/components/download-manager/download-manager.module';
 export { DownloadManagerController, DownloadOptions } from './src/components/download-manager/download-manager';
 export { StringUtils } from './src/utils/string';
