@@ -123,7 +123,7 @@ export class HttpProvider {
           return Promise.reject(result.msg);
         }
 
-        if (options.cache && cacheKey) {
+        if (options.cache && options.method === RequestMethod.Get && cacheKey) {
           this.jsonCache.save(cacheKey, result.data);
         }
 
@@ -134,16 +134,16 @@ export class HttpProvider {
     };
 
     let cacheKey;
-    if (options.cache) {
+    if (options.cache && options.method === RequestMethod.Get) {
       cacheKey = this.hashUrl(url, <URLSearchParams>(options.params || options.search));
 
       if (options.cacheOnly) {
-        return this.jsonCache.load<T>(cacheKey).catch(_ => innerRequest(url, options));
+        return this.jsonCache.load<T>(cacheKey).catch(_ => { return innerRequest(url, options); });
       }
 
       this.jsonCache.load<T>(cacheKey).then(result => {
         foundCacheCallback(result);
-      });
+      }).catch(error => console.log(error));
     }
 
     return innerRequest(url, options);
