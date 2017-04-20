@@ -125,7 +125,7 @@ let HttpProvider = class HttpProvider {
             if (util_1.isPresent(options.body) && !(options.body instanceof FormData)) {
                 options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
             }
-            else {
+            if (options.headers && !options.headers.get('Content-Type')) {
                 options.headers = options.headers || new http_1.Headers();
                 options.headers.set('Content-Type', 'application/json');
             }

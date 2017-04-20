@@ -179,7 +179,9 @@ export class HttpProvider {
     if (options.method === RequestMethod.Post) {
       if (isPresent(options.body) && !(options.body instanceof FormData)) {
         options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
-      } else {
+      }
+
+      if (options.headers && !options.headers.get('Content-Type')) {
         options.headers = options.headers || new Headers();
         options.headers.set('Content-Type', 'application/json');
       }
