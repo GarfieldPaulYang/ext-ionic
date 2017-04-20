@@ -81,7 +81,11 @@ export interface LoginResult {
 
 @Injectable()
 export class HttpProvider {
-  constructor(private _http: Http, private config: ConfigProvider, private dialog: Dialog) { }
+  constructor(
+    private _http: Http,
+    private config: ConfigProvider,
+    private dialog: Dialog
+  ) { }
 
   get http(): Http {
     return this._http;
@@ -158,6 +162,10 @@ export class CorsHttpProvider {
 
   set ticket(t: string) {
     this._ticket = t;
+  }
+
+  get httpProvider(): HttpProvider {
+    return this.http;
   }
 
   constructor(

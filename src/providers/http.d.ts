@@ -50,6 +50,7 @@ export declare class CorsHttpProvider {
     private device;
     private _ticket;
     ticket: string;
+    readonly httpProvider: HttpProvider;
     constructor(http: HttpProvider, events: Events, config: ConfigProvider, device: Device);
     login(options: LoginOptions): Promise<LoginResult>;
     logout(): Promise<string>;

@@ -111,7 +111,9 @@ let HttpProvider = class HttpProvider {
 };
 HttpProvider = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http, config_1.ConfigProvider, dialog_1.Dialog])
+    __metadata("design:paramtypes", [http_1.Http,
+        config_1.ConfigProvider,
+        dialog_1.Dialog])
 ], HttpProvider);
 exports.HttpProvider = HttpProvider;
 let CorsHttpProvider = class CorsHttpProvider {
@@ -127,6 +129,9 @@ let CorsHttpProvider = class CorsHttpProvider {
     }
     set ticket(t) {
         this._ticket = t;
+    }
+    get httpProvider() {
+        return this.http;
     }
     login(options) {
         return this.request(this.config.get().login.url, {
