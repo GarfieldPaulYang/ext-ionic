@@ -51,6 +51,7 @@ const defaultRequestOptions = new HttpProviderOptions({
     method: http_1.RequestMethod.Get,
     responseType: http_1.ResponseContentType.Json
 });
+const APP_JSON_TYPE = 'application/json';
 let HttpProvider = class HttpProvider {
     constructor(_http, jsonCache, config, dialog) {
         this._http = _http;
@@ -122,12 +123,20 @@ let HttpProvider = class HttpProvider {
         }
         options.params = params;
         if (options.method === http_1.RequestMethod.Post) {
-            if (util_1.isPresent(options.body) && !(options.body instanceof FormData)) {
-                options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
+            options.body = options.body || {};
+            options.headers = options.headers || new http_1.Headers();
+            let contentType = options.headers.get('Content-Type');
+            if (!contentType) {
+                contentType = APP_JSON_TYPE;
+                options.headers.set('Content-Type', contentType);
             }
-            if (options.headers && !options.headers.get('Content-Type')) {
-                options.headers = options.headers || new http_1.Headers();
-                options.headers.set('Content-Type', 'application/json');
+            if (!_.isString(options.body) && !(options.body instanceof FormData)) {
+                if (APP_JSON_TYPE === contentType.toLowerCase()) {
+                    options.body = JSON.stringify(options.body);
+                }
+                else {
+                    options.body = url_params_builder_1.URLParamsBuilder.build(options.body).toString();
+                }
             }
         }
         return this.http.request(url, options).map((r) => new response_result_1.ResponseResult(r.json()));
@@ -172,7 +181,7 @@ let CorsHttpProvider = class CorsHttpProvider {
             }),
             method: http_1.RequestMethod.Post,
             showErrorAlert: false,
-            body: url_params_builder_1.URLParamsBuilder.build(options).toString()
+            body: options
         });
     }
     logout() {

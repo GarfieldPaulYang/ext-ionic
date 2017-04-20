@@ -91,6 +91,8 @@ export interface LoginResult {
   subAccounts?: Array<SubAcount>;
 }
 
+const APP_JSON_TYPE = 'application/json';
+
 @Injectable()
 export class HttpProvider {
   constructor(
@@ -177,13 +179,21 @@ export class HttpProvider {
     options.params = params;
 
     if (options.method === RequestMethod.Post) {
-      if (isPresent(options.body) && !(options.body instanceof FormData)) {
-        options.body = _.isString(options.body) ? options.body : JSON.stringify(options.body);
+      options.body = options.body || {};
+      options.headers = options.headers || new Headers();
+
+      let contentType = options.headers.get('Content-Type');
+      if (!contentType) {
+        contentType = APP_JSON_TYPE;
+        options.headers.set('Content-Type', contentType);
       }
 
-      if (options.headers && !options.headers.get('Content-Type')) {
-        options.headers = options.headers || new Headers();
-        options.headers.set('Content-Type', 'application/json');
+      if (!_.isString(options.body) && !(options.body instanceof FormData)) {
+        if (APP_JSON_TYPE === contentType.toLowerCase()) {
+          options.body = JSON.stringify(options.body);
+        } else {
+          options.body = URLParamsBuilder.build(options.body).toString();
+        }
       }
     }
 
@@ -231,7 +241,7 @@ export class CorsHttpProvider {
       }),
       method: RequestMethod.Post,
       showErrorAlert: false,
-      body: URLParamsBuilder.build(options).toString()
+      body: options
     });
   }
 
