@@ -56,7 +56,6 @@ let TextFileStorage = class TextFileStorage {
         return this.file.writeFile(this.getFilepath(), filename, this.serialize(content), { replace: true }).then(value => {
             return value;
         }).catch(reason => {
-            console.log(reason);
             return Promise.reject(reason);
         });
     }
@@ -64,7 +63,6 @@ let TextFileStorage = class TextFileStorage {
         return this.file.readAsText(this.getFilepath(), filename).then(value => {
             return this.deserialize(value);
         }).catch(reason => {
-            console.log(reason);
             return Promise.reject(reason);
         });
     }
@@ -72,7 +70,6 @@ let TextFileStorage = class TextFileStorage {
         return this.file.removeFile(this.getFilepath(), filename).then(value => {
             return value;
         }).catch(reason => {
-            console.log(reason);
             return Promise.reject(reason);
         });
     }

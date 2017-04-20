@@ -63,33 +63,36 @@ let HttpProvider = class HttpProvider {
     }
     requestWithError(url, options, foundCacheCallback = (result) => { }) {
         options = options ? defaultRequestOptions.merge(options) : defaultRequestOptions;
+        let innerRequest = (url, options) => {
+            return this.request(url, options).then((result) => {
+                if (result.status === 1) {
+                    if (options.showErrorAlert) {
+                        this.dialog.alert('系统提示', result.msg);
+                    }
+                    if (util_1.isPresent(result.data) && !_.isEqual({}, result.data)) {
+                        return Promise.reject(result);
+                    }
+                    return Promise.reject(result.msg);
+                }
+                if (options.cache && cacheKey) {
+                    this.jsonCache.save(cacheKey, result.data);
+                }
+                return result.data;
+            }).catch(err => {
+                return Promise.reject(err);
+            });
+        };
         let cacheKey;
         if (options.cache) {
             cacheKey = this.hashUrl(url, (options.params || options.search));
             if (options.cacheOnly) {
-                return this.jsonCache.load(cacheKey);
+                return this.jsonCache.load(cacheKey).catch(_ => innerRequest(url, options));
             }
             this.jsonCache.load(cacheKey).then(result => {
                 foundCacheCallback(result);
             });
         }
-        return this.request(url, options).then((result) => {
-            if (result.status === 1) {
-                if (options.showErrorAlert) {
-                    this.dialog.alert('系统提示', result.msg);
-                }
-                if (util_1.isPresent(result.data) && !_.isEqual({}, result.data)) {
-                    return Promise.reject(result);
-                }
-                return Promise.reject(result.msg);
-            }
-            if (options.cache && cacheKey) {
-                this.jsonCache.save(cacheKey, result.data);
-            }
-            return result.data;
-        }).catch(err => {
-            return Promise.reject(err);
-        });
+        return innerRequest(url, options);
     }
     request(url, options) {
         options = options || defaultRequestOptions;

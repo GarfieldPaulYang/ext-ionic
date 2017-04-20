@@ -60,7 +60,6 @@ export class TextFileStorage implements FileStorage {
     return this.file.writeFile(this.getFilepath(), filename, this.serialize(content), { replace: true }).then(value => {
       return value;
     }).catch(reason => {
-      console.log(reason);
       return Promise.reject(reason);
     });
   }
@@ -69,7 +68,6 @@ export class TextFileStorage implements FileStorage {
     return this.file.readAsText(this.getFilepath(), filename).then(value => {
       return this.deserialize(<string>value);
     }).catch(reason => {
-      console.log(reason);
       return Promise.reject(reason);
     });
   }
@@ -78,7 +76,6 @@ export class TextFileStorage implements FileStorage {
     return this.file.removeFile(this.getFilepath(), filename).then(value => {
       return value;
     }).catch(reason => {
-      console.log(reason);
       return Promise.reject(reason);
     });
   }
