@@ -19,6 +19,8 @@ const dialog_1 = require("../utils/dialog");
 const util_1 = require("../utils/util");
 const response_result_1 = require("../utils/http/response/response-result");
 const url_params_builder_1 = require("../utils/http/url-params-builder");
+const string_1 = require("../utils/string");
+const json_file_storage_1 = require("./file-storage/json-file-storage");
 exports.ticket_expired = 'ticket-expired';
 class HttpProviderOptions extends http_1.RequestOptions {
     constructor(options) {
@@ -26,12 +28,16 @@ class HttpProviderOptions extends http_1.RequestOptions {
         this.showLoading = options.showLoading;
         this.loadingContent = options.loadingContent;
         this.showErrorAlert = options.showErrorAlert;
+        this.cache = options.cache;
+        this.cacheOnly = options.cacheOnly;
     }
     merge(options) {
         let result = super.merge(options);
         result.showLoading = util_1.isPresent(options.showLoading) ? options.showLoading : this.showLoading;
         result.showErrorAlert = util_1.isPresent(options.showErrorAlert) ? options.showErrorAlert : this.showErrorAlert;
         result.loadingContent = options.loadingContent ? options.loadingContent : this.loadingContent;
+        result.cache = util_1.isPresent(options.cache) ? options.cache : this.cache;
+        result.cacheOnly = util_1.isPresent(options.cacheOnly) ? options.cacheOnly : this.cacheOnly;
         return result;
     }
 }
@@ -40,21 +46,32 @@ const defaultRequestOptions = new HttpProviderOptions({
     showLoading: true,
     loadingContent: '正在加载...',
     showErrorAlert: true,
+    cache: true,
+    cacheOnly: false,
     method: http_1.RequestMethod.Get,
     responseType: http_1.ResponseContentType.Json
 });
 let HttpProvider = class HttpProvider {
-    constructor(_http, config, dialog) {
+    constructor(_http, jsonCache, config, dialog) {
         this._http = _http;
+        this.jsonCache = jsonCache;
         this.config = config;
         this.dialog = dialog;
     }
     get http() {
         return this._http;
     }
-    requestWithError(url, options) {
-        if (!util_1.isPresent(options.showErrorAlert)) {
-            options.showErrorAlert = true;
+    requestWithError(url, options, foundCacheCallback = (result) => { }) {
+        options = options ? defaultRequestOptions.merge(options) : defaultRequestOptions;
+        let cacheKey;
+        if (options.cache) {
+            cacheKey = this.hashUrl(url, (options.params || options.search));
+            if (options.cacheOnly) {
+                return this.jsonCache.load(cacheKey);
+            }
+            this.jsonCache.load(cacheKey).then(result => {
+                foundCacheCallback(result);
+            });
         }
         return this.request(url, options).then((result) => {
             if (result.status === 1) {
@@ -66,13 +83,16 @@ let HttpProvider = class HttpProvider {
                 }
                 return Promise.reject(result.msg);
             }
+            if (options.cache && cacheKey) {
+                this.jsonCache.save(cacheKey, result.data);
+            }
             return result.data;
         }).catch(err => {
             return Promise.reject(err);
         });
     }
     request(url, options) {
-        options = options ? defaultRequestOptions.merge(options) : defaultRequestOptions;
+        options = options || defaultRequestOptions;
         let loading;
         if (options.showLoading) {
             loading = this.dialog.loading(options.loadingContent);
@@ -89,6 +109,7 @@ let HttpProvider = class HttpProvider {
         });
     }
     ajax(url, options) {
+        options = options || defaultRequestOptions;
         let params = url_params_builder_1.URLParamsBuilder.build({ '__cors-request__': true });
         if (options.search) {
             params.replaceAll(options.search);
@@ -108,10 +129,15 @@ let HttpProvider = class HttpProvider {
         }
         return this.http.request(url, options).map((r) => new response_result_1.ResponseResult(r.json()));
     }
+    hashUrl(url, params) {
+        let q = params ? params.toString() : '';
+        return string_1.StringUtils.hash(url + q).toString();
+    }
 };
 HttpProvider = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [http_1.Http,
+        json_file_storage_1.JsonFileStorage,
         config_1.ConfigProvider,
         dialog_1.Dialog])
 ], HttpProvider);
@@ -156,13 +182,13 @@ let CorsHttpProvider = class CorsHttpProvider {
             return result;
         });
     }
-    request(url, options) {
+    request(url, options, foundCacheCallback = (result) => { }) {
         options = options || {};
         options.headers = options.headers || new http_1.Headers();
         options.headers.set('__app-key__', this.config.get().login.appKey);
         options.headers.set('__dev-mode__', this.config.get().devMode + '');
         options.headers.set('__ticket__', this.ticket);
-        return this.http.requestWithError(url, options).then(result => {
+        return this.http.requestWithError(url, options, foundCacheCallback).then(result => {
             return result;
         }).catch(err => {
             if (err && _.isString(err) && err.toString() === exports.ticket_expired) {

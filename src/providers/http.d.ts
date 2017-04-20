@@ -5,16 +5,21 @@ import { Device } from '@ionic-native/device';
 import { ConfigProvider } from '../config/config';
 import { Dialog } from '../utils/dialog';
 import { ResponseResult } from '../utils/http/response/response-result';
+import { JsonFileStorage } from './file-storage/json-file-storage';
 export declare const ticket_expired: string;
 export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
     showLoading?: boolean;
     loadingContent?: string;
     showErrorAlert?: boolean;
+    cache?: boolean;
+    cacheOnly?: boolean;
 }
 export declare class HttpProviderOptions extends RequestOptions {
     showLoading: boolean;
     loadingContent: string;
     showErrorAlert: boolean;
+    cache: boolean;
+    cacheOnly: boolean;
     constructor(options: HttpProviderOptionsArgs);
     merge(options?: HttpProviderOptionsArgs): HttpProviderOptions;
 }
@@ -35,13 +40,15 @@ export interface LoginResult {
 }
 export declare class HttpProvider {
     private _http;
+    private jsonCache;
     private config;
     private dialog;
-    constructor(_http: Http, config: ConfigProvider, dialog: Dialog);
+    constructor(_http: Http, jsonCache: JsonFileStorage, config: ConfigProvider, dialog: Dialog);
     readonly http: Http;
-    requestWithError<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T>;
-    request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>>;
+    requestWithError<T>(url: string, options?: HttpProviderOptionsArgs, foundCacheCallback?: (result: T) => void): Promise<T>;
+    request<T>(url: string, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>>;
     ajax<T>(url: string | Request, options?: HttpProviderOptionsArgs): Observable<ResponseResult<T>>;
+    private hashUrl(url, params);
 }
 export declare class CorsHttpProvider {
     private http;
@@ -54,5 +61,5 @@ export declare class CorsHttpProvider {
     constructor(http: HttpProvider, events: Events, config: ConfigProvider, device: Device);
     login(options: LoginOptions): Promise<LoginResult>;
     logout(): Promise<string>;
-    request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T>;
+    request<T>(url: string, options?: HttpProviderOptionsArgs, foundCacheCallback?: (result: T) => void): Promise<T>;
 }

@@ -20,6 +20,8 @@ import { Dialog } from '../utils/dialog';
 import { isPresent } from '../utils/util';
 import { ResponseResult } from '../utils/http/response/response-result';
 import { URLParamsBuilder } from '../utils/http/url-params-builder';
+import { StringUtils } from '../utils/string';
+import { JsonFileStorage } from './file-storage/json-file-storage';
 
 export const ticket_expired: string = 'ticket-expired';
 
@@ -27,12 +29,16 @@ export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
   showLoading?: boolean;
   loadingContent?: string;
   showErrorAlert?: boolean;
+  cache?: boolean;
+  cacheOnly?: boolean;
 }
 
 export class HttpProviderOptions extends RequestOptions {
   showLoading: boolean;
   loadingContent: string;
   showErrorAlert: boolean;
+  cache: boolean;
+  cacheOnly: boolean;
 
   constructor(options: HttpProviderOptionsArgs) {
     super(options);
@@ -40,6 +46,8 @@ export class HttpProviderOptions extends RequestOptions {
     this.showLoading = options.showLoading;
     this.loadingContent = options.loadingContent;
     this.showErrorAlert = options.showErrorAlert;
+    this.cache = options.cache;
+    this.cacheOnly = options.cacheOnly;
   }
 
   merge(options?: HttpProviderOptionsArgs): HttpProviderOptions {
@@ -48,6 +56,8 @@ export class HttpProviderOptions extends RequestOptions {
     result.showLoading = isPresent(options.showLoading) ? options.showLoading : this.showLoading;
     result.showErrorAlert = isPresent(options.showErrorAlert) ? options.showErrorAlert : this.showErrorAlert;
     result.loadingContent = options.loadingContent ? options.loadingContent : this.loadingContent;
+    result.cache = isPresent(options.cache) ? options.cache : this.cache;
+    result.cacheOnly = isPresent(options.cacheOnly) ? options.cacheOnly : this.cacheOnly;
 
     return result;
   }
@@ -57,6 +67,8 @@ const defaultRequestOptions: HttpProviderOptions = new HttpProviderOptions({
   showLoading: true,
   loadingContent: '正在加载...',
   showErrorAlert: true,
+  cache: true,
+  cacheOnly: false,
   method: RequestMethod.Get,
   responseType: ResponseContentType.Json
 });
@@ -83,6 +95,7 @@ export interface LoginResult {
 export class HttpProvider {
   constructor(
     private _http: Http,
+    private jsonCache: JsonFileStorage,
     private config: ConfigProvider,
     private dialog: Dialog
   ) { }
@@ -91,10 +104,26 @@ export class HttpProvider {
     return this._http;
   }
 
-  requestWithError<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T> {
-    if (!isPresent(options.showErrorAlert)) {
-      options.showErrorAlert = true;
+  requestWithError<T>(
+    url: string,
+    options?: HttpProviderOptionsArgs,
+    foundCacheCallback: (result: T) => void = (result: T) => { }
+  ): Promise<T> {
+    options = options ? defaultRequestOptions.merge(options) : defaultRequestOptions;
+
+    let cacheKey;
+    if (options.cache) {
+      cacheKey = this.hashUrl(url, <URLSearchParams>(options.params || options.search));
+
+      if (options.cacheOnly) {
+        return this.jsonCache.load<T>(cacheKey);
+      }
+
+      this.jsonCache.load<T>(cacheKey).then(result => {
+        foundCacheCallback(result);
+      });
     }
+
     return this.request<T>(url, options).then((result: ResponseResult<T>) => {
       if (result.status === 1) {
         if (options.showErrorAlert) {
@@ -105,14 +134,19 @@ export class HttpProvider {
         }
         return Promise.reject(result.msg);
       }
+
+      if (options.cache && cacheKey) {
+        this.jsonCache.save(cacheKey, result.data);
+      }
+
       return result.data;
     }).catch(err => {
       return Promise.reject(err);
     });
   }
 
-  request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
-    options = options ? defaultRequestOptions.merge(options) : defaultRequestOptions;
+  request<T>(url: string, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
+    options = options || defaultRequestOptions;
     let loading: Loading;
     if (options.showLoading) {
       loading = this.dialog.loading(options.loadingContent);
@@ -128,6 +162,7 @@ export class HttpProvider {
   }
 
   ajax<T>(url: string | Request, options?: HttpProviderOptionsArgs): Observable<ResponseResult<T>> {
+    options = options || defaultRequestOptions;
     let params = URLParamsBuilder.build({ '__cors-request__': true });
     if (options.search) {
       params.replaceAll(<URLSearchParams>options.search);
@@ -149,6 +184,11 @@ export class HttpProvider {
     return this.http.request(url, options).map(
       (r: Response) => new ResponseResult<T>(r.json())
     );
+  }
+
+  private hashUrl(url: string, params: URLSearchParams): string {
+    let q = params ? params.toString() : '';
+    return StringUtils.hash(url + q).toString();
   }
 }
 
@@ -200,7 +240,11 @@ export class CorsHttpProvider {
     });
   }
 
-  request<T>(url: string | Request, options?: HttpProviderOptionsArgs): Promise<T> {
+  request<T>(
+    url: string,
+    options?: HttpProviderOptionsArgs,
+    foundCacheCallback: (result: T) => void = (result: T) => { }
+  ): Promise<T> {
     options = options || {};
     options.headers = options.headers || new Headers();
 
@@ -208,7 +252,7 @@ export class CorsHttpProvider {
     options.headers.set('__dev-mode__', this.config.get().devMode + '');
     options.headers.set('__ticket__', this.ticket);
 
-    return this.http.requestWithError<T>(url, options).then(result => {
+    return this.http.requestWithError<T>(url, options, foundCacheCallback).then(result => {
       return result;
     }).catch(err => {
       if (err && _.isString(err) && err.toString() === ticket_expired) {
