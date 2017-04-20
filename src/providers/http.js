@@ -177,6 +177,7 @@ let CorsHttpProvider = class CorsHttpProvider {
     }
     logout() {
         return this.request(this.config.get().login.url, {
+            cache: false,
             headers: new http_1.Headers({
                 '__logout__': 'true'
             })
