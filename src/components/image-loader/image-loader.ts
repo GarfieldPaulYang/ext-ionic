@@ -36,13 +36,53 @@ export class ImageLoaderController {
     private file: File,
     private config: ConfigProvider
   ) {
-    if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
-      this.isInit = true;
-      this.throwWarning('You are running on a browser or using livereload, IonicImageLoader will not function, falling back to browser loading.');
+    platform.ready().then(() => {
+      if ((<any>File).installed()) {
+        this.initCache();
+      } else {
+        this.isInit = true;
+        this.throwWarning('You are running on a browser or using livereload, IonicImageLoader will not function, falling back to browser loading.');
+      }
+    });
+  }
+
+  preload(imageUrl: string): Promise<string> {
+    return this.getImagePath(imageUrl);
+  }
+
+  clearCache() {
+    if (!this.platform.is('cordova')) {
       return;
     }
 
-    platform.ready().then(() => this.initCache());
+    const clear = () => {
+      if (!this.isInit) {
+        setTimeout(clear.bind(this), 500);
+        return;
+      }
+
+      this.isInit = false;
+      this.file.removeRecursively(
+        this.cacheRootDirectory,
+        this.cacheDirectoryName
+      ).then(() => {
+        if (this.isWKWebView) {
+          this.file.removeRecursively(
+            this.cacheTempRootDirectory,
+            this.cacheDirectoryName
+          ).catch((error) => {
+            // Noop catch. Removing the tempDirectory might fail,
+            // as it is not persistent.
+          }).then(() => {
+            this.initCache(true);
+          });
+          return;
+        }
+        this.initCache(true);
+      }).catch(this.throwError.bind(this));
+    };
+
+    clear();
   }
 
   getImagePath(imageUrl: string): Promise<string> {
@@ -74,10 +114,6 @@ export class ImageLoaderController {
     });
   }
 
-  preload(imageUrl: string): Promise<string> {
-    return this.getImagePath(imageUrl);
-  }
-
   removeCacheFile(localPath: string) {
     if (!this.platform.is('cordova')) {
       return;
@@ -96,24 +132,14 @@ export class ImageLoaderController {
     });
   }
 
-  clearCache() {
-    if (!this.platform.is('cordova')) {
-      return;
-    }
-
-    const clear = () => {
-      if (!this.isInit) {
-        setTimeout(clear.bind(this), 500);
-        return;
+  private removeFile(file: string): Promise<any> {
+    return this.file.removeFile(this.cacheDirectory, file).then(() => {
+      if (this.isWKWebView) {
+        return this.file.removeFile(this.cacheTempDirectory, file).catch(() => {
+          // Noop catch. Removing the files from tempDirectory might fail, as it is not persistent.
+        });
       }
-
-      this.isInit = false;
-      this.file.removeRecursively(this.cacheRootDirectory, this.config.get().imageLoader.cacheDirectoryName).then(() => {
-        this.initCache(true);
-      }).catch(this.throwError.bind(this));
-    };
-
-    clear();
+    });
   }
 
   private downloadImage(imageUrl: string, localPath: string): Promise<any> {
@@ -130,11 +156,9 @@ export class ImageLoaderController {
   }
 
   private initCache(replace?: boolean): void {
-    this.cacheDirectoryExists.catch(() => {
-      return this.createCacheDirectory(replace).catch(e => {
-        this.throwError(e);
-        this.isInit = true;
-      });
+    this.createCacheDirectory(replace).catch(e => {
+      this.throwError(e);
+      this.isInit = true;
     }).then(() => this.indexCache()).then(() => {
       this.isCacheReady = true;
       this.isInit = true;
@@ -148,7 +172,7 @@ export class ImageLoaderController {
           this.config.get().imageLoader.maxCacheAge > -1
           && (Date.now() - metadata.modificationTime.getTime()) > this.config.get().imageLoader.maxCacheAge
         ) {
-          return this.file.removeFile(this.cacheDirectory, file.name);
+          return this.removeFile(file.name);
         }
 
         this.currentCacheSize += metadata.size;
@@ -168,7 +192,7 @@ export class ImageLoaderController {
     this.cacheIndex = [];
     return this.file.listDir(
       this.cacheRootDirectory,
-      this.config.get().imageLoader.cacheDirectoryName
+      this.cacheDirectoryName
     ).then(files => Promise.all(files.map(this.addFileToIndex.bind(this)))).then(() => {
       this.cacheIndex = _.sortBy(this.cacheIndex, 'modificationTime');
       this.indexed = true;
@@ -191,7 +215,7 @@ export class ImageLoaderController {
           const file: IndexItem = this.cacheIndex.splice(0, 1)[0];
           if (typeof file === 'undefined') return maintain();
 
-          this.file.removeFile(this.cacheDirectory, file.name).then(() => next()).catch(() => next());
+          this.removeFile(file.name).then(() => next()).catch(() => next());
         }
       };
 
@@ -251,7 +275,38 @@ export class ImageLoaderController {
 
       const fileName = this.createFileName(url);
       this.file.resolveLocalFilesystemUrl(this.cacheDirectory + '/' + fileName).then((fileEntry: FileEntry) => {
-        resolve(fileEntry.nativeURL);
+        if (this.config.get().imageLoader.imageReturnType === 'base64') {
+          // read the file as data url and return the base64 string.
+          // should always be successful as the existence of the file
+          // is alreay ensured
+          this.file.readAsDataURL(this.cacheDirectory, fileName).then((base64: string) => {
+            resolve(base64);
+          }).catch(reject);
+          return;
+        }
+
+        // now check if iOS device & using WKWebView Engine.
+        // in this case only the tempDirectory is accessible,
+        // therefore the file needs to be copied into that directory first!
+        if (this.isWKWebView) {
+          // check if file already exists in temp directory
+          this.file.resolveLocalFilesystemUrl(this.cacheTempDirectory + '/' + fileName).then((tempFileEntry: FileEntry) => {
+            // file exists in temp directory
+            // return native path
+            resolve(tempFileEntry.nativeURL);
+          }).catch(() => {
+            // file does not yet exist in the temp directory.
+            // copy it!
+            this.file.copyFile(this.cacheDirectory, fileName, this.cacheTempDirectory, fileName).then((tempFileEntry: FileEntry) => {
+              // now the file exists in the temp directory
+              // return native path
+              resolve(tempFileEntry.nativeURL);
+            }).catch(reject);
+          });
+        } else {
+          // return native path
+          resolve(fileEntry.nativeURL);
+        }
       }).catch(reject);
     });
   }
@@ -266,16 +321,32 @@ export class ImageLoaderController {
     console.warn.apply(console, args);
   }
 
-  private get cacheDirectoryExists(): Promise<boolean> {
-    return this.file.checkDir(this.cacheRootDirectory, this.config.get().imageLoader.cacheDirectoryName);
+  private get isWKWebView(): boolean {
+    return this.platform.is('ios') && (<any>window).webkit;
+  }
+
+  private cacheDirectoryExists(directory: string): Promise<boolean> {
+    return this.file.checkDir(directory, this.cacheDirectoryName);
   }
 
   private get cacheRootDirectory(): string {
-    return this.platform.is('ios') ? this.file.tempDirectory : this.cacheRootDirectory;
+    return this.cacheRootDirectory;
+  }
+
+  private get cacheTempRootDirectory(): string {
+    return this.file.tempDirectory;
+  }
+
+  private get cacheDirectoryName(): string {
+    return this.config.get().imageLoader.cacheDirectoryName;
   }
 
   private get cacheDirectory(): string {
-    return this.cacheRootDirectory + this.config.get().imageLoader.cacheDirectoryName;
+    return this.cacheRootDirectory + this.cacheDirectoryName;
+  }
+
+  private get cacheTempDirectory(): string {
+    return this.cacheTempRootDirectory + this.cacheDirectoryName;
   }
 
   private get shouldIndex() {
@@ -283,7 +354,35 @@ export class ImageLoaderController {
   }
 
   private createCacheDirectory(replace: boolean = false): Promise<any> {
-    return this.file.createDir(this.cacheRootDirectory, this.config.get().imageLoader.cacheDirectoryName, replace);
+    let cacheDirectoryPromise: Promise<any>, tempDirectoryPromise: Promise<any>;
+
+    if (replace) {
+      // create or replace the cache directory
+      cacheDirectoryPromise = this.file.createDir(this.cacheRootDirectory, this.cacheDirectoryName, replace);
+    } else {
+      // check if the cache directory exists.
+      // if it does not exist create it!
+      cacheDirectoryPromise = this.cacheDirectoryExists(this.cacheRootDirectory).catch(
+        () => this.file.createDir(this.cacheRootDirectory, this.cacheDirectoryName, false)
+      );
+    }
+
+    if (this.isWKWebView) {
+      if (replace) {
+        // create or replace the temp directory
+        tempDirectoryPromise = this.file.createDir(this.cacheTempRootDirectory, this.cacheDirectoryName, replace);
+      } else {
+        // check if the temp directory exists.
+        // if it does not exist create it!
+        tempDirectoryPromise = this.cacheDirectoryExists(this.cacheTempRootDirectory).catch(
+          () => this.file.createDir(this.cacheTempRootDirectory, this.cacheDirectoryName, false)
+        );
+      }
+    } else {
+      tempDirectoryPromise = Promise.resolve();
+    }
+
+    return Promise.all([cacheDirectoryPromise, tempDirectoryPromise]);
   }
 
   private createFileName(url: string): string {

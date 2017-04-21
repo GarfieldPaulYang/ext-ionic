@@ -36,7 +36,9 @@ const defaultConfig: Config = {
     cacheDirectoryName: 'image-loader-cache',
     concurrency: 5,
     maxCacheSize: -1,
-    maxCacheAge: -1
+    maxCacheAge: -1,
+    imageReturnType: 'uri',
+    fallbackAsPlaceholder: false
   },
   baiduMap: {
     navCtrl: true,

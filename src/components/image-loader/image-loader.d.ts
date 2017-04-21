@@ -15,10 +15,11 @@ export declare class ImageLoaderController {
     private queue;
     private cacheIndex;
     constructor(platform: Platform, transfer: Transfer, file: File, config: ConfigProvider);
-    getImagePath(imageUrl: string): Promise<string>;
     preload(imageUrl: string): Promise<string>;
-    removeCacheFile(localPath: string): void;
     clearCache(): void;
+    getImagePath(imageUrl: string): Promise<string>;
+    removeCacheFile(localPath: string): void;
+    private removeFile(file);
     private downloadImage(imageUrl, localPath);
     private needDownload(imageUrl);
     private initCache(replace?);
@@ -31,9 +32,13 @@ export declare class ImageLoaderController {
     private getCachedImagePath(url);
     private throwError(...args);
     private throwWarning(...args);
-    private readonly cacheDirectoryExists;
+    private readonly isWKWebView;
+    private cacheDirectoryExists(directory);
     private readonly cacheRootDirectory;
+    private readonly cacheTempRootDirectory;
+    private readonly cacheDirectoryName;
     private readonly cacheDirectory;
+    private readonly cacheTempDirectory;
     private readonly shouldIndex;
     private createCacheDirectory(replace?);
     private createFileName(url);

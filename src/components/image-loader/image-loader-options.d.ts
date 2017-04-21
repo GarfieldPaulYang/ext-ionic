@@ -1,5 +1,7 @@
 export interface ImageLoaderOptions {
     spinnerEnabled?: boolean;
+    spinnerName?: string;
+    spinnerColor?: string;
     backgroundSize?: string;
     backgroundRepeat?: string;
     display?: string;
@@ -11,4 +13,6 @@ export interface ImageLoaderOptions {
     concurrency?: number;
     maxCacheSize?: number;
     maxCacheAge?: number;
+    imageReturnType?: 'base64' | 'uri';
+    fallbackAsPlaceholder?: boolean;
 }

@@ -11,12 +11,15 @@ export declare class ImageLoaderCmp implements OnInit {
     cache: boolean;
     fallbackUrl: string;
     spinner: boolean;
+    fallbackAsPlaceholder: boolean;
     useImg: boolean;
     width: string;
     height: string;
     display: string;
     backgroundSize: string;
     backgroundRepeat: string;
+    spinnerName: string;
+    spinnerColor: string;
     load: EventEmitter<ImageLoaderCmp>;
     isLoading: boolean;
     private element;
@@ -24,5 +27,5 @@ export declare class ImageLoaderCmp implements OnInit {
     ngOnInit(): void;
     private processImageUrl(imageUrl);
     private updateImage(imageUrl);
-    private setImage(imageUrl);
+    private setImage(imageUrl, stopLoading?);
 }

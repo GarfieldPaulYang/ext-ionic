@@ -22,12 +22,15 @@ let ImageLoaderCmp = class ImageLoaderCmp {
         this.cache = true;
         this.fallbackUrl = this.config.get().imageLoader.fallbackUrl;
         this.spinner = this.config.get().imageLoader.spinnerEnabled;
+        this.fallbackAsPlaceholder = this.config.get().imageLoader.fallbackAsPlaceholder;
         this.useImg = this.config.get().imageLoader.useImg;
         this.width = this.config.get().imageLoader.width;
         this.height = this.config.get().imageLoader.height;
         this.display = this.config.get().imageLoader.display;
         this.backgroundSize = this.config.get().imageLoader.backgroundSize;
         this.backgroundRepeat = this.config.get().imageLoader.backgroundRepeat;
+        this.spinnerName = this.config.get().imageLoader.spinnerName;
+        this.spinnerColor = this.config.get().imageLoader.spinnerColor;
         this.load = new core_1.EventEmitter();
         this.isLoading = true;
     }
@@ -42,12 +45,16 @@ let ImageLoaderCmp = class ImageLoaderCmp {
     ngOnInit() {
         this.useImg = util_1.isTrueProperty(this.useImg);
         this.cache = util_1.isTrueProperty(this.cache);
+        this.fallbackAsPlaceholder = util_1.isTrueProperty(this.fallbackAsPlaceholder);
+        if (this.fallbackAsPlaceholder && this.fallbackUrl) {
+            this.setImage(this.fallbackUrl, false);
+        }
         if (!this.src) {
-            if (this.fallbackUrl) {
+            if (!this.fallbackAsPlaceholder && this.fallbackUrl) {
                 this.setImage(this.fallbackUrl);
+                return;
             }
             this.isLoading = false;
-            return;
         }
     }
     processImageUrl(imageUrl) {
@@ -66,8 +73,8 @@ let ImageLoaderCmp = class ImageLoaderCmp {
         this.imageLoader.getImagePath(imageUrl).then((imageUrl) => this.setImage(imageUrl))
             .catch((error) => this.setImage(this.fallbackUrl || imageUrl));
     }
-    setImage(imageUrl) {
-        this.isLoading = false;
+    setImage(imageUrl, stopLoading = true) {
+        this.isLoading = !stopLoading;
         if (this.useImg) {
             if (!this.element) {
                 this.element = this.renderer.createElement(this.elementRef.nativeElement, 'img');
@@ -122,6 +129,10 @@ __decorate([
 __decorate([
     core_1.Input(),
     __metadata("design:type", Boolean)
+], ImageLoaderCmp.prototype, "fallbackAsPlaceholder", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
 ], ImageLoaderCmp.prototype, "useImg", void 0);
 __decorate([
     core_1.Input(),
@@ -144,13 +155,21 @@ __decorate([
     __metadata("design:type", String)
 ], ImageLoaderCmp.prototype, "backgroundRepeat", void 0);
 __decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], ImageLoaderCmp.prototype, "spinnerName", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], ImageLoaderCmp.prototype, "spinnerColor", void 0);
+__decorate([
     core_1.Output(),
     __metadata("design:type", core_1.EventEmitter)
 ], ImageLoaderCmp.prototype, "load", void 0);
 ImageLoaderCmp = __decorate([
     core_1.Component({
         selector: 'ion-image-loader',
-        template: '<ion-spinner *ngIf="spinner && isLoading"></ion-spinner>',
+        template: '<ion-spinner *ngIf="spinner && isLoading && !fallbackAsPlaceholder" [name]="spinnerName" [color]="spinnerColor"></ion-spinner>',
         styles: [`
     ion-spinner {
       float: none;

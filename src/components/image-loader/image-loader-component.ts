@@ -7,7 +7,7 @@ import { ConfigProvider } from '../../config/config';
 
 @Component({
   selector: 'ion-image-loader',
-  template: '<ion-spinner *ngIf="spinner && isLoading"></ion-spinner>',
+  template: '<ion-spinner *ngIf="spinner && isLoading && !fallbackAsPlaceholder" [name]="spinnerName" [color]="spinnerColor"></ion-spinner>',
   styles: [`
     ion-spinner {
       float: none;
@@ -32,12 +32,15 @@ export class ImageLoaderCmp implements OnInit {
   @Input() cache: boolean = true;
   @Input('fallback') fallbackUrl: string = this.config.get().imageLoader.fallbackUrl;
   @Input() spinner: boolean = this.config.get().imageLoader.spinnerEnabled;
+  @Input() fallbackAsPlaceholder: boolean = this.config.get().imageLoader.fallbackAsPlaceholder;
   @Input() useImg: boolean = this.config.get().imageLoader.useImg;
   @Input() width: string = this.config.get().imageLoader.width;
   @Input() height: string = this.config.get().imageLoader.height;
   @Input() display: string = this.config.get().imageLoader.display;
   @Input() backgroundSize: string = this.config.get().imageLoader.backgroundSize;
   @Input() backgroundRepeat: string = this.config.get().imageLoader.backgroundRepeat;
+  @Input() spinnerName: string = this.config.get().imageLoader.spinnerName;
+  @Input() spinnerColor: string = this.config.get().imageLoader.spinnerColor;
 
   @Output()
   load: EventEmitter<ImageLoaderCmp> = new EventEmitter<ImageLoaderCmp>();
@@ -56,13 +59,18 @@ export class ImageLoaderCmp implements OnInit {
   ngOnInit(): void {
     this.useImg = isTrueProperty(this.useImg);
     this.cache = isTrueProperty(this.cache);
+    this.fallbackAsPlaceholder = isTrueProperty(this.fallbackAsPlaceholder);
+
+    if (this.fallbackAsPlaceholder && this.fallbackUrl) {
+      this.setImage(this.fallbackUrl, false);
+    }
 
     if (!this.src) {
-      if (this.fallbackUrl) {
+      if (!this.fallbackAsPlaceholder && this.fallbackUrl) {
         this.setImage(this.fallbackUrl);
+        return;
       }
       this.isLoading = false;
-      return;
     }
   }
 
@@ -87,8 +95,8 @@ export class ImageLoaderCmp implements OnInit {
       .catch((error: any) => this.setImage(this.fallbackUrl || imageUrl));
   }
 
-  private setImage(imageUrl: string): void {
-    this.isLoading = false;
+  private setImage(imageUrl: string, stopLoading: boolean = true): void {
+    this.isLoading = !stopLoading;
 
     if (this.useImg) {
       if (!this.element) {
