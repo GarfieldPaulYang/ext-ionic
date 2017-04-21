@@ -25,7 +25,7 @@ export { SuperTabsController } from './src/components/super-tabs/providers/super
 export { DownloadManagerModule } from './src/components/download-manager/download-manager.module';
 export { DownloadManagerController, DownloadOptions } from './src/components/download-manager/download-manager';
 export { StringUtils } from './src/utils/string';
-export { assert, isTrueProperty, isPresent, flattenObject, unFlattenObject } from './src/utils/util';
+export { isTrueProperty, isPresent, flattenObject, unFlattenObject } from './src/utils/util';
 export { Dialog } from './src/utils/dialog';
 export { HttpProviderOptionsArgs, HttpProviderOptions, LoginOptions, LoginResult, SubAcount, HttpProvider, CorsHttpProvider, ticket_expired } from './src/providers/http';
 import './src/rxjs-extensions';

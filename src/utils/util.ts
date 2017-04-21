@@ -12,17 +12,6 @@ export function isPresent(val: any): boolean {
   return val !== undefined && val !== null;
 }
 
-const ASSERT_ENABLED = true;
-
-export function assert(actual: any, reason?: string) {
-  if (!actual && ASSERT_ENABLED === true) {
-    let message = 'EXT-IONIC ASSERT: ' + reason;
-    console.error(message);
-    debugger; // tslint:disable-line
-    throw new Error(message);
-  }
-}
-
 export function flattenObject(obj: any) {
   return _.transform(obj, function (result, value, key) {
     if (_.isObject(value) && !_.isArray(value)) {

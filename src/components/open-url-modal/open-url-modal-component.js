@@ -12,14 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
 const platform_browser_1 = require("@angular/platform-browser");
 const ionic_angular_1 = require("ionic-angular");
-const util_1 = require("../../utils/util");
 let OpenUrlModalCmp = class OpenUrlModalCmp {
     constructor(navParams, viewCtrl, sanitizer) {
         this.navParams = navParams;
         this.viewCtrl = viewCtrl;
         this.sanitizer = sanitizer;
         this.options = navParams.get('openUrlModalOptions');
-        util_1.assert(this.options, 'openUrlModal options must be valid');
         this.safeUrl = sanitizer.bypassSecurityTrustResourceUrl(this.options.url);
         window.addEventListener('message', this.options.onmessage, false);
     }

@@ -58,7 +58,6 @@ exports.DownloadManagerController = download_manager_1.DownloadManagerController
 var string_1 = require("./src/utils/string");
 exports.StringUtils = string_1.StringUtils;
 var util_1 = require("./src/utils/util");
-exports.assert = util_1.assert;
 exports.isTrueProperty = util_1.isTrueProperty;
 exports.isPresent = util_1.isPresent;
 exports.flattenObject = util_1.flattenObject;
