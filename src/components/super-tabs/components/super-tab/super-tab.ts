@@ -1,6 +1,6 @@
 import {
   Component, Input, Renderer, ElementRef, ViewEncapsulation, Optional, ComponentFactoryResolver,
-  NgZone, ViewContainerRef, ViewChild, OnInit, AfterViewInit, OnDestroy
+  NgZone, ViewContainerRef, ViewChild, OnInit, OnDestroy
 } from '@angular/core';
 import { NavControllerBase, App, Config, Platform, Keyboard, GestureController, DeepLinker, DomController } from 'ionic-angular';
 import { TransitionController } from 'ionic-angular/transitions/transition-controller';
@@ -11,7 +11,7 @@ import { SuperTabs } from '../super-tabs/super-tabs';
   template: '<div #viewport></div><div class="nav-decor"></div>',
   encapsulation: ViewEncapsulation.None
 })
-export class SuperTab extends NavControllerBase implements OnInit, AfterViewInit, OnDestroy {
+export class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
   @Input()
   title: string;
 
@@ -78,8 +78,14 @@ export class SuperTab extends NavControllerBase implements OnInit, AfterViewInit
     this.parent.addTab(this);
   }
 
-  ngAfterViewInit() {
-    // this.push(this.root, this.rootParams, { animate: false });
+  load(): Promise<void> {
+    if (this.loaded) {
+      return Promise.resolve();
+    }
+
+    return this.push(this.root, this.rootParams, { animate: false }).then(_ => {
+      this.loaded = true;
+    });
   }
 
   ngOnDestroy() {

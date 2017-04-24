@@ -1,8 +1,8 @@
-import { Renderer, ElementRef, ComponentFactoryResolver, NgZone, ViewContainerRef, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Renderer, ElementRef, ComponentFactoryResolver, NgZone, ViewContainerRef, OnInit, OnDestroy } from '@angular/core';
 import { NavControllerBase, App, Config, Platform, Keyboard, GestureController, DeepLinker, DomController } from 'ionic-angular';
 import { TransitionController } from 'ionic-angular/transitions/transition-controller';
 import { SuperTabs } from '../super-tabs/super-tabs';
-export declare class SuperTab extends NavControllerBase implements OnInit, AfterViewInit, OnDestroy {
+export declare class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
     private linker;
     private _dom;
     title: string;
@@ -27,7 +27,7 @@ export declare class SuperTab extends NavControllerBase implements OnInit, After
     _vp: ViewContainerRef;
     constructor(parent: SuperTabs, app: App, config: Config, plt: Platform, keyboard: Keyboard, el: ElementRef, zone: NgZone, rnd: Renderer, cfr: ComponentFactoryResolver, gestureCtrl: GestureController, transCtrl: TransitionController, linker: DeepLinker, _dom: DomController);
     ngOnInit(): void;
-    ngAfterViewInit(): void;
+    load(): Promise<void>;
     ngOnDestroy(): void;
     setBadge(value: number): void;
     clearBadge(): void;

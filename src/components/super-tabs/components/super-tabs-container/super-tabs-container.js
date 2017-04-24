@@ -89,13 +89,7 @@ let SuperTabsContainer = class SuperTabsContainer {
     }
     setSelectedTab(index) {
         let tab = this.tabs[index];
-        if (tab.loaded) {
-            this.tabSelect.emit({ index, changed: index !== this.selectedTabIndex });
-            this.selectedTabIndex = index;
-            return;
-        }
-        tab.push(tab.root, tab.rootParams, { animate: false }).then(_ => {
-            tab.loaded = true;
+        tab.load().then(_ => {
             this.tabSelect.emit({ index, changed: index !== this.selectedTabIndex });
             this.selectedTabIndex = index;
         });
@@ -111,12 +105,7 @@ let SuperTabsContainer = class SuperTabsContainer {
     }
     slideTo(index, animate = true) {
         let tab = this.tabs[index];
-        if (tab.loaded) {
-            this.moveContainer(animate, index * this.tabWidth);
-            return Promise.resolve();
-        }
-        return tab.push(tab.root, tab.rootParams, { animate: false }).then(_ => {
-            tab.loaded = true;
+        return tab.load().then(_ => {
             this.moveContainer(animate, index * this.tabWidth);
         });
     }

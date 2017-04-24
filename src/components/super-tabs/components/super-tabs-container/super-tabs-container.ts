@@ -132,14 +132,7 @@ export class SuperTabsContainer implements AfterViewInit, OnDestroy {
 
   private setSelectedTab(index: number) {
     let tab = this.tabs[index];
-    if (tab.loaded) {
-      this.tabSelect.emit({ index, changed: index !== this.selectedTabIndex });
-      this.selectedTabIndex = index;
-      return;
-    }
-
-    tab.push(tab.root, tab.rootParams, { animate: false }).then(_ => {
-      tab.loaded = true;
+    tab.load().then(_ => {
       this.tabSelect.emit({ index, changed: index !== this.selectedTabIndex });
       this.selectedTabIndex = index;
     });
@@ -159,13 +152,7 @@ export class SuperTabsContainer implements AfterViewInit, OnDestroy {
 
   slideTo(index: number, animate: boolean = true): Promise<void> {
     let tab = this.tabs[index];
-    if (tab.loaded) {
-      this.moveContainer(animate, index * this.tabWidth);
-      return Promise.resolve();
-    }
-
-    return tab.push(tab.root, tab.rootParams, { animate: false }).then(_ => {
-      tab.loaded = true;
+    return tab.load().then(_ => {
       this.moveContainer(animate, index * this.tabWidth);
     });
   }

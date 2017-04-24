@@ -42,8 +42,13 @@ let SuperTab = class SuperTab extends ionic_angular_1.NavControllerBase {
     ngOnInit() {
         this.parent.addTab(this);
     }
-    ngAfterViewInit() {
-        // this.push(this.root, this.rootParams, { animate: false });
+    load() {
+        if (this.loaded) {
+            return Promise.resolve();
+        }
+        return this.push(this.root, this.rootParams, { animate: false }).then(_ => {
+            this.loaded = true;
+        });
     }
     ngOnDestroy() {
         this.destroy();
