@@ -26,7 +26,7 @@ let Ribbon = class Ribbon {
         if (!util_1.isPresent(this.ribbonOption.heightAmend)) {
             this.ribbonOption.heightAmend = 0;
         }
-        this.renderer.setElementClass(this.elementRef.nativeElement, 'ribbon-bar', true);
+        this.renderer.addClass(this.elementRef.nativeElement, 'ribbon-bar');
         let height = this.elementRef.nativeElement.offsetHeight + this.ribbonOption.heightAmend;
         this.riangleStyleOne = { borderTop: height * 0.52 + 'px solid ' + this.ribbonOption.ribbonColor, borderLeft: height * 0.52 + 'px solid transparent' };
         this.triangleStyleTwo = { borderTop: height * 0.2 + 'px solid ' + this.ribbonOption.backgroundColor, borderLeft: height * 0.2 + 'px solid transparent' };
@@ -53,7 +53,7 @@ Ribbon = __decorate([
   `,
         changeDetection: core_1.ChangeDetectionStrategy.OnPush
     }),
-    __metadata("design:paramtypes", [core_1.Renderer, core_1.ElementRef])
+    __metadata("design:paramtypes", [core_1.Renderer2, core_1.ElementRef])
 ], Ribbon);
 exports.Ribbon = Ribbon;
 //# sourceMappingURL=ribbon.js.map

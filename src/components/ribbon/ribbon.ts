@@ -1,4 +1,4 @@
-import { Component, Renderer, ElementRef, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ChangeDetectionStrategy, Renderer2 } from '@angular/core';
 import { isPresent } from '../../utils/util';
 
 export interface RibbnOptions {
@@ -29,7 +29,7 @@ export class Ribbon implements OnInit {
   @Input('ribbon-option')
   ribbonOption: RibbnOptions;
 
-  constructor(private renderer: Renderer, private elementRef: ElementRef) {
+  constructor(private renderer: Renderer2, private elementRef: ElementRef) {
   }
 
   ngOnInit() {
@@ -42,7 +42,7 @@ export class Ribbon implements OnInit {
     if (!isPresent(this.ribbonOption.heightAmend)) {
       this.ribbonOption.heightAmend = 0;
     }
-    this.renderer.setElementClass(this.elementRef.nativeElement, 'ribbon-bar', true);
+    this.renderer.addClass(this.elementRef.nativeElement, 'ribbon-bar');
     let height = this.elementRef.nativeElement.offsetHeight + this.ribbonOption.heightAmend;
     this.riangleStyleOne = { borderTop: height * 0.52 + 'px solid ' + this.ribbonOption.ribbonColor, borderLeft: height * 0.52 + 'px solid transparent' };
     this.triangleStyleTwo = { borderTop: height * 0.2 + 'px solid ' + this.ribbonOption.backgroundColor, borderLeft: height * 0.2 + 'px solid transparent' };

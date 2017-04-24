@@ -1,4 +1,4 @@
-import { Renderer, ElementRef, OnInit } from '@angular/core';
+import { ElementRef, OnInit, Renderer2 } from '@angular/core';
 export interface RibbnOptions {
     backgroundColor: string;
     ribbonColor: string;
@@ -13,6 +13,6 @@ export declare class Ribbon implements OnInit {
     triangleStyleTwo: any;
     textStyle: any;
     ribbonOption: RibbnOptions;
-    constructor(renderer: Renderer, elementRef: ElementRef);
+    constructor(renderer: Renderer2, elementRef: ElementRef);
     ngOnInit(): void;
 }
