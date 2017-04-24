@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, Renderer2, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, ElementRef, Renderer, OnInit, Output, EventEmitter } from '@angular/core';
 import { isTrueProperty } from '../../utils/util';
 import * as _ from 'lodash';
 
@@ -51,7 +51,7 @@ export class ImageLoaderCmp implements OnInit {
 
   constructor(
     private elementRef: ElementRef,
-    private renderer: Renderer2,
+    private renderer: Renderer,
     private imageLoader: ImageLoaderController,
     private config: ConfigProvider
   ) { }
@@ -105,33 +105,33 @@ export class ImageLoaderCmp implements OnInit {
       this.renderer.listen(this.element, 'error', (event: any) => {
         this.imageLoader.removeCacheFile(imageUrl);
         if (this.fallbackUrl) {
-          this.renderer.setAttribute(this.element, 'src', this.fallbackUrl);
+          this.renderer.setElementAttribute(this.element, 'src', this.fallbackUrl);
         }
       });
-      this.renderer.setAttribute(this.element, 'src', imageUrl);
+      this.renderer.setElementAttribute(this.element, 'src', imageUrl);
     } else {
       this.element = this.elementRef.nativeElement;
       if (this.display) {
-        this.renderer.setStyle(this.element, 'display', this.display);
+        this.renderer.setElementStyle(this.element, 'display', this.display);
       }
 
       if (this.height) {
-        this.renderer.setStyle(this.element, 'height', this.height);
+        this.renderer.setElementStyle(this.element, 'height', this.height);
       }
 
       if (this.width) {
-        this.renderer.setStyle(this.element, 'width', this.width);
+        this.renderer.setElementStyle(this.element, 'width', this.width);
       }
 
       if (this.backgroundSize) {
-        this.renderer.setStyle(this.element, 'background-size', this.backgroundSize);
+        this.renderer.setElementStyle(this.element, 'background-size', this.backgroundSize);
       }
 
       if (this.backgroundRepeat) {
-        this.renderer.setStyle(this.element, 'background-repeat', this.backgroundRepeat);
+        this.renderer.setElementStyle(this.element, 'background-repeat', this.backgroundRepeat);
       }
 
-      this.renderer.setStyle(this.element, 'background-image', 'url(\'' + imageUrl + '\')');
+      this.renderer.setElementStyle(this.element, 'background-image', 'url(\'' + imageUrl + '\')');
     }
     this.load.emit(this);
   }

@@ -1,4 +1,4 @@
-import { ElementRef, Renderer2, OnInit, EventEmitter } from '@angular/core';
+import { ElementRef, Renderer, OnInit, EventEmitter } from '@angular/core';
 import { ImageLoaderController } from './image-loader';
 import { ConfigProvider } from '../../config/config';
 export declare class ImageLoaderCmp implements OnInit {
@@ -23,7 +23,7 @@ export declare class ImageLoaderCmp implements OnInit {
     load: EventEmitter<ImageLoaderCmp>;
     isLoading: boolean;
     private element;
-    constructor(elementRef: ElementRef, renderer: Renderer2, imageLoader: ImageLoaderController, config: ConfigProvider);
+    constructor(elementRef: ElementRef, renderer: Renderer, imageLoader: ImageLoaderController, config: ConfigProvider);
     ngOnInit(): void;
     private processImageUrl(imageUrl);
     private updateImage(imageUrl);
