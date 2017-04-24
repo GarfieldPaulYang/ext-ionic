@@ -19,7 +19,7 @@ export declare class SuperTabsController {
      */
     enableTabSwipe(tabId: string, enable: boolean, tabsId?: string): void;
     showToolbar(show: boolean, tabsId?: string): void;
-    slideTo(tabIndexOrId: string | number, tabsId?: string): void;
+    slideTo(tabIndexOrId: string | number, tabsId?: string): Promise<void>;
     /**
      * @private
      */

@@ -232,6 +232,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   ngAfterContentInit() {
     this.updateTabWidth();
     this.toolbar.tabs = this._tabs;
+    this.tabsContainer.tabs = this._tabs;
   }
 
   ngAfterViewInit() {
@@ -298,13 +299,13 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     this.refreshContainerHeight();
   }
 
-  slideTo(indexOrId: string | number) {
+  slideTo(indexOrId: string | number): Promise<void> {
     if (typeof indexOrId === 'string') {
       indexOrId = this.getTabIndexById(indexOrId);
     }
 
     this.selectedTabIndex = indexOrId;
-    this.tabsContainer.slideTo(indexOrId);
+    return this.tabsContainer.slideTo(indexOrId);
   }
 
   getActiveChildNav() {
@@ -410,8 +411,9 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   }
 
   onToolbarTabSelect(index: number) {
-    this.tabsContainer.slideTo(index);
-    this.onTabChange(index);
+    this.tabsContainer.slideTo(index).then(_ => {
+      this.onTabChange(index);
+    });
   }
 
   onContainerTabSelect(ev: { index: number; changed: boolean }) {

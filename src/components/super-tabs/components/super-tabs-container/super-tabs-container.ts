@@ -5,6 +5,7 @@ import {
 import { DomController, Platform } from 'ionic-angular';
 import { SuperTabsPanGesture } from '../../super-tabs-pan-gesture';
 import { SuperTabsConfig } from '../super-tabs/super-tabs';
+import { SuperTab } from '../super-tab/super-tab';
 
 @Component({
   selector: 'ion-super-tabs-container',
@@ -43,6 +44,8 @@ export class SuperTabsContainer implements AfterViewInit, OnDestroy {
   tabWidth: number = 0;
 
   containerWidth: number = 0;
+
+  tabs: SuperTab[] = [];
 
   // Animation stuff
 
@@ -128,8 +131,18 @@ export class SuperTabsContainer implements AfterViewInit, OnDestroy {
   }
 
   private setSelectedTab(index: number) {
-    this.tabSelect.emit({ index, changed: index !== this.selectedTabIndex });
-    this.selectedTabIndex = index;
+    let tab = this.tabs[index];
+    if (tab.loaded) {
+      this.tabSelect.emit({ index, changed: index !== this.selectedTabIndex });
+      this.selectedTabIndex = index;
+      return;
+    }
+
+    tab.push(tab.root, tab.rootParams, { animate: false }).then(_ => {
+      tab.loaded = true;
+      this.tabSelect.emit({ index, changed: index !== this.selectedTabIndex });
+      this.selectedTabIndex = index;
+    });
   }
 
   private calculateContainerWidth() {
@@ -144,8 +157,17 @@ export class SuperTabsContainer implements AfterViewInit, OnDestroy {
     this.rnd.setStyle(this.container.nativeElement, 'width', this.containerWidth + 'px');
   }
 
-  slideTo(index: number, animate: boolean = true): void {
-    this.moveContainer(animate, index * this.tabWidth);
+  slideTo(index: number, animate: boolean = true): Promise<void> {
+    let tab = this.tabs[index];
+    if (tab.loaded) {
+      this.moveContainer(animate, index * this.tabWidth);
+      return Promise.resolve();
+    }
+
+    return tab.push(tab.root, tab.rootParams, { animate: false }).then(_ => {
+      tab.loaded = true;
+      this.moveContainer(animate, index * this.tabWidth);
+    });
   }
 
   private moveContainer(animate: boolean = false, positionX?: number, callback: Function = () => { }) {

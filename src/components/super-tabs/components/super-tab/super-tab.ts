@@ -46,6 +46,8 @@ export class SuperTab extends NavControllerBase implements OnInit, AfterViewInit
   @Input()
   badge: number = 0;
 
+  loaded: boolean = false;
+
   /**
    * @hidden
    */
@@ -77,7 +79,7 @@ export class SuperTab extends NavControllerBase implements OnInit, AfterViewInit
   }
 
   ngAfterViewInit() {
-    this.push(this.root, this.rootParams, { animate: false });
+    // this.push(this.root, this.rootParams, { animate: false });
   }
 
   ngOnDestroy() {

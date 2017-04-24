@@ -52,7 +52,7 @@ let SuperTabsController = class SuperTabsController {
     }
     slideTo(tabIndexOrId, tabsId) {
         const instance = this.getInstance(tabsId);
-        instance && instance.slideTo(tabIndexOrId);
+        return instance && instance.slideTo(tabIndexOrId);
     }
     /**
      * @private

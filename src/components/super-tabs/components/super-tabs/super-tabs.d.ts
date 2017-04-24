@@ -105,7 +105,7 @@ export declare class SuperTabs implements OnInit, AfterContentInit, AfterViewIni
     enableTabsSwipe(enable: boolean): void;
     enableTabSwipe(tabId: string, enable: boolean): void;
     showToolbar(show: boolean): void;
-    slideTo(indexOrId: string | number): void;
+    slideTo(indexOrId: string | number): Promise<void>;
     getActiveChildNav(): SuperTab;
     addTab(tab: SuperTab): void;
     /**

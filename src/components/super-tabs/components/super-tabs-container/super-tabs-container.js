@@ -28,6 +28,7 @@ let SuperTabsContainer = class SuperTabsContainer {
         this.containerPosition = 0;
         this.tabWidth = 0;
         this.containerWidth = 0;
+        this.tabs = [];
         this.globalSwipeEnabled = true;
         this.swipeEnabledPerTab = {};
     }
@@ -87,8 +88,17 @@ let SuperTabsContainer = class SuperTabsContainer {
         };
     }
     setSelectedTab(index) {
-        this.tabSelect.emit({ index, changed: index !== this.selectedTabIndex });
-        this.selectedTabIndex = index;
+        let tab = this.tabs[index];
+        if (tab.loaded) {
+            this.tabSelect.emit({ index, changed: index !== this.selectedTabIndex });
+            this.selectedTabIndex = index;
+            return;
+        }
+        tab.push(tab.root, tab.rootParams, { animate: false }).then(_ => {
+            tab.loaded = true;
+            this.tabSelect.emit({ index, changed: index !== this.selectedTabIndex });
+            this.selectedTabIndex = index;
+        });
     }
     calculateContainerWidth() {
         this.containerWidth = this.tabWidth * this.tabsCount;
@@ -100,7 +110,15 @@ let SuperTabsContainer = class SuperTabsContainer {
         this.rnd.setStyle(this.container.nativeElement, 'width', this.containerWidth + 'px');
     }
     slideTo(index, animate = true) {
-        this.moveContainer(animate, index * this.tabWidth);
+        let tab = this.tabs[index];
+        if (tab.loaded) {
+            this.moveContainer(animate, index * this.tabWidth);
+            return Promise.resolve();
+        }
+        return tab.push(tab.root, tab.rootParams, { animate: false }).then(_ => {
+            tab.loaded = true;
+            this.moveContainer(animate, index * this.tabWidth);
+        });
     }
     moveContainer(animate = false, positionX, callback = () => { }) {
         this.domCtrl.read(() => {

@@ -22,6 +22,7 @@ let SuperTab = class SuperTab extends ionic_angular_1.NavControllerBase {
         this.linker = linker;
         this._dom = _dom;
         this.badge = 0;
+        this.loaded = false;
     }
     get tabTitle() {
         return this.title;
@@ -42,7 +43,7 @@ let SuperTab = class SuperTab extends ionic_angular_1.NavControllerBase {
         this.parent.addTab(this);
     }
     ngAfterViewInit() {
-        this.push(this.root, this.rootParams, { animate: false });
+        // this.push(this.root, this.rootParams, { animate: false });
     }
     ngOnDestroy() {
         this.destroy();

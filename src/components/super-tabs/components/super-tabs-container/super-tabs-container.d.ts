@@ -1,6 +1,7 @@
 import { Renderer2, ElementRef, EventEmitter, AfterViewInit, OnDestroy, NgZone } from '@angular/core';
 import { DomController, Platform } from 'ionic-angular';
 import { SuperTabsConfig } from '../super-tabs/super-tabs';
+import { SuperTab } from '../super-tab/super-tab';
 export declare class SuperTabsContainer implements AfterViewInit, OnDestroy {
     private el;
     private rnd;
@@ -21,6 +22,7 @@ export declare class SuperTabsContainer implements AfterViewInit, OnDestroy {
     container: ElementRef;
     tabWidth: number;
     containerWidth: number;
+    tabs: SuperTab[];
     private minPosX;
     private maxPosX;
     private gesture;
@@ -38,7 +40,7 @@ export declare class SuperTabsContainer implements AfterViewInit, OnDestroy {
     private calculateContainerWidth();
     setHeight(height: number): void;
     private setContainerWidth();
-    slideTo(index: number, animate?: boolean): void;
+    slideTo(index: number, animate?: boolean): Promise<void>;
     private moveContainer(animate?, positionX?, callback?);
     private refreshMinMax();
 }

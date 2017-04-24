@@ -20,6 +20,7 @@ export declare class SuperTab extends NavControllerBase implements OnInit, After
     tabId: string;
     readonly _tabId: string;
     badge: number;
+    loaded: boolean;
     /**
      * @hidden
      */

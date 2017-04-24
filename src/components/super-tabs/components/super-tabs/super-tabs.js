@@ -125,6 +125,7 @@ let SuperTabs = SuperTabs_1 = class SuperTabs {
     ngAfterContentInit() {
         this.updateTabWidth();
         this.toolbar.tabs = this._tabs;
+        this.tabsContainer.tabs = this._tabs;
     }
     ngAfterViewInit() {
         const tabsSegment = this.linker.initNav(this);
@@ -176,7 +177,7 @@ let SuperTabs = SuperTabs_1 = class SuperTabs {
             indexOrId = this.getTabIndexById(indexOrId);
         }
         this.selectedTabIndex = indexOrId;
-        this.tabsContainer.slideTo(indexOrId);
+        return this.tabsContainer.slideTo(indexOrId);
     }
     getActiveChildNav() {
         return this._tabs[this.selectedTabIndex];
@@ -258,8 +259,9 @@ let SuperTabs = SuperTabs_1 = class SuperTabs {
         }
     }
     onToolbarTabSelect(index) {
-        this.tabsContainer.slideTo(index);
-        this.onTabChange(index);
+        this.tabsContainer.slideTo(index).then(_ => {
+            this.onTabChange(index);
+        });
     }
     onContainerTabSelect(ev) {
         if (ev.changed) {
