@@ -9,8 +9,11 @@ export { ConsoleErrorHandler } from './src/utils/console-error-handler';
 
 export { HotUpdater } from './src/providers/hot-updater';
 export { ComponentRegistar } from './src/providers/component-registar';
-export { FileStorage, TextFileStorage } from './src/providers/file-storage/file-storage';
-export { JsonFileStorage } from './src/providers/file-storage/json-file-storage';
+
+export { Storage } from './src/providers/storage/storage';
+export { MemoryStorage } from './src/providers/storage/mem-storage';
+export { TextFileStorage } from './src/providers/storage/file-storage';
+export { JsonFileStorage } from './src/providers/storage/json-file-storage';
 
 export { PipesModule } from './src/pipes/pipes.module';
 
@@ -74,8 +77,10 @@ import { HttpProvider, CorsHttpProvider } from './src/providers/http';
 
 import { HotUpdater } from './src/providers/hot-updater';
 import { ComponentRegistar } from './src/providers/component-registar';
-import { TextFileStorage } from './src/providers/file-storage/file-storage';
-import { JsonFileStorage } from './src/providers/file-storage/json-file-storage';
+
+import { MemoryStorage } from './src/providers/storage/mem-storage';
+import { TextFileStorage } from './src/providers/storage/file-storage';
+import { JsonFileStorage } from './src/providers/storage/json-file-storage';
 
 import { PipesModule } from './src/pipes/pipes.module';
 
@@ -99,6 +104,7 @@ const PROVIDERS: Array<any> = [
   CorsHttpProvider,
   HotUpdater,
   ComponentRegistar,
+  MemoryStorage,
   TextFileStorage,
   JsonFileStorage,
 

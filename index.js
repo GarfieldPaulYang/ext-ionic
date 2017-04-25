@@ -25,9 +25,11 @@ var hot_updater_1 = require("./src/providers/hot-updater");
 exports.HotUpdater = hot_updater_1.HotUpdater;
 var component_registar_1 = require("./src/providers/component-registar");
 exports.ComponentRegistar = component_registar_1.ComponentRegistar;
-var file_storage_1 = require("./src/providers/file-storage/file-storage");
+var mem_storage_1 = require("./src/providers/storage/mem-storage");
+exports.MemoryStorage = mem_storage_1.MemoryStorage;
+var file_storage_1 = require("./src/providers/storage/file-storage");
 exports.TextFileStorage = file_storage_1.TextFileStorage;
-var json_file_storage_1 = require("./src/providers/file-storage/json-file-storage");
+var json_file_storage_1 = require("./src/providers/storage/json-file-storage");
 exports.JsonFileStorage = json_file_storage_1.JsonFileStorage;
 var pipes_module_1 = require("./src/pipes/pipes.module");
 exports.PipesModule = pipes_module_1.PipesModule;
@@ -83,8 +85,9 @@ const dialog_2 = require("./src/utils/dialog");
 const http_2 = require("./src/providers/http");
 const hot_updater_2 = require("./src/providers/hot-updater");
 const component_registar_2 = require("./src/providers/component-registar");
-const file_storage_2 = require("./src/providers/file-storage/file-storage");
-const json_file_storage_2 = require("./src/providers/file-storage/json-file-storage");
+const mem_storage_2 = require("./src/providers/storage/mem-storage");
+const file_storage_2 = require("./src/providers/storage/file-storage");
+const json_file_storage_2 = require("./src/providers/storage/json-file-storage");
 const pipes_module_2 = require("./src/pipes/pipes.module");
 const alpha_scroll_module_2 = require("./src/components/alpha-scroll/alpha-scroll.module");
 const open_url_modal_module_2 = require("./src/components/open-url-modal/open-url-modal.module");
@@ -104,6 +107,7 @@ const PROVIDERS = [
     http_2.CorsHttpProvider,
     hot_updater_2.HotUpdater,
     component_registar_2.ComponentRegistar,
+    mem_storage_2.MemoryStorage,
     file_storage_2.TextFileStorage,
     json_file_storage_2.JsonFileStorage,
     immerse_plugin_2.Immerse,

@@ -1,51 +1,37 @@
-import { FileStorage } from './file-storage';
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { File, RemoveResult } from '@ionic-native/file';
+import { File } from '@ionic-native/file';
 import { isPresent } from '../../utils/util';
-
-export interface FileStorage {
-  save(filename: string, content: any): Promise<any>;
-  load<T>(filename: string): Promise<T>;
-  remove(filename: string): Promise<RemoveResult>;
-}
+import { Storage } from './storage';
+import { MemoryStorage } from './mem-storage';
 
 @Injectable()
-export class TextFileStorage implements FileStorage {
-  private localStorage: any = {};
+export class TextFileStorage implements Storage {
+  constructor(protected platform: Platform, protected file: File, protected memoryStorage: MemoryStorage) { }
 
-  constructor(protected platform: Platform, protected file: File) { }
-
-  save(filename: string, content: any): Promise<void> {
+  save(filename: string, content: any): Promise<any> {
     if (!isPresent(content)) {
       return Promise.reject('content is not present');
     }
     if (this.platform.is('cordova')) {
       return this.writeToFile(filename, content);
     }
-    this.localStorage[filename] = content;
-    return Promise.resolve();
+    return this.memoryStorage.save(filename, content);
   }
 
   load<T>(filename: string): Promise<T> {
     if (this.platform.is('cordova')) {
-      return this.readFile(filename);
+      return this.readFile<T>(filename);
     }
 
-    let content = this.localStorage[filename];
-    if (!content) {
-      return Promise.reject('file not found.');
-    }
-
-    return Promise.resolve(content);
+    return this.memoryStorage.load<T>(filename);
   }
 
-  remove(filename: string): Promise<RemoveResult> {
+  remove(filename: string): Promise<any> {
     if (this.platform.is('cordova')) {
       return this.removeFile(filename);
     }
-    delete this.localStorage[filename];
-    return Promise.resolve({ success: true });
+    return this.memoryStorage.remove(filename);
   }
 
   protected serialize(content: any): string {
@@ -72,7 +58,7 @@ export class TextFileStorage implements FileStorage {
     });
   }
 
-  private removeFile(filename: string): Promise<RemoveResult> {
+  private removeFile(filename: string): Promise<any> {
     return this.file.removeFile(this.getFilepath(), filename).then(value => {
       return value;
     }).catch(reason => {

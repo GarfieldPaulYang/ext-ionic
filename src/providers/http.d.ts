@@ -5,7 +5,8 @@ import { Device } from '@ionic-native/device';
 import { ConfigProvider } from '../config/config';
 import { Dialog } from '../utils/dialog';
 import { ResponseResult } from '../utils/http/response/response-result';
-import { JsonFileStorage } from './file-storage/json-file-storage';
+import { JsonFileStorage } from './storage/json-file-storage';
+import { MemoryStorage } from './storage/mem-storage';
 export declare const ticket_expired: string;
 export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
     showLoading?: boolean;
@@ -13,6 +14,7 @@ export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
     showErrorAlert?: boolean;
     cache?: boolean;
     cacheOnly?: boolean;
+    memCache?: boolean;
 }
 export declare class HttpProviderOptions extends RequestOptions {
     showLoading: boolean;
@@ -20,6 +22,7 @@ export declare class HttpProviderOptions extends RequestOptions {
     showErrorAlert: boolean;
     cache: boolean;
     cacheOnly: boolean;
+    memCache: boolean;
     constructor(options: HttpProviderOptionsArgs);
     merge(options?: HttpProviderOptionsArgs): HttpProviderOptions;
 }
@@ -41,9 +44,10 @@ export interface LoginResult {
 export declare class HttpProvider {
     private _http;
     private jsonCache;
+    private memCache;
     private config;
     private dialog;
-    constructor(_http: Http, jsonCache: JsonFileStorage, config: ConfigProvider, dialog: Dialog);
+    constructor(_http: Http, jsonCache: JsonFileStorage, memCache: MemoryStorage, config: ConfigProvider, dialog: Dialog);
     readonly http: Http;
     requestWithError<T>(url: string, options?: HttpProviderOptionsArgs, foundCacheCallback?: (result: T) => void): Promise<T>;
     request<T>(url: string, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>>;

@@ -21,7 +21,8 @@ import { isPresent } from '../utils/util';
 import { ResponseResult } from '../utils/http/response/response-result';
 import { URLParamsBuilder } from '../utils/http/url-params-builder';
 import { StringUtils } from '../utils/string';
-import { JsonFileStorage } from './file-storage/json-file-storage';
+import { JsonFileStorage } from './storage/json-file-storage';
+import { MemoryStorage } from './storage/mem-storage';
 
 export const ticket_expired: string = 'ticket-expired';
 
@@ -31,6 +32,7 @@ export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
   showErrorAlert?: boolean;
   cache?: boolean;
   cacheOnly?: boolean;
+  memCache?: boolean;
 }
 
 export class HttpProviderOptions extends RequestOptions {
@@ -39,6 +41,7 @@ export class HttpProviderOptions extends RequestOptions {
   showErrorAlert: boolean;
   cache: boolean;
   cacheOnly: boolean;
+  memCache: boolean;
 
   constructor(options: HttpProviderOptionsArgs) {
     super(options);
@@ -48,6 +51,7 @@ export class HttpProviderOptions extends RequestOptions {
     this.showErrorAlert = options.showErrorAlert;
     this.cache = options.cache;
     this.cacheOnly = options.cacheOnly;
+    this.memCache = options.memCache;
   }
 
   merge(options?: HttpProviderOptionsArgs): HttpProviderOptions {
@@ -58,6 +62,7 @@ export class HttpProviderOptions extends RequestOptions {
     result.loadingContent = options.loadingContent ? options.loadingContent : this.loadingContent;
     result.cache = isPresent(options.cache) ? options.cache : this.cache;
     result.cacheOnly = isPresent(options.cacheOnly) ? options.cacheOnly : this.cacheOnly;
+    result.memCache = isPresent(options.memCache) ? options.memCache : this.memCache;
 
     return result;
   }
@@ -69,6 +74,7 @@ const defaultRequestOptions: HttpProviderOptions = new HttpProviderOptions({
   showErrorAlert: true,
   cache: true,
   cacheOnly: false,
+  memCache: false,
   method: RequestMethod.Get,
   responseType: ResponseContentType.Json
 });
@@ -98,6 +104,7 @@ export class HttpProvider {
   constructor(
     private _http: Http,
     private jsonCache: JsonFileStorage,
+    private memCache: MemoryStorage,
     private config: ConfigProvider,
     private dialog: Dialog
   ) { }
@@ -113,6 +120,8 @@ export class HttpProvider {
   ): Promise<T> {
     options = options ? defaultRequestOptions.merge(options) : defaultRequestOptions;
 
+    let cache = options.memCache ? this.memCache : this.jsonCache;
+
     let innerRequest = (url: string, options?: HttpProviderOptionsArgs): Promise<T> => {
       return this.request<T>(url, options).then((result: ResponseResult<T>) => {
         if (result.status === 1) {
@@ -126,7 +135,7 @@ export class HttpProvider {
         }
 
         if (options.cache && options.method === RequestMethod.Get && cacheKey) {
-          this.jsonCache.save(cacheKey, result.data);
+          cache.save(cacheKey, result.data);
         }
 
         return result.data;
@@ -140,10 +149,10 @@ export class HttpProvider {
       cacheKey = this.hashUrl(url, <URLSearchParams>(options.params || options.search));
 
       if (options.cacheOnly) {
-        return this.jsonCache.load<T>(cacheKey).catch(_ => { return innerRequest(url, options); });
+        return cache.load<T>(cacheKey).catch(() => { return innerRequest(url, options); });
       }
 
-      this.jsonCache.load<T>(cacheKey).then(result => {
+      cache.load<T>(cacheKey).then(result => {
         foundCacheCallback(result);
       }).catch(error => console.log(error));
     }

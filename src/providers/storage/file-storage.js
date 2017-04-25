@@ -13,11 +13,12 @@ const core_1 = require("@angular/core");
 const ionic_angular_1 = require("ionic-angular");
 const file_1 = require("@ionic-native/file");
 const util_1 = require("../../utils/util");
+const mem_storage_1 = require("./mem-storage");
 let TextFileStorage = class TextFileStorage {
-    constructor(platform, file) {
+    constructor(platform, file, memoryStorage) {
         this.platform = platform;
         this.file = file;
-        this.localStorage = {};
+        this.memoryStorage = memoryStorage;
     }
     save(filename, content) {
         if (!util_1.isPresent(content)) {
@@ -26,25 +27,19 @@ let TextFileStorage = class TextFileStorage {
         if (this.platform.is('cordova')) {
             return this.writeToFile(filename, content);
         }
-        this.localStorage[filename] = content;
-        return Promise.resolve();
+        return this.memoryStorage.save(filename, content);
     }
     load(filename) {
         if (this.platform.is('cordova')) {
             return this.readFile(filename);
         }
-        let content = this.localStorage[filename];
-        if (!content) {
-            return Promise.reject('file not found.');
-        }
-        return Promise.resolve(content);
+        return this.memoryStorage.load(filename);
     }
     remove(filename) {
         if (this.platform.is('cordova')) {
             return this.removeFile(filename);
         }
-        delete this.localStorage[filename];
-        return Promise.resolve({ success: true });
+        return this.memoryStorage.remove(filename);
     }
     serialize(content) {
         return content;
@@ -79,7 +74,7 @@ let TextFileStorage = class TextFileStorage {
 };
 TextFileStorage = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [ionic_angular_1.Platform, file_1.File])
+    __metadata("design:paramtypes", [ionic_angular_1.Platform, file_1.File, mem_storage_1.MemoryStorage])
 ], TextFileStorage);
 exports.TextFileStorage = TextFileStorage;
 //# sourceMappingURL=file-storage.js.map

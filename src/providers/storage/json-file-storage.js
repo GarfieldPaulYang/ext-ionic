@@ -13,11 +13,13 @@ const file_storage_1 = require("./file-storage");
 const core_1 = require("@angular/core");
 const ionic_angular_1 = require("ionic-angular");
 const file_1 = require("@ionic-native/file");
+const mem_storage_1 = require("./mem-storage");
 let JsonFileStorage = class JsonFileStorage extends file_storage_1.TextFileStorage {
-    constructor(platform, file) {
-        super(platform, file);
+    constructor(platform, file, memoryStorage) {
+        super(platform, file, memoryStorage);
         this.platform = platform;
         this.file = file;
+        this.memoryStorage = memoryStorage;
     }
     serialize(content) {
         return JSON.stringify(content);
@@ -28,7 +30,7 @@ let JsonFileStorage = class JsonFileStorage extends file_storage_1.TextFileStora
 };
 JsonFileStorage = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [ionic_angular_1.Platform, file_1.File])
+    __metadata("design:paramtypes", [ionic_angular_1.Platform, file_1.File, mem_storage_1.MemoryStorage])
 ], JsonFileStorage);
 exports.JsonFileStorage = JsonFileStorage;
 //# sourceMappingURL=json-file-storage.js.map
