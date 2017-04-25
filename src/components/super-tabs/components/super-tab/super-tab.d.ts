@@ -20,6 +20,7 @@ export declare class SuperTab extends NavControllerBase implements OnInit, OnDes
     tabId: string;
     readonly _tabId: string;
     badge: number;
+    swipeBackEnabled: boolean;
     loaded: boolean;
     /**
      * @hidden

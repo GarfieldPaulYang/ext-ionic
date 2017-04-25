@@ -33,6 +33,13 @@ let SuperTab = class SuperTab extends ionic_angular_1.NavControllerBase {
     get _tabId() {
         return this.tabId;
     }
+    get swipeBackEnabled() {
+        return this._sbEnabled;
+    }
+    set swipeBackEnabled(val) {
+        this._sbEnabled = !!val;
+        this._swipeBackCheck();
+    }
     /**
      * @hidden
      */
@@ -93,6 +100,11 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", Number)
 ], SuperTab.prototype, "badge", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean),
+    __metadata("design:paramtypes", [Boolean])
+], SuperTab.prototype, "swipeBackEnabled", null);
 __decorate([
     core_1.ViewChild('viewport', { read: core_1.ViewContainerRef }),
     __metadata("design:type", core_1.ViewContainerRef),
