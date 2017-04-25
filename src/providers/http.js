@@ -49,7 +49,7 @@ const defaultRequestOptions = new HttpProviderOptions({
     showLoading: true,
     loadingContent: '正在加载...',
     showErrorAlert: true,
-    cache: true,
+    cache: false,
     cacheOnly: false,
     memCache: false,
     method: http_1.RequestMethod.Get,
