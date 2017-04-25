@@ -3,7 +3,7 @@ import {
   ViewChild, AfterContentInit, Output, EventEmitter, ViewEncapsulation, forwardRef, Optional
 } from '@angular/core';
 import { SuperTab } from '../super-tab/super-tab';
-import { NavController, RootNode, NavControllerBase, ViewController, App, DeepLinker } from 'ionic-angular';
+import { NavController, RootNode, NavControllerBase, ViewController, App, DeepLinker, DomController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { SuperTabsToolbar } from '../super-tabs-toolbar/super-tabs-toolbar';
@@ -174,7 +174,8 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     private el: ElementRef,
     private rnd: Renderer2,
     private superTabsCtrl: SuperTabsController,
-    private linker: DeepLinker
+    private linker: DeepLinker,
+    private domCtrl: DomController
   ) {
     this.parent = <NavControllerBase>parent;
 
@@ -203,14 +204,13 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
       this.tabsContainer.slideTo(this.selectedTabIndex);
       this.alignIndicatorPosition();
       this.refreshTabWidths();
-
       this.refreshContainerHeight();
     }));
   }
 
   ngOnInit() {
     const defaultConfig: SuperTabsConfig = {
-      dragThreshold: 20,
+      dragThreshold: 10,
       maxDragAngle: 40,
       sideMenuThreshold: 50,
       transitionDuration: 300,
@@ -336,50 +336,51 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
    */
   onDrag() {
     if (!this.isToolbarVisible) return;
+    this.domCtrl.write(() => {
+      const singleSlideWidth = this.tabsContainer.tabWidth,
+        slidesWidth = this.tabsContainer.containerWidth;
 
-    const singleSlideWidth = this.tabsContainer.tabWidth,
-      slidesWidth = this.tabsContainer.containerWidth;
+      let percentage = Math.abs(this.tabsContainer.containerPosition / slidesWidth);
 
-    let percentage = Math.abs(this.tabsContainer.containerPosition / slidesWidth);
+      if (this.scrollTabs) {
+        const originalSlideStart = singleSlideWidth * this.selectedTabIndex,
+          originalPosition = this.getRelativeIndicatorPosition(),
+          originalWidth = this.getSegmentButtonWidth();
 
-    if (this.scrollTabs) {
-      const originalSlideStart = singleSlideWidth * this.selectedTabIndex,
-        originalPosition = this.getRelativeIndicatorPosition(),
-        originalWidth = this.getSegmentButtonWidth();
+        let nextPosition: number, nextWidth: number, indicatorPosition: number, indicatorWidth: number;
 
-      let nextPosition: number, nextWidth: number, position: number, indicatorWidth: number;
+        const deltaTabPos = originalSlideStart - Math.abs(this.tabsContainer.containerPosition);
 
-      const deltaTabPos = originalSlideStart - Math.abs(this.tabsContainer.containerPosition);
+        percentage = Math.abs(deltaTabPos / singleSlideWidth);
 
-      percentage = Math.abs(deltaTabPos / singleSlideWidth);
+        if (deltaTabPos < 0) {
+          // going to next slide
+          nextPosition = this.getRelativeIndicatorPosition(this.selectedTabIndex + 1);
+          nextWidth = this.getSegmentButtonWidth(this.selectedTabIndex + 1);
 
-      if (deltaTabPos < 0) {
-        // going to next slide
-        nextPosition = this.getRelativeIndicatorPosition(this.selectedTabIndex + 1);
-        nextWidth = this.getSegmentButtonWidth(this.selectedTabIndex + 1);
+          indicatorPosition = originalPosition + percentage * (nextPosition - originalPosition);
+        } else {
+          // going to previous slide
+          nextPosition = this.getRelativeIndicatorPosition(this.selectedTabIndex - 1);
+          nextWidth = this.getSegmentButtonWidth(this.selectedTabIndex - 1);
+          indicatorPosition = originalPosition - percentage * (originalPosition - nextPosition);
+        }
 
-        position = originalPosition + percentage * (nextPosition - originalPosition);
+        const deltaWidth: number = nextWidth - originalWidth;
+        indicatorWidth = originalWidth + percentage * deltaWidth;
+
+        if ((originalWidth > nextWidth && indicatorWidth < nextWidth) || (originalWidth < nextWidth && indicatorWidth > nextWidth)) {
+          // this is only useful on desktop, because you are able to drag and swipe through multiple tabs at once
+          // which results in the indicator width to be super small/big since it's changing based on the current/next widths
+          indicatorWidth = nextWidth;
+        }
+
+        this.alignTabButtonsContainer();
+        this.toolbar.setIndicatorProperties(indicatorWidth, indicatorPosition);
       } else {
-        // going to previous slide
-        nextPosition = this.getRelativeIndicatorPosition(this.selectedTabIndex - 1);
-        nextWidth = this.getSegmentButtonWidth(this.selectedTabIndex - 1);
-        position = originalPosition - percentage * (originalPosition - nextPosition);
+        this.toolbar.setIndicatorPosition(Math.min(percentage * singleSlideWidth, this.maxIndicatorPosition));
       }
-
-      const deltaWidth: number = nextWidth - originalWidth;
-      indicatorWidth = originalWidth + percentage * deltaWidth;
-
-      if ((originalWidth > nextWidth && indicatorWidth < nextWidth) || (originalWidth < nextWidth && indicatorWidth > nextWidth)) {
-        // this is only useful on desktop, because you are able to drag and swipe through multiple tabs at once
-        // which results in the indicator width to be super small/big since it's changing based on the current/next widths
-        indicatorWidth = nextWidth;
-      }
-
-      this.alignTabButtonsContainer();
-      this.toolbar.alignIndicator(position, indicatorWidth);
-    } else {
-      this.toolbar.setIndicatorPosition(Math.min(percentage * singleSlideWidth, this.maxIndicatorPosition));
-    }
+    });
   }
 
   /**
@@ -437,7 +438,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     });
   }
 
-  private alignTabButtonsContainer(ease?: boolean) {
+  private alignTabButtonsContainer(animate?: boolean) {
     const mw: number = this.el.nativeElement.offsetWidth, // max width
       iw: number = this.toolbar.indicatorWidth, // indicator width
       ip: number = this.toolbar.indicatorPosition, // indicatorPosition
@@ -457,7 +458,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
       pos = pos >= 0 ? pos : 0;
     } else return; // no need to move the segment container
 
-    this.toolbar.setSegmentPosition(pos, ease);
+    this.toolbar.setSegmentPosition(pos, animate);
   }
 
   private getRelativeIndicatorPosition(index: number = this.selectedTabIndex): number {
@@ -494,14 +495,14 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   /**
    * Aligns slide position with selected tab
    */
-  private alignIndicatorPosition(ease: boolean = false) {
+  private alignIndicatorPosition(animate: boolean = false) {
     if (!this.isToolbarVisible) return;
 
     if (this.scrollTabs) {
-      this.toolbar.alignIndicator(this.getRelativeIndicatorPosition(), this.getSegmentButtonWidth(), ease);
-      this.alignTabButtonsContainer(ease);
+      this.toolbar.alignIndicator(this.getRelativeIndicatorPosition(), this.getSegmentButtonWidth(), animate);
+      this.alignTabButtonsContainer(animate);
     } else {
-      this.toolbar.setIndicatorPosition(this.getAbsoluteIndicatorPosition(), ease);
+      this.toolbar.setIndicatorPosition(this.getAbsoluteIndicatorPosition(), animate);
     }
   }
 

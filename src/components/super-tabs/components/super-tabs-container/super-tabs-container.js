@@ -61,8 +61,10 @@ let SuperTabsContainer = class SuperTabsContainer {
             if ((this.containerPosition === this.maxPosX && delta >= 0) || (this.containerPosition === this.minPosX && delta <= 0))
                 return;
             this.containerPosition += delta;
-            this.onDrag.emit();
-            this.moveContainer();
+            this.plt.raf(() => {
+                this.onDrag.emit();
+                this.moveContainer();
+            });
         };
         this.gesture.onEnd = (shortSwipe, shortSwipeDelta) => {
             if (this.globalSwipeEnabled === false)
@@ -79,7 +81,9 @@ let SuperTabsContainer = class SuperTabsContainer {
             tabIndex = position / this.tabWidth;
             // move container if we changed position
             if (position !== this.containerPosition) {
-                this.moveContainer(true, position, () => this.ngZone.run(() => this.setSelectedTab(tabIndex)));
+                this.plt.raf(() => {
+                    this.moveContainer(true, position, () => this.ngZone.run(() => this.setSelectedTab(tabIndex)));
+                });
             }
             else
                 this.setSelectedTab(tabIndex);
@@ -104,39 +108,29 @@ let SuperTabsContainer = class SuperTabsContainer {
     slideTo(index, animate = true) {
         let tab = this.tabs[index];
         return tab.load().then(_ => {
-            this.moveContainer(animate, index * this.tabWidth);
+            this.plt.raf(() => this.moveContainer(animate, index * this.tabWidth));
         });
     }
     moveContainer(animate = false, positionX, callback = () => { }) {
-        this.domCtrl.read(() => {
-            const el = this.container.nativeElement;
-            if (animate) {
-                if (el.style[this.plt.Css.transform].indexOf('all') === -1) {
-                    this.domCtrl.write(() => {
-                        this.rnd.setStyle(el, this.plt.Css.transition, `all ${this.config.transitionDuration}ms ${this.config.transitionEase}`);
-                    });
-                }
-                this.domCtrl.write(() => {
-                    this.rnd.setStyle(el, this.plt.Css.transform, `translate3d(${-1 * positionX}px, 0, 0)`);
-                });
+        const el = this.container.nativeElement;
+        if (animate) {
+            if (el.style[this.plt.Css.transform].indexOf('all') === -1) {
+                this.rnd.setStyle(el, this.plt.Css.transition, `all ${this.config.transitionDuration}ms ${this.config.transitionEase}`);
+            }
+            this.rnd.setStyle(el, this.plt.Css.transform, `translate3d(${-1 * positionX}px, 0, 0)`);
+            this.containerPosition = positionX;
+        }
+        else {
+            if (positionX) {
                 this.containerPosition = positionX;
             }
-            else {
-                if (positionX) {
-                    this.containerPosition = positionX;
-                }
-                if (el.style[this.plt.Css.transform] !== 'initial') {
-                    this.domCtrl.write(() => {
-                        this.rnd.setStyle(el, this.plt.Css.transition, 'initial');
-                    });
-                }
-                this.containerPosition = Math.max(this.minPosX, Math.min(this.maxPosX, this.containerPosition));
-                this.domCtrl.write(() => {
-                    this.rnd.setStyle(el, this.plt.Css.transform, `translate3d(${-1 * this.containerPosition}px, 0, 0)`);
-                });
+            if (el.style[this.plt.Css.transform] !== 'initial') {
+                this.rnd.setStyle(el, this.plt.Css.transition, 'initial');
             }
-            callback();
-        });
+            this.containerPosition = Math.max(this.minPosX, Math.min(this.maxPosX, this.containerPosition));
+            this.rnd.setStyle(el, this.plt.Css.transform, `translate3d(${-1 * this.containerPosition}px, 0, 0)`);
+        }
+        callback();
     }
     refreshMinMax() {
         this.minPosX = 0;

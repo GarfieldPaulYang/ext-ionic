@@ -35,6 +35,7 @@ export declare class SuperTabsToolbar implements AfterViewInit, OnDestroy {
     segmentWidth: number;
     tabs: any[];
     private gesture;
+    private animationState;
     constructor(el: ElementRef, plt: Platform, rnd: Renderer2, domCtrl: DomController);
     ngAfterViewInit(): void;
     ngOnDestroy(): void;
@@ -42,6 +43,7 @@ export declare class SuperTabsToolbar implements AfterViewInit, OnDestroy {
     alignIndicator(position: number, width: number, animate?: boolean): void;
     setIndicatorPosition(position: number, animate?: boolean): void;
     setIndicatorWidth(width: number, animate?: boolean): void;
+    setIndicatorProperties(width: number, position: number, animate?: boolean): void;
     setSegmentPosition(position: number, animate?: boolean): void;
     /**
      * Enables/disables animation

@@ -1,6 +1,6 @@
 import { AfterViewInit, ElementRef, OnInit, OnDestroy, Renderer2, AfterContentInit, EventEmitter } from '@angular/core';
 import { SuperTab } from '../super-tab/super-tab';
-import { NavController, RootNode, NavControllerBase, ViewController, App, DeepLinker } from 'ionic-angular';
+import { NavController, RootNode, NavControllerBase, ViewController, App, DeepLinker, DomController } from 'ionic-angular';
 import { SuperTabsController } from '../../providers/super-tabs-controller';
 export interface SuperTabsConfig {
     /**
@@ -39,6 +39,7 @@ export declare class SuperTabs implements OnInit, AfterContentInit, AfterViewIni
     private rnd;
     private superTabsCtrl;
     private linker;
+    private domCtrl;
     /**
      * Color of the toolbar behind the tab buttons
      */
@@ -93,7 +94,7 @@ export declare class SuperTabs implements OnInit, AfterContentInit, AfterViewIni
     private hasTitles;
     private init;
     parent: NavControllerBase;
-    constructor(parent: NavController, viewCtrl: ViewController, _app: App, el: ElementRef, rnd: Renderer2, superTabsCtrl: SuperTabsController, linker: DeepLinker);
+    constructor(parent: NavController, viewCtrl: ViewController, _app: App, el: ElementRef, rnd: Renderer2, superTabsCtrl: SuperTabsController, linker: DeepLinker, domCtrl: DomController);
     ngOnInit(): void;
     ngAfterContentInit(): void;
     ngAfterViewInit(): void;
@@ -126,7 +127,7 @@ export declare class SuperTabs implements OnInit, AfterContentInit, AfterViewIni
     private updateTabWidth();
     private refreshContainerHeight();
     private refreshTabWidths();
-    private alignTabButtonsContainer(ease?);
+    private alignTabButtonsContainer(animate?);
     private getRelativeIndicatorPosition(index?);
     private getAbsoluteIndicatorPosition();
     /**
@@ -137,7 +138,7 @@ export declare class SuperTabs implements OnInit, AfterContentInit, AfterViewIni
     /**
      * Aligns slide position with selected tab
      */
-    private alignIndicatorPosition(ease?);
+    private alignIndicatorPosition(animate?);
     getTabIndexById(tabId: string): number;
     getTabById(tabId: string): SuperTab;
     getElementRef(): ElementRef;

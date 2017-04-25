@@ -97,8 +97,10 @@ export class SuperTabsContainer implements AfterViewInit, OnDestroy {
       if (this.swipeEnabledPerTab[this.selectedTabIndex] === false) return;
       if ((this.containerPosition === this.maxPosX && delta >= 0) || (this.containerPosition === this.minPosX && delta <= 0)) return;
       this.containerPosition += delta;
-      this.onDrag.emit();
-      this.moveContainer();
+      this.plt.raf(() => {
+        this.onDrag.emit();
+        this.moveContainer();
+      });
     };
 
     this.gesture.onEnd = (shortSwipe: boolean, shortSwipeDelta?: number) => {
@@ -119,7 +121,9 @@ export class SuperTabsContainer implements AfterViewInit, OnDestroy {
 
       // move container if we changed position
       if (position !== this.containerPosition) {
-        this.moveContainer(true, position, () => this.ngZone.run(() => this.setSelectedTab(tabIndex)));
+        this.plt.raf(() => {
+          this.moveContainer(true, position, () => this.ngZone.run(() => this.setSelectedTab(tabIndex)));
+        });
       } else this.setSelectedTab(tabIndex);
     };
   }
@@ -147,45 +151,34 @@ export class SuperTabsContainer implements AfterViewInit, OnDestroy {
   slideTo(index: number, animate: boolean = true): Promise<void> {
     let tab = this.tabs[index];
     return tab.load().then(_ => {
-      this.moveContainer(animate, index * this.tabWidth);
+      this.plt.raf(() => this.moveContainer(animate, index * this.tabWidth));
     });
   }
 
   private moveContainer(animate: boolean = false, positionX?: number, callback: Function = () => { }) {
-    this.domCtrl.read(() => {
-      const el: HTMLElement = this.container.nativeElement;
-
-      if (animate) {
-        if (el.style[this.plt.Css.transform].indexOf('all') === -1) {
-          this.domCtrl.write(() => {
-            this.rnd.setStyle(el, this.plt.Css.transition, `all ${this.config.transitionDuration}ms ${this.config.transitionEase}`);
-          });
-        }
-
-        this.domCtrl.write(() => {
-          this.rnd.setStyle(el, this.plt.Css.transform, `translate3d(${-1 * positionX}px, 0, 0)`);
-        });
-
-        this.containerPosition = positionX;
-      } else {
-        if (positionX) {
-          this.containerPosition = positionX;
-        }
-
-        if (el.style[this.plt.Css.transform] !== 'initial') {
-          this.domCtrl.write(() => {
-            this.rnd.setStyle(el, this.plt.Css.transition, 'initial');
-          });
-        }
-
-        this.containerPosition = Math.max(this.minPosX, Math.min(this.maxPosX, this.containerPosition));
-
-        this.domCtrl.write(() => {
-          this.rnd.setStyle(el, this.plt.Css.transform, `translate3d(${-1 * this.containerPosition}px, 0, 0)`);
-        });
+    const el: HTMLElement = this.container.nativeElement;
+    if (animate) {
+      if (el.style[this.plt.Css.transform].indexOf('all') === -1) {
+        this.rnd.setStyle(el, this.plt.Css.transition, `all ${this.config.transitionDuration}ms ${this.config.transitionEase}`);
       }
-      callback();
-    });
+
+      this.rnd.setStyle(el, this.plt.Css.transform, `translate3d(${-1 * positionX}px, 0, 0)`);
+
+      this.containerPosition = positionX;
+    } else {
+      if (positionX) {
+        this.containerPosition = positionX;
+      }
+
+      if (el.style[this.plt.Css.transform] !== 'initial') {
+        this.rnd.setStyle(el, this.plt.Css.transition, 'initial');
+      }
+
+      this.containerPosition = Math.max(this.minPosX, Math.min(this.maxPosX, this.containerPosition));
+
+      this.rnd.setStyle(el, this.plt.Css.transform, `translate3d(${-1 * this.containerPosition}px, 0, 0)`);
+    }
+    callback();
   }
 
   private refreshMinMax(): void {
