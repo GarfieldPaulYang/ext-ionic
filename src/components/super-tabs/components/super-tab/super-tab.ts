@@ -113,12 +113,12 @@ export class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
     let viewCtrl = this.getActive();
     if (active) {
       this.cd.reattach();
-      viewCtrl && viewCtrl._cmp.changeDetectorRef.reattach();
+      if (this.loaded && viewCtrl) viewCtrl._cmp.changeDetectorRef.reattach();
       return;
     }
 
     this.cd.detach();
-    viewCtrl && viewCtrl._cmp.changeDetectorRef.detach();
+    if (this.loaded && viewCtrl) viewCtrl._cmp.changeDetectorRef.detach();
   }
 
   setBadge(value: number) {
