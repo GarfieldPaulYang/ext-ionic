@@ -91,7 +91,7 @@ let SuperTabsContainer = class SuperTabsContainer {
     }
     setSelectedTab(index) {
         let tab = this.tabs[index];
-        tab.load().then(_ => {
+        tab.load().then(() => {
             this.tabSelect.emit({ index, changed: index !== this.selectedTabIndex });
             this.selectedTabIndex = index;
         });
@@ -107,7 +107,7 @@ let SuperTabsContainer = class SuperTabsContainer {
     }
     slideTo(index, animate = true) {
         let tab = this.tabs[index];
-        return tab.load().then(_ => {
+        return tab.load().then(() => {
             this.plt.raf(() => this.moveContainer(animate, index * this.tabWidth));
         });
     }

@@ -91,12 +91,17 @@ export class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
 
   load(): Promise<void> {
     if (this.loaded) {
+      this._dom.read(() => {
+        this.resize();
+      });
       return Promise.resolve();
     }
 
-    return this.push(this.root, this.rootParams, { animate: false }).then(_ => {
+    return this.push(this.root, this.rootParams, { animate: false }).then(() => {
       this.loaded = true;
-      this.resize();
+      this._dom.read(() => {
+        this.resize();
+      });
     });
   }
 
@@ -105,11 +110,15 @@ export class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
   }
 
   setActive(active: boolean) {
+    let viewCtrl = this.getActive();
     if (active) {
       this.cd.reattach();
-    } else {
-      this.cd.detach();
+      viewCtrl && viewCtrl._cmp.changeDetectorRef.reattach();
+      return;
     }
+
+    this.cd.detach();
+    viewCtrl && viewCtrl._cmp.changeDetectorRef.detach();
   }
 
   setBadge(value: number) {

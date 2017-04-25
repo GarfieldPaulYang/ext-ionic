@@ -52,23 +52,30 @@ let SuperTab = class SuperTab extends ionic_angular_1.NavControllerBase {
     }
     load() {
         if (this.loaded) {
+            this._dom.read(() => {
+                this.resize();
+            });
             return Promise.resolve();
         }
-        return this.push(this.root, this.rootParams, { animate: false }).then(_ => {
+        return this.push(this.root, this.rootParams, { animate: false }).then(() => {
             this.loaded = true;
-            this.resize();
+            this._dom.read(() => {
+                this.resize();
+            });
         });
     }
     ngOnDestroy() {
         this.destroy();
     }
     setActive(active) {
+        let viewCtrl = this.getActive();
         if (active) {
             this.cd.reattach();
+            viewCtrl && viewCtrl._cmp.changeDetectorRef.reattach();
+            return;
         }
-        else {
-            this.cd.detach();
-        }
+        this.cd.detach();
+        viewCtrl && viewCtrl._cmp.changeDetectorRef.detach();
     }
     setBadge(value) {
         this.badge = value;

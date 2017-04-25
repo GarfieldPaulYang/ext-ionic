@@ -245,8 +245,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
 
     if (!this.hasTitles && !this.hasIcons) this.isToolbarVisible = false;
 
-    this.tabsContainer.slideTo(this.selectedTabIndex, false);
-    this.refreshTabStates();
+    this.tabsContainer.slideTo(this.selectedTabIndex, false).then(() => this.refreshTabStates());
 
     this.setFixedIndicatorWidth();
 
@@ -406,7 +405,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   }
 
   onToolbarTabSelect(index: number) {
-    this.tabsContainer.slideTo(index).then(_ => {
+    this.tabsContainer.slideTo(index).then(() => {
       this.onTabChange(index);
     });
   }

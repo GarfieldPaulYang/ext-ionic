@@ -136,8 +136,7 @@ let SuperTabs = SuperTabs_1 = class SuperTabs {
         this.linker.navChange('switch');
         if (!this.hasTitles && !this.hasIcons)
             this.isToolbarVisible = false;
-        this.tabsContainer.slideTo(this.selectedTabIndex, false);
-        this.refreshTabStates();
+        this.tabsContainer.slideTo(this.selectedTabIndex, false).then(() => this.refreshTabStates());
         this.setFixedIndicatorWidth();
         // we need this to make sure the "slide" thingy doesn't move outside the screen
         this.maxIndicatorPosition = this.el.nativeElement.offsetWidth - (this.el.nativeElement.offsetWidth / this._tabs.length);
@@ -257,7 +256,7 @@ let SuperTabs = SuperTabs_1 = class SuperTabs {
         }
     }
     onToolbarTabSelect(index) {
-        this.tabsContainer.slideTo(index).then(_ => {
+        this.tabsContainer.slideTo(index).then(() => {
             this.onTabChange(index);
         });
     }
