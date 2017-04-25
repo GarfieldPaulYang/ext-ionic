@@ -521,6 +521,8 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   paneChanged() { }
 
   getSelected() { }
+
+  setTabbarPosition() { }
 }
 
 let superTabsIds = -1;

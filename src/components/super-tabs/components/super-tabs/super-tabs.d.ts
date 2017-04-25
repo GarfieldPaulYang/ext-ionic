@@ -145,4 +145,5 @@ export declare class SuperTabs implements OnInit, AfterContentInit, AfterViewIni
     initPane(): boolean;
     paneChanged(): void;
     getSelected(): void;
+    setTabbarPosition(): void;
 }

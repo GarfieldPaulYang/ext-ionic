@@ -358,6 +358,7 @@ let SuperTabs = SuperTabs_1 = class SuperTabs {
     initPane() { return true; }
     paneChanged() { }
     getSelected() { }
+    setTabbarPosition() { }
 };
 __decorate([
     core_1.Input(),
