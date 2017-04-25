@@ -12,6 +12,9 @@ exports.URLParamsBuilder = {
         let result = new http_1.URLSearchParams();
         for (let key in paramsObj) {
             let value = paramsObj[key];
+            if (_.isFunction(value)) {
+                continue;
+            }
             if (_.isArray(value)) {
                 value.forEach(v => {
                     result.append(key, v);

@@ -13,6 +13,11 @@ export const URLParamsBuilder = {
     let result: URLSearchParams = new URLSearchParams();
     for (let key in paramsObj) {
       let value = paramsObj[key];
+
+      if (_.isFunction(value)) {
+        continue;
+      }
+
       if (_.isArray(value)) {
         (<string[]>value).forEach(v => {
           result.append(key, v);

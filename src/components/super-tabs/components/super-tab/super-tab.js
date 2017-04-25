@@ -71,12 +71,12 @@ let SuperTab = class SuperTab extends ionic_angular_1.NavControllerBase {
         let viewCtrl = this.getActive();
         if (active) {
             this.cd.reattach();
-            if (this.loaded)
+            if (this.loaded && viewCtrl)
                 viewCtrl._cmp.changeDetectorRef.reattach();
             return;
         }
         this.cd.detach();
-        if (this.loaded)
+        if (this.loaded && viewCtrl)
             viewCtrl._cmp.changeDetectorRef.detach();
     }
     setBadge(value) {
