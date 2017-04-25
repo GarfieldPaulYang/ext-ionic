@@ -15,8 +15,6 @@ export declare class SuperTabsContainer implements AfterViewInit, OnDestroy {
         index: number;
         changed: boolean;
     }>;
-    tabWillChange: EventEmitter<any>;
-    tabDidChange: EventEmitter<any>;
     onDrag: EventEmitter<TouchEvent>;
     containerPosition: number;
     container: ElementRef;

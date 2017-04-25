@@ -26,12 +26,6 @@ export class SuperTabsContainer implements AfterViewInit, OnDestroy {
   tabSelect: EventEmitter<{ index: number; changed: boolean; }> = new EventEmitter<{ index: number; changed: boolean; }>();
 
   @Output()
-  tabWillChange: EventEmitter<any> = new EventEmitter<any>();
-
-  @Output()
-  tabDidChange: EventEmitter<any> = new EventEmitter<any>();
-
-  @Output()
   onDrag: EventEmitter<TouchEvent> = new EventEmitter<TouchEvent>();
 
   // View bindings

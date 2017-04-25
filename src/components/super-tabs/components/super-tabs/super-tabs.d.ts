@@ -114,11 +114,6 @@ export declare class SuperTabs implements OnInit, AfterContentInit, AfterViewIni
      */
     onDrag(): void;
     /**
-     * We need to disable animation after the slide is done changing
-     * Any further movement should happen instantly as the user swipes through the tabs
-     */
-    onSlideDidChange(): void;
-    /**
      * Runs when the user clicks on a segment button
      * @param index
      */

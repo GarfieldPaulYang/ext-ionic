@@ -50,8 +50,7 @@ export interface SuperTabsConfig {
                         [badgeColor]="badgeColor" [scrollTabs]="scrollTabs" [selectedTab]="selectedTabIndex"
                         (tabSelect)="onToolbarTabSelect($event)"></ion-super-tabs-toolbar>
     <ion-super-tabs-container [config]="config" [tabsCount]="_tabs.length" [selectedTabIndex]="selectedTabIndex"
-                          (tabSelect)="onContainerTabSelect($event)" (onDrag)="onDrag($event)"
-                          (tabDidChange)="onSlideDidChange($event)">
+                          (tabSelect)="onContainerTabSelect($event)" (onDrag)="onDrag($event)">
       <ng-content></ng-content>
     </ion-super-tabs-container>
   `,
@@ -381,14 +380,6 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     } else {
       this.toolbar.setIndicatorPosition(Math.min(percentage * singleSlideWidth, this.maxIndicatorPosition));
     }
-  }
-
-  /**
-   * We need to disable animation after the slide is done changing
-   * Any further movement should happen instantly as the user swipes through the tabs
-   */
-  onSlideDidChange() {
-    this.tabSelect.emit(this.selectedTabIndex);
   }
 
   /**

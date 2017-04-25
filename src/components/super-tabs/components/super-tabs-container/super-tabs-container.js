@@ -21,8 +21,6 @@ let SuperTabsContainer = class SuperTabsContainer {
         this.ngZone = ngZone;
         this.tabsCount = 0;
         this.tabSelect = new core_1.EventEmitter();
-        this.tabWillChange = new core_1.EventEmitter();
-        this.tabDidChange = new core_1.EventEmitter();
         this.onDrag = new core_1.EventEmitter();
         // View bindings
         this.containerPosition = 0;
@@ -161,14 +159,6 @@ __decorate([
     core_1.Output(),
     __metadata("design:type", core_1.EventEmitter)
 ], SuperTabsContainer.prototype, "tabSelect", void 0);
-__decorate([
-    core_1.Output(),
-    __metadata("design:type", core_1.EventEmitter)
-], SuperTabsContainer.prototype, "tabWillChange", void 0);
-__decorate([
-    core_1.Output(),
-    __metadata("design:type", core_1.EventEmitter)
-], SuperTabsContainer.prototype, "tabDidChange", void 0);
 __decorate([
     core_1.Output(),
     __metadata("design:type", core_1.EventEmitter)
