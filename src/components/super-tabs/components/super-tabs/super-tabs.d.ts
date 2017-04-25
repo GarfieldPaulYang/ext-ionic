@@ -124,6 +124,7 @@ export declare class SuperTabs implements OnInit, AfterContentInit, AfterViewIni
         index: number;
         changed: boolean;
     }): void;
+    private refreshTabStates();
     private updateTabWidth();
     private refreshContainerHeight();
     private refreshTabWidths();

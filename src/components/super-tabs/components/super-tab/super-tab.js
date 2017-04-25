@@ -17,10 +17,11 @@ const ionic_angular_1 = require("ionic-angular");
 const transition_controller_1 = require("ionic-angular/transitions/transition-controller");
 const super_tabs_1 = require("../super-tabs/super-tabs");
 let SuperTab = class SuperTab extends ionic_angular_1.NavControllerBase {
-    constructor(parent, app, config, plt, keyboard, el, zone, rnd, cfr, gestureCtrl, transCtrl, linker, _dom) {
+    constructor(parent, app, config, plt, keyboard, el, zone, rnd, cfr, gestureCtrl, transCtrl, linker, _dom, cd) {
         super(parent, app, config, plt, keyboard, el, zone, rnd, cfr, gestureCtrl, transCtrl, linker, _dom);
         this.linker = linker;
         this._dom = _dom;
+        this.cd = cd;
         this.badge = 0;
         this.loaded = false;
     }
@@ -55,10 +56,19 @@ let SuperTab = class SuperTab extends ionic_angular_1.NavControllerBase {
         }
         return this.push(this.root, this.rootParams, { animate: false }).then(_ => {
             this.loaded = true;
+            this.resize();
         });
     }
     ngOnDestroy() {
         this.destroy();
+    }
+    setActive(active) {
+        if (active) {
+            this.cd.reattach();
+        }
+        else {
+            this.cd.detach();
+        }
     }
     setBadge(value) {
         this.badge = value;
@@ -129,7 +139,8 @@ SuperTab = __decorate([
         ionic_angular_1.GestureController,
         transition_controller_1.TransitionController,
         ionic_angular_1.DeepLinker,
-        ionic_angular_1.DomController])
+        ionic_angular_1.DomController,
+        core_1.ChangeDetectorRef])
 ], SuperTab);
 exports.SuperTab = SuperTab;
 //# sourceMappingURL=super-tab.js.map

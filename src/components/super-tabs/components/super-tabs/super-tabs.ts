@@ -246,6 +246,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     if (!this.hasTitles && !this.hasIcons) this.isToolbarVisible = false;
 
     this.tabsContainer.slideTo(this.selectedTabIndex, false);
+    this.refreshTabStates();
 
     this.setFixedIndicatorWidth();
 
@@ -395,6 +396,8 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
 
       this.linker.navChange('switch');
 
+      this.refreshTabStates();
+
       this.tabSelect.emit({
         index,
         id: this._tabs[index].tabId
@@ -413,6 +416,10 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
       this.onTabChange(ev.index);
     }
     this.alignIndicatorPosition(true);
+  }
+
+  private refreshTabStates() {
+    this._tabs.forEach((tab, i) => tab.setActive(i === this.selectedTabIndex));
   }
 
   private updateTabWidth() {
