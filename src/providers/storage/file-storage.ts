@@ -21,12 +21,16 @@ export class TextFileStorage implements Storage {
 
   load<T>(options: LoadOptions): Promise<T> {
     if (this.platform.is('cordova')) {
+      if (!options.maxAge) {
+        return this.readFile<T>(options);
+      }
+
       return this.file.resolveLocalFilesystemUrl(
         this.getFilepath(options.dirname) + '/' + options.filename
       ).then(fileEntry => {
         return this.getMetadata(fileEntry);
       }).then((metadata) => {
-        if (metadata && options.maxAge && (Date.now() - metadata.modificationTime.getTime()) > options.maxAge) {
+        if (metadata && (Date.now() - metadata.modificationTime.getTime()) > options.maxAge) {
           return this.removeFile(options).catch(() => { });
         }
       }).then(() => {
