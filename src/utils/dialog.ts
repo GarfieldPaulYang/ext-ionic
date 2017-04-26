@@ -18,7 +18,7 @@ export class Dialog {
     alert.present();
   }
 
-  confirm(title: string, message: string, handler: Function) {
+  confirm(title: string, message: string, handler: (value: any) => boolean | void) {
     let alert = this.alertCtrl.create({
       title: title,
       message: message,

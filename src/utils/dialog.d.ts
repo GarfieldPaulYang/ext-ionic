@@ -5,7 +5,7 @@ export declare class Dialog {
     private toastCtrl;
     constructor(loadingCtrl: LoadingController, alertCtrl: AlertController, toastCtrl: ToastController);
     alert(title: string, message: string): void;
-    confirm(title: string, message: string, handler: Function): void;
+    confirm(title: string, message: string, handler: (value: any) => boolean | void): void;
     loading(content: string): Loading;
     toast(message: string, position?: string): void;
 }

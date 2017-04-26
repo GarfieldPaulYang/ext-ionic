@@ -16,11 +16,13 @@ const core_1 = require("@angular/core");
 const ionic_angular_1 = require("ionic-angular");
 const transition_controller_1 = require("ionic-angular/transitions/transition-controller");
 const super_tabs_1 = require("../super-tabs/super-tabs");
+const core_2 = require("@angular/core");
 let SuperTab = class SuperTab extends ionic_angular_1.NavControllerBase {
-    constructor(parent, app, config, plt, keyboard, el, zone, rnd, cfr, gestureCtrl, transCtrl, linker, _dom, cd) {
-        super(parent, app, config, plt, keyboard, el, zone, rnd, cfr, gestureCtrl, transCtrl, linker, _dom);
+    constructor(parent, app, config, plt, keyboard, el, zone, rnd, cfr, gestureCtrl, transCtrl, linker, _dom, errHandler, cd) {
+        super(parent, app, config, plt, keyboard, el, zone, rnd, cfr, gestureCtrl, transCtrl, linker, _dom, errHandler);
         this.linker = linker;
         this._dom = _dom;
+        this.errHandler = errHandler;
         this.cd = cd;
         this.badge = 0;
         this.loaded = false;
@@ -149,6 +151,7 @@ SuperTab = __decorate([
         transition_controller_1.TransitionController,
         ionic_angular_1.DeepLinker,
         ionic_angular_1.DomController,
+        core_2.ErrorHandler,
         core_1.ChangeDetectorRef])
 ], SuperTab);
 exports.SuperTab = SuperTab;

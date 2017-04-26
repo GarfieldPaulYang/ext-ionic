@@ -2,9 +2,11 @@ import { Renderer, ElementRef, ComponentFactoryResolver, NgZone, ViewContainerRe
 import { NavControllerBase, App, Config, Platform, Keyboard, GestureController, DeepLinker, DomController } from 'ionic-angular';
 import { TransitionController } from 'ionic-angular/transitions/transition-controller';
 import { SuperTabs } from '../super-tabs/super-tabs';
+import { ErrorHandler } from '@angular/core';
 export declare class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
     private linker;
     private _dom;
+    private errHandler;
     private cd;
     title: string;
     readonly tabTitle: string;
@@ -27,7 +29,7 @@ export declare class SuperTab extends NavControllerBase implements OnInit, OnDes
      * @hidden
      */
     _vp: ViewContainerRef;
-    constructor(parent: SuperTabs, app: App, config: Config, plt: Platform, keyboard: Keyboard, el: ElementRef, zone: NgZone, rnd: Renderer, cfr: ComponentFactoryResolver, gestureCtrl: GestureController, transCtrl: TransitionController, linker: DeepLinker, _dom: DomController, cd: ChangeDetectorRef);
+    constructor(parent: SuperTabs, app: App, config: Config, plt: Platform, keyboard: Keyboard, el: ElementRef, zone: NgZone, rnd: Renderer, cfr: ComponentFactoryResolver, gestureCtrl: GestureController, transCtrl: TransitionController, linker: DeepLinker, _dom: DomController, errHandler: ErrorHandler, cd: ChangeDetectorRef);
     ngOnInit(): void;
     load(): Promise<void>;
     ngOnDestroy(): void;

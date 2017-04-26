@@ -5,6 +5,7 @@ import {
 import { NavControllerBase, App, Config, Platform, Keyboard, GestureController, DeepLinker, DomController } from 'ionic-angular';
 import { TransitionController } from 'ionic-angular/transitions/transition-controller';
 import { SuperTabs } from '../super-tabs/super-tabs';
+import { ErrorHandler } from '@angular/core';
 
 @Component({
   selector: 'ion-super-tab',
@@ -80,9 +81,10 @@ export class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
     transCtrl: TransitionController,
     @Optional() private linker: DeepLinker,
     private _dom: DomController,
+    private errHandler: ErrorHandler,
     private cd: ChangeDetectorRef
   ) {
-    super(parent, app, config, plt, keyboard, el, zone, rnd, cfr, gestureCtrl, transCtrl, linker, _dom);
+    super(parent, app, config, plt, keyboard, el, zone, rnd, cfr, gestureCtrl, transCtrl, linker, _dom, errHandler);
   }
 
   ngOnInit() {
