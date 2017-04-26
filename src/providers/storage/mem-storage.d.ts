@@ -1,7 +1,8 @@
-import { Storage } from './storage';
+import { Storage, SaveOptions, LoadOptions, RemoveOptions } from './storage';
 export declare class MemoryStorage implements Storage {
     private localStorage;
-    save(filename: string, content: any): Promise<any>;
-    load<T>(filename: string): Promise<T>;
-    remove(filename: string): Promise<any>;
+    save(options: SaveOptions): Promise<any>;
+    load<T>(options: LoadOptions): Promise<T>;
+    remove(options: RemoveOptions): Promise<any>;
+    private getKey(filename, dirname);
 }

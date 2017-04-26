@@ -1,7 +1,23 @@
+export interface Options {
+  dirname?: string;
+  filename: string;
+}
+
+export interface SaveOptions extends Options {
+  content: any;
+}
+
+export interface LoadOptions extends Options {
+  maxAge?: number;
+}
+
+export interface RemoveOptions extends Options {
+}
+
 export interface Storage {
-  save(filename: string, content: any): Promise<any>;
+  save(options: SaveOptions): Promise<any>;
 
-  load<T>(filename: string): Promise<T>;
+  load<T>(options: LoadOptions): Promise<T>;
 
-  remove(filename: string): Promise<any>;
+  remove(options: RemoveOptions): Promise<any>;
 }

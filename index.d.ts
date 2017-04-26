@@ -7,7 +7,7 @@ export { URLParamsBuilder } from './src/utils/http/url-params-builder';
 export { ConsoleErrorHandler } from './src/utils/console-error-handler';
 export { HotUpdater } from './src/providers/hot-updater';
 export { ComponentRegistar } from './src/providers/component-registar';
-export { Storage } from './src/providers/storage/storage';
+export { Storage, Options, SaveOptions, LoadOptions, RemoveOptions } from './src/providers/storage/storage';
 export { MemoryStorage } from './src/providers/storage/mem-storage';
 export { TextFileStorage } from './src/providers/storage/file-storage';
 export { JsonFileStorage } from './src/providers/storage/json-file-storage';

@@ -33,6 +33,7 @@ export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
   cache?: boolean;
   cacheOnly?: boolean;
   memCache?: boolean;
+  maxCacheAge?: number;
 }
 
 export class HttpProviderOptions extends RequestOptions {
@@ -42,6 +43,7 @@ export class HttpProviderOptions extends RequestOptions {
   cache: boolean;
   cacheOnly: boolean;
   memCache: boolean;
+  maxCacheAge: number;
 
   constructor(options: HttpProviderOptionsArgs) {
     super(options);
@@ -52,6 +54,7 @@ export class HttpProviderOptions extends RequestOptions {
     this.cache = options.cache;
     this.cacheOnly = options.cacheOnly;
     this.memCache = options.memCache;
+    this.maxCacheAge = options.maxCacheAge;
   }
 
   merge(options?: HttpProviderOptionsArgs): HttpProviderOptions {
@@ -63,10 +66,13 @@ export class HttpProviderOptions extends RequestOptions {
     result.cache = isPresent(options.cache) ? options.cache : this.cache;
     result.cacheOnly = isPresent(options.cacheOnly) ? options.cacheOnly : this.cacheOnly;
     result.memCache = isPresent(options.memCache) ? options.memCache : this.memCache;
+    result.maxCacheAge = isPresent(options.maxCacheAge) ? options.maxCacheAge : this.maxCacheAge;
 
     return result;
   }
 }
+
+const HTTP_CACHE_DIR = 'whc';
 
 const defaultRequestOptions: HttpProviderOptions = new HttpProviderOptions({
   showLoading: true,
@@ -75,6 +81,7 @@ const defaultRequestOptions: HttpProviderOptions = new HttpProviderOptions({
   cache: false,
   cacheOnly: false,
   memCache: false,
+  maxCacheAge: 1000 * 60 * 60 * 12,
   method: RequestMethod.Get,
   responseType: ResponseContentType.Json
 });
@@ -135,7 +142,7 @@ export class HttpProvider {
         }
 
         if (options.cache && options.method === RequestMethod.Get && cacheKey) {
-          cache.save(cacheKey, result.data);
+          cache.save({ dirname: HTTP_CACHE_DIR, filename: cacheKey, content: result.data });
         }
 
         return result.data;
@@ -149,10 +156,12 @@ export class HttpProvider {
       cacheKey = this.hashUrl(url, <URLSearchParams>(options.params || options.search));
 
       if (options.cacheOnly) {
-        return cache.load<T>(cacheKey).catch(() => { return innerRequest(url, options); });
+        return cache.load<T>(
+          { dirname: HTTP_CACHE_DIR, filename: cacheKey, maxAge: options.maxCacheAge }
+        ).catch(() => { return innerRequest(url, options); });
       }
 
-      cache.load<T>(cacheKey).then(result => {
+      cache.load<T>({ dirname: HTTP_CACHE_DIR, filename: cacheKey }).then(result => {
         foundCacheCallback(result);
       }).catch(error => console.log(error));
     }

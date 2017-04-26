@@ -32,6 +32,7 @@ class HttpProviderOptions extends http_1.RequestOptions {
         this.cache = options.cache;
         this.cacheOnly = options.cacheOnly;
         this.memCache = options.memCache;
+        this.maxCacheAge = options.maxCacheAge;
     }
     merge(options) {
         let result = super.merge(options);
@@ -41,10 +42,12 @@ class HttpProviderOptions extends http_1.RequestOptions {
         result.cache = util_1.isPresent(options.cache) ? options.cache : this.cache;
         result.cacheOnly = util_1.isPresent(options.cacheOnly) ? options.cacheOnly : this.cacheOnly;
         result.memCache = util_1.isPresent(options.memCache) ? options.memCache : this.memCache;
+        result.maxCacheAge = util_1.isPresent(options.maxCacheAge) ? options.maxCacheAge : this.maxCacheAge;
         return result;
     }
 }
 exports.HttpProviderOptions = HttpProviderOptions;
+const HTTP_CACHE_DIR = 'whc';
 const defaultRequestOptions = new HttpProviderOptions({
     showLoading: true,
     loadingContent: '正在加载...',
@@ -52,6 +55,7 @@ const defaultRequestOptions = new HttpProviderOptions({
     cache: false,
     cacheOnly: false,
     memCache: false,
+    maxCacheAge: 1000 * 60 * 60 * 12,
     method: http_1.RequestMethod.Get,
     responseType: http_1.ResponseContentType.Json
 });
@@ -82,7 +86,7 @@ let HttpProvider = class HttpProvider {
                     return Promise.reject(result.msg);
                 }
                 if (options.cache && options.method === http_1.RequestMethod.Get && cacheKey) {
-                    cache.save(cacheKey, result.data);
+                    cache.save({ dirname: HTTP_CACHE_DIR, filename: cacheKey, content: result.data });
                 }
                 return result.data;
             }).catch(err => {
@@ -93,9 +97,9 @@ let HttpProvider = class HttpProvider {
         if (options.cache && options.method === http_1.RequestMethod.Get) {
             cacheKey = this.hashUrl(url, (options.params || options.search));
             if (options.cacheOnly) {
-                return cache.load(cacheKey).catch(() => { return innerRequest(url, options); });
+                return cache.load({ dirname: HTTP_CACHE_DIR, filename: cacheKey, maxAge: options.maxCacheAge }).catch(() => { return innerRequest(url, options); });
             }
-            cache.load(cacheKey).then(result => {
+            cache.load({ dirname: HTTP_CACHE_DIR, filename: cacheKey }).then(result => {
                 foundCacheCallback(result);
             }).catch(error => console.log(error));
         }

@@ -15,6 +15,7 @@ export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
     cache?: boolean;
     cacheOnly?: boolean;
     memCache?: boolean;
+    maxCacheAge?: number;
 }
 export declare class HttpProviderOptions extends RequestOptions {
     showLoading: boolean;
@@ -23,6 +24,7 @@ export declare class HttpProviderOptions extends RequestOptions {
     cache: boolean;
     cacheOnly: boolean;
     memCache: boolean;
+    maxCacheAge: number;
     constructor(options: HttpProviderOptionsArgs);
     merge(options?: HttpProviderOptionsArgs): HttpProviderOptions;
 }

@@ -1,37 +1,49 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { File } from '@ionic-native/file';
+import { File, Metadata, Entry } from '@ionic-native/file';
 import { isPresent } from '../../utils/util';
-import { Storage } from './storage';
+import { Storage, SaveOptions, LoadOptions, RemoveOptions } from './storage';
 import { MemoryStorage } from './mem-storage';
 
 @Injectable()
 export class TextFileStorage implements Storage {
   constructor(protected platform: Platform, protected file: File, protected memoryStorage: MemoryStorage) { }
 
-  save(filename: string, content: any): Promise<any> {
-    if (!isPresent(content)) {
+  save(options: SaveOptions): Promise<any> {
+    if (!isPresent(options.content)) {
       return Promise.reject('content is not present');
     }
     if (this.platform.is('cordova')) {
-      return this.writeToFile(filename, content);
+      return this.writeToFile(options);
     }
-    return this.memoryStorage.save(filename, content);
+    return this.memoryStorage.save(options);
   }
 
-  load<T>(filename: string): Promise<T> {
+  load<T>(options: LoadOptions): Promise<T> {
     if (this.platform.is('cordova')) {
-      return this.readFile<T>(filename);
+      return this.file.resolveLocalFilesystemUrl(
+        this.getFilepath(options.dirname) + '/' + options.filename
+      ).then(fileEntry => {
+        return this.getMetadata(fileEntry);
+      }).then((metadata) => {
+        if (metadata && options.maxAge && (Date.now() - metadata.modificationTime.getTime()) > options.maxAge) {
+          return this.removeFile(options).catch(() => { });
+        }
+      }).then(() => {
+        return this.readFile<T>(options);
+      }).catch(error => {
+        return Promise.reject(error);
+      });
     }
 
-    return this.memoryStorage.load<T>(filename);
+    return this.memoryStorage.load<T>(options);
   }
 
-  remove(filename: string): Promise<any> {
+  remove(options: RemoveOptions): Promise<any> {
     if (this.platform.is('cordova')) {
-      return this.removeFile(filename);
+      return this.removeFile(options);
     }
-    return this.memoryStorage.remove(filename);
+    return this.memoryStorage.remove(options);
   }
 
   protected serialize(content: any): string {
@@ -42,31 +54,44 @@ export class TextFileStorage implements Storage {
     return content;
   }
 
-  private writeToFile(filename: string, content: any): Promise<any> {
-    return this.file.writeFile(this.getFilepath(), filename, this.serialize(content), { replace: true }).then(value => {
+  private writeToFile(options: SaveOptions): Promise<any> {
+    return this.file.writeFile(
+      this.getFilepath(options.dirname),
+      options.filename,
+      this.serialize(options.content),
+      { replace: true }
+    ).then(value => {
       return value;
     }).catch(reason => {
       return Promise.reject(reason);
     });
   }
 
-  private readFile<T>(filename: string): Promise<T> {
-    return this.file.readAsText(this.getFilepath(), filename).then(value => {
+  private readFile<T>(options: LoadOptions): Promise<T> {
+    return this.file.readAsText(this.getFilepath(options.dirname), options.filename).then(value => {
       return this.deserialize(<string>value);
     }).catch(reason => {
       return Promise.reject(reason);
     });
   }
 
-  private removeFile(filename: string): Promise<any> {
-    return this.file.removeFile(this.getFilepath(), filename).then(value => {
+  private removeFile(options: RemoveOptions): Promise<any> {
+    return this.file.removeFile(this.getFilepath(options.dirname), options.filename).then(value => {
       return value;
     }).catch(reason => {
       return Promise.reject(reason);
     });
   }
 
-  private getFilepath(): string {
-    return this.file.dataDirectory;
+  private getMetadata(fileEntry: Entry): Promise<Metadata> {
+    return new Promise<Metadata>((resolve) => {
+      fileEntry.getMetadata(metadata => {
+        resolve(metadata);
+      }, (error) => resolve());
+    });
+  }
+
+  private getFilepath(dirname?: string): string {
+    return this.file.dataDirectory + (dirname ? dirname : '');
   }
 }

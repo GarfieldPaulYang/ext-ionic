@@ -12,23 +12,26 @@ let MemoryStorage = class MemoryStorage {
     constructor() {
         this.localStorage = {};
     }
-    save(filename, content) {
-        if (!util_1.isPresent(content)) {
+    save(options) {
+        if (!util_1.isPresent(options.content)) {
             return Promise.reject('content is not present');
         }
-        this.localStorage[filename] = content;
+        this.localStorage[this.getKey(options.filename, options.dirname)] = options.content;
         return Promise.resolve();
     }
-    load(filename) {
-        let content = this.localStorage[filename];
+    load(options) {
+        let content = this.localStorage[this.getKey(options.filename, options.dirname)];
         if (!content) {
             return Promise.reject('file not found.');
         }
         return Promise.resolve(content);
     }
-    remove(filename) {
-        delete this.localStorage[filename];
+    remove(options) {
+        delete this.localStorage[this.getKey(options.filename, options.dirname)];
         return Promise.resolve({ success: true });
+    }
+    getKey(filename, dirname) {
+        return (dirname ? dirname : '') + '_' + filename;
     }
 };
 MemoryStorage = __decorate([

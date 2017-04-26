@@ -20,26 +20,36 @@ let TextFileStorage = class TextFileStorage {
         this.file = file;
         this.memoryStorage = memoryStorage;
     }
-    save(filename, content) {
-        if (!util_1.isPresent(content)) {
+    save(options) {
+        if (!util_1.isPresent(options.content)) {
             return Promise.reject('content is not present');
         }
         if (this.platform.is('cordova')) {
-            return this.writeToFile(filename, content);
+            return this.writeToFile(options);
         }
-        return this.memoryStorage.save(filename, content);
+        return this.memoryStorage.save(options);
     }
-    load(filename) {
+    load(options) {
         if (this.platform.is('cordova')) {
-            return this.readFile(filename);
+            return this.file.resolveLocalFilesystemUrl(this.getFilepath(options.dirname) + '/' + options.filename).then(fileEntry => {
+                return this.getMetadata(fileEntry);
+            }).then((metadata) => {
+                if (metadata && options.maxAge && (Date.now() - metadata.modificationTime.getTime()) > options.maxAge) {
+                    return this.removeFile(options).catch(() => { });
+                }
+            }).then(() => {
+                return this.readFile(options);
+            }).catch(error => {
+                return Promise.reject(error);
+            });
         }
-        return this.memoryStorage.load(filename);
+        return this.memoryStorage.load(options);
     }
-    remove(filename) {
+    remove(options) {
         if (this.platform.is('cordova')) {
-            return this.removeFile(filename);
+            return this.removeFile(options);
         }
-        return this.memoryStorage.remove(filename);
+        return this.memoryStorage.remove(options);
     }
     serialize(content) {
         return content;
@@ -47,29 +57,36 @@ let TextFileStorage = class TextFileStorage {
     deserialize(content) {
         return content;
     }
-    writeToFile(filename, content) {
-        return this.file.writeFile(this.getFilepath(), filename, this.serialize(content), { replace: true }).then(value => {
+    writeToFile(options) {
+        return this.file.writeFile(this.getFilepath(options.dirname), options.filename, this.serialize(options.content), { replace: true }).then(value => {
             return value;
         }).catch(reason => {
             return Promise.reject(reason);
         });
     }
-    readFile(filename) {
-        return this.file.readAsText(this.getFilepath(), filename).then(value => {
+    readFile(options) {
+        return this.file.readAsText(this.getFilepath(options.dirname), options.filename).then(value => {
             return this.deserialize(value);
         }).catch(reason => {
             return Promise.reject(reason);
         });
     }
-    removeFile(filename) {
-        return this.file.removeFile(this.getFilepath(), filename).then(value => {
+    removeFile(options) {
+        return this.file.removeFile(this.getFilepath(options.dirname), options.filename).then(value => {
             return value;
         }).catch(reason => {
             return Promise.reject(reason);
         });
     }
-    getFilepath() {
-        return this.file.dataDirectory;
+    getMetadata(fileEntry) {
+        return new Promise((resolve) => {
+            fileEntry.getMetadata(metadata => {
+                resolve(metadata);
+            }, (error) => resolve());
+        });
+    }
+    getFilepath(dirname) {
+        return this.file.dataDirectory + (dirname ? dirname : '');
     }
 };
 TextFileStorage = __decorate([
