@@ -127,9 +127,7 @@ export class ImageLoaderController {
       return;
     }
 
-    this.file.removeFile(this.cacheDirectory, localPath.substr(localPath.lastIndexOf('/') + 1)).catch(e => {
-      this.throwError(e);
-    });
+    this.removeFile(localPath.substr(localPath.lastIndexOf('/') + 1));
   }
 
   private removeFile(file: string): Promise<any> {

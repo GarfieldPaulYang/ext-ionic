@@ -103,9 +103,7 @@ let ImageLoaderController = class ImageLoaderController {
         if (!localPath) {
             return;
         }
-        this.file.removeFile(this.cacheDirectory, localPath.substr(localPath.lastIndexOf('/') + 1)).catch(e => {
-            this.throwError(e);
-        });
+        this.removeFile(localPath.substr(localPath.lastIndexOf('/') + 1));
     }
     removeFile(file) {
         return this.file.removeFile(this.cacheDirectory, file).then(() => {
