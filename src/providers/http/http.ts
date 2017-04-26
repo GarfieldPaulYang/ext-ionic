@@ -15,14 +15,14 @@ import { Events, Loading } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
 import * as _ from 'lodash';
 
-import { ConfigProvider } from '../config/config';
-import { Dialog } from '../utils/dialog';
-import { isPresent } from '../utils/util';
-import { ResponseResult } from '../utils/http/response/response-result';
-import { URLParamsBuilder } from '../utils/http/url-params-builder';
-import { StringUtils } from '../utils/string';
-import { JsonFileStorage } from './storage/json-file-storage';
-import { MemoryStorage } from './storage/mem-storage';
+import { ConfigProvider } from '../../config/config';
+import { Dialog } from '../../utils/dialog';
+import { isPresent } from '../../utils/util';
+import { ResponseResult } from '../../utils/http/response/response-result';
+import { URLParamsBuilder } from '../../utils/http/url-params-builder';
+import { StringUtils } from '../../utils/string';
+import { JsonFileStorage } from '../storage/json-file-storage';
+import { MemoryStorage } from '../storage/mem-storage';
 
 export const ticket_expired: string = 'ticket-expired';
 

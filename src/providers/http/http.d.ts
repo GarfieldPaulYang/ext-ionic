@@ -2,11 +2,11 @@ import { Observable } from 'rxjs';
 import { Http, Request, RequestOptionsArgs, RequestOptions } from '@angular/http';
 import { Events } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
-import { ConfigProvider } from '../config/config';
-import { Dialog } from '../utils/dialog';
-import { ResponseResult } from '../utils/http/response/response-result';
-import { JsonFileStorage } from './storage/json-file-storage';
-import { MemoryStorage } from './storage/mem-storage';
+import { ConfigProvider } from '../../config/config';
+import { Dialog } from '../../utils/dialog';
+import { ResponseResult } from '../../utils/http/response/response-result';
+import { JsonFileStorage } from '../storage/json-file-storage';
+import { MemoryStorage } from '../storage/mem-storage';
 export declare const ticket_expired: string;
 export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
     showLoading?: boolean;

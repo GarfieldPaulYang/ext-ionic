@@ -57,7 +57,7 @@ export {
   HttpProvider,
   CorsHttpProvider,
   ticket_expired
-} from './src/providers/http';
+} from './src/providers/http/http';
 
 import './src/rxjs-extensions';
 
@@ -73,7 +73,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 
 import { EXT_IONIC_CONFIG, Config, ConfigProvider, setupConfig } from './src/config/config';
 import { Dialog } from './src/utils/dialog';
-import { HttpProvider, CorsHttpProvider } from './src/providers/http';
+import { HttpProvider, CorsHttpProvider } from './src/providers/http/http';
 
 import { HotUpdater } from './src/providers/hot-updater';
 import { ComponentRegistar } from './src/providers/component-registar';

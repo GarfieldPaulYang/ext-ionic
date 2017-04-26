@@ -14,14 +14,14 @@ const http_1 = require("@angular/http");
 const ionic_angular_1 = require("ionic-angular");
 const device_1 = require("@ionic-native/device");
 const _ = require("lodash");
-const config_1 = require("../config/config");
-const dialog_1 = require("../utils/dialog");
-const util_1 = require("../utils/util");
-const response_result_1 = require("../utils/http/response/response-result");
-const url_params_builder_1 = require("../utils/http/url-params-builder");
-const string_1 = require("../utils/string");
-const json_file_storage_1 = require("./storage/json-file-storage");
-const mem_storage_1 = require("./storage/mem-storage");
+const config_1 = require("../../config/config");
+const dialog_1 = require("../../utils/dialog");
+const util_1 = require("../../utils/util");
+const response_result_1 = require("../../utils/http/response/response-result");
+const url_params_builder_1 = require("../../utils/http/url-params-builder");
+const string_1 = require("../../utils/string");
+const json_file_storage_1 = require("../storage/json-file-storage");
+const mem_storage_1 = require("../storage/mem-storage");
 exports.ticket_expired = 'ticket-expired';
 class HttpProviderOptions extends http_1.RequestOptions {
     constructor(options) {

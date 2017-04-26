@@ -29,7 +29,7 @@ export { DownloadManagerController, DownloadOptions } from './src/components/dow
 export { StringUtils } from './src/utils/string';
 export { isTrueProperty, isPresent, flattenObject, unFlattenObject } from './src/utils/util';
 export { Dialog } from './src/utils/dialog';
-export { HttpProviderOptionsArgs, HttpProviderOptions, LoginOptions, LoginResult, SubAcount, HttpProvider, CorsHttpProvider, ticket_expired } from './src/providers/http';
+export { HttpProviderOptionsArgs, HttpProviderOptions, LoginOptions, LoginResult, SubAcount, HttpProvider, CorsHttpProvider, ticket_expired } from './src/providers/http/http';
 import './src/rxjs-extensions';
 import { ModuleWithProviders } from '@angular/core';
 import { Config } from './src/config/config';
