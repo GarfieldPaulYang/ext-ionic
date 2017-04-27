@@ -27,7 +27,8 @@ Immerse = __decorate([
         pluginName: 'ImmersePlugin',
         plugin: 'cordova-plugin-Immerse',
         pluginRef: 'ImmersePlugin',
-        repo: 'https://github.com/squallliu/cordova-plugin-Immerse'
+        repo: 'https://github.com/squallliu/cordova-plugin-Immerse',
+        platforms: ['Android']
     })
 ], Immerse);
 export { Immerse };

@@ -46,7 +46,8 @@ ExtLocalNotifications = __decorate([
         pluginName: 'LocalNotifications',
         plugin: 'de.appplant.cordova.plugin.local-notification',
         pluginRef: 'cordova.plugins.notification.local',
-        repo: 'https://github.com/squallliu/cordova-plugin-local-notifications'
+        repo: 'https://github.com/squallliu/cordova-plugin-local-notifications',
+        platforms: ['Android', 'iOS', 'Windows']
     })
 ], ExtLocalNotifications);
 export { ExtLocalNotifications };

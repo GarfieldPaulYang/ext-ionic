@@ -20,7 +20,8 @@ export interface HotCodeCallback {
   pluginName: 'HotCodePush',
   plugin: 'cordova-hot-code-push-plugin',
   pluginRef: 'chcp',
-  repo: 'https://github.com/nordnet/cordova-hot-code-push'
+  repo: 'https://github.com/nordnet/cordova-hot-code-push',
+  platforms: ['Android', 'iOS']
 })
 @Injectable()
 export class HotCodePush {
