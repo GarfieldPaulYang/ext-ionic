@@ -1,82 +1,79 @@
-"use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-let SuperTabsController = class SuperTabsController {
-    constructor() {
+import { Injectable } from '@angular/core';
+var SuperTabsController = (function () {
+    function SuperTabsController() {
         this.instances = [];
     }
-    setBadge(tabId, value, tabsId) {
-        const instance = this.getInstance(tabsId);
+    SuperTabsController.prototype.setBadge = function (tabId, value, tabsId) {
+        var instance = this.getInstance(tabsId);
         instance && instance.setBadge(tabId, value);
-    }
-    clearBadge(tabId, tabsId) {
-        const instance = this.getInstance(tabsId);
+    };
+    SuperTabsController.prototype.clearBadge = function (tabId, tabsId) {
+        var instance = this.getInstance(tabsId);
         instance && instance.clearBadge(tabId);
-    }
-    increaseBadge(tabId, increaseBy = 1, tabsId) {
-        const instance = this.getInstance(tabsId);
+    };
+    SuperTabsController.prototype.increaseBadge = function (tabId, increaseBy, tabsId) {
+        if (increaseBy === void 0) { increaseBy = 1; }
+        var instance = this.getInstance(tabsId);
         instance && instance.increaseBadge(tabId, increaseBy);
-    }
-    decreaseBadge(tabId, decreaseBy = 1, tabsId) {
-        const instance = this.getInstance(tabsId);
+    };
+    SuperTabsController.prototype.decreaseBadge = function (tabId, decreaseBy, tabsId) {
+        if (decreaseBy === void 0) { decreaseBy = 1; }
+        var instance = this.getInstance(tabsId);
         instance && instance.decreaseBadge(tabId, decreaseBy);
-    }
+    };
     /**
      * Enables/disables swiping on a specific tabs instance
      * @param enable
      * @param [tabsId]
      */
-    enableTabsSwipe(enable, tabsId) {
-        const instance = this.getInstance(tabsId);
+    SuperTabsController.prototype.enableTabsSwipe = function (enable, tabsId) {
+        var instance = this.getInstance(tabsId);
         instance && instance.enableTabsSwipe(enable);
-    }
+    };
     /**
      * Enables/disables swiping when this tab is active
      * @param tabId
      * @param enable
      * @param [tabsId]
      */
-    enableTabSwipe(tabId, enable, tabsId) {
-        const instance = this.getInstance(tabsId);
+    SuperTabsController.prototype.enableTabSwipe = function (tabId, enable, tabsId) {
+        var instance = this.getInstance(tabsId);
         instance && instance.enableTabSwipe(tabId, enable);
-    }
-    showToolbar(show, tabsId) {
-        const instance = this.getInstance(tabsId);
+    };
+    SuperTabsController.prototype.showToolbar = function (show, tabsId) {
+        var instance = this.getInstance(tabsId);
         instance && instance.showToolbar(show);
-    }
-    slideTo(tabIndexOrId, tabsId) {
-        const instance = this.getInstance(tabsId);
+    };
+    SuperTabsController.prototype.slideTo = function (tabIndexOrId, tabsId) {
+        var instance = this.getInstance(tabsId);
         return instance && instance.slideTo(tabIndexOrId);
-    }
+    };
     /**
      * @private
      */
-    registerInstance(instance) {
+    SuperTabsController.prototype.registerInstance = function (instance) {
         this.instances.push(instance);
-    }
+    };
     /**
      * @private
      */
-    unregisterInstance(id) {
-        const instanceIndex = this.getInstanceIndex(id);
+    SuperTabsController.prototype.unregisterInstance = function (id) {
+        var instanceIndex = this.getInstanceIndex(id);
         if (instanceIndex > -1)
             this.instances.splice(instanceIndex, 1);
-    }
-    getInstanceIndex(id) {
-        return this.instances.findIndex((instance) => instance.id === id);
-    }
-    getInstance(id) {
+    };
+    SuperTabsController.prototype.getInstanceIndex = function (id) {
+        return this.instances.findIndex(function (instance) { return instance.id === id; });
+    };
+    SuperTabsController.prototype.getInstance = function (id) {
         return (!!id && this.instances[this.getInstanceIndex(id)]) || this.instances[0];
-    }
-};
-SuperTabsController = __decorate([
-    core_1.Injectable()
-], SuperTabsController);
-exports.SuperTabsController = SuperTabsController;
+    };
+    return SuperTabsController;
+}());
+export { SuperTabsController };
+SuperTabsController.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+SuperTabsController.ctorParameters = function () { return []; };
 //# sourceMappingURL=super-tabs-controller.js.map

@@ -1,36 +1,32 @@
-"use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const ionic_angular_1 = require("ionic-angular");
-const pipes_module_1 = require("../../pipes/pipes.module");
-const alpha_scroll_1 = require("./alpha-scroll");
-let AlphaScrollModule = AlphaScrollModule_1 = class AlphaScrollModule {
-    static forRoot() {
-        return {
-            ngModule: AlphaScrollModule_1, providers: []
-        };
+import { NgModule } from '@angular/core';
+import { IonicModule } from 'ionic-angular';
+import { PipesModule } from '../../pipes/pipes.module';
+import { AlphaScroll } from './alpha-scroll';
+var AlphaScrollModule = (function () {
+    function AlphaScrollModule() {
     }
-};
-AlphaScrollModule = AlphaScrollModule_1 = __decorate([
-    core_1.NgModule({
-        imports: [
-            ionic_angular_1.IonicModule,
-            pipes_module_1.PipesModule
-        ],
-        exports: [
-            alpha_scroll_1.AlphaScroll
-        ],
-        declarations: [
-            alpha_scroll_1.AlphaScroll
-        ]
-    })
-], AlphaScrollModule);
-exports.AlphaScrollModule = AlphaScrollModule;
-var AlphaScrollModule_1;
+    AlphaScrollModule.forRoot = function () {
+        return {
+            ngModule: AlphaScrollModule, providers: []
+        };
+    };
+    return AlphaScrollModule;
+}());
+export { AlphaScrollModule };
+AlphaScrollModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [
+                    IonicModule,
+                    PipesModule
+                ],
+                exports: [
+                    AlphaScroll
+                ],
+                declarations: [
+                    AlphaScroll
+                ]
+            },] },
+];
+/** @nocollapse */
+AlphaScrollModule.ctorParameters = function () { return []; };
 //# sourceMappingURL=alpha-scroll.module.js.map

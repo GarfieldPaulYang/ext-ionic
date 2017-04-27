@@ -1,25 +1,14 @@
-"use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const ionic_angular_1 = require("ionic-angular");
-const transfer_1 = require("@ionic-native/transfer");
-const file_1 = require("@ionic-native/file");
-const file_opener_1 = require("@ionic-native/file-opener");
-const hot_code_push_1 = require("../native/hot-code-push");
-const config_1 = require("../config/config");
-const dialog_1 = require("../utils/dialog");
-const local_notifications_1 = require("../native/local-notifications");
-let HotUpdater = class HotUpdater {
-    constructor(platform, dialog, config, hotCodePush, localNotifications, transfer, file, fileOpener) {
+import { Injectable } from '@angular/core';
+import { Platform } from 'ionic-angular';
+import { Transfer } from '@ionic-native/transfer';
+import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
+import { HotCodePush } from '../native/hot-code-push';
+import { ConfigProvider } from '../config/config';
+import { Dialog } from '../utils/dialog';
+import { ExtLocalNotifications } from '../native/local-notifications';
+var HotUpdater = (function () {
+    function HotUpdater(platform, dialog, config, hotCodePush, localNotifications, transfer, file, fileOpener) {
         this.platform = platform;
         this.dialog = dialog;
         this.config = config;
@@ -29,47 +18,50 @@ let HotUpdater = class HotUpdater {
         this.file = file;
         this.fileOpener = fileOpener;
     }
-    start() {
-        this.hotCodePush.isUpdateAvailableForInstallation((error, data) => {
+    HotUpdater.prototype.start = function () {
+        var _this = this;
+        this.hotCodePush.isUpdateAvailableForInstallation(function (error, data) {
             if (!error) {
-                this.hotCodePush.installUpdate().then(error => {
+                _this.hotCodePush.installUpdate().then(function (error) {
                     console.log(error);
                 });
                 return;
             }
-            this.hotCodePush.fetchUpdate((error, data) => {
+            _this.hotCodePush.fetchUpdate(function (error, data) {
                 if (!error) {
-                    this.dialog.confirm('更新通知', '新版本更新成功,是否现在重启应用?', () => {
-                        this.hotCodePush.installUpdate().then(e => {
+                    _this.dialog.confirm('更新通知', '新版本更新成功,是否现在重启应用?', function () {
+                        _this.hotCodePush.installUpdate().then(function (e) {
                             console.log(e);
                         });
                     });
                     return;
                 }
-                if (error.code === hot_code_push_1.HotCodePush.error.APPLICATION_BUILD_VERSION_TOO_LOW) {
-                    this.updateApp();
+                if (error.code === HotCodePush.error.APPLICATION_BUILD_VERSION_TOO_LOW) {
+                    _this.updateApp();
                     return;
                 }
                 console.log(error);
             });
         });
-    }
-    updateApp() {
+    };
+    HotUpdater.prototype.updateApp = function () {
+        var _this = this;
         if (!this.config.get().hotUpdateUrl) {
             return;
         }
-        this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', () => {
-            if (this.platform.is('ios')) {
-                this.updateIos();
+        this.dialog.confirm('更新通知', '发现新版本,是否现在更新?', function () {
+            if (_this.platform.is('ios')) {
+                _this.updateIos();
                 return;
             }
-            this.updateAndroid();
+            _this.updateAndroid();
         });
-    }
-    updateIos() {
+    };
+    HotUpdater.prototype.updateIos = function () {
         window.location.href = this.config.get().hotUpdateUrl.ios;
-    }
-    updateAndroid() {
+    };
+    HotUpdater.prototype.updateAndroid = function () {
+        var _this = this;
         var targetPath = this.file.externalApplicationStorageDirectory + '/app/app.apk';
         this.localNotifications.schedule({
             id: 1000,
@@ -78,10 +70,10 @@ let HotUpdater = class HotUpdater {
             maxProgress: 100,
             currentProgress: 0
         });
-        let transfer = this.transfer.create();
-        transfer.onProgress(event => {
-            let progress = ((event.loaded / event.total) * 100).toFixed(2);
-            this.localNotifications.update({
+        var transfer = this.transfer.create();
+        transfer.onProgress(function (event) {
+            var progress = ((event.loaded / event.total) * 100).toFixed(2);
+            _this.localNotifications.update({
                 id: 1000,
                 title: '正在更新...',
                 progress: true,
@@ -89,26 +81,30 @@ let HotUpdater = class HotUpdater {
                 currentProgress: Math.round(Number(progress))
             });
         });
-        transfer.download(this.config.get().hotUpdateUrl.android, targetPath).then(() => {
-            this.localNotifications.clear(1000);
-            this.dialog.confirm('更新通知', '新版本下载完成是否现在安装?', () => {
-                this.fileOpener.open(targetPath, 'application/vnd.android.package-archive');
+        transfer.download(this.config.get().hotUpdateUrl.android, targetPath).then(function () {
+            _this.localNotifications.clear(1000);
+            _this.dialog.confirm('更新通知', '新版本下载完成是否现在安装?', function () {
+                _this.fileOpener.open(targetPath, 'application/vnd.android.package-archive');
             });
-        }, e => {
+        }, function (e) {
             console.log(e);
         });
-    }
-};
-HotUpdater = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [ionic_angular_1.Platform,
-        dialog_1.Dialog,
-        config_1.ConfigProvider,
-        hot_code_push_1.HotCodePush,
-        local_notifications_1.ExtLocalNotifications,
-        transfer_1.Transfer,
-        file_1.File,
-        file_opener_1.FileOpener])
-], HotUpdater);
-exports.HotUpdater = HotUpdater;
+    };
+    return HotUpdater;
+}());
+export { HotUpdater };
+HotUpdater.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+HotUpdater.ctorParameters = function () { return [
+    { type: Platform, },
+    { type: Dialog, },
+    { type: ConfigProvider, },
+    { type: HotCodePush, },
+    { type: ExtLocalNotifications, },
+    { type: Transfer, },
+    { type: File, },
+    { type: FileOpener, },
+]; };
 //# sourceMappingURL=hot-updater.js.map

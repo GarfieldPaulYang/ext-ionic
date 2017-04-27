@@ -1,21 +1,19 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.StringUtils = {
-    startsWith: (str, searchStrings) => {
-        for (let i = 0; i < searchStrings.length; i++) {
-            let searchString = searchStrings[i];
+export var StringUtils = {
+    startsWith: function (str, searchStrings) {
+        for (var i = 0; i < searchStrings.length; i++) {
+            var searchString = searchStrings[i];
             if (str.startsWith(searchString)) {
                 return true;
             }
         }
         return false;
     },
-    hash: (str) => {
-        let hash = 0;
+    hash: function (str) {
+        var hash = 0;
         if (str.length === 0)
             return hash;
-        for (let i = 0; i < str.length; i++) {
-            let char = str.charCodeAt(i);
+        for (var i = 0; i < str.length; i++) {
+            var char = str.charCodeAt(i);
             hash = ((hash << 5) - hash) + char;
             hash = hash & hash;
         }

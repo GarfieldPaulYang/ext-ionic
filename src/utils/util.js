@@ -1,26 +1,30 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const _ = require("lodash");
-function isTrueProperty(val) {
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+import * as _ from 'lodash';
+export function isTrueProperty(val) {
     if (typeof val === 'string') {
         val = val.toLowerCase().trim();
         return (val === 'true' || val === 'on' || val === '');
     }
     return !!val;
 }
-exports.isTrueProperty = isTrueProperty;
 ;
-function isPresent(val) {
+export function isPresent(val) {
     return val !== undefined && val !== null;
 }
-exports.isPresent = isPresent;
-function flattenObject(obj) {
+export function flattenObject(obj) {
     return _.transform(obj, function (result, value, key) {
         if (_.isObject(value) && !_.isArray(value)) {
-            let flatMap = _.mapKeys(flattenObject(value), function (mvalue, mkey) {
-                return `${key}.${mkey}`;
+            var flatMap = _.mapKeys(flattenObject(value), function (mvalue, mkey) {
+                return key + "." + mkey;
             });
-            result = Object.assign({}, result, flatMap);
+            result = __assign({}, result, flatMap);
         }
         else {
             result[key] = value;
@@ -28,9 +32,7 @@ function flattenObject(obj) {
         return result;
     }, {});
 }
-exports.flattenObject = flattenObject;
-function unFlattenObject(params) {
-    return _.reduce(params, (result, value, key) => { return _.set(result, key, value); }, {});
+export function unFlattenObject(params) {
+    return _.reduce(params, function (result, value, key) { return _.set(result, key, value); }, {});
 }
-exports.unFlattenObject = unFlattenObject;
 //# sourceMappingURL=util.js.map

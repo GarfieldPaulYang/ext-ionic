@@ -1,54 +1,56 @@
-"use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const http_1 = require("@angular/http");
-const ionic_angular_1 = require("ionic-angular");
-const device_1 = require("@ionic-native/device");
-const _ = require("lodash");
-const config_1 = require("../../config/config");
-const dialog_1 = require("../../utils/dialog");
-const util_1 = require("../../utils/util");
-const response_result_1 = require("../../utils/http/response/response-result");
-const url_params_builder_1 = require("../../utils/http/url-params-builder");
-const string_1 = require("../../utils/string");
-const json_file_storage_1 = require("../storage/json-file-storage");
-const mem_storage_1 = require("../storage/mem-storage");
-exports.ticket_expired = 'ticket-expired';
-class HttpProviderOptions extends http_1.RequestOptions {
-    constructor(options) {
-        super(options);
-        this.showLoading = options.showLoading;
-        this.loadingContent = options.loadingContent;
-        this.showErrorAlert = options.showErrorAlert;
-        this.cache = options.cache;
-        this.cacheOnly = options.cacheOnly;
-        this.memCache = options.memCache;
-        this.maxCacheAge = options.maxCacheAge;
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+import { Injectable } from '@angular/core';
+import { Http, ResponseContentType, RequestMethod, RequestOptions, Headers } from '@angular/http';
+import { Events } from 'ionic-angular';
+import { Device } from '@ionic-native/device';
+import * as _ from 'lodash';
+import { ConfigProvider } from '../../config/config';
+import { Dialog } from '../../utils/dialog';
+import { isPresent } from '../../utils/util';
+import { ResponseResult } from '../../utils/http/response/response-result';
+import { URLParamsBuilder } from '../../utils/http/url-params-builder';
+import { StringUtils } from '../../utils/string';
+import { JsonFileStorage } from '../storage/json-file-storage';
+import { MemoryStorage } from '../storage/mem-storage';
+export var ticket_expired = 'ticket-expired';
+var HttpProviderOptions = (function (_super) {
+    __extends(HttpProviderOptions, _super);
+    function HttpProviderOptions(options) {
+        var _this = _super.call(this, options) || this;
+        _this.showLoading = options.showLoading;
+        _this.loadingContent = options.loadingContent;
+        _this.showErrorAlert = options.showErrorAlert;
+        _this.cache = options.cache;
+        _this.cacheOnly = options.cacheOnly;
+        _this.memCache = options.memCache;
+        _this.maxCacheAge = options.maxCacheAge;
+        return _this;
     }
-    merge(options) {
-        let result = super.merge(options);
-        result.showLoading = util_1.isPresent(options.showLoading) ? options.showLoading : this.showLoading;
-        result.showErrorAlert = util_1.isPresent(options.showErrorAlert) ? options.showErrorAlert : this.showErrorAlert;
+    HttpProviderOptions.prototype.merge = function (options) {
+        var result = _super.prototype.merge.call(this, options);
+        result.showLoading = isPresent(options.showLoading) ? options.showLoading : this.showLoading;
+        result.showErrorAlert = isPresent(options.showErrorAlert) ? options.showErrorAlert : this.showErrorAlert;
         result.loadingContent = options.loadingContent ? options.loadingContent : this.loadingContent;
-        result.cache = util_1.isPresent(options.cache) ? options.cache : this.cache;
-        result.cacheOnly = util_1.isPresent(options.cacheOnly) ? options.cacheOnly : this.cacheOnly;
-        result.memCache = util_1.isPresent(options.memCache) ? options.memCache : this.memCache;
-        result.maxCacheAge = util_1.isPresent(options.maxCacheAge) ? options.maxCacheAge : this.maxCacheAge;
+        result.cache = isPresent(options.cache) ? options.cache : this.cache;
+        result.cacheOnly = isPresent(options.cacheOnly) ? options.cacheOnly : this.cacheOnly;
+        result.memCache = isPresent(options.memCache) ? options.memCache : this.memCache;
+        result.maxCacheAge = isPresent(options.maxCacheAge) ? options.maxCacheAge : this.maxCacheAge;
         return result;
-    }
-}
-exports.HttpProviderOptions = HttpProviderOptions;
-const HTTP_CACHE_DIR = 'whc';
-const defaultRequestOptions = new HttpProviderOptions({
+    };
+    return HttpProviderOptions;
+}(RequestOptions));
+export { HttpProviderOptions };
+var HTTP_CACHE_DIR = 'whc';
+var defaultRequestOptions = new HttpProviderOptions({
     showLoading: true,
     loadingContent: '正在加载...',
     showErrorAlert: true,
@@ -56,75 +58,81 @@ const defaultRequestOptions = new HttpProviderOptions({
     cacheOnly: false,
     memCache: false,
     maxCacheAge: 1000 * 60 * 60 * 12,
-    method: http_1.RequestMethod.Get,
-    responseType: http_1.ResponseContentType.Json
+    method: RequestMethod.Get,
+    responseType: ResponseContentType.Json
 });
-const APP_JSON_TYPE = 'application/json';
-let HttpProvider = class HttpProvider {
-    constructor(_http, jsonCache, memCache, config, dialog) {
+var APP_JSON_TYPE = 'application/json';
+var HttpProvider = (function () {
+    function HttpProvider(_http, jsonCache, memCache, config, dialog) {
         this._http = _http;
         this.jsonCache = jsonCache;
         this.memCache = memCache;
         this.config = config;
         this.dialog = dialog;
     }
-    get http() {
-        return this._http;
-    }
-    requestWithError(url, options, foundCacheCallback = (result) => { }) {
+    Object.defineProperty(HttpProvider.prototype, "http", {
+        get: function () {
+            return this._http;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    HttpProvider.prototype.requestWithError = function (url, options, foundCacheCallback) {
+        var _this = this;
+        if (foundCacheCallback === void 0) { foundCacheCallback = function (result) { }; }
         options = options ? defaultRequestOptions.merge(options) : defaultRequestOptions;
-        let cache = options.memCache ? this.memCache : this.jsonCache;
-        let innerRequest = (url, options) => {
-            return this.request(url, options).then((result) => {
+        var cache = options.memCache ? this.memCache : this.jsonCache;
+        var innerRequest = function (url, options) {
+            return _this.request(url, options).then(function (result) {
                 if (result.status === 1) {
                     if (options.showErrorAlert) {
-                        this.dialog.alert('系统提示', result.msg);
+                        _this.dialog.alert('系统提示', result.msg);
                     }
-                    if (util_1.isPresent(result.data) && !_.isEqual({}, result.data)) {
+                    if (isPresent(result.data) && !_.isEqual({}, result.data)) {
                         return Promise.reject(result);
                     }
                     return Promise.reject(result.msg);
                 }
-                if (options.cache && options.method === http_1.RequestMethod.Get && cacheKey) {
+                if (options.cache && options.method === RequestMethod.Get && cacheKey) {
                     cache.save({ dirname: HTTP_CACHE_DIR, filename: cacheKey, content: result.data });
                 }
                 return result.data;
-            }).catch(err => {
+            }).catch(function (err) {
                 return Promise.reject(err);
             });
         };
-        let cacheKey;
-        if (options.cache && options.method === http_1.RequestMethod.Get) {
+        var cacheKey;
+        if (options.cache && options.method === RequestMethod.Get) {
             cacheKey = this.hashUrl(url, (options.params || options.search));
             if (options.cacheOnly) {
-                return cache.load({ dirname: HTTP_CACHE_DIR, filename: cacheKey, maxAge: options.maxCacheAge }).catch(() => { return innerRequest(url, options); });
+                return cache.load({ dirname: HTTP_CACHE_DIR, filename: cacheKey, maxAge: options.maxCacheAge }).catch(function () { return innerRequest(url, options); });
             }
-            cache.load({ dirname: HTTP_CACHE_DIR, filename: cacheKey }).then(result => {
+            cache.load({ dirname: HTTP_CACHE_DIR, filename: cacheKey }).then(function (result) {
                 foundCacheCallback(result);
-            }).catch(error => console.log(error));
+            }).catch(function (error) { return console.log(error); });
         }
         return innerRequest(url, options);
-    }
-    request(url, options) {
+    };
+    HttpProvider.prototype.request = function (url, options) {
         options = options || defaultRequestOptions;
-        let loading;
+        var loading;
         if (options.showLoading) {
             loading = this.dialog.loading(options.loadingContent);
             loading.present();
         }
-        return this.ajax(url, options).toPromise().then(result => {
+        return this.ajax(url, options).toPromise().then(function (result) {
             if (loading)
                 loading.dismiss();
             return result;
-        }).catch(err => {
+        }).catch(function (err) {
             if (loading)
                 loading.dismiss();
             return Promise.reject(err);
         });
-    }
-    ajax(url, options) {
+    };
+    HttpProvider.prototype.ajax = function (url, options) {
         options = options || defaultRequestOptions;
-        let params = url_params_builder_1.URLParamsBuilder.build({ '__cors-request__': true });
+        var params = URLParamsBuilder.build({ '__cors-request__': true });
         if (options.search) {
             params.replaceAll(options.search);
         }
@@ -132,10 +140,10 @@ let HttpProvider = class HttpProvider {
             params.replaceAll(options.params);
         }
         options.params = params;
-        if (options.method === http_1.RequestMethod.Post) {
+        if (options.method === RequestMethod.Post) {
             options.body = options.body || {};
-            options.headers = options.headers || new http_1.Headers();
-            let contentType = options.headers.get('Content-Type');
+            options.headers = options.headers || new Headers();
+            var contentType = options.headers.get('Content-Type');
             if (!contentType) {
                 contentType = APP_JSON_TYPE;
                 options.headers.set('Content-Type', contentType);
@@ -145,89 +153,108 @@ let HttpProvider = class HttpProvider {
                     options.body = JSON.stringify(options.body);
                 }
                 else {
-                    options.body = url_params_builder_1.URLParamsBuilder.build(options.body).toString();
+                    options.body = URLParamsBuilder.build(options.body).toString();
                 }
             }
         }
-        return this.http.request(url, options).map((r) => new response_result_1.ResponseResult(r.json()));
-    }
-    hashUrl(url, params) {
-        let q = params ? params.toString() : '';
-        return string_1.StringUtils.hash(url + q).toString();
-    }
-};
-HttpProvider = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http,
-        json_file_storage_1.JsonFileStorage,
-        mem_storage_1.MemoryStorage,
-        config_1.ConfigProvider,
-        dialog_1.Dialog])
-], HttpProvider);
-exports.HttpProvider = HttpProvider;
-let CorsHttpProvider = class CorsHttpProvider {
-    constructor(http, events, config, device) {
+        return this.http.request(url, options).map(function (r) { return new ResponseResult(r.json()); });
+    };
+    HttpProvider.prototype.hashUrl = function (url, params) {
+        var q = params ? params.toString() : '';
+        return StringUtils.hash(url + q).toString();
+    };
+    return HttpProvider;
+}());
+export { HttpProvider };
+HttpProvider.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+HttpProvider.ctorParameters = function () { return [
+    { type: Http, },
+    { type: JsonFileStorage, },
+    { type: MemoryStorage, },
+    { type: ConfigProvider, },
+    { type: Dialog, },
+]; };
+var CorsHttpProvider = (function () {
+    function CorsHttpProvider(http, events, config, device) {
         this.http = http;
         this.events = events;
         this.config = config;
         this.device = device;
         this._ticket = null;
     }
-    get ticket() {
-        return this._ticket;
-    }
-    set ticket(t) {
-        this._ticket = t;
-    }
-    get httpProvider() {
-        return this.http;
-    }
-    login(options) {
+    Object.defineProperty(CorsHttpProvider.prototype, "ticket", {
+        get: function () {
+            return this._ticket;
+        },
+        set: function (t) {
+            this._ticket = t;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CorsHttpProvider.prototype, "httpProvider", {
+        get: function () {
+            return this.http;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CorsHttpProvider.prototype.login = function (options) {
         return this.request(this.config.get().login.url, {
-            headers: new http_1.Headers({
+            headers: new Headers({
                 'Content-Type': 'application/x-www-form-urlencoded',
                 '__login__': 'true',
                 '__uuid__': this.device.uuid,
                 '__model__': this.device.model
             }),
-            method: http_1.RequestMethod.Post,
+            method: RequestMethod.Post,
             showErrorAlert: false,
             body: options
         });
-    }
-    logout() {
+    };
+    CorsHttpProvider.prototype.logout = function () {
+        var _this = this;
         return this.request(this.config.get().login.url, {
             cache: false,
-            headers: new http_1.Headers({
+            headers: new Headers({
                 '__logout__': 'true'
             })
-        }).then(result => {
-            this.ticket = null;
+        }).then(function (result) {
+            _this.ticket = null;
             return result;
         });
-    }
-    request(url, options, foundCacheCallback = (result) => { }) {
+    };
+    CorsHttpProvider.prototype.request = function (url, options, foundCacheCallback) {
+        var _this = this;
+        if (foundCacheCallback === void 0) { foundCacheCallback = function (result) { }; }
         options = options || {};
-        options.headers = options.headers || new http_1.Headers();
+        options.headers = options.headers || new Headers();
         options.headers.set('__app-key__', this.config.get().login.appKey);
         options.headers.set('__dev-mode__', this.config.get().devMode + '');
         options.headers.set('__ticket__', this.ticket);
-        return this.http.requestWithError(url, options, foundCacheCallback).then(result => {
+        return this.http.requestWithError(url, options, foundCacheCallback).then(function (result) {
             return result;
-        }).catch(err => {
-            if (err && _.isString(err) && err.toString() === exports.ticket_expired) {
-                this.events.publish(exports.ticket_expired);
+        }).catch(function (err) {
+            if (err && _.isString(err) && err.toString() === ticket_expired) {
+                _this.events.publish(ticket_expired);
             }
             return Promise.reject(err);
         });
-    }
-};
-CorsHttpProvider = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [HttpProvider,
-        ionic_angular_1.Events,
-        config_1.ConfigProvider,
-        device_1.Device])
-], CorsHttpProvider);
-exports.CorsHttpProvider = CorsHttpProvider;
+    };
+    return CorsHttpProvider;
+}());
+export { CorsHttpProvider };
+CorsHttpProvider.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+CorsHttpProvider.ctorParameters = function () { return [
+    { type: HttpProvider, },
+    { type: Events, },
+    { type: ConfigProvider, },
+    { type: Device, },
+]; };
 //# sourceMappingURL=http.js.map

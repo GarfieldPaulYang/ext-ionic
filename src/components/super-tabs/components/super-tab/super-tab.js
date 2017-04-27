@@ -1,76 +1,95 @@
-"use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const ionic_angular_1 = require("ionic-angular");
-const transition_controller_1 = require("ionic-angular/transitions/transition-controller");
-const super_tabs_1 = require("../super-tabs/super-tabs");
-const core_2 = require("@angular/core");
-let SuperTab = class SuperTab extends ionic_angular_1.NavControllerBase {
-    constructor(parent, app, config, plt, keyboard, el, zone, rnd, cfr, gestureCtrl, transCtrl, linker, _dom, errHandler, cd) {
-        super(parent, app, config, plt, keyboard, el, zone, rnd, cfr, gestureCtrl, transCtrl, linker, _dom, errHandler);
-        this.linker = linker;
-        this._dom = _dom;
-        this.errHandler = errHandler;
-        this.cd = cd;
-        this.badge = 0;
-        this.loaded = false;
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+import { Component, Input, Renderer, ElementRef, ViewEncapsulation, Optional, ComponentFactoryResolver, NgZone, ViewContainerRef, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { NavControllerBase, App, Config, Platform, Keyboard, GestureController, DeepLinker, DomController } from 'ionic-angular';
+import { TransitionController } from 'ionic-angular/transitions/transition-controller';
+import { SuperTabs } from '../super-tabs/super-tabs';
+import { ErrorHandler } from '@angular/core';
+var SuperTab = (function (_super) {
+    __extends(SuperTab, _super);
+    function SuperTab(parent, app, config, plt, keyboard, el, zone, rnd, cfr, gestureCtrl, transCtrl, linker, _dom, errHandler, cd) {
+        var _this = _super.call(this, parent, app, config, plt, keyboard, el, zone, rnd, cfr, gestureCtrl, transCtrl, linker, _dom, errHandler) || this;
+        _this.linker = linker;
+        _this._dom = _dom;
+        _this.errHandler = errHandler;
+        _this.cd = cd;
+        _this.badge = 0;
+        _this.loaded = false;
+        return _this;
     }
-    get tabTitle() {
-        return this.title;
-    }
-    get index() {
-        return this.parent.getTabIndexById(this.tabId);
-    }
-    get _tabId() {
-        return this.tabId;
-    }
-    get swipeBackEnabled() {
-        return this._sbEnabled;
-    }
-    set swipeBackEnabled(val) {
-        this._sbEnabled = !!val;
-        this._swipeBackCheck();
-    }
-    /**
-     * @hidden
-     */
-    set _vp(val) {
-        this.setViewport(val);
-    }
-    ngOnInit() {
+    Object.defineProperty(SuperTab.prototype, "tabTitle", {
+        get: function () {
+            return this.title;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SuperTab.prototype, "index", {
+        get: function () {
+            return this.parent.getTabIndexById(this.tabId);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SuperTab.prototype, "_tabId", {
+        get: function () {
+            return this.tabId;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SuperTab.prototype, "swipeBackEnabled", {
+        get: function () {
+            return this._sbEnabled;
+        },
+        set: function (val) {
+            this._sbEnabled = !!val;
+            this._swipeBackCheck();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SuperTab.prototype, "_vp", {
+        /**
+         * @hidden
+         */
+        set: function (val) {
+            this.setViewport(val);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    SuperTab.prototype.ngOnInit = function () {
         this.parent.addTab(this);
-    }
-    load() {
+    };
+    SuperTab.prototype.load = function () {
+        var _this = this;
         if (this.loaded) {
-            this._dom.read(() => {
-                this.resize();
+            this._dom.read(function () {
+                _this.resize();
             });
             return Promise.resolve();
         }
-        return this.push(this.root, this.rootParams, { animate: false }).then(() => {
-            this.loaded = true;
-            this._dom.read(() => {
-                this.resize();
+        return this.push(this.root, this.rootParams, { animate: false }).then(function () {
+            _this.loaded = true;
+            _this._dom.read(function () {
+                _this.resize();
             });
         });
-    }
-    ngOnDestroy() {
+    };
+    SuperTab.prototype.ngOnDestroy = function () {
         this.destroy();
-    }
-    setActive(active) {
-        let viewCtrl = this.getActive();
+    };
+    SuperTab.prototype.setActive = function (active) {
+        var viewCtrl = this.getActive();
         if (active) {
             this.cd.reattach();
             if (this.loaded && viewCtrl)
@@ -80,79 +99,58 @@ let SuperTab = class SuperTab extends ionic_angular_1.NavControllerBase {
         this.cd.detach();
         if (this.loaded && viewCtrl)
             viewCtrl._cmp.changeDetectorRef.detach();
-    }
-    setBadge(value) {
+    };
+    SuperTab.prototype.setBadge = function (value) {
         this.badge = value;
-    }
-    clearBadge() {
+    };
+    SuperTab.prototype.clearBadge = function () {
         this.badge = 0;
-    }
-    increaseBadge(increaseBy) {
+    };
+    SuperTab.prototype.increaseBadge = function (increaseBy) {
         this.badge += increaseBy;
-    }
-    decreaseBadge(decreaseBy) {
+    };
+    SuperTab.prototype.decreaseBadge = function (decreaseBy) {
         this.badge = Math.max(0, this.badge - decreaseBy);
-    }
-    setWidth(width) {
+    };
+    SuperTab.prototype.setWidth = function (width) {
         this.setElementStyle('width', width + 'px');
-    }
+    };
+    return SuperTab;
+}(NavControllerBase));
+export { SuperTab };
+SuperTab.decorators = [
+    { type: Component, args: [{
+                selector: 'ion-super-tab',
+                template: '<div #viewport></div><div class="nav-decor"></div>',
+                encapsulation: ViewEncapsulation.None
+            },] },
+];
+/** @nocollapse */
+SuperTab.ctorParameters = function () { return [
+    { type: SuperTabs, },
+    { type: App, },
+    { type: Config, },
+    { type: Platform, },
+    { type: Keyboard, },
+    { type: ElementRef, },
+    { type: NgZone, },
+    { type: Renderer, },
+    { type: ComponentFactoryResolver, },
+    { type: GestureController, },
+    { type: TransitionController, },
+    { type: DeepLinker, decorators: [{ type: Optional },] },
+    { type: DomController, },
+    { type: ErrorHandler, },
+    { type: ChangeDetectorRef, },
+]; };
+SuperTab.propDecorators = {
+    'title': [{ type: Input },],
+    'icon': [{ type: Input },],
+    'root': [{ type: Input },],
+    'rootParams': [{ type: Input },],
+    'tabId': [{ type: Input, args: ['id',] },],
+    'badge': [{ type: Input },],
+    'swipeBackEnabled': [{ type: Input },],
+    '_vp': [{ type: ViewChild, args: ['viewport', { read: ViewContainerRef },] },],
 };
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", String)
-], SuperTab.prototype, "title", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", String)
-], SuperTab.prototype, "icon", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Object)
-], SuperTab.prototype, "root", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Object)
-], SuperTab.prototype, "rootParams", void 0);
-__decorate([
-    core_1.Input('id'),
-    __metadata("design:type", String)
-], SuperTab.prototype, "tabId", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Number)
-], SuperTab.prototype, "badge", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Boolean),
-    __metadata("design:paramtypes", [Boolean])
-], SuperTab.prototype, "swipeBackEnabled", null);
-__decorate([
-    core_1.ViewChild('viewport', { read: core_1.ViewContainerRef }),
-    __metadata("design:type", core_1.ViewContainerRef),
-    __metadata("design:paramtypes", [core_1.ViewContainerRef])
-], SuperTab.prototype, "_vp", null);
-SuperTab = __decorate([
-    core_1.Component({
-        selector: 'ion-super-tab',
-        template: '<div #viewport></div><div class="nav-decor"></div>',
-        encapsulation: core_1.ViewEncapsulation.None
-    }),
-    __param(11, core_1.Optional()),
-    __metadata("design:paramtypes", [super_tabs_1.SuperTabs,
-        ionic_angular_1.App,
-        ionic_angular_1.Config,
-        ionic_angular_1.Platform,
-        ionic_angular_1.Keyboard,
-        core_1.ElementRef,
-        core_1.NgZone,
-        core_1.Renderer,
-        core_1.ComponentFactoryResolver,
-        ionic_angular_1.GestureController,
-        transition_controller_1.TransitionController,
-        ionic_angular_1.DeepLinker,
-        ionic_angular_1.DomController,
-        core_2.ErrorHandler,
-        core_1.ChangeDetectorRef])
-], SuperTab);
-exports.SuperTab = SuperTab;
 //# sourceMappingURL=super-tab.js.map

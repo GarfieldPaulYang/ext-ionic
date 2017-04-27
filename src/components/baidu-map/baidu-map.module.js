@@ -1,34 +1,30 @@
-"use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const baidu_map_1 = require("./baidu-map");
-const baidu_map_component_1 = require("./baidu-map-component");
-let BaiduMapModule = BaiduMapModule_1 = class BaiduMapModule {
-    static forRoot() {
+import { NgModule } from '@angular/core';
+import { BaiduMapController } from './baidu-map';
+import { BaiduMap } from './baidu-map-component';
+var BaiduMapModule = (function () {
+    function BaiduMapModule() {
+    }
+    BaiduMapModule.forRoot = function () {
         return {
-            ngModule: BaiduMapModule_1,
+            ngModule: BaiduMapModule,
             providers: [
-                baidu_map_1.BaiduMapController
+                BaiduMapController
             ]
         };
-    }
-};
-BaiduMapModule = BaiduMapModule_1 = __decorate([
-    core_1.NgModule({
-        exports: [
-            baidu_map_component_1.BaiduMap
-        ],
-        declarations: [
-            baidu_map_component_1.BaiduMap
-        ]
-    })
-], BaiduMapModule);
-exports.BaiduMapModule = BaiduMapModule;
-var BaiduMapModule_1;
+    };
+    return BaiduMapModule;
+}());
+export { BaiduMapModule };
+BaiduMapModule.decorators = [
+    { type: NgModule, args: [{
+                exports: [
+                    BaiduMap
+                ],
+                declarations: [
+                    BaiduMap
+                ]
+            },] },
+];
+/** @nocollapse */
+BaiduMapModule.ctorParameters = function () { return []; };
 //# sourceMappingURL=baidu-map.module.js.map

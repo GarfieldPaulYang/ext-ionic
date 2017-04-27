@@ -1,31 +1,29 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const core_2 = require("@ionic-native/core");
-let HotCodePush = HotCodePush_1 = class HotCodePush {
-    fetchUpdate(callback, options) { }
-    ;
-    installUpdate() { return; }
-    ;
-    isUpdateAvailableForInstallation(callback) { }
-    ;
-    getVersionInfo(callback) { }
-    ;
-    configure(config) { return; }
-    ;
-    onUpdateInstalled(listener) {
-        document.addEventListener(HotCodePush_1.event.UPDATE_INSTALLED, listener, false);
+import { Injectable } from '@angular/core';
+import { Cordova, Plugin } from '@ionic-native/core';
+var HotCodePush = HotCodePush_1 = (function () {
+    function HotCodePush() {
     }
-};
+    HotCodePush.prototype.fetchUpdate = function (callback, options) { };
+    ;
+    HotCodePush.prototype.installUpdate = function () { return; };
+    ;
+    HotCodePush.prototype.isUpdateAvailableForInstallation = function (callback) { };
+    ;
+    HotCodePush.prototype.getVersionInfo = function (callback) { };
+    ;
+    HotCodePush.prototype.configure = function (config) { return; };
+    ;
+    HotCodePush.prototype.onUpdateInstalled = function (listener) {
+        document.addEventListener(HotCodePush_1.event.UPDATE_INSTALLED, listener, false);
+    };
+    return HotCodePush;
+}());
 HotCodePush.error = {
     NOTHING_TO_INSTALL: 1,
     NOTHING_TO_UPDATE: 2,
@@ -61,51 +59,40 @@ HotCodePush.event = {
     UPDATE_INSTALLED: 'chcp_updateInstalled',
     NOTHING_TO_INSTALL: 'chcp_nothingToInstall'
 };
+HotCodePush.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+HotCodePush.ctorParameters = function () { return []; };
 __decorate([
-    core_2.Cordova({
+    Cordova({
         sync: true
-    }),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Function, Object]),
-    __metadata("design:returntype", void 0)
+    })
 ], HotCodePush.prototype, "fetchUpdate", null);
 __decorate([
-    core_2.Cordova(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
+    Cordova()
 ], HotCodePush.prototype, "installUpdate", null);
 __decorate([
-    core_2.Cordova({
+    Cordova({
         sync: true
-    }),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Function]),
-    __metadata("design:returntype", void 0)
+    })
 ], HotCodePush.prototype, "isUpdateAvailableForInstallation", null);
 __decorate([
-    core_2.Cordova({
+    Cordova({
         sync: true
-    }),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Function]),
-    __metadata("design:returntype", void 0)
+    })
 ], HotCodePush.prototype, "getVersionInfo", null);
 __decorate([
-    core_2.Cordova(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
+    Cordova()
 ], HotCodePush.prototype, "configure", null);
 HotCodePush = HotCodePush_1 = __decorate([
-    core_2.Plugin({
+    Plugin({
         pluginName: 'HotCodePush',
         plugin: 'cordova-hot-code-push-plugin',
         pluginRef: 'chcp',
         repo: 'https://github.com/nordnet/cordova-hot-code-push'
-    }),
-    core_1.Injectable()
+    })
 ], HotCodePush);
-exports.HotCodePush = HotCodePush;
+export { HotCodePush };
 var HotCodePush_1;
 //# sourceMappingURL=hot-code-push.js.map
