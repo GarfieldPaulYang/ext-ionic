@@ -38,11 +38,10 @@ var SuperTabsPanGesture = (function () {
             if (typeof this.shouldCapture !== 'boolean')
                 // we haven't decided yet if we want to capture this gesture
                 this.checkGesture(coords);
-            if (this.shouldCapture === true)
-                // gesture is good, let's capture all next onTouchMove events
-                this.isDragging = true;
-            else
+            if (this.shouldCapture === false)
                 return;
+            // gesture is good, let's capture all next onTouchMove events
+            this.isDragging = true;
         }
         // stop anything else from capturing these events, to make sure the content doesn't slide
         ev.stopPropagation();
@@ -64,8 +63,9 @@ var SuperTabsPanGesture = (function () {
                 else
                     this.onEnd && this.onEnd(false);
             }
-            else
+            else {
                 this.onEnd && this.onEnd(false);
+            }
         }
         this.isDragging = false;
         this.shouldCapture = undefined;

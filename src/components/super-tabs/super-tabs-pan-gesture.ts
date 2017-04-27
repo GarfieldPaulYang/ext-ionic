@@ -74,11 +74,11 @@ export class SuperTabsPanGesture {
         // we haven't decided yet if we want to capture this gesture
         this.checkGesture(coords);
 
-      if (this.shouldCapture === true)
-        // gesture is good, let's capture all next onTouchMove events
-        this.isDragging = true;
-      else
+      if (this.shouldCapture === false)
         return;
+
+      // gesture is good, let's capture all next onTouchMove events
+      this.isDragging = true;
     }
 
     // stop anything else from capturing these events, to make sure the content doesn't slide
@@ -104,8 +104,11 @@ export class SuperTabsPanGesture {
 
         if (deltaTime <= this.config.shortSwipeDuration)
           this.onEnd && this.onEnd(true, coords.x - this.initialCoords.x);
-        else this.onEnd && this.onEnd(false);
-      } else this.onEnd && this.onEnd(false);
+        else
+          this.onEnd && this.onEnd(false);
+      } else {
+        this.onEnd && this.onEnd(false);
+      }
     }
 
     this.isDragging = false;
