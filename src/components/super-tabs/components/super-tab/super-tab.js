@@ -89,15 +89,12 @@ var SuperTab = (function (_super) {
         this.destroy();
     };
     SuperTab.prototype.setActive = function (active) {
-        // let viewCtrl = this.getActive();
         if (active) {
             this.cd.reattach();
             this.cd.detectChanges();
-            // if (this.loaded && viewCtrl) viewCtrl._cmp.changeDetectorRef.reattach();
             return;
         }
         this.cd.detach();
-        // if (this.loaded && viewCtrl) viewCtrl._cmp.changeDetectorRef.detach();
     };
     SuperTab.prototype.setBadge = function (value) {
         this.badge = value;
