@@ -57,7 +57,7 @@ export class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
     this._swipeBackCheck();
   }
 
-  loaded: boolean = false;
+  private loaded: boolean = false;
 
   /**
    * @hidden
@@ -112,15 +112,13 @@ export class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
   }
 
   setActive(active: boolean) {
-    let viewCtrl = this.getActive();
     if (active) {
       this.cd.reattach();
-      if (this.loaded && viewCtrl) viewCtrl._cmp.changeDetectorRef.reattach();
+      this.cd.detectChanges();
       return;
     }
 
     this.cd.detach();
-    if (this.loaded && viewCtrl) viewCtrl._cmp.changeDetectorRef.detach();
   }
 
   setBadge(value: number) {

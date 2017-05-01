@@ -36,7 +36,6 @@ export declare class SuperTabsContainer implements AfterViewInit, OnDestroy {
     private init();
     private setSelectedTab(index);
     private calculateContainerWidth();
-    setHeight(height: number): void;
     private setContainerWidth();
     slideTo(index: number, animate?: boolean): Promise<void>;
     private moveContainer(animate?, positionX?, callback?);

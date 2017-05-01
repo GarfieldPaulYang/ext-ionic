@@ -389,8 +389,6 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
    */
   onTabChange(index: number) {
     if (index <= this._tabs.length) {
-      this._tabs[this.selectedTabIndex].getActive()._didLeave();
-      this._tabs[index].getActive()._didEnter();
       this.selectedTabIndex = index;
 
       this.linker.navChange('switch');
@@ -449,6 +447,10 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
       iw: number = this.toolbar.indicatorWidth, // indicator width
       ip: number = this.toolbar.indicatorPosition, // indicatorPosition
       sp: number = this.toolbar.segmentPosition; // segment position
+
+    if (this.toolbar.segmentWidth <= mw) {
+      return;
+    }
 
     let pos;
 

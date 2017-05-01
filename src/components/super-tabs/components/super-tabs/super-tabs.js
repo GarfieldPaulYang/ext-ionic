@@ -253,8 +253,6 @@ var SuperTabs = (function () {
      */
     SuperTabs.prototype.onTabChange = function (index) {
         if (index <= this._tabs.length) {
-            this._tabs[this.selectedTabIndex].getActive()._didLeave();
-            this._tabs[index].getActive()._didEnter();
             this.selectedTabIndex = index;
             this.linker.navChange('switch');
             this.refreshTabStates();
@@ -303,6 +301,9 @@ var SuperTabs = (function () {
         iw = this.toolbar.indicatorWidth, // indicator width
         ip = this.toolbar.indicatorPosition, // indicatorPosition
         sp = this.toolbar.segmentPosition; // segment position
+        if (this.toolbar.segmentWidth <= mw) {
+            return;
+        }
         var pos;
         if (ip + iw + (mw / 2 - iw / 2) > mw + sp) {
             // we need to move the segment container to the left

@@ -90,9 +90,6 @@ var SuperTabsContainer = (function () {
     SuperTabsContainer.prototype.calculateContainerWidth = function () {
         this.containerWidth = this.tabWidth * this.tabsCount;
     };
-    SuperTabsContainer.prototype.setHeight = function (height) {
-        this.rnd.setStyle(this.el.nativeElement, 'height', height + 'px');
-    };
     SuperTabsContainer.prototype.setContainerWidth = function () {
         this.rnd.setStyle(this.container.nativeElement, 'width', this.containerWidth + 'px');
     };
