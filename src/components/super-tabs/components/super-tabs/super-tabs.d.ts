@@ -142,6 +142,7 @@ export declare class SuperTabs implements OnInit, AfterContentInit, AfterViewIni
     private alignIndicatorPosition(animate?);
     getTabIndexById(tabId: string): number;
     getTabById(tabId: string): SuperTab;
+    getActiveTab(): SuperTab;
     getElementRef(): ElementRef;
     initPane(): boolean;
     paneChanged(): void;

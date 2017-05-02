@@ -253,9 +253,18 @@ var SuperTabs = (function () {
      */
     SuperTabs.prototype.onTabChange = function (index) {
         if (index <= this._tabs.length) {
+            var currentTab = this.getActiveTab();
+            var activeView = currentTab.getActive();
+            activeView._willLeave(false);
+            activeView._didLeave();
             this.selectedTabIndex = index;
             this.linker.navChange('switch');
             this.refreshTabStates();
+            activeView = this.getActiveTab().getActive();
+            if (activeView) {
+                activeView._willEnter();
+                activeView._didEnter();
+            }
             this.tabSelect.emit({
                 index: index,
                 id: this._tabs[index].tabId
@@ -372,6 +381,9 @@ var SuperTabs = (function () {
     };
     SuperTabs.prototype.getTabById = function (tabId) {
         return this._tabs.find(function (tab) { return tab.tabId === tabId; });
+    };
+    SuperTabs.prototype.getActiveTab = function () {
+        return this._tabs[this.selectedTabIndex];
     };
     SuperTabs.prototype.getElementRef = function () { return this.el; };
     SuperTabs.prototype.initPane = function () { return true; };
