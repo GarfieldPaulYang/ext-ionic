@@ -28,4 +28,3 @@ export class OpenUrlModalController {
     this.modal.dismiss(this.options);
   }
 }
-
