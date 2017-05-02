@@ -253,8 +253,7 @@ var SuperTabs = (function () {
      */
     SuperTabs.prototype.onTabChange = function (index) {
         if (index <= this._tabs.length) {
-            var currentTab = this.getActiveTab();
-            var activeView = currentTab.getActive();
+            var activeView = this.getActiveTab().getActive();
             activeView._willLeave(false);
             activeView._didLeave();
             this.selectedTabIndex = index;
