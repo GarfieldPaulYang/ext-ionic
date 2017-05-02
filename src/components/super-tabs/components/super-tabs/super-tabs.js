@@ -61,12 +61,17 @@ var SuperTabs = (function () {
         else if (this._app) {
             this._app._setRootNav(this);
         }
+        var obsToMerge = [
+            Observable.fromEvent(window, 'orientationchange'),
+            Observable.fromEvent(window, 'resize')
+        ];
         if (viewCtrl) {
             viewCtrl._setContent(this);
             viewCtrl._setContentRef(el);
+            obsToMerge.push(viewCtrl.didEnter);
         }
         // re-adjust the height of the slider when the orientation changes
-        this.watches.push(Observable.merge(Observable.fromEvent(window, 'orientationchange'), Observable.fromEvent(window, 'resize')).debounceTime(10).subscribe(function () {
+        this.watches.push(Observable.merge.apply(this, obsToMerge).debounceTime(10).subscribe(function () {
             _this.updateTabWidth();
             _this.setFixedIndicatorWidth();
             _this.tabsContainer.refreshDimensions();
