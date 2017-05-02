@@ -26,7 +26,8 @@ var MapToIterable = (function () {
 export { MapToIterable };
 MapToIterable.decorators = [
     { type: Pipe, args: [{
-                name: 'mapToIterable'
+                name: 'mapToIterable',
+                pure: true
             },] },
     { type: Injectable },
 ];

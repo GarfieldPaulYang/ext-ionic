@@ -1,7 +1,8 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'mapToIterable'
+  name: 'mapToIterable',
+  pure: true
 })
 @Injectable()
 export class MapToIterable implements PipeTransform {

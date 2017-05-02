@@ -44,7 +44,8 @@ var OrderBy = (function () {
 export { OrderBy };
 OrderBy.decorators = [
     { type: Pipe, args: [{
-                name: 'orderBy'
+                name: 'orderBy',
+                pure: true
             },] },
     { type: Injectable },
 ];

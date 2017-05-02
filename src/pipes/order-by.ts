@@ -2,7 +2,8 @@ import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import * as _ from 'lodash';
 
 @Pipe({
-  name: 'orderBy'
+  name: 'orderBy',
+  pure: true
 })
 @Injectable()
 export class OrderBy implements PipeTransform {
