@@ -95,7 +95,9 @@ var ImageLoaderController = (function () {
         if (!localPath) {
             return;
         }
-        this.removeFile(localPath.substr(localPath.lastIndexOf('/') + 1));
+        this.removeFile(localPath.substr(localPath.lastIndexOf('/') + 1)).catch(function () {
+            // Noop catch.
+        });
     };
     ImageLoaderController.prototype.removeFile = function (file) {
         var _this = this;

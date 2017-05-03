@@ -127,7 +127,9 @@ export class ImageLoaderController {
       return;
     }
 
-    this.removeFile(localPath.substr(localPath.lastIndexOf('/') + 1));
+    this.removeFile(localPath.substr(localPath.lastIndexOf('/') + 1)).catch(() => {
+      // Noop catch.
+    });
   }
 
   private removeFile(file: string): Promise<any> {
