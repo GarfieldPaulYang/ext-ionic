@@ -315,6 +315,9 @@ var SuperTabs = (function () {
         ip = this.toolbar.indicatorPosition, // indicatorPosition
         sp = this.toolbar.segmentPosition; // segment position
         if (this.toolbar.segmentWidth <= mw) {
+            if (this.toolbar.segmentPosition !== 0) {
+                this.toolbar.setSegmentPosition(0, animate);
+            }
             return;
         }
         var pos;
