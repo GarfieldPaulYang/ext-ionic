@@ -51,11 +51,22 @@ var TextFileStorage = (function () {
         return content;
     };
     TextFileStorage.prototype.writeToFile = function (options) {
-        return this.file.writeFile(this.getFilepath(options.dirname), options.filename, this.serialize(options.content), { replace: true }).then(function (value) {
-            return value;
-        }).catch(function (reason) {
-            return Promise.reject(reason);
-        });
+        var _this = this;
+        var write = function (options) {
+            return _this.file.writeFile(_this.getFilepath(options.dirname), options.filename, _this.serialize(options.content), { replace: true }).then(function (value) {
+                return value;
+            }).catch(function (reason) {
+                return Promise.reject(reason);
+            });
+        };
+        if (options.dirname) {
+            return this.createCacheDirectory(options.dirname).then(function () {
+                return write(options);
+            }).catch(function (reason) {
+                return Promise.reject(reason);
+            });
+        }
+        return write(options);
     };
     TextFileStorage.prototype.readFile = function (options) {
         var _this = this;
@@ -79,8 +90,20 @@ var TextFileStorage = (function () {
             }, function (error) { return resolve(); });
         });
     };
+    TextFileStorage.prototype.createCacheDirectory = function (dirname) {
+        var _this = this;
+        return this.file.checkDir(this.getRootpath(), dirname).catch(function () {
+            return _this.file.createDir(_this.getRootpath(), dirname, false);
+        });
+    };
+    TextFileStorage.prototype.getRootpath = function () {
+        return this.file.dataDirectory;
+    };
     TextFileStorage.prototype.getFilepath = function (dirname) {
-        return this.file.dataDirectory + (dirname ? dirname : '');
+        if (!dirname) {
+            return this.getRootpath();
+        }
+        return this.getRootpath() + dirname;
     };
     return TextFileStorage;
 }());

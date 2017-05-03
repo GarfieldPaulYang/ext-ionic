@@ -16,5 +16,7 @@ export declare class TextFileStorage implements Storage {
     private readFile<T>(options);
     private removeFile(options);
     private getMetadata(fileEntry);
+    private createCacheDirectory(dirname);
+    private getRootpath();
     private getFilepath(dirname?);
 }

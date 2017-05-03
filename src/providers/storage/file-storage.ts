@@ -59,16 +59,28 @@ export class TextFileStorage implements Storage {
   }
 
   private writeToFile(options: SaveOptions): Promise<any> {
-    return this.file.writeFile(
-      this.getFilepath(options.dirname),
-      options.filename,
-      this.serialize(options.content),
-      { replace: true }
-    ).then(value => {
-      return value;
-    }).catch(reason => {
-      return Promise.reject(reason);
-    });
+    const write = (options: SaveOptions): Promise<any> => {
+      return this.file.writeFile(
+        this.getFilepath(options.dirname),
+        options.filename,
+        this.serialize(options.content),
+        { replace: true }
+      ).then(value => {
+        return value;
+      }).catch(reason => {
+        return Promise.reject(reason);
+      });
+    };
+
+    if (options.dirname) {
+      return this.createCacheDirectory(options.dirname).then(() => {
+        return write(options);
+      }).catch(reason => {
+        return Promise.reject(reason);
+      });
+    }
+
+    return write(options);
   }
 
   private readFile<T>(options: LoadOptions): Promise<T> {
@@ -95,7 +107,21 @@ export class TextFileStorage implements Storage {
     });
   }
 
+  private createCacheDirectory(dirname: string): Promise<any> {
+    return this.file.checkDir(this.getRootpath(), dirname).catch(() => {
+      return this.file.createDir(this.getRootpath(), dirname, false);
+    });
+  }
+
+  private getRootpath(): string {
+    return this.file.dataDirectory;
+  }
+
   private getFilepath(dirname?: string): string {
-    return this.file.dataDirectory + (dirname ? dirname : '');
+    if (!dirname) {
+      return this.getRootpath();
+    }
+
+    return this.getRootpath() + dirname;
   }
 }
