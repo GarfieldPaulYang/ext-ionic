@@ -291,7 +291,7 @@ var ImageLoaderController = (function () {
     };
     Object.defineProperty(ImageLoaderController.prototype, "cacheRootDirectory", {
         get: function () {
-            return this.cacheRootDirectory;
+            return this.file.cacheDirectory;
         },
         enumerable: true,
         configurable: true

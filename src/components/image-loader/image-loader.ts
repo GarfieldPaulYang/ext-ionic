@@ -328,7 +328,7 @@ export class ImageLoaderController {
   }
 
   private get cacheRootDirectory(): string {
-    return this.cacheRootDirectory;
+    return this.file.cacheDirectory;
   }
 
   private get cacheTempRootDirectory(): string {
