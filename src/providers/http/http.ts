@@ -177,10 +177,10 @@ export class HttpProvider {
       loading.present();
     }
     return this.ajax(url, options).toPromise().then(result => {
-      if (loading) loading.dismiss();
+      if (loading) loading.dismiss().catch(() => { });
       return result;
     }).catch(err => {
-      if (loading) loading.dismiss();
+      if (loading) loading.dismiss().catch(() => { });
       return Promise.reject(err);
     });
   }
