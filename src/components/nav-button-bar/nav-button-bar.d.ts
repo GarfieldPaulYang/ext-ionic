@@ -10,6 +10,6 @@ export interface NavButton {
 }
 export declare class NavButtonBar {
     items: Array<NavButton>;
-    navClick: EventEmitter<NavButton>;
+    itemClick: EventEmitter<NavButton>;
     onClick(item: NavButton): void;
 }

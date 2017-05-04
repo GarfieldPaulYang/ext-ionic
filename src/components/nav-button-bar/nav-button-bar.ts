@@ -47,7 +47,7 @@ export interface NavButton {
   `],
   template: `
     <div class="btn-group">
-      <a class="btn-box" *ngFor="let item of items" (buttonClick)="onClick(item)">
+      <a class="btn-box" *ngFor="let item of items" (click)="onClick(item)">
         <div class="btn-box-content">
           <ion-icon name="{{item.icon}}" style="font-size: 2.5em" [style.color]="item.iconColor"></ion-icon>
           <div class="btn-text">{{item.label}}</div>
@@ -62,9 +62,9 @@ export class NavButtonBar {
   items: Array<NavButton>;
 
   @Output()
-  navClick: EventEmitter<NavButton> = new EventEmitter<NavButton>();
+  itemClick: EventEmitter<NavButton> = new EventEmitter<NavButton>();
 
   onClick(item: NavButton) {
-    this.navClick.emit(item);
+    this.itemClick.emit(item);
   }
 }
