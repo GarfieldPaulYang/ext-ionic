@@ -17,33 +17,14 @@ export { JsonFileStorage } from './src/providers/storage/json-file-storage';
 
 export * from './src/pipes/pipes.module';
 
-export { AlphaScrollModule } from './src/components/alpha-scroll/alpha-scroll.module';
-export { OpenUrlModalModule } from './src/components/open-url-modal/open-url-modal.module';
-export { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
-
-export { BaiduMapModule } from './src/components/baidu-map/baidu-map.module';
-export { BaiduMapController } from './src/components/baidu-map/baidu-map';
-export {
-  GpsPoint,
-  MarkerSize,
-  MarkerInfoWindow,
-  MarkerOptions,
-  PointCollectionOptions,
-  MassOptions,
-  BaiduMapOptions
-} from './src/components/baidu-map/baidu-map-options';
-
-export { ImageLoaderModule } from './src/components/image-loader/image-loader.module';
-
-export { StarRatingModule } from './src/components/star-rating/star-rating.module';
-export { RibbonModule } from './src/components/ribbon/ribbon.module';
-
-export { SuperTabsModule } from './src/components/super-tabs/super-tabs.module';
-export { SuperTabsConfig } from './src/components/super-tabs/components/super-tabs/super-tabs';
-export { SuperTabsController } from './src/components/super-tabs/providers/super-tabs-controller';
-
-export { DownloadManagerModule } from './src/components/download-manager/download-manager.module';
-export { DownloadManagerController, DownloadOptions } from './src/components/download-manager/download-manager';
+export * from './src/components/alpha-scroll/alpha-scroll.module';
+export * from './src/components/open-url-modal/open-url-modal.module';
+export * from './src/components/baidu-map/baidu-map.module';
+export * from './src/components/image-loader/image-loader.module';
+export * from './src/components/star-rating/star-rating.module';
+export * from './src/components/ribbon/ribbon.module';
+export * from './src/components/super-tabs/super-tabs.module';
+export * from './src/components/download-manager/download-manager.module';
 
 export { StringUtils } from './src/utils/string';
 export { isTrueProperty, isPresent, flattenObject, unFlattenObject } from './src/utils/util';

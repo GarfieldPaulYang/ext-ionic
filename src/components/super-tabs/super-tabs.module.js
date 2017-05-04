@@ -5,6 +5,7 @@ import { SuperTabs } from './components/super-tabs/super-tabs';
 import { SuperTabsController } from './providers/super-tabs-controller';
 import { SuperTabsToolbar } from './components/super-tabs-toolbar/super-tabs-toolbar';
 import { SuperTabsContainer } from './components/super-tabs-container/super-tabs-container';
+export { SuperTabsController } from './providers/super-tabs-controller';
 var SuperTabsModule = (function () {
     function SuperTabsModule() {
     }

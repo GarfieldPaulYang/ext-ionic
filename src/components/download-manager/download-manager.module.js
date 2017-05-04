@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
 import { DownloadManagerCmp } from './download-manager-component';
 import { DownloadManagerController } from './download-manager';
+export { DownloadManagerController } from './download-manager';
 var DownloadManagerModule = (function () {
     function DownloadManagerModule() {
     }

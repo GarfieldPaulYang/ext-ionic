@@ -6,6 +6,9 @@ import { SuperTabsController } from './providers/super-tabs-controller';
 import { SuperTabsToolbar } from './components/super-tabs-toolbar/super-tabs-toolbar';
 import { SuperTabsContainer } from './components/super-tabs-container/super-tabs-container';
 
+export { SuperTabsConfig } from './components/super-tabs/super-tabs';
+export { SuperTabsController } from './providers/super-tabs-controller';
+
 @NgModule({
   declarations: [
     SuperTab,

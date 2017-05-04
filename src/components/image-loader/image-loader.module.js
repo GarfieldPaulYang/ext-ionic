@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
 import { ImageLoaderCmp } from './image-loader-component';
 import { ImageLoaderController } from './image-loader';
+export { ImageLoaderController } from './image-loader';
 var ImageLoaderModule = (function () {
     function ImageLoaderModule() {
     }

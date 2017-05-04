@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BaiduMapController } from './baidu-map';
 import { BaiduMap } from './baidu-map-component';
+export { BaiduMapController } from './baidu-map';
 var BaiduMapModule = (function () {
     function BaiduMapModule() {
     }
