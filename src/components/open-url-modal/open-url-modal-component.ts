@@ -50,6 +50,6 @@ export class OpenUrlModalCmp {
   }
 
   dismiss() {
-    this.viewCtrl.dismiss(this.options);
+    this.viewCtrl.dismiss(this.options).catch(() => { });
   }
 }
