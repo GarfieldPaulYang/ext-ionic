@@ -12,10 +12,10 @@ import { NavButtonBar } from './nav-button';
     NavButtonBar
   ]
 })
-export class NavButtonBarModule {
+export class NavButtonModule {
   public static forRoot(): ModuleWithProviders {
     return {
-      ngModule: NavButtonBarModule, providers: []
+      ngModule: NavButtonModule, providers: []
     };
   }
 }
