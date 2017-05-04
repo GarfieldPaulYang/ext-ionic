@@ -15,6 +15,7 @@ export { MemoryStorage } from './src/providers/storage/mem-storage';
 export { TextFileStorage } from './src/providers/storage/file-storage';
 export { JsonFileStorage } from './src/providers/storage/json-file-storage';
 
+<<<<<<< HEAD
 export { PipesModule } from './src/pipes/pipes.module';
 
 export { AlphaScrollModule } from './src/components/alpha-scroll/alpha-scroll.module';
@@ -44,6 +45,19 @@ export { SuperTabsController } from './src/components/super-tabs/providers/super
 
 export { DownloadManagerModule } from './src/components/download-manager/download-manager.module';
 export { DownloadManagerController, DownloadOptions } from './src/components/download-manager/download-manager';
+export { NavButton } from './src/components/nav-button/nav-button';
+=======
+export * from './src/pipes/pipes.module';
+
+export * from './src/components/alpha-scroll/alpha-scroll.module';
+export * from './src/components/open-url-modal/open-url-modal.module';
+export * from './src/components/baidu-map/baidu-map.module';
+export * from './src/components/image-loader/image-loader.module';
+export * from './src/components/star-rating/star-rating.module';
+export * from './src/components/ribbon/ribbon.module';
+export * from './src/components/super-tabs/super-tabs.module';
+export * from './src/components/download-manager/download-manager.module';
+>>>>>>> 085d9ca986b76ca641fe600c3a8769ce86657054
 
 export { StringUtils } from './src/utils/string';
 export { isTrueProperty, isPresent, flattenObject, unFlattenObject } from './src/utils/util';
@@ -92,6 +106,7 @@ import { StarRatingModule } from './src/components/star-rating/star-rating.modul
 import { RibbonModule } from './src/components/ribbon/ribbon.module';
 import { SuperTabsModule } from './src/components/super-tabs/super-tabs.module';
 import { DownloadManagerModule } from './src/components/download-manager/download-manager.module';
+import { NavButtonModule } from './src/components/nav-button/nav-button.module';
 
 const PROVIDERS: Array<any> = [
   Transfer,
@@ -123,7 +138,8 @@ const PROVIDERS: Array<any> = [
     RibbonModule.forRoot(),
     SuperTabsModule.forRoot(),
     StarRatingModule.forRoot(),
-    PipesModule.forRoot()
+    PipesModule.forRoot(),
+    NavButtonModule.forRoot()
   ],
   exports: [
     AlphaScrollModule,
@@ -134,7 +150,8 @@ const PROVIDERS: Array<any> = [
     RibbonModule,
     SuperTabsModule,
     StarRatingModule,
-    PipesModule
+    PipesModule,
+    NavButtonModule
   ]
 })
 export class ExtIonicModule {
