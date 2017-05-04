@@ -27,7 +27,7 @@ var OpenUrlModalController = (function () {
         this.modal.present();
     };
     OpenUrlModalController.prototype.close = function () {
-        this.modal.dismiss(this.options);
+        this.modal.dismiss(this.options).catch(function () { });
     };
     return OpenUrlModalController;
 }());

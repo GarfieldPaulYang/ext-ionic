@@ -11,7 +11,7 @@ var OpenUrlModalCmp = (function () {
         window.addEventListener('message', this.options.onmessage, false);
     }
     OpenUrlModalCmp.prototype.dismiss = function () {
-        this.viewCtrl.dismiss(this.options);
+        this.viewCtrl.dismiss(this.options).catch(function () { });
     };
     return OpenUrlModalCmp;
 }());

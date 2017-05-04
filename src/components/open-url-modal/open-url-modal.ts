@@ -25,6 +25,6 @@ export class OpenUrlModalController {
   }
 
   close() {
-    this.modal.dismiss(this.options);
+    this.modal.dismiss(this.options).catch(() => { });
   }
 }
