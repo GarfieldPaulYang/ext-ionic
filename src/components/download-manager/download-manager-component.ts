@@ -4,6 +4,16 @@ import { File, Entry, DirectoryEntry, DirectoryReader } from '@ionic-native/file
 import * as _ from 'lodash';
 import { isPresent } from '../../utils/util';
 
+export interface DownloadManager {
+  downloadingList: Array<DownloadEvent>;
+  fileList: Array<Entry>;
+}
+
+interface FileInfo {
+  fileName: string;
+  filePath: string;
+}
+
 @Component({
   selector: 'page-download-file',
   styles: [`
@@ -41,11 +51,11 @@ import { isPresent } from '../../utils/util';
         </ion-list>
         <ion-list *ngSwitchCase="'history'">
           <ul class="breadcrumb">
-            <li *ngFor="let item of breadcrumbs; let last = last" (click)="breadcrubCheck(item)">
+            <li *ngFor="let item of breadcrumbs; let last = last" tappable (click)="breadcrubCheck(item)">
               <a>{{item.name}}</a><ion-icon *ngIf="!last" name="ios-arrow-forward-outline"></ion-icon>
             </li>
           </ul>
-          <ion-item-divider *ngFor="let item of downloadManager.fileList" (click)="itemCheck(item)">
+          <ion-item-divider *ngFor="let item of downloadManager.fileList" tappable (click)="itemCheck(item)">
             <ion-icon name="{{item.isFile ? 'document': 'folder'}}" item-left></ion-icon>
             {{item.name}}
             <ion-icon *ngIf="!last" name="ios-arrow-forward-outline" item-right></ion-icon>
@@ -56,10 +66,10 @@ import { isPresent } from '../../utils/util';
   `
 })
 export class DownloadManagerCmp implements OnInit, OnDestroy, OnChanges {
-  private downloadManager: DownloadManager;
-  private destroy: boolean;
-  private breadcrumbs: Array<DirectoryEntry>;
+  downloadManager: DownloadManager;
+  breadcrumbs: Array<DirectoryEntry>;
   segmentValue: string = 'downloading';
+  private destroy: boolean;
 
   constructor(
     private downloadManagerCtl: DownloadManagerController,
@@ -135,14 +145,4 @@ export class DownloadManagerCmp implements OnInit, OnDestroy, OnChanges {
     }
     this.loadFileList(entry.nativeURL, false);
   }
-}
-
-interface DownloadManager {
-  downloadingList: Array<DownloadEvent>;
-  fileList: Array<Entry>;
-}
-
-interface FileInfo {
-  fileName: string;
-  filePath: string;
 }

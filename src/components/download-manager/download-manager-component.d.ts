@@ -1,14 +1,18 @@
 import { OnInit, OnDestroy, OnChanges, SimpleChanges, NgZone } from '@angular/core';
 import { DownloadManagerController, DownloadEvent } from './download-manager';
 import { File, Entry, DirectoryEntry } from '@ionic-native/file';
+export interface DownloadManager {
+    downloadingList: Array<DownloadEvent>;
+    fileList: Array<Entry>;
+}
 export declare class DownloadManagerCmp implements OnInit, OnDestroy, OnChanges {
     private downloadManagerCtl;
     private file;
     private ngZone;
-    private downloadManager;
-    private destroy;
-    private breadcrumbs;
+    downloadManager: DownloadManager;
+    breadcrumbs: Array<DirectoryEntry>;
     segmentValue: string;
+    private destroy;
     constructor(downloadManagerCtl: DownloadManagerController, file: File, ngZone: NgZone);
     ngOnInit(): void;
     ngOnDestroy(): void;
