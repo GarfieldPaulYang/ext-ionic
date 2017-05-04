@@ -122,11 +122,11 @@ var HttpProvider = (function () {
         }
         return this.ajax(url, options).toPromise().then(function (result) {
             if (loading)
-                loading.dismiss();
+                loading.dismiss().catch(function () { });
             return result;
         }).catch(function (err) {
             if (loading)
-                loading.dismiss();
+                loading.dismiss().catch(function () { });
             return Promise.reject(err);
         });
     };
