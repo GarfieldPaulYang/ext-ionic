@@ -11,7 +11,7 @@ export { Storage, Options, SaveOptions, LoadOptions, RemoveOptions } from './src
 export { MemoryStorage } from './src/providers/storage/mem-storage';
 export { TextFileStorage } from './src/providers/storage/file-storage';
 export { JsonFileStorage } from './src/providers/storage/json-file-storage';
-export { PipesModule } from './src/pipes/pipes.module';
+export * from './src/pipes/pipes.module';
 export { AlphaScrollModule } from './src/components/alpha-scroll/alpha-scroll.module';
 export { OpenUrlModalModule } from './src/components/open-url-modal/open-url-modal.module';
 export { OpenUrlModalController } from './src/components/open-url-modal/open-url-modal';
