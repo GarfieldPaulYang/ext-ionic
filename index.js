@@ -49,6 +49,7 @@ import { StarRatingModule } from './src/components/star-rating/star-rating.modul
 import { RibbonModule } from './src/components/ribbon/ribbon.module';
 import { SuperTabsModule } from './src/components/super-tabs/super-tabs.module';
 import { DownloadManagerModule } from './src/components/download-manager/download-manager.module';
+import { NavButtonModule } from './src/components/nav-button/nav-button.module';
 var PROVIDERS = [
     Transfer,
     File,
@@ -93,7 +94,8 @@ ExtIonicModule.decorators = [
                     RibbonModule.forRoot(),
                     SuperTabsModule.forRoot(),
                     StarRatingModule.forRoot(),
-                    PipesModule.forRoot()
+                    PipesModule.forRoot(),
+                    NavButtonModule.forRoot()
                 ],
                 exports: [
                     AlphaScrollModule,
@@ -104,7 +106,8 @@ ExtIonicModule.decorators = [
                     RibbonModule,
                     SuperTabsModule,
                     StarRatingModule,
-                    PipesModule
+                    PipesModule,
+                    NavButtonModule
                 ]
             },] },
 ];

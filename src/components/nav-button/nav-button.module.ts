@@ -1,9 +1,10 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
+import { IonicModule } from 'ionic-angular';
 import { NavButtonBar } from './nav-button';
 
 @NgModule({
   imports: [
-    NgModule
+    IonicModule
   ],
   exports: [
     NavButtonBar
