@@ -1,6 +1,8 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
-import { NavButtonBar } from './nav-button';
+import { NavButtonBar } from './nav-button-bar';
+
+export { NavButton } from './nav-button-bar';
 
 @NgModule({
   imports: [
@@ -13,10 +15,10 @@ import { NavButtonBar } from './nav-button';
     NavButtonBar
   ]
 })
-export class NavButtonModule {
+export class NavButtonBarModule {
   public static forRoot(): ModuleWithProviders {
     return {
-      ngModule: NavButtonModule, providers: []
+      ngModule: NavButtonBarModule, providers: []
     };
   }
 }

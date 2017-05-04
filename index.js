@@ -19,6 +19,7 @@ export * from './src/components/star-rating/star-rating.module';
 export * from './src/components/ribbon/ribbon.module';
 export * from './src/components/super-tabs/super-tabs.module';
 export * from './src/components/download-manager/download-manager.module';
+export * from './src/components/nav-button-bar/nav-button-bar.module';
 export { StringUtils } from './src/utils/string';
 export { isTrueProperty, isPresent, flattenObject, unFlattenObject } from './src/utils/util';
 export { Dialog } from './src/utils/dialog';
@@ -49,7 +50,7 @@ import { StarRatingModule } from './src/components/star-rating/star-rating.modul
 import { RibbonModule } from './src/components/ribbon/ribbon.module';
 import { SuperTabsModule } from './src/components/super-tabs/super-tabs.module';
 import { DownloadManagerModule } from './src/components/download-manager/download-manager.module';
-import { NavButtonModule } from './src/components/nav-button/nav-button.module';
+import { NavButtonBarModule } from './src/components/nav-button-bar/nav-button-bar.module';
 var PROVIDERS = [
     Transfer,
     File,
@@ -95,7 +96,7 @@ ExtIonicModule.decorators = [
                     SuperTabsModule.forRoot(),
                     StarRatingModule.forRoot(),
                     PipesModule.forRoot(),
-                    NavButtonModule.forRoot()
+                    NavButtonBarModule.forRoot()
                 ],
                 exports: [
                     AlphaScrollModule,
@@ -107,7 +108,7 @@ ExtIonicModule.decorators = [
                     SuperTabsModule,
                     StarRatingModule,
                     PipesModule,
-                    NavButtonModule
+                    NavButtonBarModule
                 ]
             },] },
 ];

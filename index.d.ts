@@ -20,6 +20,7 @@ export * from './src/components/star-rating/star-rating.module';
 export * from './src/components/ribbon/ribbon.module';
 export * from './src/components/super-tabs/super-tabs.module';
 export * from './src/components/download-manager/download-manager.module';
+export * from './src/components/nav-button-bar/nav-button-bar.module';
 export { StringUtils } from './src/utils/string';
 export { isTrueProperty, isPresent, flattenObject, unFlattenObject } from './src/utils/util';
 export { Dialog } from './src/utils/dialog';

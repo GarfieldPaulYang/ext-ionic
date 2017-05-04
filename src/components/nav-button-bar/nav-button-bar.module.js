@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
-import { NavButtonBar } from './nav-button';
-var NavButtonModule = (function () {
-    function NavButtonModule() {
+import { NavButtonBar } from './nav-button-bar';
+var NavButtonBarModule = (function () {
+    function NavButtonBarModule() {
     }
-    NavButtonModule.forRoot = function () {
+    NavButtonBarModule.forRoot = function () {
         return {
-            ngModule: NavButtonModule, providers: []
+            ngModule: NavButtonBarModule, providers: []
         };
     };
-    return NavButtonModule;
+    return NavButtonBarModule;
 }());
-export { NavButtonModule };
-NavButtonModule.decorators = [
+export { NavButtonBarModule };
+NavButtonBarModule.decorators = [
     { type: NgModule, args: [{
                 imports: [
                     IonicModule
@@ -26,5 +26,5 @@ NavButtonModule.decorators = [
             },] },
 ];
 /** @nocollapse */
-NavButtonModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=nav-button.module.js.map
+NavButtonBarModule.ctorParameters = function () { return []; };
+//# sourceMappingURL=nav-button-bar.module.js.map

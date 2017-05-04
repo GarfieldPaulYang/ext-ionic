@@ -22,4 +22,4 @@ NavButtonBar.propDecorators = {
     'items': [{ type: Input },],
     'navClick': [{ type: Output },],
 };
-//# sourceMappingURL=nav-button.js.map
+//# sourceMappingURL=nav-button-bar.js.map
