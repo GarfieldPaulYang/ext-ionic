@@ -5,7 +5,7 @@ export declare class StarRatingCmp implements OnInit, OnDestroy, ControlValueAcc
     private elementRef;
     max: number;
     readonly: boolean;
-    private range;
+    range: Array<number>;
     private innerValue;
     private hammer;
     private onChangeCallback;

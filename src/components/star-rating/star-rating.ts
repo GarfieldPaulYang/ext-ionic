@@ -23,7 +23,7 @@ export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() max: number = 5;
   @Input() readonly: boolean = false;
 
-  private range: Array<number>;
+  range: Array<number>;
   private innerValue: number;
   private hammer: HammerManager;
   private onChangeCallback: (e: any) => void = () => { };

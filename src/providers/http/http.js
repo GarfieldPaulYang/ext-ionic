@@ -57,7 +57,7 @@ var defaultRequestOptions = new HttpProviderOptions({
     cache: false,
     cacheOnly: false,
     memCache: false,
-    maxCacheAge: 1000 * 60 * 60 * 12,
+    maxCacheAge: 1000 * 60 * 60 * 6,
     method: RequestMethod.Get,
     responseType: ResponseContentType.Json
 });
