@@ -1,4 +1,4 @@
-import { OpaqueToken } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 import { OpenUrlModalOptions } from '../components/open-url-modal/open-url-modal-options';
 import { ImageLoaderOptions } from '../components/image-loader/image-loader-options';
 import { BaiduMapOptions } from '../components/baidu-map/baidu-map-options';
@@ -21,4 +21,4 @@ export declare class ConfigProvider {
     init(config: Config): void;
 }
 export declare function setupConfig(userConfig: Config): Config;
-export declare const EXT_IONIC_CONFIG: OpaqueToken;
+export declare const EXT_IONIC_CONFIG: InjectionToken<string>;

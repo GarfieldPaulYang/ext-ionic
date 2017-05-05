@@ -7,7 +7,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 import * as _ from 'lodash';
-import { OpaqueToken, Injectable } from '@angular/core';
+import { Injectable, InjectionToken } from '@angular/core';
 var defaultConfig = {
     devMode: false,
     openUrlModal: {
@@ -62,5 +62,5 @@ export function setupConfig(userConfig) {
     conifg.init(userConfig);
     return conifg;
 }
-export var EXT_IONIC_CONFIG = new OpaqueToken('EXT_IONIC_CONFIG');
+export var EXT_IONIC_CONFIG = new InjectionToken('EXT_IONIC_CONFIG');
 //# sourceMappingURL=config.js.map

@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { OpaqueToken, Injectable } from '@angular/core';
+import { Injectable, InjectionToken } from '@angular/core';
 
 import { OpenUrlModalOptions } from '../components/open-url-modal/open-url-modal-options';
 import { ImageLoaderOptions } from '../components/image-loader/image-loader-options';
@@ -72,4 +72,4 @@ export function setupConfig(userConfig: Config): Config {
   return conifg;
 }
 
-export const EXT_IONIC_CONFIG = new OpaqueToken('EXT_IONIC_CONFIG');
+export const EXT_IONIC_CONFIG = new InjectionToken<string>('EXT_IONIC_CONFIG');
