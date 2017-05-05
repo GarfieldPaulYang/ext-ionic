@@ -18,7 +18,7 @@ export function flattenObject(obj: any) {
       let flatMap = _.mapKeys(flattenObject(value), function (mvalue, mkey) {
         return `${key}.${mkey}`;
       });
-      result = { ...result, ...flatMap };
+      _.assign(result, flatMap);
     } else {
       result[key] = value;
     }
