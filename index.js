@@ -114,4 +114,34 @@ ExtIonicModule.decorators = [
 ];
 /** @nocollapse */
 ExtIonicModule.ctorParameters = function () { return []; };
+var LazyExtIonicModule = (function () {
+    function LazyExtIonicModule() {
+    }
+    LazyExtIonicModule.forRoot = function (config) {
+        return {
+            ngModule: LazyExtIonicModule,
+            providers: [
+                { provide: EXT_IONIC_CONFIG, useValue: config },
+                { provide: ConfigProvider, useFactory: setupConfig, deps: [EXT_IONIC_CONFIG] },
+                PROVIDERS
+            ]
+        };
+    };
+    return LazyExtIonicModule;
+}());
+export { LazyExtIonicModule };
+LazyExtIonicModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [
+                    PipesModule.forRoot(),
+                    OpenUrlModalModule.forRoot()
+                ],
+                exports: [
+                    PipesModule,
+                    OpenUrlModalModule
+                ]
+            },] },
+];
+/** @nocollapse */
+LazyExtIonicModule.ctorParameters = function () { return []; };
 //# sourceMappingURL=index.js.map
