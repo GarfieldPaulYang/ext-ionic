@@ -15,6 +15,7 @@ export declare class ImageLoaderController {
     private queue;
     private cacheIndex;
     constructor(platform: Platform, transfer: Transfer, file: File, config: ConfigProvider);
+    readonly nativeAvailable: boolean;
     preload(imageUrl: string): Promise<string>;
     clearCache(): void;
     getImagePath(imageUrl: string): Promise<string>;

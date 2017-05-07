@@ -75,12 +75,12 @@ var ImageLoaderCmp = (function () {
             if (!this.element) {
                 this.element = this.renderer.createElement(this.elementRef.nativeElement, 'img');
             }
-            this.renderer.listen(this.element, 'error', function (event) {
-                _this.imageLoader.removeCacheFile(imageUrl);
-                if (_this.fallbackUrl) {
+            if (this.fallbackUrl && !this.imageLoader.nativeAvailable) {
+                this.renderer.listen(this.element, 'error', function (event) {
+                    _this.imageLoader.removeCacheFile(imageUrl);
                     _this.renderer.setElementAttribute(_this.element, 'src', _this.fallbackUrl);
-                }
-            });
+                });
+            }
             this.renderer.setElementAttribute(this.element, 'src', imageUrl);
         }
         else {

@@ -37,13 +37,17 @@ export class ImageLoaderController {
     private config: ConfigProvider
   ) {
     platform.ready().then(() => {
-      if ((<any>File).installed()) {
+      if (this.nativeAvailable) {
         this.initCache();
       } else {
         this.isInit = true;
         this.throwWarning('You are running on a browser or using livereload, IonicImageLoader will not function, falling back to browser loading.');
       }
     });
+  }
+
+  get nativeAvailable(): boolean {
+    return File.installed() && Transfer.installed();
   }
 
   preload(imageUrl: string): Promise<string> {

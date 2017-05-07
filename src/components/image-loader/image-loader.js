@@ -20,7 +20,7 @@ var ImageLoaderController = (function () {
         this.queue = [];
         this.cacheIndex = [];
         platform.ready().then(function () {
-            if (File.installed()) {
+            if (_this.nativeAvailable) {
                 _this.initCache();
             }
             else {
@@ -29,6 +29,13 @@ var ImageLoaderController = (function () {
             }
         });
     }
+    Object.defineProperty(ImageLoaderController.prototype, "nativeAvailable", {
+        get: function () {
+            return File.installed() && Transfer.installed();
+        },
+        enumerable: true,
+        configurable: true
+    });
     ImageLoaderController.prototype.preload = function (imageUrl) {
         return this.getImagePath(imageUrl);
     };
