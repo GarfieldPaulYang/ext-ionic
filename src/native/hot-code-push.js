@@ -1,3 +1,13 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5,9 +15,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { Injectable } from '@angular/core';
-import { Cordova, Plugin } from '@ionic-native/core';
-var HotCodePush = HotCodePush_1 = (function () {
+import { Cordova, Plugin, IonicNativePlugin } from '@ionic-native/core';
+var HotCodePush = HotCodePush_1 = (function (_super) {
+    __extends(HotCodePush, _super);
     function HotCodePush() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     HotCodePush.prototype.fetchUpdate = function (callback, options) { };
     ;
@@ -23,7 +35,7 @@ var HotCodePush = HotCodePush_1 = (function () {
         document.addEventListener(HotCodePush_1.event.UPDATE_INSTALLED, listener, false);
     };
     return HotCodePush;
-}());
+}(IonicNativePlugin));
 HotCodePush.error = {
     NOTHING_TO_INSTALL: 1,
     NOTHING_TO_UPDATE: 2,

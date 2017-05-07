@@ -131,7 +131,7 @@ export class ImageLoaderCmp implements OnInit {
         this.renderer.setElementStyle(this.element, 'background-repeat', this.backgroundRepeat);
       }
 
-      this.renderer.setElementStyle(this.element, 'background-image', 'url(\'' + imageUrl + '\')');
+      this.renderer.setElementStyle(this.element, 'background-image', 'url(\'' + (imageUrl || this.fallbackUrl) + '\')');
     }
     this.load.emit(this);
   }

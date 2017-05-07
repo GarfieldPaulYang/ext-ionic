@@ -1,3 +1,4 @@
+import { IonicNativePlugin } from '@ionic-native/core';
 export interface HotCodePushConifg {
     'config-file'?: string;
     'auto-download'?: boolean;
@@ -10,7 +11,7 @@ export interface HotCodePushOptions {
 export interface HotCodeCallback {
     (error: any, data: any): void;
 }
-export declare class HotCodePush {
+export declare class HotCodePush extends IonicNativePlugin {
     static error: {
         NOTHING_TO_INSTALL: number;
         NOTHING_TO_UPDATE: number;

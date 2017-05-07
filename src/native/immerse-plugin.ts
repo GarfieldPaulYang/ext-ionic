@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cordova, Plugin } from '@ionic-native/core';
+import { Cordova, Plugin, IonicNativePlugin } from '@ionic-native/core';
 
 @Plugin({
   pluginName: 'ImmersePlugin',
@@ -9,7 +9,7 @@ import { Cordova, Plugin } from '@ionic-native/core';
   platforms: ['Android']
 })
 @Injectable()
-export class Immerse {
+export class Immerse extends IonicNativePlugin {
   @Cordova({
     sync: true
   })

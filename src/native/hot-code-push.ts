@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cordova, Plugin } from '@ionic-native/core';
+import { Cordova, Plugin, IonicNativePlugin } from '@ionic-native/core';
 
 export interface HotCodePushConifg {
   'config-file'?: string;
@@ -24,7 +24,7 @@ export interface HotCodeCallback {
   platforms: ['Android', 'iOS']
 })
 @Injectable()
-export class HotCodePush {
+export class HotCodePush extends IonicNativePlugin {
   static error = {
     NOTHING_TO_INSTALL: 1,
     NOTHING_TO_UPDATE: 2,
