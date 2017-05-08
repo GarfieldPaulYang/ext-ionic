@@ -1,6 +1,7 @@
 export { Immerse } from './src/native/immerse-plugin';
 export { ExtILocalNotification, ExtLocalNotifications } from './src/native/local-notifications';
 export { HotCodePushConifg, HotCodePushOptions, HotCodeCallback, HotCodePush } from './src/native/hot-code-push';
+export { AppLauncher, AppLauncherOptions, ExtraOptions } from './src/native/app-launcher';
 
 export { LoginConfig, Config, ConfigProvider } from './src/config/config';
 export { ResponseResult, Pagination } from './src/utils/http/response/response-result';
@@ -10,7 +11,7 @@ export { ConsoleErrorHandler } from './src/utils/console-error-handler';
 export { HotUpdater } from './src/providers/hot-updater';
 export { ComponentRegistar } from './src/providers/component-registar';
 
-export { Storage, Options, SaveOptions, LoadOptions, RemoveOptions } from './src/providers/storage/storage';
+export { Storage, SaveOptions, LoadOptions, RemoveOptions } from './src/providers/storage/storage';
 export { MemoryStorage } from './src/providers/storage/mem-storage';
 export { TextFileStorage } from './src/providers/storage/file-storage';
 export { JsonFileStorage } from './src/providers/storage/json-file-storage';
@@ -50,6 +51,7 @@ import { Device } from '@ionic-native/device';
 import { Immerse } from './src/native/immerse-plugin';
 import { HotCodePush } from './src/native/hot-code-push';
 import { ExtLocalNotifications } from './src/native/local-notifications';
+import { AppLauncher, AppLauncherOptions } from './src/native/app-launcher';
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
 
@@ -93,7 +95,8 @@ const PROVIDERS: Array<any> = [
 
   Immerse,
   HotCodePush,
-  ExtLocalNotifications
+  ExtLocalNotifications,
+  AppLauncher
 ];
 
 @NgModule({

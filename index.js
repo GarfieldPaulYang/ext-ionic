@@ -1,6 +1,7 @@
 export { Immerse } from './src/native/immerse-plugin';
 export { ExtLocalNotifications } from './src/native/local-notifications';
 export { HotCodePush } from './src/native/hot-code-push';
+export { AppLauncher } from './src/native/app-launcher';
 export { ConfigProvider } from './src/config/config';
 export { ResponseResult, Pagination } from './src/utils/http/response/response-result';
 export { URLParamsBuilder } from './src/utils/http/url-params-builder';
@@ -32,6 +33,7 @@ import { Device } from '@ionic-native/device';
 import { Immerse } from './src/native/immerse-plugin';
 import { HotCodePush } from './src/native/hot-code-push';
 import { ExtLocalNotifications } from './src/native/local-notifications';
+import { AppLauncher } from './src/native/app-launcher';
 import { NgModule } from '@angular/core';
 import { EXT_IONIC_CONFIG, ConfigProvider, setupConfig } from './src/config/config';
 import { Dialog } from './src/utils/dialog';
@@ -66,7 +68,8 @@ var PROVIDERS = [
     JsonFileStorage,
     Immerse,
     HotCodePush,
-    ExtLocalNotifications
+    ExtLocalNotifications,
+    AppLauncher
 ];
 var ExtIonicModule = (function () {
     function ExtIonicModule() {
