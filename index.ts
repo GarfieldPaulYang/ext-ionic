@@ -51,7 +51,7 @@ import { Device } from '@ionic-native/device';
 import { Immerse } from './src/native/immerse-plugin';
 import { HotCodePush } from './src/native/hot-code-push';
 import { ExtLocalNotifications } from './src/native/local-notifications';
-import { AppLauncher, AppLauncherOptions } from './src/native/app-launcher';
+import { AppLauncher } from './src/native/app-launcher';
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
 
