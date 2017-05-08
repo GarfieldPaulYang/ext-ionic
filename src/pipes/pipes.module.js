@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { MapToIterable } from './map-to-iterable';
 import { OrderBy } from './order-by';
+import { TrustResourceUrl } from './bypass-trust-res-url';
 export { MapToIterable } from './map-to-iterable';
 export { OrderBy } from './order-by';
+export { TrustResourceUrl } from './bypass-trust-res-url';
 var PipesModule = (function () {
     function PipesModule() {
     }
@@ -11,7 +13,8 @@ var PipesModule = (function () {
             ngModule: PipesModule,
             providers: [
                 MapToIterable,
-                OrderBy
+                OrderBy,
+                TrustResourceUrl
             ]
         };
     };
@@ -22,11 +25,13 @@ PipesModule.decorators = [
     { type: NgModule, args: [{
                 exports: [
                     MapToIterable,
-                    OrderBy
+                    OrderBy,
+                    TrustResourceUrl
                 ],
                 declarations: [
                     MapToIterable,
-                    OrderBy
+                    OrderBy,
+                    TrustResourceUrl
                 ]
             },] },
 ];

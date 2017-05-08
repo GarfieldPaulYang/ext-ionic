@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ViewController, NavParams } from 'ionic-angular';
 
 import { OpenUrlModalOptions } from './open-url-modal-options';
@@ -17,7 +16,7 @@ import { OpenUrlModalOptions } from './open-url-modal-options';
       </ion-navbar>
     </ion-header>
     <ion-content class="content">
-      <iframe class="iframe" [src]="safeUrl"
+      <iframe class="iframe" [src]="options.url | trustResourceUrl"
               sandbox="allow-scripts allow-top-navigation allow-pointer-lock allow-same-origin allow-popups allow-forms">
       </iframe>
     </ion-content>
@@ -40,12 +39,9 @@ import { OpenUrlModalOptions } from './open-url-modal-options';
 })
 export class OpenUrlModalCmp {
   options: OpenUrlModalOptions;
-  safeUrl: SafeResourceUrl;
 
-  constructor(private navParams: NavParams, private viewCtrl: ViewController, private sanitizer: DomSanitizer) {
+  constructor(private navParams: NavParams, private viewCtrl: ViewController) {
     this.options = navParams.get('openUrlModalOptions');
-    this.safeUrl = sanitizer.bypassSecurityTrustResourceUrl(this.options.url);
-
     window.addEventListener('message', this.options.onmessage, false);
   }
 

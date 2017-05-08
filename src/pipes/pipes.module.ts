@@ -1,18 +1,22 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { MapToIterable } from './map-to-iterable';
 import { OrderBy } from './order-by';
+import { TrustResourceUrl } from './bypass-trust-res-url';
 
 export { MapToIterable } from './map-to-iterable';
 export { OrderBy } from './order-by';
+export { TrustResourceUrl } from './bypass-trust-res-url';
 
 @NgModule({
   exports: [
     MapToIterable,
-    OrderBy
+    OrderBy,
+    TrustResourceUrl
   ],
   declarations: [
     MapToIterable,
-    OrderBy
+    OrderBy,
+    TrustResourceUrl
   ]
 })
 export class PipesModule {
@@ -21,7 +25,8 @@ export class PipesModule {
       ngModule: PipesModule,
       providers: [
         MapToIterable,
-        OrderBy
+        OrderBy,
+        TrustResourceUrl
       ]
     };
   }
