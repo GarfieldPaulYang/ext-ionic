@@ -402,9 +402,9 @@ inline-process-browser@^1.0.0:
     falafel "^1.0.1"
     through2 "^0.6.5"
 
-ionic-angular@3.2.0:
-  version "3.2.0"
-  resolved "http://registry.npm.taobao.org/ionic-angular/download/ionic-angular-3.2.0.tgz#ef47f6696a2410a776dbf7339762079b7963cd94"
+ionic-angular@3.2.1:
+  version "3.2.1"
+  resolved "http://registry.npm.taobao.org/ionic-angular/download/ionic-angular-3.2.1.tgz#fe99682204788e42a4608807081465052490c873"
 
 ionicons@3.0.0:
   version "3.0.0"
