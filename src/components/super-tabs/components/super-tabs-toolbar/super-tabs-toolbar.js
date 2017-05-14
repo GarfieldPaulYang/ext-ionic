@@ -100,7 +100,7 @@ var SuperTabsToolbar = (function () {
     SuperTabsToolbar.prototype.indexSegmentButtonWidths = function () {
         var index = [], total = 0;
         this.segmentButtons.forEach(function (btn, i) {
-            index[i] = btn._elementRef.nativeElement.offsetWidth;
+            index[i] = btn.nativeElement.offsetWidth;
             total += index[i] + 10;
         });
         this.segmentButtonWidths = index;
@@ -133,7 +133,7 @@ SuperTabsToolbar.propDecorators = {
     'config': [{ type: Input },],
     'tabsPlacement': [{ type: Input },],
     'tabSelect': [{ type: Output },],
-    'segmentButtons': [{ type: ViewChildren, args: [SegmentButton,] },],
+    'segmentButtons': [{ type: ViewChildren, args: [SegmentButton, { read: ElementRef },] },],
     'tabButtonsContainer': [{ type: ViewChild, args: ['tabButtonsContainer',] },],
     'indicator': [{ type: ViewChild, args: ['indicator',] },],
     'segment': [{ type: ViewChild, args: [Segment,] },],

@@ -56,8 +56,8 @@ export class SuperTabsToolbar implements AfterViewInit, OnDestroy {
   @Output()
   tabSelect: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChildren(SegmentButton)
-  private segmentButtons: QueryList<SegmentButton>;
+  @ViewChildren(SegmentButton, { read: ElementRef })
+  private segmentButtons: QueryList<ElementRef>;
 
   @ViewChild('tabButtonsContainer')
   private tabButtonsContainer: ElementRef;
@@ -181,8 +181,8 @@ export class SuperTabsToolbar implements AfterViewInit, OnDestroy {
   private indexSegmentButtonWidths() {
     let index = [], total = 0;
 
-    this.segmentButtons.forEach((btn: SegmentButton, i: number) => {
-      index[i] = <ElementRef>(<any>btn)._elementRef.nativeElement.offsetWidth;
+    this.segmentButtons.forEach((btn: ElementRef, i: number) => {
+      index[i] = btn.nativeElement.offsetWidth;
       total += index[i] + 10;
     });
 
