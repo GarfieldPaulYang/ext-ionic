@@ -11,8 +11,10 @@ log.txt
 .sass-cache/
 .versions/
 coverage/
-dist/
+aot/
 node_modules/
+scripts/
+src/
 tmp/
 temp/
 $RECYCLE.BIN/
@@ -21,7 +23,10 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 .package.tmp.json
-*.css.ts
 .gitignore
 .editorconfig
+.npmignore
 deploy-debug*
+tsconfig.json
+tslint.json
+yarn.lock

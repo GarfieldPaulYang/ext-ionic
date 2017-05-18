@@ -1,10 +1,18 @@
 {
   "name": "ext-ionic",
-  "version": "1.4.4",
+  "version": "1.4.6",
   "description": "ionic2 扩展库",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "publishConfig": {
+    "registry": "http://10.68.34.178/nexus3/repository/npm-private/"
+  },
   "scripts": {
     "tslint": "tslint -c ./tslint.json -e './src/**/*.d.ts' './src/**/*.ts'",
-    "build": "ngc"
+    "build": "rm -rf aot dist && npm run tslint && ngc",
+    "postbuild": "npm run copy:scss",
+    "copy:scss": "scripts/copy.sh",
+    "shipit": "npm run build && npm publish"
   },
   "repository": {
     "type": "git",

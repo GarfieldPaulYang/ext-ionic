@@ -11,7 +11,8 @@
     "lib": [
       "dom",
       "es2015"
-    ]
+    ],
+    "outDir": "dist"
   },
   "angularCompilerOptions": {
     "genDir": "aot"
@@ -21,6 +22,7 @@
     "./src/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }
