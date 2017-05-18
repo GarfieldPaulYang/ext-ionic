@@ -201,7 +201,7 @@ export class HttpProvider {
       options.headers = options.headers || new Headers();
 
       let contentType = options.headers.get('Content-Type');
-      if (!contentType) {
+      if (!contentType && !(options.body instanceof FormData)) {
         contentType = APP_JSON_TYPE;
         options.headers.set('Content-Type', contentType);
       }
