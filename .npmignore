@@ -9,4 +9,5 @@ tslint.json
 .idea
 .vscode
 aot
+deploy-debug*
 yarn.lock
