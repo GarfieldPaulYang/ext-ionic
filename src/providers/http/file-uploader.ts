@@ -65,7 +65,7 @@ export class FileUploder {
             const blob = new Blob([reader.result], { type: file.type });
             resolve({ blob: blob, name: file.name });
           };
-          reader.readAsArrayBuffer(<Blob>file);
+          reader.readAsArrayBuffer(file);
         });
       }).catch(e => reject(e));
     });
