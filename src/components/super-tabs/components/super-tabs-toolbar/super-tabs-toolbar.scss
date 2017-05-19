@@ -4,7 +4,7 @@ ion-super-tabs-toolbar {
   display: block;
 
   >ion-toolbar.toolbar {
-    padding: 4px 0 0 0;
+    padding: 0;
     min-height: 0;
 
     .tab-buttons-container {
@@ -14,14 +14,71 @@ ion-super-tabs-toolbar {
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       overflow: hidden;
 
-      ion-segment.segment.segment-md {
-        ion-segment-button {
-          border-bottom: 0;
-          height: inherit;
-          line-height: 3rem;
+      .tab-buttons {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+        ion-super-tab-button {
+          &:not(.selected) {
+            ion-icon,
+            span:not(.badge) {
+              opacity: 0.7;
+            }
+          }
+
+          @include text-align(center);
+
+          flex: 1;
+          width: 0;
+          height: 48px;
+          font-weight: 500;
+          font-size: 14px;
+          text-transform: uppercase;
+
+          margin-left: 0;
+          margin-right: 0;
+
+          position: relative;
+          display: block;
+          overflow: hidden;
+
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          cursor: pointer;
+
+          align-items: flex-end;
+          align-content: flex-end;
+
+          &.title-only {
+            .title {
+              line-height: 3rem;
+            }
+          }
+
+          &.icon-only {
+            ion-icon {
+              line-height: 3rem;
+            }
+          }
+
+          &.title-and-icon {
+            height: 72px;
+            padding-top: 8px;
+            ion-icon {
+              margin-bottom: 10px;
+            }
+          }
+
           ion-icon {
+            font-size: 24px;
+          }
+
+          .title {
+            vertical-align: middle;
             display: block;
-            line-height: 3rem;
           }
 
           .badge {
@@ -32,8 +89,11 @@ ion-super-tabs-toolbar {
             padding: 3px;
             border-radius: 500rem;
             position: absolute;
-            top: 0;
+            top: 4px;
             right: 4px;
+            &:empty {
+              display: none;
+            }
           }
         }
       }
@@ -51,10 +111,10 @@ ion-super-tabs-toolbar {
 
     &.scroll-tabs {
       .tab-buttons-container {
-        ion-segment.segment.segment-md {
+        .tab-buttons {
           position: relative;
           justify-content: flex-start;
-          ion-segment-button {
+          ion-super-tab-button {
             min-width: 50px;
             max-width: 100%;
             width: auto;

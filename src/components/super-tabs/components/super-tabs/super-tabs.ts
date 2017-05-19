@@ -68,7 +68,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
    * Color of the tab buttons' text and/or icon
    */
   @Input()
-  toolbarColor: string;
+  toolbarColor: string = 'primary';
 
   /**
    * Color of the slider that moves based on what tab is selected
@@ -80,7 +80,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
    * Badge color
    */
   @Input()
-  badgeColor: string = 'primary';
+  badgeColor: string = 'danger';
 
   /**
    * Configuration

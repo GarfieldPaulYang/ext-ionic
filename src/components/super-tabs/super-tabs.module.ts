@@ -5,6 +5,7 @@ import { SuperTabs } from './components/super-tabs/super-tabs';
 import { SuperTabsController } from './providers/super-tabs-controller';
 import { SuperTabsToolbar } from './components/super-tabs-toolbar/super-tabs-toolbar';
 import { SuperTabsContainer } from './components/super-tabs-container/super-tabs-container';
+import { SuperTabButton } from './components/super-tab-button/super-tab-button';
 
 export { SuperTabsConfig } from './components/super-tabs/super-tabs';
 export { SuperTabsController } from './providers/super-tabs-controller';
@@ -14,7 +15,8 @@ export { SuperTabsController } from './providers/super-tabs-controller';
     SuperTab,
     SuperTabs,
     SuperTabsToolbar,
-    SuperTabsContainer
+    SuperTabsContainer,
+    SuperTabButton
   ],
   imports: [
     IonicModule
