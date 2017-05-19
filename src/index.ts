@@ -41,6 +41,7 @@ export {
   CorsHttpProvider,
   ticket_expired
 } from './providers/http/http';
+export { FileUploder, FileUploderOptions } from './providers/http/file-uploader';
 
 import './rxjs-extensions';
 
@@ -58,6 +59,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { EXT_IONIC_CONFIG, Config, ConfigProvider, setupConfig } from './config/config';
 import { Dialog } from './utils/dialog';
 import { HttpProvider, CorsHttpProvider } from './providers/http/http';
+import { FileUploder } from './providers/http/file-uploader';
 
 import { HotUpdater } from './providers/hot-updater';
 import { ComponentRegistar } from './providers/component-registar';
@@ -87,6 +89,7 @@ const PROVIDERS: Array<any> = [
   Dialog,
   HttpProvider,
   CorsHttpProvider,
+  FileUploder,
   HotUpdater,
   ComponentRegistar,
   MemoryStorage,
