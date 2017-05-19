@@ -196,17 +196,17 @@ export class HttpProvider {
     }
     options.params = params;
 
-    if (options.method === RequestMethod.Post) {
+    if (options.method === RequestMethod.Post && !(options.body instanceof FormData)) {
       options.body = options.body || {};
       options.headers = options.headers || new Headers();
 
       let contentType = options.headers.get('Content-Type');
-      if (!contentType && !(options.body instanceof FormData)) {
+      if (!contentType) {
         contentType = APP_JSON_TYPE;
         options.headers.set('Content-Type', contentType);
       }
 
-      if (!_.isString(options.body) && !(options.body instanceof FormData)) {
+      if (!_.isString(options.body)) {
         if (APP_JSON_TYPE === contentType.toLowerCase()) {
           options.body = JSON.stringify(options.body);
         } else {
