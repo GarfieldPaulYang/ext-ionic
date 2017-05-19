@@ -51,29 +51,29 @@
   dependencies:
     tsickle "^0.21.0"
 
-"@ionic-native/core@3.8.1":
-  version "3.8.1"
-  resolved "http://registry.npm.taobao.org/@ionic-native/core/download/@ionic-native/core-3.8.1.tgz#f80597f0aa050ef2a239ccbd8fb58d3079a8ac81"
+"@ionic-native/core@3.9.2":
+  version "3.9.2"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/core/-/core-3.9.2.tgz#ea016b80540db034de2ed0910599ecd8e678b282"
 
-"@ionic-native/device@3.8.1":
-  version "3.8.1"
-  resolved "http://registry.npm.taobao.org/@ionic-native/device/download/@ionic-native/device-3.8.1.tgz#6086ea7f8a0a1452d924e4b4f1ee5e0e4c86e88a"
+"@ionic-native/device@3.9.2":
+  version "3.9.2"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/device/-/device-3.9.2.tgz#4db8a793c4d79f8e6c39676e65fb1bcb2c53930d"
 
-"@ionic-native/file-opener@3.8.1":
-  version "3.8.1"
-  resolved "http://registry.npm.taobao.org/@ionic-native/file-opener/download/@ionic-native/file-opener-3.8.1.tgz#49f1fcc79f15693afd2c032fd4a0d6fc253ac45b"
+"@ionic-native/file-opener@3.9.2":
+  version "3.9.2"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file-opener/-/file-opener-3.9.2.tgz#6bfa102dc792f0f85b71ff3453e188c5f6f7952b"
 
-"@ionic-native/file@3.8.1":
-  version "3.8.1"
-  resolved "http://registry.npm.taobao.org/@ionic-native/file/download/@ionic-native/file-3.8.1.tgz#906dd8d465c1dc16cbb3818f4a971a79ff47721a"
+"@ionic-native/file@3.9.2":
+  version "3.9.2"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file/-/file-3.9.2.tgz#5e611888705f16811b8f630f85d1058f511d209e"
 
-"@ionic-native/local-notifications@3.8.1":
-  version "3.8.1"
-  resolved "http://registry.npm.taobao.org/@ionic-native/local-notifications/download/@ionic-native/local-notifications-3.8.1.tgz#6bc681ae8b2bb7fc6e88ccf2019ac90d72ec7efa"
+"@ionic-native/local-notifications@3.9.2":
+  version "3.9.2"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/local-notifications/-/local-notifications-3.9.2.tgz#8df8823f7e939d00b68233a341589f869f1acb56"
 
-"@ionic-native/transfer@3.8.1":
-  version "3.8.1"
-  resolved "http://registry.npm.taobao.org/@ionic-native/transfer/download/@ionic-native/transfer-3.8.1.tgz#8ed5a9d92fae61d432b1cc8e6c634606e6759052"
+"@ionic-native/transfer@3.9.2":
+  version "3.9.2"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/transfer/-/transfer-3.9.2.tgz#2dbae88895b24d070623f9bfed2c9bd175563b9f"
 
 "@ionic/storage@2.0.1":
   version "2.0.1"

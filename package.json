@@ -1,6 +1,6 @@
 {
   "name": "ext-ionic",
-  "version": "1.4.7",
+  "version": "1.4.8",
   "description": "ionic2 扩展库",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -28,11 +28,11 @@
   },
   "homepage": "https://github.com/squallliu/ext-ionic#readme",
   "dependencies": {
-    "@ionic-native/device": "3.8.1",
-    "@ionic-native/file": "3.8.1",
-    "@ionic-native/file-opener": "3.8.1",
-    "@ionic-native/local-notifications": "3.8.1",
-    "@ionic-native/transfer": "3.8.1",
+    "@ionic-native/device": "3.9.2",
+    "@ionic-native/file": "3.9.2",
+    "@ionic-native/file-opener": "3.9.2",
+    "@ionic-native/local-notifications": "3.9.2",
+    "@ionic-native/transfer": "3.9.2",
     "@types/hammerjs": "^2.0.34",
     "@types/lodash": "^4.14.61"
   },
@@ -46,7 +46,7 @@
     "@angular/platform-browser": "4.1.0",
     "@angular/platform-browser-dynamic": "4.1.0",
     "@angular/platform-server": "4.1.0",
-    "@ionic-native/core": "3.8.1",
+    "@ionic-native/core": "3.9.2",
     "@ionic/storage": "2.0.1",
     "ionic-angular": "3.2.1",
     "ionicons": "3.0.0",
