@@ -2,10 +2,10 @@ import {
   Component, Renderer2, ElementRef, Input, Output, EventEmitter, ViewChild, ViewEncapsulation,
   AfterViewInit, OnDestroy, NgZone
 } from '@angular/core';
-import { DomController, Platform } from 'ionic-angular';
-import { SuperTabsPanGesture } from '../../super-tabs-pan-gesture';
-import { SuperTabsConfig } from '../super-tabs/super-tabs';
-import { SuperTab } from '../super-tab/super-tab';
+import { Platform } from 'ionic-angular';
+import { SuperTabsPanGesture } from '../super-tabs-pan-gesture';
+import { SuperTabsConfig } from './super-tabs';
+import { SuperTab } from './super-tab';
 
 @Component({
   selector: 'ion-super-tabs-container',
@@ -57,7 +57,6 @@ export class SuperTabsContainer implements AfterViewInit, OnDestroy {
     private el: ElementRef,
     private rnd: Renderer2,
     private plt: Platform,
-    private domCtrl: DomController,
     private ngZone: NgZone
   ) { }
 

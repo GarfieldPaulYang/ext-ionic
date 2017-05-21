@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { NavControllerBase, App, Config, Platform, Keyboard, GestureController, DeepLinker, DomController } from 'ionic-angular';
 import { TransitionController } from 'ionic-angular/transitions/transition-controller';
-import { SuperTabs } from '../super-tabs/super-tabs';
+import { SuperTabs } from './super-tabs';
 import { ErrorHandler } from '@angular/core';
 
 @Component({
@@ -126,14 +126,14 @@ export class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
   }
 
   clearBadge() {
-    this.badge = 0;
+    delete this.badge;
   }
 
-  increaseBadge(increaseBy: number) {
+  increaseBadge(increaseBy: number = 1) {
     this.badge += increaseBy;
   }
 
-  decreaseBadge(decreaseBy: number) {
+  decreaseBadge(decreaseBy: number = 1) {
     this.badge = Math.max(0, this.badge - decreaseBy);
   }
 

@@ -1,11 +1,11 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ElementRef, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'ion-super-tab-button',
   template: `
     <ion-icon *ngIf="!!icon" [name]="icon" [color]="color"></ion-icon>
     <span class="title" *ngIf="!!title" ion-text [color]="color">{{ title }}</span>
-    <span class="badge {{ 'badge-md-' + badgeColor }}">{{ badge }}</span>
+    <ion-badge mode="md" [color]="badgeColor">{{ badge }}</ion-badge>
     <div class="button-effect"></div>
   `,
   host: {
@@ -17,7 +17,8 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, Elemen
     'tappable': '',
     'role': 'button'
   },
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class SuperTabButton {
   @Input()

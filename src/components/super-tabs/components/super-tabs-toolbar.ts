@@ -3,9 +3,9 @@ import {
   ViewEncapsulation, ViewChild, Renderer2, AfterViewInit, OnDestroy
 } from '@angular/core';
 import { Platform, DomController } from 'ionic-angular';
-import { SuperTabsPanGesture } from '../../super-tabs-pan-gesture';
-import { SuperTabsConfig } from '../super-tabs/super-tabs';
-import { SuperTabButton } from '../super-tab-button/super-tab-button';
+import { SuperTabsPanGesture } from '../super-tabs-pan-gesture';
+import { SuperTabsConfig } from './super-tabs';
+import { SuperTabButton } from './super-tab-button';
 
 @Component({
   selector: 'ion-super-tabs-toolbar',
@@ -179,7 +179,7 @@ export class SuperTabsToolbar implements AfterViewInit, OnDestroy {
 
     this.tabButtons.forEach((btn: SuperTabButton, i: number) => {
       index[i] = btn.getNativeElement().offsetWidth;
-      total += index[i] + 10;
+      total += index[i];
     });
 
     this.segmentButtonWidths = index;
