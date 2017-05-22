@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Jsonp } from '@angular/http';
+
 export interface Coords {
   longitude: number;
   latitude: number;
@@ -11,10 +12,8 @@ interface GeoService {
 
 class BaiDuService implements GeoService {
   private appKey: string = '12c17c924871a04f1dbac75e1824edb7';
-  constructor(
-    private jsonp: Jsonp
-  ) {
-  }
+
+  constructor(private jsonp: Jsonp) { }
 
   transformGps(coordes: Coords[]): Promise<Coords[]> {
     let url = 'http://api.map.baidu.com/geoconv/v1/?callback=JSONP_CALLBACK&output=json&from=1&to=5&ak=' + this.appKey;
@@ -43,9 +42,8 @@ export const BAIDU: string = 'baidu';
 @Injectable()
 export class GeoProvider {
   private serviceMap: Map<string, GeoService> = new Map();
-  constructor(
-    private jsonp: Jsonp
-  ) {
+
+  constructor(private jsonp: Jsonp) {
     this.serviceMap.set(BAIDU, new BaiDuService(jsonp));
   }
 
