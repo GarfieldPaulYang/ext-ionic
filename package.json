@@ -1,6 +1,6 @@
 {
   "name": "ext-ionic",
-  "version": "1.4.13",
+  "version": "1.5.0",
   "description": "ionic2 扩展库",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
