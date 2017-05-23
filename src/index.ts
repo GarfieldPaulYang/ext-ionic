@@ -42,8 +42,7 @@ export {
   ticket_expired
 } from './providers/http/http';
 export { FileUploder, FileUploderOptions } from './providers/http/file-uploader';
-export * from './providers/geo/geo';
-export * from './providers/map-launch/map-launch';
+export * from './providers/geog/geog';
 
 import './rxjs-extensions';
 
@@ -81,8 +80,7 @@ import { RibbonModule } from './components/ribbon/ribbon.module';
 import { SuperTabsModule } from './components/super-tabs/super-tabs.module';
 import { DownloadManagerModule } from './components/download-manager/download-manager.module';
 import { NavButtonBarModule } from './components/nav-button-bar/nav-button-bar.module';
-import { GeoProvider } from './providers/geo/geo';
-import { MapLaunchProvider } from './providers/map-launch/map-launch';
+import { GeogProvider, MapLaunchProvider } from './providers/geog/geog';
 
 const PROVIDERS: Array<any> = [
   Transfer,
@@ -99,7 +97,7 @@ const PROVIDERS: Array<any> = [
   MemoryStorage,
   TextFileStorage,
   JsonFileStorage,
-  GeoProvider,
+  GeogProvider,
   MapLaunchProvider,
 
   Immerse,
