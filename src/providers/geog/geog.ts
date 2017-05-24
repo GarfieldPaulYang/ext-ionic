@@ -56,7 +56,7 @@ export class GeogProvider {
 }
 
 interface MapLaunchService {
-  launch(coords: Coords);
+  launch(coords: Coords): Promise<any>;
 }
 
 class BaiDuMapLaunchService implements MapLaunchService {
@@ -66,8 +66,8 @@ class BaiDuMapLaunchService implements MapLaunchService {
 
   ) { }
 
-  launch(coords: Coords) {
-    this.appLauncher.launch({
+  launch(coords: Coords): Promise<any> {
+    return this.appLauncher.launch({
       uri: 'baidumap://map/geocoder?location=' + coords.longitude + ',' + coords.latitude
     });
   }
@@ -85,8 +85,8 @@ export class MapLaunchProvider {
     this.services.push(new BaiDuMapLaunchService(platform, appLauncher));
   }
 
-  launch(coords: Coords) {
-    this.geoProvider.transformGps([coords]).then(coordes => {
+  launch(coords: Coords): Promise<any> {
+    return this.geoProvider.transformGps([coords]).then(coordes => {
       this.services[0].launch({
         longitude: coordes[0].longitude,
         latitude: coordes[0].latitude
