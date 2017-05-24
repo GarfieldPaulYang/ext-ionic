@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Jsonp } from '@angular/http';
 import { AppLauncher } from '../../native/app-launcher';
 import { Platform } from 'ionic-angular';
+import { Dialog } from '../../utils/dialog';
 
 export interface Coords {
   longitude: number;
@@ -57,18 +58,39 @@ export class GeogProvider {
 
 interface MapLaunchService {
   launch(coords: Coords): Promise<any>;
+
+  canLaunch(): Promise<any>;
+
+  getMapType(): MapType;
 }
 
 class BaiDuMapLaunchService implements MapLaunchService {
+  private geogService: GeogService;
   constructor(
     private platform: Platform,
     private appLauncher: AppLauncher
 
-  ) { }
+  ) {
+    this.geogService = new BaiDuGeogService(jsonp);
+  }
+
+  getMapType(): MapType {
+    return MapType.BAIDU;
+  }
 
   launch(coords: Coords): Promise<any> {
     return this.appLauncher.launch({
       uri: 'baidumap://map/geocoder?location=' + coords.longitude + ',' + coords.latitude
+    });
+  }
+
+  canLaunch(): Promise<any> {
+    return this.appLauncher.launch({
+      uri: 'baidumap://map/show'
+    }).then(v => {
+      return true;
+    }).catch(e => {
+      Promise.resolve(false);
     });
   }
 }
@@ -80,14 +102,38 @@ export class MapLaunchProvider {
   constructor(
     platform: Platform,
     appLauncher: AppLauncher,
-    private geoProvider: GeogProvider
+    private geoProvider: GeogProvider,
+    private dialog: Dialog
   ) {
     this.services.push(new BaiDuMapLaunchService(platform, appLauncher));
   }
 
   launch(coords: Coords): Promise<any> {
-    return this.geoProvider.transformGps([coords]).then(coordes => {
-      this.services[0].launch({
+    let promises: Promise<any>[] = [];
+    this.services.forEach(service => {
+      promises.push(service.canLaunch());
+    });
+    let indexs: number[] = [];
+    return Promise.all(promises).then(results => {
+      results.forEach((v, index) => {
+        if (v === true) {
+          indexs.push(index);
+        }
+      });
+      if (indexs.length === 0) {
+        this.dialog.alert('错误', '请安装百度地图或高德地图后在使用地图功能');
+        return Promise.reject('未安装地图app');
+      }
+      if (indexs.length === 1) {
+        return this._launch(coords, indexs[0]);
+      }
+    });
+  }
+
+  private _launch(coords: Coords, index: number): Promise<any> {
+    let service = this.services[index];
+    return this.geoProvider.transformGps([coords], service.getMapType()).then(coordes => {
+      service.launch({
         longitude: coordes[0].longitude,
         latitude: coordes[0].latitude
       });
