@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Jsonp } from '@angular/http';
-import { AppLauncher } from '../../native/app-launcher';
+import * as _ from 'lodash';
+import { AppLauncher, AppLauncherOptions } from '../../native/app-launcher';
 import { Platform, ActionSheetController } from 'ionic-angular';
 import { Dialog } from '../../utils/dialog';
 
@@ -19,12 +20,11 @@ class BaiDuGeogService implements GeogService {
   constructor(private jsonp: Jsonp) { }
 
   transformGps(coordes: Coords[]): Promise<Coords[]> {
-    let url = 'http://api.map.baidu.com/geoconv/v1/?callback=JSONP_CALLBACK&output=json&from=1&to=5&ak=' + this.appKey;
     let coordsStrs = [];
     coordes.forEach(coords => {
       coordsStrs.push(coords.longitude + ',' + coords.latitude);
     });
-    url = url + '&coords=' + coordsStrs.join(';');
+    let url = `http://api.map.baidu.com/geoconv/v1/?callback=JSONP_CALLBACK&output=json&from=1&to=5&ak=${this.appKey}&coords=${coordsStrs.join(';')}`;
     return this.jsonp.get(url).map(
       (r => r.text())
     ).toPromise().then(v => {
@@ -40,7 +40,37 @@ class BaiDuGeogService implements GeogService {
   }
 }
 
-export const　enum MapType { BAIDU }
+class AmapGeogService implements GeogService {
+  private appKey: string = '32adf46617be0d1a6a5658cce57cf9e0';
+
+  constructor(
+    private jsonp: Jsonp,
+  ) { }
+
+  transformGps(coordes: Coords[]): Promise<Coords[]> {
+    let coordsStrs = [];
+    coordes.forEach(coords => {
+      coordsStrs.push(coords.longitude + ',' + coords.latitude);
+    });
+    let url = `http://restapi.amap.com/v3/assistant/coordinate/convert?callback=JSONP_CALLBACK&coordsys=gps&output=json&key=${this.appKey}&locations=${coordsStrs.join('|')}`;
+    return this.jsonp.get(url).map(
+      (r => r.text())
+    ).toPromise().then(v => {
+      let o = JSON.parse(v);
+      let location: string[] = _.split(o.locations, ';');
+      let result: Coords[] = [];
+      location.forEach(v => {
+        let p = _.split(v, ',');
+        result.push({ longitude: +p[0], latitude: +p[1] });
+      });
+      return result;
+    }).catch(e => {
+      Promise.reject(e);
+    });
+  }
+}
+
+export const　enum MapType { BAIDU, AMAP }
 
 @Injectable()
 export class GeogProvider {
@@ -48,6 +78,7 @@ export class GeogProvider {
 
   constructor(private jsonp: Jsonp) {
     this.serviceMap.set(MapType.BAIDU, new BaiDuGeogService(jsonp));
+    this.serviceMap.set(MapType.AMAP, new AmapGeogService(jsonp));
   }
 
   transformGps(coordes: Coords[], mapType?: MapType): Promise<Coords[]> {
@@ -84,14 +115,61 @@ class BaiDuMapLaunchService implements MapLaunchService {
 
   launch(coords: Coords): Promise<any> {
     return this.appLauncher.launch({
-      uri: 'baidumap://map/geocoder?location=' + coords.longitude + ',' + coords.latitude
+      uri: `baidumap://map/geocoder?location=${coords.longitude},${coords.latitude}&src=webapp.rgeo.whcyit.myApp`
     });
   }
 
   canLaunch(): Promise<any> {
+    let opt: AppLauncherOptions = {};
+    if (this.platform.is('ios')) {
+      opt.uri = 'baidumap://';
+    } else {
+      opt.packageName = 'com.baidu.BaiduMap';
+    }
+    return this.appLauncher.canLaunch(opt).then(v => {
+      return true;
+    }).catch(e => {
+      Promise.resolve(false);
+    });
+  }
+}
+
+class AmapMapLaunchService implements MapLaunchService {
+  constructor(
+    private platform: Platform,
+    private appLauncher: AppLauncher
+
+  ) {
+  }
+
+  getName(): string {
+    return '高德地图';
+  }
+
+  getMapType(): MapType {
+    return MapType.AMAP;
+  }
+
+  launch(coords: Coords): Promise<any> {
+    let o = {
+      platform: this.platform.is('android') ? 'android' : 'ios',
+      dev: this.platform.is('android') ? 0 : 1,
+      ...coords,
+    };
+    let uri = `${o.platform}amap://viewMap?sourceApplication=myApp&poiname=目的地&dev=${o.dev}&lon=${o.longitude}&lat=${o.latitude}`;
     return this.appLauncher.launch({
-      uri: 'baidumap://map/show'
-    }).then(v => {
+      uri: uri
+    });
+  }
+
+  canLaunch(): Promise<any> {
+    let opt: AppLauncherOptions = {};
+    if (this.platform.is('ios')) {
+      opt.uri = 'iosamap://';
+    } else {
+      opt.packageName = 'com.autonavi.minimap';
+    }
+    return this.appLauncher.canLaunch(opt).then(v => {
       return true;
     }).catch(e => {
       Promise.resolve(false);
@@ -111,6 +189,7 @@ export class MapLaunchProvider {
     private actionSheetCtrl: ActionSheetController
   ) {
     this.services.push(new BaiDuMapLaunchService(platform, appLauncher));
+    this.services.push(new AmapMapLaunchService(platform, appLauncher));
   }
 
   launch(coords: Coords): Promise<any> {
