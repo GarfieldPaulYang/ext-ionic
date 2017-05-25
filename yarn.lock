@@ -51,29 +51,29 @@
   dependencies:
     tsickle "^0.21.0"
 
-"@ionic-native/core@3.9.2":
-  version "3.9.2"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/core/-/core-3.9.2.tgz#ea016b80540db034de2ed0910599ecd8e678b282"
+"@ionic-native/core@3.10.2":
+  version "3.10.2"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/core/-/core-3.10.2.tgz#46fce01cf9863722bc45ca08d856038eda4d7676"
 
-"@ionic-native/device@3.9.2":
-  version "3.9.2"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/device/-/device-3.9.2.tgz#4db8a793c4d79f8e6c39676e65fb1bcb2c53930d"
+"@ionic-native/device@3.10.2":
+  version "3.10.2"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/device/-/device-3.10.2.tgz#ad041944f82acc53fedfad2190f0a5c039505655"
 
-"@ionic-native/file-opener@3.9.2":
-  version "3.9.2"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file-opener/-/file-opener-3.9.2.tgz#6bfa102dc792f0f85b71ff3453e188c5f6f7952b"
+"@ionic-native/file-opener@3.10.2":
+  version "3.10.2"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file-opener/-/file-opener-3.10.2.tgz#b58424ae4c5639d0002794aa326bfbc151c0f76a"
 
-"@ionic-native/file@3.9.2":
-  version "3.9.2"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file/-/file-3.9.2.tgz#5e611888705f16811b8f630f85d1058f511d209e"
+"@ionic-native/file@3.10.2":
+  version "3.10.2"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file/-/file-3.10.2.tgz#3dca5c3469fde4ab5daec34a7a61d867c4895754"
 
-"@ionic-native/local-notifications@3.9.2":
-  version "3.9.2"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/local-notifications/-/local-notifications-3.9.2.tgz#8df8823f7e939d00b68233a341589f869f1acb56"
+"@ionic-native/local-notifications@3.10.2":
+  version "3.10.2"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/local-notifications/-/local-notifications-3.10.2.tgz#2d49467c4b77d952873c8dce1f2e98b556e51cfa"
 
-"@ionic-native/transfer@3.9.2":
-  version "3.9.2"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/transfer/-/transfer-3.9.2.tgz#2dbae88895b24d070623f9bfed2c9bd175563b9f"
+"@ionic-native/transfer@3.10.2":
+  version "3.10.2"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/transfer/-/transfer-3.10.2.tgz#f5ff830be72fb343a38d6ea83eda9d646be65375"
 
 "@ionic/storage@2.0.1":
   version "2.0.1"
@@ -896,6 +896,6 @@ yallist@^2.0.0:
   version "2.1.2"
   resolved "http://registry.npm.taobao.org/yallist/download/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
 
-zone.js@0.8.10:
-  version "0.8.10"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/zone.js/-/zone.js-0.8.10.tgz#6d1b696492c029cdbe808e59e87bbd9491b98aa8"
+zone.js@0.8.11:
+  version "0.8.11"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/zone.js/-/zone.js-0.8.11.tgz#742befb17fbc49a571712b8c7d87e58ca26fd886"
