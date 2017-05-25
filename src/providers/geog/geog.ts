@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Jsonp } from '@angular/http';
 import { AppLauncher } from '../../native/app-launcher';
-import { Platform } from 'ionic-angular';
+import { Platform, ActionSheetController } from 'ionic-angular';
 import { Dialog } from '../../utils/dialog';
 
 export interface Coords {
@@ -62,16 +62,20 @@ interface MapLaunchService {
   canLaunch(): Promise<any>;
 
   getMapType(): MapType;
+
+  getName(): string;
 }
 
 class BaiDuMapLaunchService implements MapLaunchService {
-  private geogService: GeogService;
   constructor(
     private platform: Platform,
     private appLauncher: AppLauncher
 
   ) {
-    this.geogService = new BaiDuGeogService(jsonp);
+  }
+
+  getName(): string {
+    return '百度地图';
   }
 
   getMapType(): MapType {
@@ -103,7 +107,8 @@ export class MapLaunchProvider {
     platform: Platform,
     appLauncher: AppLauncher,
     private geoProvider: GeogProvider,
-    private dialog: Dialog
+    private dialog: Dialog,
+    private actionSheetCtrl: ActionSheetController
   ) {
     this.services.push(new BaiDuMapLaunchService(platform, appLauncher));
   }
@@ -127,7 +132,25 @@ export class MapLaunchProvider {
       if (indexs.length === 1) {
         return this._launch(coords, indexs[0]);
       }
+      this.show(coords, indexs);
+      return Promise.resolve();
     });
+  }
+
+  private show(coords: Coords, index: number[]) {
+    let buttons = [];
+    index.forEach(v => {
+      buttons.push({
+        text: this.services[v].getName(),
+        handler: () => {
+          this._launch(coords, v);
+        }
+      });
+    });
+    let actionSheet = this.actionSheetCtrl.create({
+      buttons: buttons
+    });
+    actionSheet.present();
   }
 
   private _launch(coords: Coords, index: number): Promise<any> {
