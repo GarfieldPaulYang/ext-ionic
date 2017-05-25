@@ -101,9 +101,7 @@ class BaiDuMapLaunchService implements MapLaunchService {
   constructor(
     private platform: Platform,
     private appLauncher: AppLauncher
-
-  ) {
-  }
+  ) { }
 
   getName(): string {
     return '百度地图';
