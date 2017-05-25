@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Jsonp } from '@angular/http';
-import * as _ from 'lodash';
+import { split } from '@types/lodash';
 import { AppLauncher, AppLauncherOptions } from '../../native/app-launcher';
 import { Platform, ActionSheetController } from 'ionic-angular';
 import { Dialog } from '../../utils/dialog';
@@ -57,10 +57,10 @@ class AmapGeogService implements GeogService {
       (r => r.text())
     ).toPromise().then(v => {
       let o = JSON.parse(v);
-      let location: string[] = _.split(o.locations, ';');
+      let location: string[] = split(o.locations, ';');
       let result: Coords[] = [];
       location.forEach(v => {
-        let p = _.split(v, ',');
+        let p = split(v, ',');
         result.push({ longitude: +p[0], latitude: +p[1] });
       });
       return result;
