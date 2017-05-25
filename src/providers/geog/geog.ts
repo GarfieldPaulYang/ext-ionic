@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Jsonp } from '@angular/http';
-import { split } from '@types/lodash';
+import * as _ from 'lodash';
 import { AppLauncher, AppLauncherOptions } from '../../native/app-launcher';
 import { Platform, ActionSheetController } from 'ionic-angular';
 import { Dialog } from '../../utils/dialog';
@@ -57,10 +57,10 @@ class AmapGeogService implements GeogService {
       (r => r.text())
     ).toPromise().then(v => {
       let o = JSON.parse(v);
-      let location: string[] = split(o.locations, ';');
+      let location: string[] = _.split(o.locations, ';');
       let result: Coords[] = [];
       location.forEach(v => {
-        let p = split(v, ',');
+        let p = _.split(v, ',');
         result.push({ longitude: +p[0], latitude: +p[1] });
       });
       return result;
@@ -156,7 +156,7 @@ class AmapMapLaunchService implements MapLaunchService {
       dev: this.platform.is('android') ? 0 : 1,
       ...coords,
     };
-    let uri = `${o.platform}amap://viewMap?sourceApplication=myApp&poiname=目的地&dev=${o.dev}&lon=${o.longitude}&lat=${o.latitude}`;
+    let uri = `${o.platform}amap://viewReGeo?sourceApplication=myApp&dev=${o.dev}&lon=${o.longitude}&lat=${o.latitude}`;
     return this.appLauncher.launch({
       uri: uri
     });
