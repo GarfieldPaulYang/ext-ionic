@@ -37,6 +37,10 @@ export interface NavButton {
       height: 20vmin;
     }
 
+    .btn-box-content>ion-icon {
+      font-size: 2.5em;
+    }
+
     .btn-box-content>.btn-text {
       width: 100%;
       bottom: 1vmin;
@@ -83,7 +87,7 @@ export interface NavButton {
     <div *ngIf="type === 'icon'" class="btn-group">
       <a class="btn-box" *ngFor="let item of items" (click)="onClick(item)">
         <div class="btn-box-content">
-          <ion-icon name="{{item.icon}}" style="font-size: 2.5em" [style.color]="item.iconColor"></ion-icon>
+          <ion-icon name="{{item.icon}}" [style.color]="item.iconColor"></ion-icon>
           <div class="btn-text">{{item.label}}</div>
         </div>
         <div class="button-effect"></div>
