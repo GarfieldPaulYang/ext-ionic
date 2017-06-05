@@ -14,6 +14,11 @@
     "copy:scss": "scripts/copy.sh",
     "shipit": "npm run build && npm publish"
   },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/squallliu/ext-ionic.git"
