@@ -27,6 +27,7 @@ export * from './components/ribbon/ribbon.module';
 export * from './components/super-tabs/super-tabs.module';
 export * from './components/download-manager/download-manager.module';
 export * from './components/nav-button-bar/nav-button-bar.module';
+export * from './components/gallery/gallery.module';
 
 export { StringUtils } from './utils/string';
 export { isTrueProperty, isPresent, flattenObject, unFlattenObject } from './utils/util';
@@ -69,6 +70,8 @@ import { MemoryStorage } from './providers/storage/mem-storage';
 import { TextFileStorage } from './providers/storage/file-storage';
 import { JsonFileStorage } from './providers/storage/json-file-storage';
 
+import { GeogProvider, MapLaunchProvider } from './providers/geog/geog';
+
 import { PipesModule } from './pipes/pipes.module';
 
 import { AlphaScrollModule } from './components/alpha-scroll/alpha-scroll.module';
@@ -80,7 +83,7 @@ import { RibbonModule } from './components/ribbon/ribbon.module';
 import { SuperTabsModule } from './components/super-tabs/super-tabs.module';
 import { DownloadManagerModule } from './components/download-manager/download-manager.module';
 import { NavButtonBarModule } from './components/nav-button-bar/nav-button-bar.module';
-import { GeogProvider, MapLaunchProvider } from './providers/geog/geog';
+import { GalleryModule } from './components/gallery/gallery.module';
 
 const PROVIDERS: Array<any> = [
   Transfer,
@@ -117,7 +120,8 @@ const PROVIDERS: Array<any> = [
     SuperTabsModule.forRoot(),
     StarRatingModule.forRoot(),
     PipesModule.forRoot(),
-    NavButtonBarModule.forRoot()
+    NavButtonBarModule.forRoot(),
+    GalleryModule.forRoot()
   ],
   exports: [
     AlphaScrollModule,
@@ -129,7 +133,8 @@ const PROVIDERS: Array<any> = [
     SuperTabsModule,
     StarRatingModule,
     PipesModule,
-    NavButtonBarModule
+    NavButtonBarModule,
+    GalleryModule
   ]
 })
 export class ExtIonicModule {
