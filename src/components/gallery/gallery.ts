@@ -14,7 +14,7 @@ export interface GalleryOptions {
   selector: 'ion-gallery',
   template: `
 		<div class="row">
-		  <div *ngFor="let item of items" (click)="itemTapped(item)" [ngStyle]="colStyle" class="col">
+		  <div *ngFor="let item of items" tappable (click)="itemTapped(item)" [ngStyle]="colStyle" class="col">
 		    <div class="thumbnal">
 					<ion-image-loader src="{{item[options.thumbKey]}}"></ion-image-loader>
 		      <div *ngIf="options.thumbnailTitleKey" class="thumbnailTitle">{{item[options.thumbnailTitleKey]}} </div>
