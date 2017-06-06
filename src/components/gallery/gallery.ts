@@ -48,7 +48,7 @@ export interface GalleryOptions {
 `],
 })
 export class Gallery implements OnInit, OnDestroy {
-  @Input() items: any;
+  @Input() items: any[];
   @Input() options: GalleryOptions;
   @Output() itemClick: EventEmitter<any> = new EventEmitter();
   colStyle: any;
@@ -73,6 +73,8 @@ export class Gallery implements OnInit, OnDestroy {
     this.options.urlKey = this.options.urlKey || 'url';
     this.options.thumbKey = this.options.thumbKey || this.options.urlKey;
     this.colStyle = {};
+
+    this.calculateCol();
   }
 
   ngOnDestroy(): void {
