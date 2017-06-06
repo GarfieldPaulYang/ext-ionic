@@ -284,6 +284,7 @@ export class ImageLoaderController {
           // should always be successful as the existence of the file
           // is alreay ensured
           this.file.readAsDataURL(this.cacheDirectory, fileName).then((base64: string) => {
+            base64 = base64.replace('data:null', 'data:*/*');
             resolve(base64);
           }).catch(reject);
           return;
