@@ -2,6 +2,7 @@ import { Component, Input, EventEmitter, Output, ElementRef, OnDestroy, OnInit }
 import { NavController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { ImageLoaderController } from '../image-loader/image-loader';
 
 export interface GalleryOptions {
   colWidth: number;
@@ -55,7 +56,7 @@ export class Gallery implements OnInit, OnDestroy {
 
   private watches: Subscription[] = [];
 
-  constructor(private nav: NavController, private elementRef: ElementRef) {
+  constructor(private nav: NavController, private elementRef: ElementRef, private imgCtrl: ImageLoaderController) {
     let obsToMerge: Observable<any>[] = [
       Observable.fromEvent(window, 'orientationchange'),
       Observable.fromEvent(window, 'resize')
@@ -95,6 +96,9 @@ export class Gallery implements OnInit, OnDestroy {
   }
 
   itemTapped(item: any) {
-    this.itemClick.emit(item);
+    this.imgCtrl.getImagePath(item[this.options.thumbKey]).then((path) => {
+      item['localPath'] = path;
+      this.itemClick.emit(item);
+    });
   }
 }
