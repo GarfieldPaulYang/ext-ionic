@@ -4,7 +4,6 @@ import { SuperTabsConfig } from './components/super-tabs';
 import { Renderer2 } from '@angular/core';
 
 export class SuperTabsPanGesture {
-
   onMove: (delta: number) => void;
 
   onEnd: (shortSwipe: boolean, shortSwipeDelta?: number) => void;

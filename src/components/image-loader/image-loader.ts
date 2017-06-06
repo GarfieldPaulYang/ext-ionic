@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Transfer } from '@ionic-native/transfer';
 import { File, FileEntry, Metadata, FileError } from '@ionic-native/file';
-import { Observable } from 'rxjs/Observable';
 
 import * as _ from 'lodash';
 
@@ -37,7 +36,7 @@ export class ImageLoaderController {
     private file: File,
     private config: ConfigProvider
   ) {
-    Observable.fromEvent(document, 'deviceready').first().subscribe(res => {
+    platform.ready().then(() => {
       if (this.nativeAvailable) {
         this.initCache();
       } else {
