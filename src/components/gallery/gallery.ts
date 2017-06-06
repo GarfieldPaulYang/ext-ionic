@@ -99,6 +99,8 @@ export class Gallery implements OnInit, OnDestroy {
     this.imgCtrl.getImagePath(item[this.options.thumbKey]).then((path) => {
       item['localPath'] = path;
       this.itemClick.emit(item);
+    }).catch(e => {
+      this.itemClick.emit(item);
     });
   }
 }
