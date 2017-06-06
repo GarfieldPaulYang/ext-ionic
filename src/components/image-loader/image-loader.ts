@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Transfer } from '@ionic-native/transfer';
 import { File, FileEntry, Metadata, FileError } from '@ionic-native/file';
+import { Observable } from 'rxjs/Observable';
 
 import * as _ from 'lodash';
 
@@ -36,7 +37,7 @@ export class ImageLoaderController {
     private file: File,
     private config: ConfigProvider
   ) {
-    platform.ready().then(() => {
+    Observable.fromEvent(document, 'deviceready').first().subscribe(res => {
       if (this.nativeAvailable) {
         this.initCache();
       } else {
@@ -70,7 +71,7 @@ export class ImageLoaderController {
         this.cacheRootDirectory,
         this.cacheDirectoryName
       ).then(() => {
-        if (this.isWKWebView) {
+        if (this.isWKWebView && !this.isIonicWKWebView) {
           this.file.removeRecursively(
             this.cacheTempRootDirectory,
             this.cacheDirectoryName
@@ -138,7 +139,7 @@ export class ImageLoaderController {
 
   private removeFile(file: string): Promise<any> {
     return this.file.removeFile(this.cacheDirectory, file).then(() => {
-      if (this.isWKWebView) {
+      if (this.isWKWebView && !this.isIonicWKWebView) {
         return this.file.removeFile(this.cacheTempDirectory, file).catch(() => {
           // Noop catch. Removing the files from tempDirectory might fail, as it is not persistent.
         });
@@ -292,7 +293,9 @@ export class ImageLoaderController {
         // now check if iOS device & using WKWebView Engine.
         // in this case only the tempDirectory is accessible,
         // therefore the file needs to be copied into that directory first!
-        if (this.isWKWebView) {
+        if (this.isIonicWKWebView) {
+          resolve(fileEntry.nativeURL.replace('file:///', 'http://localhost:8080/'));
+        } else if (this.isWKWebView) {
           // check if file already exists in temp directory
           this.file.resolveLocalFilesystemUrl(this.cacheTempDirectory + '/' + fileName).then((tempFileEntry: FileEntry) => {
             // file exists in temp directory
@@ -357,6 +360,10 @@ export class ImageLoaderController {
     return (this.config.get().imageLoader.maxCacheAge > -1) || (this.config.get().imageLoader.maxCacheSize > -1);
   }
 
+  private get isIonicWKWebView(): boolean {
+    return this.isWKWebView && location.host === 'localhost:8080';
+  }
+
   private createCacheDirectory(replace: boolean = false): Promise<any> {
     let cacheDirectoryPromise: Promise<any>, tempDirectoryPromise: Promise<any>;
 
@@ -371,7 +378,7 @@ export class ImageLoaderController {
       );
     }
 
-    if (this.isWKWebView) {
+    if (this.isWKWebView && !this.isIonicWKWebView) {
       if (replace) {
         // create or replace the temp directory
         tempDirectoryPromise = this.file.createDir(this.cacheTempRootDirectory, this.cacheDirectoryName, replace);
