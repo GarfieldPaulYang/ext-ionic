@@ -1,5 +1,7 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { Page } from 'ionic-angular/navigation/nav-util';
+import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 export interface NavButton {
   label: string;
@@ -13,6 +15,10 @@ export interface NavButton {
 @Component({
   selector: 'nav-button-bar',
   styles: [`
+    .row {
+      width: 100%;
+    }
+
     .btn-group {
       display: flex;
       flex-flow: row wrap;
@@ -24,8 +30,6 @@ export interface NavButton {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 25vmin;
-      height: 25vmin;
     }
 
     .btn-box>.btn-box-content {
@@ -33,8 +37,6 @@ export interface NavButton {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      width: 20vmin;
-      height: 20vmin;
     }
 
     .btn-box-content>ion-icon {
@@ -84,9 +86,10 @@ export interface NavButton {
     }
   `],
   template: `
+  <div class="row">
     <div *ngIf="type === 'icon'" class="btn-group">
-      <a class="btn-box" *ngFor="let item of items" (click)="onClick(item)">
-        <div class="btn-box-content">
+      <a [ngStyle]="btnBoxStyle" class="btn-box" *ngFor="let item of items" (click)="onClick(item)">
+        <div class="btn-box-content" [ngStyle]="btnBoxContentStyle">
           <ion-icon name="{{item.icon}}" [style.color]="item.iconColor"></ion-icon>
           <div class="btn-text">{{item.label}}</div>
         </div>
@@ -100,10 +103,11 @@ export interface NavButton {
         <label>{{item.label}}</label>
       </div>
     </div>
+  </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavButtonBar {
+export class NavButtonBar implements OnInit, OnDestroy {
   @Input()
   type: string = 'icon';
 
@@ -112,6 +116,48 @@ export class NavButtonBar {
 
   @Output()
   itemClick: EventEmitter<NavButton> = new EventEmitter<NavButton>();
+
+  private watches: Subscription[] = [];
+
+  btnBoxStyle: any;
+
+  btnBoxContentStyle: any;
+
+  constructor(private elRef: ElementRef) {
+    let obsToMerge: Observable<any>[] = [
+      Observable.fromEvent(window, 'orientationchange'),
+      Observable.fromEvent(window, 'resize')
+    ];
+    this.watches.push(Observable.merge.apply(
+      this,
+      obsToMerge
+    ).debounceTime(10).subscribe(() => {
+      this.calculate();
+    }));
+  }
+
+  ngOnInit(): void {
+    this.btnBoxStyle = {};
+    this.btnBoxContentStyle = {};
+    this.calculate();
+  }
+
+  ngOnDestroy(): void {
+    this.watches.forEach((watch) => {
+      watch.unsubscribe && watch.unsubscribe();
+    });
+  }
+
+  calculate(): void {
+    let width = this.elRef.nativeElement.firstElementChild.clientWidth;
+    let num = window.screen.height > window.screen.height ? 8 : 4;
+    let gpx = width / num + 'px';
+    this.btnBoxStyle.width = gpx;
+    this.btnBoxStyle.height = gpx;
+    let bpx = (width / num) / 1.5 + 'px';
+    this.btnBoxContentStyle.width = bpx;
+    this.btnBoxContentStyle.height = bpx;
+  }
 
   onClick(item: NavButton) {
     this.itemClick.emit(item);
