@@ -67,8 +67,6 @@ export interface NavButton {
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 25vmin;
-      height: 25vmin;
       border-right:1px solid #F2F3F5;
       text-align: center;
     }
@@ -78,8 +76,6 @@ export interface NavButton {
     }
 
     .notify-bar-box > button{
-      width: calc(25vmin / 1.5);
-      height: calc(25vmin / 1.5);
       color: black;
       font-size: 2em;
       border-radius: 15px;
@@ -88,8 +84,8 @@ export interface NavButton {
   template: `
   <div class="row">
     <div *ngIf="type === 'icon'" class="btn-group">
-      <a [ngStyle]="btnBoxStyle" class="btn-box" *ngFor="let item of items" (click)="onClick(item)">
-        <div class="btn-box-content" [ngStyle]="btnBoxContentStyle">
+      <a [ngStyle]="boxStyle" class="btn-box" *ngFor="let item of items" (click)="onClick(item)">
+        <div class="btn-box-content" [ngStyle]="contentStyle">
           <ion-icon name="{{item.icon}}" [style.color]="item.iconColor"></ion-icon>
           <div class="btn-text">{{item.label}}</div>
         </div>
@@ -98,8 +94,8 @@ export interface NavButton {
     </div>
 
     <div *ngIf="type === 'number'" class="notify-bar">
-      <div *ngFor="let item of items" class="notify-bar-box">
-        <button ion-button color="light" outline (click)="onClick(item)">{{item.number}}</button>
+      <div *ngFor="let item of items" class="notify-bar-box" [ngStyle]="boxStyle">
+        <button ion-button [ngStyle]="contentStyle" color="light" outline (click)="onClick(item)">{{item.number}}</button>
         <label>{{item.label}}</label>
       </div>
     </div>
@@ -119,9 +115,9 @@ export class NavButtonBar implements OnInit, OnDestroy {
 
   private watches: Subscription[] = [];
 
-  btnBoxStyle: any;
+  boxStyle: any;
 
-  btnBoxContentStyle: any;
+  contentStyle: any;
 
   constructor(private elRef: ElementRef) {
     let obsToMerge: Observable<any>[] = [
@@ -137,8 +133,8 @@ export class NavButtonBar implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.btnBoxStyle = {};
-    this.btnBoxContentStyle = {};
+    this.boxStyle = {};
+    this.contentStyle = {};
     this.calculate();
   }
 
@@ -150,13 +146,13 @@ export class NavButtonBar implements OnInit, OnDestroy {
 
   calculate(): void {
     let width = this.elRef.nativeElement.firstElementChild.clientWidth;
-    let num = window.screen.height > window.screen.height ? 8 : 4;
+    let num = window.screen.width > window.screen.height ? 8 : 4;
     let gpx = width / num + 'px';
-    this.btnBoxStyle.width = gpx;
-    this.btnBoxStyle.height = gpx;
+    this.boxStyle.width = gpx;
+    this.boxStyle.height = gpx;
     let bpx = (width / num) / 1.5 + 'px';
-    this.btnBoxContentStyle.width = bpx;
-    this.btnBoxContentStyle.height = bpx;
+    this.contentStyle.width = bpx;
+    this.contentStyle.height = bpx;
   }
 
   onClick(item: NavButton) {
