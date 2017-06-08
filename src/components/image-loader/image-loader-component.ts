@@ -110,8 +110,8 @@ export class ImageLoaderCmp implements OnInit {
           this.renderer.setElementAttribute(this.element, 'src', this.fallbackUrl);
         });
       }
-      this.file.resolveLocalFilesystemUrl(imageUrl).then((entry) => {
-        this.renderer.setElementAttribute(this.element, 'src', entry.toInternalURL());
+      this.resolveImageUrl(imageUrl).then((url) => {
+        this.renderer.setElementAttribute(this.element, 'src', url);
       });
     } else {
       this.element = this.elementRef.nativeElement;
@@ -135,10 +135,17 @@ export class ImageLoaderCmp implements OnInit {
         this.renderer.setElementStyle(this.element, 'background-repeat', this.backgroundRepeat);
       }
 
-      this.file.resolveLocalFilesystemUrl(imageUrl).then((entry) => {
-        this.renderer.setElementStyle(this.element, 'background-image', 'url(\'' + (entry.toInternalURL() || this.fallbackUrl) + '\')');
+      this.resolveImageUrl(imageUrl).then((url) => {
+        this.renderer.setElementStyle(this.element, 'background-image', 'url(\'' + (url || this.fallbackUrl) + '\')');
       });
     }
     this.load.emit(this);
+  }
+
+  private resolveImageUrl(imageUrl: string): Promise<string> {
+    if (!this.imageLoader.nativeAvailable) {
+      return Promise.resolve(imageUrl);
+    }
+    return this.file.resolveLocalFilesystemUrl(imageUrl).then((entry) => entry.toInternalURL());
   }
 }
