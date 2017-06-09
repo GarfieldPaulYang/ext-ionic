@@ -31,24 +31,25 @@ export function unFlattenObject(params: any) {
   return _.reduce(params, (result, value, key) => { return _.set(result, key, value); }, {});
 }
 
-export function dateFormat(date: Date, format: string = 'yyyy-MM-dd'): string {
-  const month = date.getMonth() + 1;
+export function dateFormat(date: Date | number, format: string = 'yyyy-MM-dd'): string {
+  const d = _.isNumber(date) ? new Date(date) : date;
+  const month = d.getMonth() + 1;
   let time = {
-    year: date.getFullYear(),
-    tyear: String(date.getFullYear()).substr(2),
+    year: d.getFullYear(),
+    tyear: String(d.getFullYear()).substr(2),
     month: month,
     tmonth: month < 10 ? '0' + month : String(month),
-    day: date.getDate(),
-    tday: date.getDate() < 10 ? '0' + date.getDate() : String(date.getDate()),
-    hour24: date.getHours(),
-    thour24: date.getHours() < 10 ? '0' + date.getHours() : String(date.getHours()),
-    hour: date.getHours() < 13 ? date.getHours() : date.getHours() - 12,
-    thour: date.getHours() < 10 ? '0' + date.getHours() : String(date.getHours()),
-    minute: date.getMinutes(),
-    tminute: date.getMinutes() < 10 ? '0' + date.getMinutes() : String(date.getMinutes()),
-    second: date.getSeconds(),
-    tsecond: date.getSeconds() < 10 ? '0' + date.getSeconds() : String(date.getSeconds()),
-    millisecond: date.getMilliseconds()
+    day: d.getDate(),
+    tday: d.getDate() < 10 ? '0' + d.getDate() : String(d.getDate()),
+    hour24: d.getHours(),
+    thour24: d.getHours() < 10 ? '0' + d.getHours() : String(d.getHours()),
+    hour: d.getHours() < 13 ? d.getHours() : d.getHours() - 12,
+    thour: d.getHours() < 10 ? '0' + d.getHours() : String(d.getHours()),
+    minute: d.getMinutes(),
+    tminute: d.getMinutes() < 10 ? '0' + d.getMinutes() : String(d.getMinutes()),
+    second: d.getSeconds(),
+    tsecond: d.getSeconds() < 10 ? '0' + d.getSeconds() : String(d.getSeconds()),
+    millisecond: d.getMilliseconds()
   };
 
   return format.replace(/yyyy/ig, String(time.year))
