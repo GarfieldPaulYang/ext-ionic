@@ -30,7 +30,7 @@ export * from './components/nav-button-bar/nav-button-bar.module';
 export * from './components/gallery/gallery.module';
 
 export { StringUtils } from './utils/string';
-export { isTrueProperty, isPresent, flattenObject, unFlattenObject } from './utils/util';
+export { isTrueProperty, isPresent, flattenObject, unFlattenObject, dateFormat } from './utils/util';
 export { Dialog } from './utils/dialog';
 export {
   HttpProviderOptionsArgs,
