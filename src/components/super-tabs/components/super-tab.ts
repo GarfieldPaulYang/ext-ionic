@@ -2,7 +2,7 @@ import {
   Component, Input, Renderer, ElementRef, ViewEncapsulation, Optional, ComponentFactoryResolver,
   NgZone, ViewContainerRef, ViewChild, OnInit, OnDestroy, ChangeDetectorRef
 } from '@angular/core';
-import { NavControllerBase, App, Config, Platform, Keyboard, GestureController, DeepLinker, DomController } from 'ionic-angular';
+import { NavControllerBase, App, Config, Platform, GestureController, DeepLinker, DomController } from 'ionic-angular';
 import { TransitionController } from 'ionic-angular/transitions/transition-controller';
 import { SuperTabs } from './super-tabs';
 import { ErrorHandler } from '@angular/core';
@@ -72,7 +72,6 @@ export class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
     app: App,
     config: Config,
     plt: Platform,
-    keyboard: Keyboard,
     el: ElementRef,
     zone: NgZone,
     rnd: Renderer,
@@ -84,7 +83,7 @@ export class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
     private errHandler: ErrorHandler,
     private cd: ChangeDetectorRef
   ) {
-    super(parent, app, config, plt, keyboard, el, zone, rnd, cfr, gestureCtrl, transCtrl, linker, _dom, errHandler);
+    super(parent, app, config, plt, el, zone, rnd, cfr, gestureCtrl, transCtrl, linker, _dom, errHandler);
   }
 
   ngOnInit() {
