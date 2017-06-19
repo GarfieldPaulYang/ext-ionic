@@ -1,5 +1,7 @@
-import { Component, OnInit, OnDestroy, Input, ElementRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, OnInit, OnDestroy, Input, ElementRef, Optional, Renderer, ViewEncapsulation } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Form, Item, Config } from 'ionic-angular';
+import { BaseInput } from 'ionic-angular/util/base-input';
 import * as _ from 'lodash';
 
 @Component({
@@ -11,30 +13,25 @@ import * as _ from 'lodash';
       </li>
     </ul>
   `,
+  encapsulation: ViewEncapsulation.None,
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: StarRatingCmp, multi: true }]
 })
-export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
+export class StarRatingCmp extends BaseInput<number> implements OnInit, OnDestroy {
   @Input() max: number = 5;
   @Input() readonly: boolean = false;
 
   range: Array<number>;
-  private innerValue: number;
   private hammer: HammerManager;
-  private onChangeCallback: (e: any) => void = () => { };
 
-  get value(): number {
-    return this.innerValue;
+  constructor(
+    private config: Config,
+    private elementRef: ElementRef,
+    private renderer: Renderer,
+    private form: Form,
+    @Optional() private item: Item
+  ) {
+    super(config, elementRef, renderer, 'star-rating', 0, form, item, null);
   }
-
-  set value(v: number) {
-    if (v !== this.innerValue) {
-      this.innerValue = v;
-      this.fullStates();
-      this.onChangeCallback(v);
-    }
-  }
-
-  constructor(private elementRef: ElementRef) { }
 
   ngOnInit() {
     setTimeout(() => {
@@ -60,24 +57,9 @@ export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
     return 'star-outline';
   }
 
-  writeValue(val: any) {
-    if (_.isUndefined(val)) {
-      return;
-    }
-
-    if (val !== this.innerValue) {
-      this.innerValue = val;
-      this.fullStates();
-    }
+  _inputUpdated() {
+    this.fullStates();
   }
-
-  registerOnChange(fn: any) {
-    this.onChangeCallback = fn;
-  }
-
-  registerOnTouched(fn: any) { }
-
-  setDisabledState(isDisabled: boolean) { }
 
   rate(amount: number) {
     if (this.readonly) {
@@ -92,8 +74,7 @@ export class StarRatingCmp implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   private setupHammerHandlers() {
-    let ratingEle: HTMLElement = this.elementRef.nativeElement.querySelector('.rating');
-
+    const ratingEle: HTMLElement = this.elementRef.nativeElement.querySelector('.rating');
     if (!ratingEle) return;
 
     this.hammer = new Hammer(ratingEle, {
