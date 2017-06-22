@@ -28,6 +28,7 @@ export * from './components/super-tabs/super-tabs.module';
 export * from './components/download-manager/download-manager.module';
 export * from './components/nav-button-bar/nav-button-bar.module';
 export * from './components/gallery/gallery.module';
+export * from './components/select/lazy-select.module';
 
 export { StringUtils } from './utils/string';
 export { isTrueProperty, isPresent, flattenObject, unFlattenObject, dateFormat } from './utils/util';
@@ -84,6 +85,7 @@ import { SuperTabsModule } from './components/super-tabs/super-tabs.module';
 import { DownloadManagerModule } from './components/download-manager/download-manager.module';
 import { NavButtonBarModule } from './components/nav-button-bar/nav-button-bar.module';
 import { GalleryModule } from './components/gallery/gallery.module';
+import { LazySelectModule } from './components/select/lazy-select.module';
 
 const PROVIDERS: Array<any> = [
   Transfer,
@@ -121,7 +123,8 @@ const PROVIDERS: Array<any> = [
     StarRatingModule.forRoot(),
     PipesModule.forRoot(),
     NavButtonBarModule.forRoot(),
-    GalleryModule.forRoot()
+    GalleryModule.forRoot(),
+    LazySelectModule.forRoot()
   ],
   exports: [
     AlphaScrollModule,
@@ -134,7 +137,8 @@ const PROVIDERS: Array<any> = [
     StarRatingModule,
     PipesModule,
     NavButtonBarModule,
-    GalleryModule
+    GalleryModule,
+    LazySelectModule
   ]
 })
 export class ExtIonicModule {
