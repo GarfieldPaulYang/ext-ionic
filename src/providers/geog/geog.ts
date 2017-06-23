@@ -26,9 +26,8 @@ class BaiDuGeogService implements GeogService {
     });
     let url = `http://api.map.baidu.com/geoconv/v1/?callback=JSONP_CALLBACK&output=json&from=1&to=5&ak=${this.appKey}&coords=${coordsStrs.join(';')}`;
     return this.jsonp.get(url).map(
-      (r => r.text())
-    ).toPromise().then(v => {
-      let o = JSON.parse(v);
+      r => r.json()
+    ).toPromise().then(o => {
       let result: Coords[] = [];
       o.result.forEach(p => {
         result.push({ longitude: p.y, latitude: p.x });
@@ -54,9 +53,8 @@ class AmapGeogService implements GeogService {
     });
     let url = `http://restapi.amap.com/v3/assistant/coordinate/convert?callback=JSONP_CALLBACK&coordsys=gps&output=json&key=${this.appKey}&locations=${coordsStrs.join('|')}`;
     return this.jsonp.get(url).map(
-      (r => r.text())
-    ).toPromise().then(v => {
-      let o = JSON.parse(v);
+      (r => r.json())
+    ).toPromise().then(o => {
       let location: string[] = _.split(o.locations, ';');
       let result: Coords[] = [];
       location.forEach(v => {
