@@ -55,7 +55,7 @@ export class LazySelect extends BaseInput<any> implements OnInit {
     @Optional() private item: Item,
     private http: CorsHttpProvider
   ) {
-    super(config, elementRef, renderer, 'ion-lazy-select', 0, form, item, null);
+    super(config, elementRef, renderer, 'ion-lazy-select', '', form, item, null);
   }
 
   ngOnInit(): void {
