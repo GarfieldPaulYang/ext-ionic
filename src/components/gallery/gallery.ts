@@ -15,7 +15,7 @@ export interface GalleryOptions {
   selector: 'ion-gallery',
   template: `
 		<div class="row">
-		  <div *ngFor="let item of items" tappable (click)="itemTapped(item)" [ngStyle]="colStyle" class="col">
+		  <div *ngFor="let item of items;let i = index;" tappable (click)="itemTapped(item, i)" (press)="itemTappedPress(item, i)" [ngStyle]="colStyle" class="col">
 		    <div class="thumbnal">
 					<ion-image-loader src="{{item[options.thumbKey]}}"></ion-image-loader>
 		      <div *ngIf="options.thumbnailTitleKey" class="thumbnailTitle">{{item[options.thumbnailTitleKey]}} </div>
@@ -52,6 +52,7 @@ export class Gallery implements OnInit, OnDestroy {
   @Input() items: any[];
   @Input() options: GalleryOptions;
   @Output() itemClick: EventEmitter<any> = new EventEmitter();
+  @Output() itemPress: EventEmitter<any> = new EventEmitter();
   colStyle: any;
 
   private watches: Subscription[] = [];
@@ -95,12 +96,23 @@ export class Gallery implements OnInit, OnDestroy {
     this.colStyle.maxWidth = percent;
   }
 
-  itemTapped(item: any) {
+  itemTapped(item: any, index: number) {
+    item.index = index;
     this.imgCtrl.getImagePath(item[this.options.thumbKey]).then((path) => {
       item['localPath'] = path;
       this.itemClick.emit(item);
     }).catch(e => {
       this.itemClick.emit(item);
+    });
+  }
+
+  itemTappedPress(item: any, index: number) {
+    item.index = index;
+    this.imgCtrl.getImagePath(item[this.options.thumbKey]).then((path) => {
+      item['localPath'] = path;
+      this.itemPress.emit(item);
+    }).catch(e => {
+      this.itemPress.emit(item);
     });
   }
 }
