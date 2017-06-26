@@ -18,7 +18,8 @@ export interface AutoCompleteDataProvider {
       [(ngModel)]="keyword"
       [placeholder]="placeholder">
     </ion-input>
-    <ion-icon  *ngIf="icon" item-end [name]="icon" [style.color]="iconColor"></ion-icon>
+    <ion-icon *ngIf="showClear" item-end name="close" style="color: darkgray;" (tap)="clear()"></ion-icon>
+    <ion-icon *ngIf="icon" item-end [name]="icon" [style.color]="iconColor"></ion-icon>
   `,
   providers: [{
     provide: NG_VALUE_ACCESSOR,
@@ -32,11 +33,11 @@ export class AutoCompleteCmp extends BaseInput<any> {
   @Input() placeholder: string = '';
   @Input() valueField: string = '';
   @Input() textField: string = '';
-  @Input() clearInput: boolean = true;
   @Input() providerParams: any = {};
   @Input() template: TemplateRef<any>;
   @Input() icon: string = '';
   @Input() iconColor: string = 'dodgerblue';
+  @Input() showClear: boolean = false;
 
   keyword: string = '';
 
@@ -53,6 +54,11 @@ export class AutoCompleteCmp extends BaseInput<any> {
     super(config, elementRef, renderer, 'auto-complete', '', form, item, null);
   }
 
+  clear() {
+    this.keyword = '';
+    this.value = null;
+  }
+
   showModal() {
     this._modal = this.modalCtrl.create(AutoCompleteModalCmp, {
       options: {
@@ -60,7 +66,6 @@ export class AutoCompleteCmp extends BaseInput<any> {
         keyword: this.keyword,
         minChar: this.minChar,
         placeholder: this.placeholder,
-        clearInput: this.clearInput,
         providerParams: this.providerParams,
         template: this.template
       }

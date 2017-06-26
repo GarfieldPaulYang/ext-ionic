@@ -4,12 +4,11 @@ import { AutoCompleteDataProvider } from './auto-complete';
 
 export interface AutoCompleteModalOptions {
   dataProvider: AutoCompleteDataProvider;
-  minChar?: number;
-  placeholder?: string;
-  clearInput?: boolean;
-  providerParams?: any;
-  keyword?: string;
-  template?: TemplateRef<any>;
+  template: TemplateRef<any>;
+  minChar: number;
+  placeholder: string;
+  providerParams: any;
+  keyword: string;
 }
 
 @Component({
@@ -26,8 +25,7 @@ export interface AutoCompleteModalOptions {
                        (ionFocus)="selectText($event)"
                        (ionChange)="getItems()"
                        [(ngModel)]="options.keyword"
-                       [placeholder]="options.placeholder"
-                       [showCancelButton]="options.clearInput">
+                       [placeholder]="options.placeholder">
         </ion-searchbar>
       </ion-toolbar>
     </ion-header>
