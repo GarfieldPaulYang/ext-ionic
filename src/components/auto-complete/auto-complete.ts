@@ -7,6 +7,7 @@ import { AutoCompleteModalCmp } from './auto-complete-modal';
 
 export interface AutoCompleteDataProvider {
   loadItems(params: any): Promise<Array<any>>;
+  loadItem(params: any): Promise<any>;
 }
 
 @Component({
@@ -42,6 +43,7 @@ export class AutoCompleteCmp extends BaseInput<any> {
   keyword: string = '';
 
   private _modal: Modal;
+  private isInit = true;
 
   constructor(
     private config: Config,
@@ -89,5 +91,22 @@ export class AutoCompleteCmp extends BaseInput<any> {
       this.value = item;
     });
     this._modal.present();
+  }
+
+  _inputUpdated() {
+    super._inputUpdated();
+
+    if (!this.value || !this.isInit) {
+      return;
+    }
+
+    this.isInit = false;
+
+    this.dataProvider.loadItem({
+      initValue: this.value,
+      ...this.providerParams
+    }).then(result => {
+      this.keyword = result;
+    }).catch(e => console.log(e));
   }
 }
