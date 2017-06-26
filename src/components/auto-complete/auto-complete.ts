@@ -6,8 +6,8 @@ import * as _ from 'lodash';
 import { AutoCompleteModalCmp } from './auto-complete-modal';
 
 export interface AutoCompleteDataProvider {
+  init(params: any): Promise<any>;
   loadItems(params: any): Promise<Array<any>>;
-  loadItem(params: any): Promise<any>;
 }
 
 @Component({
@@ -102,7 +102,7 @@ export class AutoCompleteCmp extends BaseInput<any> {
 
     this.isInit = false;
 
-    this.dataProvider.loadItem({
+    this.dataProvider.init({
       initValue: this.value,
       ...this.providerParams
     }).then(result => {

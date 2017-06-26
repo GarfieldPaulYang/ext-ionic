@@ -20,7 +20,7 @@ export class BaiduPlacesProvider implements AutoCompleteDataProvider {
     }).catch(e => Promise.reject(e));
   }
 
-  loadItem(params: any): Promise<any> {
+  init(params: any): Promise<any> {
     if (!params.initValue) {
       return Promise.resolve('');
     }
