@@ -29,6 +29,7 @@ export * from './components/download-manager/download-manager.module';
 export * from './components/nav-button-bar/nav-button-bar.module';
 export * from './components/gallery/gallery.module';
 export * from './components/select/lazy-select.module';
+export * from './components/auto-complete/auto-complete.module';
 
 export { StringUtils } from './utils/string';
 export { isTrueProperty, isPresent, flattenObject, unFlattenObject, dateFormat } from './utils/util';
@@ -86,6 +87,7 @@ import { DownloadManagerModule } from './components/download-manager/download-ma
 import { NavButtonBarModule } from './components/nav-button-bar/nav-button-bar.module';
 import { GalleryModule } from './components/gallery/gallery.module';
 import { LazySelectModule } from './components/select/lazy-select.module';
+import { AutoCompleteModule } from './components/auto-complete/auto-complete.module';
 
 const PROVIDERS: Array<any> = [
   Transfer,
@@ -124,7 +126,8 @@ const PROVIDERS: Array<any> = [
     PipesModule.forRoot(),
     NavButtonBarModule.forRoot(),
     GalleryModule.forRoot(),
-    LazySelectModule.forRoot()
+    LazySelectModule.forRoot(),
+    AutoCompleteModule.forRoot()
   ],
   exports: [
     AlphaScrollModule,
@@ -138,7 +141,8 @@ const PROVIDERS: Array<any> = [
     PipesModule,
     NavButtonBarModule,
     GalleryModule,
-    LazySelectModule
+    LazySelectModule,
+    AutoCompleteModule
   ]
 })
 export class ExtIonicModule {
