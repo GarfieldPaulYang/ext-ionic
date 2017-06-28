@@ -1,5 +1,4 @@
 import { Component, Input, ElementRef, Renderer, OnInit, Output, EventEmitter } from '@angular/core';
-import { File } from '@ionic-native/file';
 import { isTrueProperty } from '../../utils/util';
 import * as _ from 'lodash';
 
@@ -54,8 +53,7 @@ export class ImageLoaderCmp implements OnInit {
     private elementRef: ElementRef,
     private renderer: Renderer,
     private imageLoader: ImageLoaderController,
-    private config: ConfigProvider,
-    private file: File
+    private config: ConfigProvider
   ) { }
 
   ngOnInit(): void {
@@ -110,9 +108,7 @@ export class ImageLoaderCmp implements OnInit {
           this.renderer.setElementAttribute(this.element, 'src', this.fallbackUrl);
         });
       }
-      this.resolveImageUrl(imageUrl).then((url) => {
-        this.renderer.setElementAttribute(this.element, 'src', url);
-      });
+      this.renderer.setElementAttribute(this.element, 'src', imageUrl);
     } else {
       this.element = this.elementRef.nativeElement;
       if (this.display) {
@@ -135,17 +131,8 @@ export class ImageLoaderCmp implements OnInit {
         this.renderer.setElementStyle(this.element, 'background-repeat', this.backgroundRepeat);
       }
 
-      this.resolveImageUrl(imageUrl).then((url) => {
-        this.renderer.setElementStyle(this.element, 'background-image', 'url(\'' + (url || this.fallbackUrl) + '\')');
-      });
+      this.renderer.setElementStyle(this.element, 'background-image', 'url(\'' + (imageUrl || this.fallbackUrl) + '\')');
     }
     this.load.emit(this);
-  }
-
-  private resolveImageUrl(imageUrl: string): Promise<string> {
-    if (!this.imageLoader.nativeAvailable) {
-      return Promise.resolve(imageUrl);
-    }
-    return this.file.resolveLocalFilesystemUrl(imageUrl).then((entry) => entry.toInternalURL());
   }
 }
