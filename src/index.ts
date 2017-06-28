@@ -71,7 +71,8 @@ import { MemoryStorage } from './providers/storage/mem-storage';
 import { TextFileStorage } from './providers/storage/file-storage';
 import { JsonFileStorage } from './providers/storage/json-file-storage';
 
-import { GeogProvider, MapLaunchProvider } from './providers/geog/geog';
+import { BaiduGeogProvider } from './providers/geog/geog';
+import { GeogProvider, MapLaunchProvider } from './providers/geog/map-app-launch';
 
 import { PipesModule } from './pipes/pipes.module';
 
@@ -102,6 +103,7 @@ const PROVIDERS: Array<any> = [
   MemoryStorage,
   TextFileStorage,
   JsonFileStorage,
+  BaiduGeogProvider,
   GeogProvider,
   MapLaunchProvider,
 
