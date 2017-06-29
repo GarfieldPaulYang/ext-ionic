@@ -67,6 +67,10 @@
   version "3.12.1"
   resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file/-/file-3.12.1.tgz#42da17720f97edac0aecd12f5df4841212a090e8"
 
+"@ionic-native/geolocation@^3.12.1":
+  version "3.12.1"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/geolocation/-/geolocation-3.12.1.tgz#6fea23c3168d0ac565d632e58dcb72a8d35af0df"
+
 "@ionic-native/local-notifications@3.12.1":
   version "3.12.1"
   resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/local-notifications/-/local-notifications-3.12.1.tgz#c581858738c718555d3a5676c3578d67a4dc2b28"

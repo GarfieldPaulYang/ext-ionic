@@ -4,6 +4,7 @@ export { Immerse } from './native/immerse-plugin';
 export { ExtILocalNotification, ExtLocalNotifications } from './native/local-notifications';
 export { HotCodePushConifg, HotCodePushOptions, HotCodeCallback, HotCodePush } from './native/hot-code-push';
 export { AppLauncher, AppLauncherOptions, ExtraOptions } from './native/app-launcher';
+export { GeolocationProvider } from './providers/geog/geolocation';
 
 export { LoginConfig, Config, ConfigProvider } from './config/config';
 export { ResponseResult, Pagination } from './utils/http/response/response-result';
@@ -76,6 +77,7 @@ import { JsonFileStorage } from './providers/storage/json-file-storage';
 
 import { BaiduGeogProvider } from './providers/geog/geog';
 import { GeogProvider, MapLaunchProvider } from './providers/geog/map-app-launch';
+import { GeolocationProvider } from './providers/geog/geolocation';
 
 import { PipesModule } from './pipes/pipes.module';
 
@@ -109,11 +111,12 @@ const PROVIDERS: Array<any> = [
   JsonFileStorage,
   BaiduGeogProvider,
   GeogProvider,
-  MapLaunchProvider,
 
   Immerse,
   HotCodePush,
   ExtLocalNotifications,
+  GeolocationProvider,
+  MapLaunchProvider,
   AppLauncher
 ];
 
