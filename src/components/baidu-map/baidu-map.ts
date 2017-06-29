@@ -1,12 +1,12 @@
 // 封装参考官方API，http://developer.baidu.com/map/reference/index.php
 import { Injectable, EventEmitter } from '@angular/core';
-import { GpsPoint } from '../../providers/geog/geog';
 import { baiduMapLoader } from './baidu-map-loader';
 import {
   BaiduMapOptions,
   MarkerOptions,
   PointCollectionOptions
 } from './baidu-map-options';
+import { GpsPoint } from '../../commons/type/geog';
 
 export var BMap: any;
 var BMAP_STATUS_SUCCESS: any;
