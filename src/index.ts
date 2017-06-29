@@ -56,6 +56,7 @@ import { Transfer } from '@ionic-native/transfer';
 import { FileOpener } from '@ionic-native/file-opener';
 import { File } from '@ionic-native/file';
 import { Device } from '@ionic-native/device';
+import { Geolocation } from '@ionic-native/geolocation';
 import { Immerse } from './native/immerse-plugin';
 import { HotCodePush } from './native/hot-code-push';
 import { ExtLocalNotifications } from './native/local-notifications';
@@ -99,6 +100,7 @@ const PROVIDERS: Array<any> = [
   File,
   FileOpener,
   Device,
+  Geolocation,
 
   Dialog,
   HttpProvider,
