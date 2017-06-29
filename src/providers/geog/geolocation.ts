@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 @Injectable()
 export class GeolocationProvider {
   private watch: Subscription;
-  private coordinates: Coordinates;
+  private coordinates: Coordinates | any;
 
   constructor(private geolocation: Geolocation) { }
 
@@ -21,7 +21,7 @@ export class GeolocationProvider {
     }
   }
 
-  getCurrentCoordinates() {
+  getCurrentCoordinates(): Coordinates {
     return this.coordinates || {};
   }
 }
