@@ -32,9 +32,9 @@ export class BaiduGeogProvider {
     }).catch(e => Promise.reject(e));
   }
 
-  transformGps(coordes: GpsPoint[]): Promise<GpsPoint[]> {
+  transformGps(points: GpsPoint[]): Promise<GpsPoint[]> {
     let coordsStrs = [];
-    coordes.forEach(coords => {
+    points.forEach(coords => {
       coordsStrs.push(coords.lng + ',' + coords.lat);
     });
     let url = `http://api.map.baidu.com/geoconv/v1/?callback=JSONP_CALLBACK&output=json&from=1&to=5&ak=${this.appKey}&coords=${coordsStrs.join(';')}`;
