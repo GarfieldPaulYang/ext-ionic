@@ -1,7 +1,4 @@
-export interface GpsPoint {
-  lng: number;
-  lat: number;
-}
+import { GpsPoint } from '../../providers/geog/geog';
 
 export interface MarkerSize {
   width: number;
