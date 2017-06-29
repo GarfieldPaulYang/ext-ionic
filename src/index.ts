@@ -91,7 +91,6 @@ import { NavButtonBarModule } from './components/nav-button-bar/nav-button-bar.m
 import { GalleryModule } from './components/gallery/gallery.module';
 import { LazySelectModule } from './components/select/lazy-select.module';
 import { AutoCompleteModule } from './components/auto-complete/auto-complete.module';
-import { GpsPoint } from './commons/type/geog';
 
 const PROVIDERS: Array<any> = [
   Transfer,
