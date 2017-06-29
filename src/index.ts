@@ -1,3 +1,5 @@
+export { GpsPoint } from './commons/type/geog';
+
 export { Immerse } from './native/immerse-plugin';
 export { ExtILocalNotification, ExtLocalNotifications } from './native/local-notifications';
 export { HotCodePushConifg, HotCodePushOptions, HotCodeCallback, HotCodePush } from './native/hot-code-push';
@@ -89,6 +91,7 @@ import { NavButtonBarModule } from './components/nav-button-bar/nav-button-bar.m
 import { GalleryModule } from './components/gallery/gallery.module';
 import { LazySelectModule } from './components/select/lazy-select.module';
 import { AutoCompleteModule } from './components/auto-complete/auto-complete.module';
+import { GpsPoint } from './commons/type/geog';
 
 const PROVIDERS: Array<any> = [
   Transfer,

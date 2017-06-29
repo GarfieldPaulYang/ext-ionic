@@ -4,7 +4,6 @@ import { BaiduMap } from './baidu-map-component';
 
 export { BaiduMapController } from './baidu-map';
 export {
-  GpsPoint,
   MarkerSize,
   MarkerInfoWindow,
   MarkerOptions,

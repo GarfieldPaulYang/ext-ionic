@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Jsonp } from '@angular/http';
 import { AutoCompleteDataProvider } from './auto-complete';
+import { BaiduGeogProvider } from '../../providers/geog/geog';
 
 @Injectable()
 export class BaiduPlacesProvider implements AutoCompleteDataProvider {
-  constructor(private jsonp: Jsonp) { }
+  constructor(private jsonp: Jsonp, private baiduGeogProvider: BaiduGeogProvider) { }
 
   loadItems(params: any): Promise<any[]> {
     params = {
@@ -26,16 +27,12 @@ export class BaiduPlacesProvider implements AutoCompleteDataProvider {
     }
 
     params = {
-      ...this.getDefaultParams(),
-      ...params
+      coordType: this.getDefaultParams().retCoordType,
+      ...params.initValue
     };
-    const url = `http://api.map.baidu.com/geocoder/v2/?coordtype=${params.retCoordType}&radius=250&location=${params.initValue.lat},${params.initValue.lng}&output=json&pois=1&ak=DmMSdcEILbFTUHs4QvlcV2G0`;
-    return this.jsonp.get(url, { params: { 'callback': 'JSONP_CALLBACK' } }).map((r => r.json())).toPromise().then(r => {
-      if (r.status !== 0) {
-        return Promise.reject(r.message);
-      }
-      return r.result.addressComponent.street || r.result.formatted_address;
-    }).catch(e => Promise.reject(e));
+    return this.baiduGeogProvider.geocoder(params).then(data => {
+      return data.addressComponent.street || data.formatted_address;
+    });
   }
 
   private getDefaultParams(): any {

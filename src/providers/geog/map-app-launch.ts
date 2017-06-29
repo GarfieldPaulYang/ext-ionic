@@ -4,18 +4,19 @@ import { Platform, ActionSheetController } from 'ionic-angular';
 import * as _ from 'lodash';
 import { AppLauncher, AppLauncherOptions } from '../../native/app-launcher';
 import { Dialog } from '../../utils/dialog';
-import { Coords, BaiduGeogProvider } from './geog';
+import { BaiduGeogProvider } from './geog';
+import { GpsPoint } from '../../commons/type/geog';
 
 interface GeogService {
-  transformGps(coord: Coords[]): Promise<Coords[]>;
+  transformGps(points: GpsPoint[]): Promise<GpsPoint[]>;
 }
 
 class BaiDuGeogService implements GeogService {
 
   constructor(private geog: BaiduGeogProvider) { }
 
-  transformGps(coordes: Coords[]): Promise<Coords[]> {
-    return this.geog.transformGps(coordes);
+  transformGps(points: GpsPoint[]): Promise<GpsPoint[]> {
+    return this.geog.transformGps(points);
   }
 }
 
@@ -26,20 +27,20 @@ class AmapGeogService implements GeogService {
     private jsonp: Jsonp,
   ) { }
 
-  transformGps(coordes: Coords[]): Promise<Coords[]> {
-    let coordsStrs = [];
-    coordes.forEach(coords => {
-      coordsStrs.push(coords.longitude + ',' + coords.latitude);
+  transformGps(points: GpsPoint[]): Promise<GpsPoint[]> {
+    let pointsStrs = [];
+    points.forEach(coords => {
+      pointsStrs.push(coords.lng + ',' + coords.lat);
     });
-    let url = `http://restapi.amap.com/v3/assistant/coordinate/convert?callback=JSONP_CALLBACK&coordsys=gps&output=json&key=${this.appKey}&locations=${coordsStrs.join('|')}`;
-    return this.jsonp.get(url).map(
+    let url = `http://restapi.amap.com/v3/assistant/coordinate/convert?callback=JSONP_CALLBACK&coordsys=gps&output=json&key=${this.appKey}&locations=${pointsStrs.join('|')}`;
+    return <Promise<GpsPoint[]>>this.jsonp.get(url).map(
       (r => r.json())
     ).toPromise().then(o => {
       let location: string[] = _.split(o.locations, ';');
-      let result: Coords[] = [];
+      let result: GpsPoint[] = [];
       location.forEach(v => {
         let p = _.split(v, ',');
-        result.push({ longitude: +p[0], latitude: +p[1] });
+        result.push({ lng: +p[0], lat: +p[1] });
       });
       return result;
     }).catch(e => {
@@ -62,14 +63,14 @@ export class GeogProvider {
     this.serviceMap.set(MapType.AMAP, new AmapGeogService(jsonp));
   }
 
-  transformGps(coordes: Coords[], mapType?: MapType): Promise<Coords[]> {
+  transformGps(points: GpsPoint[], mapType?: MapType): Promise<GpsPoint[]> {
     let geogService = this.serviceMap.get(mapType ? mapType : MapType.BAIDU);
-    return geogService.transformGps(coordes);
+    return geogService.transformGps(points);
   }
 }
 
 interface MapLaunchService {
-  launch(coords: Coords): Promise<any>;
+  launch(point: GpsPoint): Promise<any>;
 
   canLaunch(): Promise<any>;
 
@@ -92,9 +93,9 @@ class BaiDuMapLaunchService implements MapLaunchService {
     return MapType.BAIDU;
   }
 
-  launch(coords: Coords): Promise<any> {
+  launch(point: GpsPoint): Promise<any> {
     return this.appLauncher.launch({
-      uri: `baidumap://map/geocoder?location=${coords.longitude},${coords.latitude}&src=webapp.rgeo.whcyit.myApp`
+      uri: `baidumap://map/geocoder?location=${point.lng},${point.lat}&src=webapp.rgeo.whcyit.myApp`
     });
   }
 
@@ -117,7 +118,6 @@ class AmapMapLaunchService implements MapLaunchService {
   constructor(
     private platform: Platform,
     private appLauncher: AppLauncher
-
   ) {
   }
 
@@ -129,13 +129,13 @@ class AmapMapLaunchService implements MapLaunchService {
     return MapType.AMAP;
   }
 
-  launch(coords: Coords): Promise<any> {
+  launch(point: GpsPoint): Promise<any> {
     let o = {
       platform: this.platform.is('android') ? 'android' : 'ios',
       dev: this.platform.is('android') ? 0 : 1,
-      ...coords,
+      ...point,
     };
-    let uri = `${o.platform}amap://viewReGeo?sourceApplication=myApp&dev=${o.dev}&lon=${o.longitude}&lat=${o.latitude}`;
+    let uri = `${o.platform}amap://viewReGeo?sourceApplication=myApp&dev=${o.dev}&lon=${o.lng}&lat=${o.lat}`;
     return this.appLauncher.launch({
       uri: uri
     });
@@ -171,7 +171,7 @@ export class MapLaunchProvider {
     this.services.push(new AmapMapLaunchService(platform, appLauncher));
   }
 
-  launch(coords: Coords): Promise<any> {
+  launch(point: GpsPoint): Promise<any> {
     let promises: Promise<any>[] = [];
     this.services.forEach(service => {
       promises.push(service.canLaunch());
@@ -188,20 +188,20 @@ export class MapLaunchProvider {
         return Promise.reject('未安装地图app');
       }
       if (indexs.length === 1) {
-        return this._launch(coords, indexs[0]);
+        return this._launch(point, indexs[0]);
       }
-      this.show(coords, indexs);
+      this.show(point, indexs);
       return Promise.resolve();
     });
   }
 
-  private show(coords: Coords, index: number[]) {
+  private show(point: GpsPoint, index: number[]) {
     let buttons = [];
     index.forEach(v => {
       buttons.push({
         text: this.services[v].getName(),
         handler: () => {
-          this._launch(coords, v);
+          this._launch(point, v);
         }
       });
     });
@@ -211,13 +211,10 @@ export class MapLaunchProvider {
     actionSheet.present();
   }
 
-  private _launch(coords: Coords, index: number): Promise<any> {
+  private _launch(point: GpsPoint, index: number): Promise<any> {
     let service = this.services[index];
-    return this.geoProvider.transformGps([coords], service.getMapType()).then(coordes => {
-      service.launch({
-        longitude: coordes[0].longitude,
-        latitude: coordes[0].latitude
-      });
+    return this.geoProvider.transformGps([point], service.getMapType()).then(result => {
+      service.launch(result[0]);
     }).catch(e => {
       return Promise.reject(e);
     });
