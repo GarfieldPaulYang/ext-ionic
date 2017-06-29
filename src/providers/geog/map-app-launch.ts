@@ -12,7 +12,6 @@ interface GeogService {
 }
 
 class BaiDuGeogService implements GeogService {
-
   constructor(private geog: BaiduGeogProvider) { }
 
   transformGps(points: GpsPoint[]): Promise<GpsPoint[]> {
