@@ -67,7 +67,7 @@
   version "3.12.1"
   resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file/-/file-3.12.1.tgz#42da17720f97edac0aecd12f5df4841212a090e8"
 
-"@ionic-native/geolocation@^3.12.1":
+"@ionic-native/geolocation@3.12.1":
   version "3.12.1"
   resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/geolocation/-/geolocation-3.12.1.tgz#6fea23c3168d0ac565d632e58dcb72a8d35af0df"
 
@@ -406,9 +406,9 @@ inline-process-browser@^1.0.0:
     falafel "^1.0.1"
     through2 "^0.6.5"
 
-ionic-angular@3.4.2:
-  version "3.4.2"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/ionic-angular/-/ionic-angular-3.4.2.tgz#762631f1af78a5ae1c0aa0f4d23b31435142abe1"
+ionic-angular@3.5.0:
+  version "3.5.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/ionic-angular/-/ionic-angular-3.5.0.tgz#35bc13ea4f33d308c0c214276b51ae2ec4007bad"
 
 ionicons@3.0.0:
   version "3.0.0"
