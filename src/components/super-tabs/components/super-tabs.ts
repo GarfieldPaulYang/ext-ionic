@@ -199,8 +199,6 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     ];
 
     if (viewCtrl) {
-      viewCtrl._setContent(this);
-      viewCtrl._setContentRef(el);
       obsToMerge.push(viewCtrl.didEnter);
     }
 
@@ -314,8 +312,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
       indexOrId = this.getTabIndexById(indexOrId);
     }
 
-    this.selectedTabIndex = indexOrId;
-    return this.tabsContainer.slideTo(indexOrId);
+    return this.onToolbarTabSelect(indexOrId);
   }
 
   getActiveChildNav() {
@@ -423,8 +420,8 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     }
   }
 
-  onToolbarTabSelect(index: number) {
-    this.tabsContainer.slideTo(index).then(() => {
+  onToolbarTabSelect(index: number): Promise<void> {
+    return this.tabsContainer.slideTo(index).then(() => {
       this.onTabChange(index);
     });
   }
