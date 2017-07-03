@@ -96,9 +96,6 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   @Input()
   id: string;
 
-  @Input()
-  name: string;
-
   /**
    * Height of the tabs
    */
