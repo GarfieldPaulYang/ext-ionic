@@ -24,11 +24,11 @@ export class StarRatingCmp extends BaseInput<number> implements OnInit, OnDestro
   private hammer: HammerManager;
 
   constructor(
-    private config: Config,
+    config: Config,
     private elementRef: ElementRef,
-    private renderer: Renderer,
-    private form: Form,
-    @Optional() private item: Item
+    renderer: Renderer,
+    form: Form,
+    @Optional() item: Item
   ) {
     super(config, elementRef, renderer, 'star-rating', 0, form, item, null);
   }

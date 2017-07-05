@@ -41,7 +41,7 @@ export class OpenUrlModalCmp {
   options: OpenUrlModalOptions;
 
   constructor(private navParams: NavParams, private viewCtrl: ViewController) {
-    this.options = navParams.get('openUrlModalOptions');
+    this.options = this.navParams.get('openUrlModalOptions');
     window.addEventListener('message', this.options.onmessage, false);
   }
 

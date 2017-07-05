@@ -1,6 +1,5 @@
 import { Component, Input, ElementRef, Renderer, OnInit, Output, EventEmitter } from '@angular/core';
 import { isTrueProperty } from '../../utils/util';
-import * as _ from 'lodash';
 
 import { ImageLoaderController } from './image-loader';
 import { ConfigProvider } from '../../config/config';

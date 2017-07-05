@@ -31,9 +31,9 @@ export class SuperTabsPanGesture {
     private rnd: Renderer2
   ) {
     this.listeners.push(
-      rnd.listen(el, 'touchstart', this._onStart.bind(this)),
-      rnd.listen(el, 'touchmove', this._onMove.bind(this)),
-      rnd.listen(el, 'touchend', this._onEnd.bind(this))
+      this.rnd.listen(this.el, 'touchstart', this._onStart.bind(this)),
+      this.rnd.listen(this.el, 'touchmove', this._onMove.bind(this)),
+      this.rnd.listen(this.el, 'touchend', this._onEnd.bind(this))
     );
 
     if (config.sideMenu === 'both' || config.sideMenu === 'left') {

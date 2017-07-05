@@ -46,7 +46,7 @@ export class AutoCompleteModalCmp implements AfterViewInit {
   options: AutoCompleteModalOptions;
 
   constructor(private navParams: NavParams, private viewCtrl: ViewController) {
-    this.options = navParams.get('options');
+    this.options = this.navParams.get('options');
     if (this.options.keyword) {
       this.getItems();
     }

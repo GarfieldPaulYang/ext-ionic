@@ -46,11 +46,11 @@ export class AutoCompleteCmp extends BaseInput<any> {
   private isInit = true;
 
   constructor(
-    private config: Config,
-    private elementRef: ElementRef,
-    private renderer: Renderer,
-    private form: Form,
-    @Optional() private item: Item,
+    config: Config,
+    elementRef: ElementRef,
+    renderer: Renderer,
+    form: Form,
+    @Optional() item: Item,
     private modalCtrl: ModalController
   ) {
     super(config, elementRef, renderer, 'auto-complete', '', form, item, null);

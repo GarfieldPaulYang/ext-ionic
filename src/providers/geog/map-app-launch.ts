@@ -58,8 +58,8 @@ export class GeogProvider {
     private jsonp: Jsonp,
     private geog: BaiduGeogProvider
   ) {
-    this.serviceMap.set(MapType.BAIDU, new BaiDuGeogService(geog));
-    this.serviceMap.set(MapType.AMAP, new AmapGeogService(jsonp));
+    this.serviceMap.set(MapType.BAIDU, new BaiDuGeogService(this.geog));
+    this.serviceMap.set(MapType.AMAP, new AmapGeogService(this.jsonp));
   }
 
   transformGps(points: GpsPoint[], mapType?: MapType): Promise<GpsPoint[]> {

@@ -1,5 +1,4 @@
 import { Component, Input, EventEmitter, Output, ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { NavController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { ImageLoaderController } from '../image-loader/image-loader';
@@ -57,7 +56,7 @@ export class Gallery implements OnInit, OnDestroy {
 
   private watches: Subscription[] = [];
 
-  constructor(private nav: NavController, private elementRef: ElementRef, private imgCtrl: ImageLoaderController) {
+  constructor(private elementRef: ElementRef, private imgCtrl: ImageLoaderController) {
     let obsToMerge: Observable<any>[] = [
       Observable.fromEvent(window, 'orientationchange'),
       Observable.fromEvent(window, 'resize')

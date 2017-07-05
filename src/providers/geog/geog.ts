@@ -1,5 +1,4 @@
 import { Jsonp } from '@angular/http';
-import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
 import { GpsPoint } from '../../commons/type/geog';
 

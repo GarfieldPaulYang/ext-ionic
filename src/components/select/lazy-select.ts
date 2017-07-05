@@ -4,7 +4,6 @@ import { Config, Form, Item } from 'ionic-angular';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CorsHttpProvider } from '../../providers/http/http';
 import { URLParamsBuilder } from '../../utils/http/url-params-builder';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'ion-lazy-select',
@@ -48,11 +47,11 @@ export class LazySelect extends BaseInput<any> implements OnInit {
   textField: string = 'name';
 
   constructor(
-    private config: Config,
-    private elementRef: ElementRef,
-    private renderer: Renderer,
-    private form: Form,
-    @Optional() private item: Item,
+    config: Config,
+    elementRef: ElementRef,
+    renderer: Renderer,
+    form: Form,
+    @Optional() item: Item,
     private http: CorsHttpProvider
   ) {
     super(config, elementRef, renderer, 'ion-lazy-select', '', form, item, null);

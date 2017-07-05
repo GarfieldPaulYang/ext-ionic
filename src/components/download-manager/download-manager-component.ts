@@ -9,11 +9,6 @@ export interface DownloadManager {
   fileList: Array<Entry>;
 }
 
-interface FileInfo {
-  fileName: string;
-  filePath: string;
-}
-
 @Component({
   selector: 'page-download-file',
   styles: [`

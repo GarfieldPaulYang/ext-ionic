@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ModalController, ModalOptions, Modal } from 'ionic-angular';
-import * as _ from 'lodash';
 
 import { ConfigProvider } from '../../config/config';
 

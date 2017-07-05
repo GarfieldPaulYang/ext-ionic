@@ -112,7 +112,6 @@ export class HttpProvider {
     private _http: Http,
     private jsonCache: JsonFileStorage,
     private memCache: MemoryStorage,
-    private config: ConfigProvider,
     private dialog: Dialog
   ) { }
 
