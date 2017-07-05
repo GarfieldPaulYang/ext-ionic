@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, Input, ElementRef, Optional, Renderer, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, Optional, Renderer, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Form, Item, Config } from 'ionic-angular';
+import { Config, Form, Item } from 'ionic-angular';
 import { BaseInput } from 'ionic-angular/util/base-input';
 import * as _ from 'lodash';
 

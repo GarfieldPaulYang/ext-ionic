@@ -6,7 +6,7 @@ import { Injectable, Pipe, PipeTransform } from '@angular/core';
 })
 @Injectable()
 export class MapToIterable implements PipeTransform {
-  transform(value: any, ...args: any[]): any {
+  transform(value: any, ..._args: any[]): any {
     let result: Array<any> = [];
 
     if (value.entries) {

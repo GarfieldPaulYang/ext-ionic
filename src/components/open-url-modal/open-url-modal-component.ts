@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ViewController, NavParams } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
 
 import { OpenUrlModalOptions } from './open-url-modal-options';
 

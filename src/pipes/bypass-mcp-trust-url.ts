@@ -10,7 +10,7 @@ import { CorsHttpProvider } from '../providers/http/http';
 export class TrustMcpUrl implements PipeTransform {
   constructor(private config: ConfigProvider, private http: CorsHttpProvider) { }
 
-  transform(value: string, ...args: any[]): any {
+  transform(value: string, ..._args: any[]): any {
     if (!value) {
       return null;
     }

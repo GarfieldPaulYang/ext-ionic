@@ -62,11 +62,11 @@ import { HotCodePush } from './native/hot-code-push';
 import { ExtLocalNotifications } from './native/local-notifications';
 import { AppLauncher } from './native/app-launcher';
 
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 
-import { EXT_IONIC_CONFIG, Config, ConfigProvider, setupConfig } from './config/config';
+import { Config, ConfigProvider, EXT_IONIC_CONFIG, setupConfig } from './config/config';
 import { Dialog } from './utils/dialog';
-import { HttpProvider, CorsHttpProvider } from './providers/http/http';
+import { CorsHttpProvider, HttpProvider } from './providers/http/http';
 import { FileUploder } from './providers/http/file-uploader';
 
 import { HotUpdater } from './providers/hot-updater';

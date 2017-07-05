@@ -23,7 +23,7 @@ export interface Config {
 const defaultConfig: Config = {
   devMode: false,
   openUrlModal: {
-    onmessage: (e) => { }
+    onmessage: () => { }
   },
   imageLoader: {
     spinnerEnabled: true,

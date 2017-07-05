@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { MapToIterable } from './map-to-iterable';
 import { OrderBy } from './order-by';
 import { TrustResourceUrl } from './bypass-trust-res-url';

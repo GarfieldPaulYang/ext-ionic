@@ -1,5 +1,5 @@
 // 封装参考官方API，http://developer.baidu.com/map/reference/index.php
-import { Injectable, EventEmitter } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { baiduMapLoader } from './baidu-map-loader';
 import {
   BaiduMapOptions,
@@ -52,7 +52,7 @@ export class BaiduMapController {
   translateGps(gpsData: Array<GpsPoint> = []): Promise<any> {
     return new Promise<any>(resolve => {
       let points: Array<any> = [];
-      gpsData.forEach((value, index) => {
+      gpsData.forEach(value => {
         points.push(new BMap.Point(value.lng, value.lat));
       });
 
@@ -103,7 +103,7 @@ export class BaiduMapController {
     let marker = this.createMarker(markerOpts);
     let infoWindow = this.createInfoWindow(markerOpts);
     if (infoWindow) {
-      marker.addEventListener('click', (e: any) => {
+      marker.addEventListener('click', () => {
         marker.openInfoWindow(infoWindow);
       });
     } else {

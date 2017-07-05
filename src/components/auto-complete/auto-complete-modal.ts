@@ -1,5 +1,5 @@
-import { Component, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
-import { ViewController, NavParams, Searchbar } from 'ionic-angular';
+import { AfterViewInit, Component, TemplateRef, ViewChild } from '@angular/core';
+import { NavParams, Searchbar, ViewController } from 'ionic-angular';
 import { AutoCompleteDataProvider } from './auto-complete';
 
 export interface AutoCompleteModalOptions {

@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, Renderer, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer } from '@angular/core';
 import { isTrueProperty } from '../../utils/util';
 
 import { ImageLoaderController } from './image-loader';
@@ -22,7 +22,7 @@ export class ImageLoaderCmp implements OnInit {
   set src(imageUrl: string) {
     this._src = this.processImageUrl(imageUrl);
     this.updateImage(this._src);
-  };
+  }
 
   get src(): string {
     return this._src;
@@ -91,7 +91,7 @@ export class ImageLoaderCmp implements OnInit {
 
   private updateImage(imageUrl: string) {
     this.imageLoader.getImagePath(imageUrl).then((imageUrl: string) => this.setImage(imageUrl))
-      .catch((error: any) => this.setImage(this.fallbackUrl || imageUrl));
+      .catch(() => this.setImage(this.fallbackUrl || imageUrl));
   }
 
   private setImage(imageUrl: string, stopLoading: boolean = true): void {
@@ -102,7 +102,7 @@ export class ImageLoaderCmp implements OnInit {
         this.element = this.renderer.createElement(this.elementRef.nativeElement, 'img');
       }
       if (this.fallbackUrl && !this.imageLoader.nativeAvailable) {
-        this.renderer.listen(this.element, 'error', (event: any) => {
+        this.renderer.listen(this.element, 'error', () => {
           this.imageLoader.removeCacheFile(imageUrl);
           this.renderer.setElementAttribute(this.element, 'src', this.fallbackUrl);
         });

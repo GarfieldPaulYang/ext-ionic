@@ -1,6 +1,6 @@
 import {
-  Component, Input, Output, EventEmitter, ElementRef, ViewChildren, QueryList,
-  ViewEncapsulation, ViewChild, Renderer2, AfterViewInit, OnDestroy
+  AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output,
+  QueryList, Renderer2, ViewChild, ViewChildren, ViewEncapsulation
 } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { SuperTabsPanGesture } from '../super-tabs-pan-gesture';

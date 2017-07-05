@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
 import { AutoCompleteCmp } from './auto-complete';
 import { BaiduPlacesProvider } from './baidu-places.provider';

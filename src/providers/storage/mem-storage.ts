@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Storage, SaveOptions, LoadOptions, RemoveOptions } from './storage';
+import { LoadOptions, RemoveOptions, SaveOptions, Storage } from './storage';
 import { isPresent } from '../../utils/util';
 
 @Injectable()

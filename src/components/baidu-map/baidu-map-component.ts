@@ -1,11 +1,11 @@
 import {
-  Component,
   AfterViewInit,
-  OnChanges,
-  Input,
-  Output,
-  EventEmitter,
+  Component,
   ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
   SimpleChange,
   SimpleChanges
 } from '@angular/core';
@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 import { ConfigProvider } from '../../config/config';
 
 import { BaiduMapOptions, MarkerOptions } from './baidu-map-options';
-import { BaiduMapController, BMap } from './baidu-map';
+import { BMap, BaiduMapController } from './baidu-map';
 
 @Component({
   selector: 'ion-baidu-map',

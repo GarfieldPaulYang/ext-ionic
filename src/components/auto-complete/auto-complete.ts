@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef, ElementRef, Renderer, Optional } from '@angular/core';
+import { Component, ElementRef, Input, Optional, Renderer, TemplateRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseInput } from 'ionic-angular/util/base-input';
 import { Config, Form, Item, Modal, ModalController } from 'ionic-angular';

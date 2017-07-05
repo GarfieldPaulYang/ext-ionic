@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Jsonp } from '@angular/http';
-import { Platform, ActionSheetController } from 'ionic-angular';
+import { ActionSheetController, Platform } from 'ionic-angular';
 import * as _ from 'lodash';
 import { AppLauncher, AppLauncherOptions } from '../../native/app-launcher';
 import { Dialog } from '../../utils/dialog';
@@ -105,9 +105,9 @@ class BaiDuMapLaunchService implements MapLaunchService {
     } else {
       opt.packageName = 'com.baidu.BaiduMap';
     }
-    return this.appLauncher.canLaunch(opt).then(v => {
+    return this.appLauncher.canLaunch(opt).then(() => {
       return true;
-    }).catch(e => {
+    }).catch(() => {
       Promise.resolve(false);
     });
   }
@@ -147,9 +147,9 @@ class AmapMapLaunchService implements MapLaunchService {
     } else {
       opt.packageName = 'com.autonavi.minimap';
     }
-    return this.appLauncher.canLaunch(opt).then(v => {
+    return this.appLauncher.canLaunch(opt).then(() => {
       return true;
-    }).catch(e => {
+    }).catch(() => {
       Promise.resolve(false);
     });
   }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { File, Metadata, Entry } from '@ionic-native/file';
+import { Entry, File, Metadata } from '@ionic-native/file';
 import { isPresent } from '../../utils/util';
-import { Storage, SaveOptions, LoadOptions, RemoveOptions } from './storage';
+import { LoadOptions, RemoveOptions, SaveOptions, Storage } from './storage';
 import { MemoryStorage } from './mem-storage';
 
 @Injectable()
@@ -103,7 +103,7 @@ export class TextFileStorage implements Storage {
     return new Promise<Metadata>((resolve) => {
       fileEntry.getMetadata(metadata => {
         resolve(metadata);
-      }, (error) => resolve());
+      }, () => resolve());
     });
   }
 

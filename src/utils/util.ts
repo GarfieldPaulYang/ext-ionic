@@ -6,7 +6,7 @@ export function isTrueProperty(val: any): boolean {
     return val === 'true' || val === 'on' || val === 'yes';
   }
   return !!val;
-};
+}
 
 export function isPresent(val: any): boolean {
   return val !== undefined && val !== null;
@@ -15,7 +15,7 @@ export function isPresent(val: any): boolean {
 export function flattenObject(obj: any) {
   return _.transform(obj, function (result, value, key) {
     if (_.isObject(value) && !_.isArray(value)) {
-      let flatMap = _.mapKeys(flattenObject(value), function (mvalue, mkey) {
+      let flatMap = _.mapKeys(flattenObject(value), (_mvalue, mkey) => {
         return `${key}.${mkey}`;
       });
       _.assign(result, flatMap);

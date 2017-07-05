@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ChangeDetectionStrategy, Renderer } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Renderer } from '@angular/core';
 import { isPresent } from '../../utils/util';
 
 export interface RibbnOptions {

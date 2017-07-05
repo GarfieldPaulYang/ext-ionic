@@ -9,7 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class TrustResourceUrl implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) { }
 
-  transform(value: any, ...args: any[]): any {
+  transform(value: any, ..._args: any[]): any {
     if (!value) {
       return null;
     }

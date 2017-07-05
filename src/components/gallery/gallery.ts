@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { ImageLoaderController } from '../image-loader/image-loader';
@@ -100,7 +100,7 @@ export class Gallery implements OnInit, OnDestroy {
     this.imgCtrl.getImagePath(item[this.options.thumbKey]).then((path) => {
       item['localPath'] = path;
       this.itemClick.emit(item);
-    }).catch(e => {
+    }).catch(() => {
       this.itemClick.emit(item);
     });
   }
@@ -110,7 +110,7 @@ export class Gallery implements OnInit, OnDestroy {
     this.imgCtrl.getImagePath(item[this.options.thumbKey]).then((path) => {
       item['localPath'] = path;
       this.itemPress.emit(item);
-    }).catch(e => {
+    }).catch(() => {
       this.itemPress.emit(item);
     });
   }

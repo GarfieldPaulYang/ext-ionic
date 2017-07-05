@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cordova, Plugin, IonicNativePlugin } from '@ionic-native/core';
+import { Cordova, IonicNativePlugin, Plugin } from '@ionic-native/core';
 
 export interface ExtraOptions {
   name?: string;
@@ -26,8 +26,8 @@ export interface AppLauncherOptions {
 @Injectable()
 export class AppLauncher extends IonicNativePlugin {
   @Cordova()
-  canLaunch(options: AppLauncherOptions): Promise<any> { return; };
+  canLaunch(_options: AppLauncherOptions): Promise<any> { return; }
 
   @Cordova()
-  launch(options: AppLauncherOptions): Promise<any> { return; };
+  launch(_options: AppLauncherOptions): Promise<any> { return; }
 }

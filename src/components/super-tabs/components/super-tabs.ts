@@ -1,9 +1,9 @@
 import {
-  AfterViewInit, Component, ElementRef, Input, OnInit, OnDestroy, Renderer2,
-  ViewChild, AfterContentInit, Output, EventEmitter, ViewEncapsulation, forwardRef, Optional
+  AfterContentInit, AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy,
+  OnInit, Optional, Output, Renderer2, ViewChild, ViewEncapsulation, forwardRef
 } from '@angular/core';
 import { SuperTab } from './super-tab';
-import { NavController, RootNode, NavControllerBase, ViewController, App, DeepLinker, DomController } from 'ionic-angular';
+import { App, DeepLinker, DomController, NavController, NavControllerBase, RootNode, ViewController } from 'ionic-angular';
 import { NavigationContainer } from 'ionic-angular/navigation/navigation-container';
 import { DIRECTION_SWITCH } from 'ionic-angular/navigation/nav-util';
 import { Observable } from 'rxjs/Observable';

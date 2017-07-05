@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, OnChanges, SimpleChanges, NgZone } from '@angular/core';
-import { DownloadManagerController, DownloadEvent } from './download-manager';
-import { File, Entry, DirectoryEntry, DirectoryReader } from '@ionic-native/file';
+import { Component, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { DownloadEvent, DownloadManagerController } from './download-manager';
+import { DirectoryEntry, DirectoryReader, Entry, File } from '@ionic-native/file';
 import * as _ from 'lodash';
 import { isPresent } from '../../utils/util';
 
