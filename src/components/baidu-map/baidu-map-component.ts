@@ -32,7 +32,8 @@ export class BaiduMap implements AfterViewInit, OnChanges {
   @Output() onMapClick: EventEmitter<any> = new EventEmitter<any>();
   @Output() onMarkerClick: EventEmitter<any> = new EventEmitter<any>();
 
-  private opacity: number = 0;
+  opacity: number = 0;
+
   private mapLoaded: boolean = false;
 
   constructor(

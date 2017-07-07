@@ -112,10 +112,11 @@ export class BaiduMapController {
       });
     }
     this.map.addOverlay(marker);
+    return marker;
   }
 
-  drawMarkers(markers: Array<MarkerOptions>, clickHandler: EventEmitter<any>): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
+  drawMarkers(markers: Array<MarkerOptions>, clickHandler: EventEmitter<any>): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
       setTimeout(() => {
         // 判断是否含有定位点
         if (!markers || markers.length === 0) {
@@ -124,10 +125,11 @@ export class BaiduMapController {
         }
 
         this.clearOverlays();
+        let result = [];
         markers.forEach(marker => {
-          this.addMarker(marker, clickHandler);
+          result.push(this.addMarker(marker, clickHandler));
         });
-        resolve();
+        resolve(result);
       });
     });
   }
@@ -142,12 +144,12 @@ export class BaiduMapController {
 
         this.clearOverlays();
 
-        var points: Array<any> = [];
+        let points: Array<any> = [];
         markers.forEach(marker => {
           points.push(new BMap.Point(marker.point.lng, marker.point.lat));
         });
 
-        var pointCollection = new BMap.PointCollection(points, {
+        let pointCollection = new BMap.PointCollection(points, {
           size: BMAP_POINT_SIZE_SMALL,
           shape: BMAP_POINT_SHAPE_CIRCLE,
           color: '#d340c3',
@@ -159,6 +161,21 @@ export class BaiduMapController {
         this.map.addOverlay(pointCollection);
         resolve();
       });
+    });
+  }
+
+  drawLine(markers: Array<MarkerOptions>, clickHandler: EventEmitter<any>): Promise<any> {
+    return this.drawMarkers(markers, clickHandler).then(result => {
+      let points = [];
+      result.forEach(marker => {
+        points.push(marker.getPosition());
+      });
+      this.map.addOverlay(new BMap.Polyline(points, {
+        strokeColor: 'blue',
+        strokeWeight: 3,
+        strokeOpacity: 0.5
+      }));
+      return result;
     });
   }
 
@@ -182,7 +199,7 @@ export class BaiduMapController {
 
   private createInfoWindow(marker: MarkerOptions): any {
     if (marker.infoWindow) {
-      var msg = '<p>' + marker.infoWindow.title + '</p><p>' + marker.infoWindow.content + '</p>';
+      let msg = '<p>' + marker.infoWindow.title + '</p><p>' + marker.infoWindow.content + '</p>';
       return new BMap.InfoWindow(msg, {
         enableMessage: !!marker.infoWindow.enableMessage,
         enableCloseOnClick: true
@@ -193,11 +210,15 @@ export class BaiduMapController {
   }
 
   private createMarker(marker: MarkerOptions): any {
-    var icon = this.createIcon(marker);
-    var pt = new BMap.Point(marker.point.lng, marker.point.lat);
+    let icon = this.createIcon(marker);
+    let pt = new BMap.Point(marker.point.lng, marker.point.lat);
+    let result = new BMap.Marker(pt);
     if (icon) {
-      return new BMap.Marker(pt, { icon: icon });
+      result.setIcon(icon);
     }
-    return new BMap.Marker(pt);
+    if (marker.title) {
+      result.setTitle(marker.title);
+    }
+    return result;
   }
 }
