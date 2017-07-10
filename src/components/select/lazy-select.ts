@@ -35,7 +35,7 @@ export class LazySelect extends BaseInput<any> implements OnInit {
   chooseTextField: boolean = false;
 
   @Input()
-  chooseText: string = '全部';
+  chooseText: string = '请选择';
 
   @Input()
   url: string;
