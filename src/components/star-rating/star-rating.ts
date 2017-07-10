@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, Input, ElementRef, Optional, Renderer, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, Optional, Renderer, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Form, Item, Config } from 'ionic-angular';
+import { Config, Form, Item } from 'ionic-angular';
 import { BaseInput } from 'ionic-angular/util/base-input';
 import * as _ from 'lodash';
 
@@ -24,11 +24,11 @@ export class StarRatingCmp extends BaseInput<number> implements OnInit, OnDestro
   private hammer: HammerManager;
 
   constructor(
-    private config: Config,
+    config: Config,
     private elementRef: ElementRef,
-    private renderer: Renderer,
-    private form: Form,
-    @Optional() private item: Item
+    renderer: Renderer,
+    form: Form,
+    @Optional() item: Item
   ) {
     super(config, elementRef, renderer, 'star-rating', 0, form, item, null);
   }

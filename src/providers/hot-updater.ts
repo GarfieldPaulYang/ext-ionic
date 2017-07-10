@@ -23,14 +23,14 @@ export class HotUpdater {
   ) { }
 
   start() {
-    this.hotCodePush.isUpdateAvailableForInstallation((error, data) => {
+    this.hotCodePush.isUpdateAvailableForInstallation((error) => {
       if (!error) {
         this.hotCodePush.installUpdate().then(error => {
           console.log(error);
         });
         return;
       }
-      this.hotCodePush.fetchUpdate((error, data) => {
+      this.hotCodePush.fetchUpdate((error) => {
         if (!error) {
           this.dialog.confirm('更新通知', '新版本更新成功,是否现在重启应用?', () => {
             this.hotCodePush.installUpdate().then(e => {

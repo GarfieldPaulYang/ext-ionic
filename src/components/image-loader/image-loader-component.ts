@@ -1,7 +1,5 @@
-import { Component, Input, ElementRef, Renderer, OnInit, Output, EventEmitter } from '@angular/core';
-import { File } from '@ionic-native/file';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer } from '@angular/core';
 import { isTrueProperty } from '../../utils/util';
-import * as _ from 'lodash';
 
 import { ImageLoaderController } from './image-loader';
 import { ConfigProvider } from '../../config/config';
@@ -24,7 +22,7 @@ export class ImageLoaderCmp implements OnInit {
   set src(imageUrl: string) {
     this._src = this.processImageUrl(imageUrl);
     this.updateImage(this._src);
-  };
+  }
 
   get src(): string {
     return this._src;
@@ -54,8 +52,7 @@ export class ImageLoaderCmp implements OnInit {
     private elementRef: ElementRef,
     private renderer: Renderer,
     private imageLoader: ImageLoaderController,
-    private config: ConfigProvider,
-    private file: File
+    private config: ConfigProvider
   ) { }
 
   ngOnInit(): void {
@@ -94,7 +91,7 @@ export class ImageLoaderCmp implements OnInit {
 
   private updateImage(imageUrl: string) {
     this.imageLoader.getImagePath(imageUrl).then((imageUrl: string) => this.setImage(imageUrl))
-      .catch((error: any) => this.setImage(this.fallbackUrl || imageUrl));
+      .catch(() => this.setImage(this.fallbackUrl || imageUrl));
   }
 
   private setImage(imageUrl: string, stopLoading: boolean = true): void {
@@ -105,14 +102,12 @@ export class ImageLoaderCmp implements OnInit {
         this.element = this.renderer.createElement(this.elementRef.nativeElement, 'img');
       }
       if (this.fallbackUrl && !this.imageLoader.nativeAvailable) {
-        this.renderer.listen(this.element, 'error', (event: any) => {
+        this.renderer.listen(this.element, 'error', () => {
           this.imageLoader.removeCacheFile(imageUrl);
           this.renderer.setElementAttribute(this.element, 'src', this.fallbackUrl);
         });
       }
-      this.resolveImageUrl(imageUrl).then((url) => {
-        this.renderer.setElementAttribute(this.element, 'src', url);
-      });
+      this.renderer.setElementAttribute(this.element, 'src', imageUrl);
     } else {
       this.element = this.elementRef.nativeElement;
       if (this.display) {
@@ -135,17 +130,8 @@ export class ImageLoaderCmp implements OnInit {
         this.renderer.setElementStyle(this.element, 'background-repeat', this.backgroundRepeat);
       }
 
-      this.resolveImageUrl(imageUrl).then((url) => {
-        this.renderer.setElementStyle(this.element, 'background-image', 'url(\'' + (url || this.fallbackUrl) + '\')');
-      });
+      this.renderer.setElementStyle(this.element, 'background-image', 'url(\'' + (imageUrl || this.fallbackUrl) + '\')');
     }
     this.load.emit(this);
-  }
-
-  private resolveImageUrl(imageUrl: string): Promise<string> {
-    if (!this.imageLoader.nativeAvailable) {
-      return Promise.resolve(imageUrl);
-    }
-    return this.file.resolveLocalFilesystemUrl(imageUrl).then((entry) => entry.toInternalURL());
   }
 }

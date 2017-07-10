@@ -23,7 +23,7 @@ export interface Config {
 const defaultConfig: Config = {
   devMode: false,
   openUrlModal: {
-    onmessage: (e) => { }
+    onmessage: () => { }
   },
   imageLoader: {
     spinnerEnabled: true,
@@ -36,7 +36,7 @@ const defaultConfig: Config = {
     cacheDirectoryName: 'image-loader-cache',
     concurrency: 5,
     maxCacheSize: -1,
-    maxCacheAge: -1,
+    maxCacheAge: 1000 * 60 * 60 * 72,
     imageReturnType: 'uri',
     fallbackAsPlaceholder: false
   },

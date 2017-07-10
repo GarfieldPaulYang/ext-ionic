@@ -1,8 +1,8 @@
 import {
-  Component, Input, Output, EventEmitter, ElementRef, ViewChildren, QueryList,
-  ViewEncapsulation, ViewChild, Renderer2, AfterViewInit, OnDestroy
+  AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output,
+  QueryList, Renderer2, ViewChild, ViewChildren, ViewEncapsulation
 } from '@angular/core';
-import { Platform, DomController } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 import { SuperTabsPanGesture } from '../super-tabs-pan-gesture';
 import { SuperTabsConfig } from './super-tabs';
 import { SuperTabButton } from './super-tab-button';
@@ -93,8 +93,7 @@ export class SuperTabsToolbar implements AfterViewInit, OnDestroy {
   constructor(
     private el: ElementRef,
     private plt: Platform,
-    private rnd: Renderer2,
-    private domCtrl: DomController
+    private rnd: Renderer2
   ) { }
 
   ngAfterViewInit() {

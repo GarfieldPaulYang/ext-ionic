@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
+  Headers,
   Http,
   Request,
-  Response,
-  RequestOptionsArgs,
-  ResponseContentType,
   RequestMethod,
   RequestOptions,
-  URLSearchParams,
-  Headers
+  RequestOptionsArgs,
+  Response,
+  ResponseContentType,
+  URLSearchParams
 } from '@angular/http';
 import { Events, Loading } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
@@ -112,7 +112,6 @@ export class HttpProvider {
     private _http: Http,
     private jsonCache: JsonFileStorage,
     private memCache: MemoryStorage,
-    private config: ConfigProvider,
     private dialog: Dialog
   ) { }
 
@@ -123,7 +122,7 @@ export class HttpProvider {
   requestWithError<T>(
     url: string,
     options?: HttpProviderOptionsArgs,
-    foundCacheCallback: (result: T) => void = (result: T) => { }
+    foundCacheCallback: (result: T) => void = (_result: T) => { }
   ): Promise<T> {
     options = options ? defaultRequestOptions.merge(options) : defaultRequestOptions;
 
@@ -278,7 +277,7 @@ export class CorsHttpProvider {
   request<T>(
     url: string,
     options?: HttpProviderOptionsArgs,
-    foundCacheCallback: (result: T) => void = (result: T) => { }
+    foundCacheCallback: (result: T) => void = (_result: T) => { }
   ): Promise<T> {
     options = options || {};
     options.headers = options.headers || new Headers();

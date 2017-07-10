@@ -1,10 +1,9 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { BaiduMapController } from './baidu-map';
 import { BaiduMap } from './baidu-map-component';
 
 export { BaiduMapController } from './baidu-map';
 export {
-  GpsPoint,
   MarkerSize,
   MarkerInfoWindow,
   MarkerOptions,

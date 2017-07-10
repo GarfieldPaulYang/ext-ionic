@@ -1,11 +1,11 @@
 import {
-  Component,
   AfterViewInit,
-  OnChanges,
-  Input,
-  Output,
-  EventEmitter,
+  Component,
   ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
   SimpleChange,
   SimpleChanges
 } from '@angular/core';
@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 import { ConfigProvider } from '../../config/config';
 
 import { BaiduMapOptions, MarkerOptions } from './baidu-map-options';
-import { BaiduMapController, BMap } from './baidu-map';
+import { BMap, BaiduMapController } from './baidu-map';
 
 @Component({
   selector: 'ion-baidu-map',
@@ -32,7 +32,8 @@ export class BaiduMap implements AfterViewInit, OnChanges {
   @Output() onMapClick: EventEmitter<any> = new EventEmitter<any>();
   @Output() onMarkerClick: EventEmitter<any> = new EventEmitter<any>();
 
-  private opacity: number = 0;
+  opacity: number = 0;
+
   private mapLoaded: boolean = false;
 
   constructor(
@@ -48,9 +49,9 @@ export class BaiduMap implements AfterViewInit, OnChanges {
       this._elementRef.nativeElement
     ).then(() => {
       this.baiduMapCtrl.addEventListener('click', this.onMapClick);
-      this.reDraw(opts);
-      this.onMapLoaded.emit();
+      this.draw(opts.markers);
       this.mapLoaded = true;
+      this.onMapLoaded.emit();
     }, e => {
       this.opacity = 1;
       this.onMapLoadFialed.emit(e);
@@ -73,7 +74,11 @@ export class BaiduMap implements AfterViewInit, OnChanges {
   }
 
   private reDraw(opts: BaiduMapOptions) {
-    this.baiduMapCtrl.panTo(new BMap.Point(opts.center.lng, opts.center.lat));
+    if (_.isString(opts.center)) {
+      this.baiduMapCtrl.map.setCenter(opts.center);
+    } else {
+      this.baiduMapCtrl.map.setCenter(new BMap.Point(opts.center.lng, opts.center.lat));
+    }
     this.draw(opts.markers);
   }
 

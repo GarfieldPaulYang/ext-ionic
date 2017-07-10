@@ -1,7 +1,4 @@
-export interface GpsPoint {
-  lng: number;
-  lat: number;
-}
+import { GpsPoint } from '../../commons/type/geog';
 
 export interface MarkerSize {
   width: number;
@@ -17,6 +14,7 @@ export interface MarkerInfoWindow {
 export interface MarkerOptions {
   point: GpsPoint;
   icon?: string;
+  title?: string;
   size?: MarkerSize;
   infoWindow?: MarkerInfoWindow;
 }
@@ -39,7 +37,7 @@ export interface BaiduMapOptions {
   enableScrollWheelZoom?: boolean;
   zoom?: number;
   city?: string;
-  center?: GpsPoint;
+  center?: GpsPoint | string;
   markers?: MarkerOptions[];
   mass?: MassOptions;
 }

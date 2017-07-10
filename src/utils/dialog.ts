@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Loading, LoadingController, AlertController, ToastController } from 'ionic-angular';
+import { AlertController, Loading, LoadingController, ToastController } from 'ionic-angular';
 
 @Injectable()
 export class Dialog {

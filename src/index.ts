@@ -1,7 +1,10 @@
+export { GpsPoint } from './commons/type/geog';
+
 export { Immerse } from './native/immerse-plugin';
 export { ExtILocalNotification, ExtLocalNotifications } from './native/local-notifications';
 export { HotCodePushConifg, HotCodePushOptions, HotCodeCallback, HotCodePush } from './native/hot-code-push';
 export { AppLauncher, AppLauncherOptions, ExtraOptions } from './native/app-launcher';
+export { GeolocationProvider } from './providers/geog/geolocation';
 
 export { LoginConfig, Config, ConfigProvider } from './config/config';
 export { ResponseResult, Pagination } from './utils/http/response/response-result';
@@ -29,6 +32,7 @@ export * from './components/download-manager/download-manager.module';
 export * from './components/nav-button-bar/nav-button-bar.module';
 export * from './components/gallery/gallery.module';
 export * from './components/select/lazy-select.module';
+export * from './components/auto-complete/auto-complete.module';
 
 export { StringUtils } from './utils/string';
 export { isTrueProperty, isPresent, flattenObject, unFlattenObject, dateFormat } from './utils/util';
@@ -52,16 +56,17 @@ import { Transfer } from '@ionic-native/transfer';
 import { FileOpener } from '@ionic-native/file-opener';
 import { File } from '@ionic-native/file';
 import { Device } from '@ionic-native/device';
+import { Geolocation } from '@ionic-native/geolocation';
 import { Immerse } from './native/immerse-plugin';
 import { HotCodePush } from './native/hot-code-push';
 import { ExtLocalNotifications } from './native/local-notifications';
 import { AppLauncher } from './native/app-launcher';
 
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 
-import { EXT_IONIC_CONFIG, Config, ConfigProvider, setupConfig } from './config/config';
+import { Config, ConfigProvider, EXT_IONIC_CONFIG, setupConfig } from './config/config';
 import { Dialog } from './utils/dialog';
-import { HttpProvider, CorsHttpProvider } from './providers/http/http';
+import { CorsHttpProvider, HttpProvider } from './providers/http/http';
 import { FileUploder } from './providers/http/file-uploader';
 
 import { HotUpdater } from './providers/hot-updater';
@@ -71,7 +76,9 @@ import { MemoryStorage } from './providers/storage/mem-storage';
 import { TextFileStorage } from './providers/storage/file-storage';
 import { JsonFileStorage } from './providers/storage/json-file-storage';
 
-import { GeogProvider, MapLaunchProvider } from './providers/geog/geog';
+import { BaiduGeogProvider } from './providers/geog/geog';
+import { GeogProvider, MapLaunchProvider } from './providers/geog/map-app-launch';
+import { GeolocationProvider } from './providers/geog/geolocation';
 
 import { PipesModule } from './pipes/pipes.module';
 
@@ -86,12 +93,14 @@ import { DownloadManagerModule } from './components/download-manager/download-ma
 import { NavButtonBarModule } from './components/nav-button-bar/nav-button-bar.module';
 import { GalleryModule } from './components/gallery/gallery.module';
 import { LazySelectModule } from './components/select/lazy-select.module';
+import { AutoCompleteModule } from './components/auto-complete/auto-complete.module';
 
 const PROVIDERS: Array<any> = [
   Transfer,
   File,
   FileOpener,
   Device,
+  Geolocation,
 
   Dialog,
   HttpProvider,
@@ -102,12 +111,14 @@ const PROVIDERS: Array<any> = [
   MemoryStorage,
   TextFileStorage,
   JsonFileStorage,
+  BaiduGeogProvider,
   GeogProvider,
-  MapLaunchProvider,
 
   Immerse,
   HotCodePush,
   ExtLocalNotifications,
+  GeolocationProvider,
+  MapLaunchProvider,
   AppLauncher
 ];
 
@@ -124,7 +135,8 @@ const PROVIDERS: Array<any> = [
     PipesModule.forRoot(),
     NavButtonBarModule.forRoot(),
     GalleryModule.forRoot(),
-    LazySelectModule.forRoot()
+    LazySelectModule.forRoot(),
+    AutoCompleteModule.forRoot()
   ],
   exports: [
     AlphaScrollModule,
@@ -138,7 +150,8 @@ const PROVIDERS: Array<any> = [
     PipesModule,
     NavButtonBarModule,
     GalleryModule,
-    LazySelectModule
+    LazySelectModule,
+    AutoCompleteModule
   ]
 })
 export class ExtIonicModule {

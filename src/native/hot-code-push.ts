@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cordova, Plugin, IonicNativePlugin } from '@ionic-native/core';
+import { Cordova, IonicNativePlugin, Plugin } from '@ionic-native/core';
 
 export interface HotCodePushConifg {
   'config-file'?: string;
@@ -68,23 +68,23 @@ export class HotCodePush extends IonicNativePlugin {
   @Cordova({
     sync: true
   })
-  fetchUpdate(callback: HotCodeCallback, options?: HotCodePushOptions): void { };
+  fetchUpdate(_callback: HotCodeCallback, _options?: HotCodePushOptions): void { }
 
   @Cordova()
-  installUpdate(): Promise<any> { return; };
+  installUpdate(): Promise<any> { return; }
 
   @Cordova({
     sync: true
   })
-  isUpdateAvailableForInstallation(callback: HotCodeCallback): void { };
+  isUpdateAvailableForInstallation(_callback: HotCodeCallback): void { }
 
   @Cordova({
     sync: true
   })
-  getVersionInfo(callback: HotCodeCallback) { };
+  getVersionInfo(_callback: HotCodeCallback) { }
 
   @Cordova()
-  configure(config: HotCodePushConifg): Promise<any> { return; };
+  configure(_config: HotCodePushConifg): Promise<any> { return; }
 
   onUpdateInstalled(listener: EventListenerOrEventListenerObject) {
     document.addEventListener(HotCodePush.event.UPDATE_INSTALLED, listener, false);

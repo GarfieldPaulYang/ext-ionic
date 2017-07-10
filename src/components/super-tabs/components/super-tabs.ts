@@ -1,9 +1,11 @@
 import {
-  AfterViewInit, Component, ElementRef, Input, OnInit, OnDestroy, Renderer2,
-  ViewChild, AfterContentInit, Output, EventEmitter, ViewEncapsulation, forwardRef, Optional
+  AfterContentInit, AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy,
+  OnInit, Optional, Output, Renderer2, ViewChild, ViewEncapsulation, forwardRef
 } from '@angular/core';
 import { SuperTab } from './super-tab';
-import { NavController, RootNode, NavControllerBase, ViewController, App, DeepLinker, DomController } from 'ionic-angular';
+import { App, DeepLinker, DomController, NavController, NavControllerBase, RootNode, ViewController } from 'ionic-angular';
+import { NavigationContainer } from 'ionic-angular/navigation/navigation-container';
+import { DIRECTION_SWITCH } from 'ionic-angular/navigation/nav-util';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { SuperTabsToolbar } from './super-tabs-toolbar';
@@ -57,7 +59,7 @@ export interface SuperTabsConfig {
   encapsulation: ViewEncapsulation.None,
   providers: [{ provide: RootNode, useExisting: forwardRef(() => SuperTabs) }]
 })
-export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDestroy, RootNode {
+export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDestroy, RootNode, NavigationContainer {
   /**
    * Color of the toolbar behind the tab buttons
    */
@@ -185,7 +187,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
       this.parent = <any>viewCtrl.getNav();
       this.parent.registerChildNav(this);
     } else if (this._app) {
-      this._app._setRootNav(this);
+      this._app.registerRootNav(this);
     }
 
     let obsToMerge: Observable<any>[] = [
@@ -194,8 +196,6 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     ];
 
     if (viewCtrl) {
-      viewCtrl._setContent(this);
-      viewCtrl._setContentRef(el);
       obsToMerge.push(viewCtrl.didEnter);
     }
 
@@ -242,13 +242,13 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   }
 
   ngAfterViewInit() {
-    const tabsSegment = this.linker.initNav(this);
+    const tabsSegment = this.linker.getSegmentByNavId(this.id);
 
-    if (tabsSegment && !tabsSegment.component) {
-      this.selectedTabIndex = this.linker.getSelectedTabIndex(<any>this, tabsSegment.name, this.selectedTabIndex);
+    if (tabsSegment) {
+      this.selectedTabIndex = this.getTabIndexById(tabsSegment.id);
     }
 
-    this.linker.navChange('switch');
+    this.linker.navChange(this.id, DIRECTION_SWITCH);
 
     if (!this.hasTitles && !this.hasIcons) this._isToolbarVisible = false;
 
@@ -309,8 +309,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
       indexOrId = this.getTabIndexById(indexOrId);
     }
 
-    this.selectedTabIndex = indexOrId;
-    return this.tabsContainer.slideTo(indexOrId);
+    return this.onToolbarTabSelect(indexOrId);
   }
 
   getActiveChildNav() {
@@ -402,7 +401,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
       }
 
       this.selectedTabIndex = index;
-      this.linker.navChange('switch');
+      this.linker.navChange(this.id, DIRECTION_SWITCH);
       this.refreshTabStates();
 
       activeView = this.getActiveTab().getActive();
@@ -418,8 +417,8 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     }
   }
 
-  onToolbarTabSelect(index: number) {
-    this.tabsContainer.slideTo(index).then(() => {
+  onToolbarTabSelect(index: number): Promise<void> {
+    return this.tabsContainer.slideTo(index).then(() => {
       this.onTabChange(index);
     });
   }
@@ -551,6 +550,10 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   getActiveTab(): SuperTab {
     return this._tabs[this.selectedTabIndex];
   }
+
+  getType(): string { return; }
+
+  getSecondaryIdentifier(): string { return; }
 
   getElementRef() { return this.el; }
 

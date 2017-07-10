@@ -1,12 +1,12 @@
 import * as _ from 'lodash';
 import {
   Component,
-  OnInit,
-  OnChanges,
-  OnDestroy,
+  ElementRef,
   Host,
   Input,
-  ElementRef,
+  OnChanges,
+  OnDestroy,
+  OnInit,
   TemplateRef
 } from '@angular/core';
 import { Content } from 'ionic-angular';
@@ -106,13 +106,13 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
       ]
     });
 
-    this.hammer.on('panstart', (e: any) => {
+    this.hammer.on('panstart', () => {
       this.letterIndicatorEle.style.top = ((window.innerHeight - this.indicatorHeight) / 2) + 'px';
       this.letterIndicatorEle.style.left = ((window.innerWidth - this.indicatorWidth) / 2) + 'px';
       this.letterIndicatorEle.style.visibility = 'visible';
     });
 
-    this.hammer.on('panend pancancel', (e: any) => {
+    this.hammer.on('panend pancancel', () => {
       this.letterIndicatorEle.style.visibility = 'hidden';
     });
 

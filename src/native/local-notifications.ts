@@ -21,10 +21,10 @@ export class ExtLocalNotifications extends LocalNotifications {
   @Cordova({
     sync: true
   })
-  schedule(options?: ExtILocalNotification | Array<ExtILocalNotification>): void { }
+  schedule(_options?: ExtILocalNotification | Array<ExtILocalNotification>): void { }
 
   @Cordova({
     sync: true
   })
-  update(options?: ExtILocalNotification): void { }
+  update(_options?: ExtILocalNotification): void { }
 }

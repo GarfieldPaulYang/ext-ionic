@@ -1,6 +1,6 @@
 
-import { Injectable, EventEmitter, NgZone } from '@angular/core';
-import { Platform, NavController } from 'ionic-angular';
+import { EventEmitter, Injectable, NgZone } from '@angular/core';
+import { NavController, Platform } from 'ionic-angular';
 import { Transfer } from '@ionic-native/transfer';
 import { File } from '@ionic-native/file';
 import { ExtLocalNotifications } from '../../native/local-notifications';
@@ -103,7 +103,7 @@ export class DownloadManagerController {
     return this.localNotifications.isScheduled(this.id).then(isScheduled => {
       if (isScheduled) {
         return this.createId();
-      };
+      }
       return this.id;
     });
   }

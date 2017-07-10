@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Transfer } from '@ionic-native/transfer';
-import { File, FileEntry, Metadata, FileError } from '@ionic-native/file';
+import { File, FileEntry, FileError, Metadata } from '@ionic-native/file';
 
 import * as _ from 'lodash';
 
@@ -74,7 +74,7 @@ export class ImageLoaderController {
           this.file.removeRecursively(
             this.cacheTempRootDirectory,
             this.cacheDirectoryName
-          ).catch((error) => {
+          ).catch(() => {
             // Noop catch. Removing the tempDirectory might fail,
             // as it is not persistent.
           }).then(() => {

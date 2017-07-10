@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ViewController, NavParams } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
 
 import { OpenUrlModalOptions } from './open-url-modal-options';
 
@@ -41,7 +41,7 @@ export class OpenUrlModalCmp {
   options: OpenUrlModalOptions;
 
   constructor(private navParams: NavParams, private viewCtrl: ViewController) {
-    this.options = navParams.get('openUrlModalOptions');
+    this.options = this.navParams.get('openUrlModalOptions');
     window.addEventListener('message', this.options.onmessage, false);
   }
 

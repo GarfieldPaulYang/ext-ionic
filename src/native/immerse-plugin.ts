@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cordova, Plugin, IonicNativePlugin } from '@ionic-native/core';
+import { Cordova, IonicNativePlugin, Plugin } from '@ionic-native/core';
 
 @Plugin({
   pluginName: 'ImmersePlugin',
@@ -13,5 +13,5 @@ export class Immerse extends IonicNativePlugin {
   @Cordova({
     sync: true
   })
-  setDarkMode(enable: boolean): void { }
+  setDarkMode(_enable: boolean): void { }
 }

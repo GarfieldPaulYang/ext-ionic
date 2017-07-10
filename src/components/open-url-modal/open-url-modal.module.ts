@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
 import { OpenUrlModalCmp } from './open-url-modal-component';
 import { OpenUrlModalController } from './open-url-modal';
