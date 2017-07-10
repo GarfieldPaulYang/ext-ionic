@@ -74,7 +74,11 @@ export class BaiduMap implements AfterViewInit, OnChanges {
   }
 
   private reDraw(opts: BaiduMapOptions) {
-    this.baiduMapCtrl.panTo(new BMap.Point(opts.center.lng, opts.center.lat));
+    if (_.isString(opts.center)) {
+      this.baiduMapCtrl.map.setCenter(opts.center);
+    } else {
+      this.baiduMapCtrl.map.setCenter(new BMap.Point(opts.center.lng, opts.center.lat));
+    }
     this.draw(opts.markers);
   }
 

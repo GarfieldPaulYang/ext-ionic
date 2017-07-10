@@ -37,7 +37,7 @@ export interface BaiduMapOptions {
   enableScrollWheelZoom?: boolean;
   zoom?: number;
   city?: string;
-  center?: GpsPoint;
+  center?: GpsPoint | string;
   markers?: MarkerOptions[];
   mass?: MassOptions;
 }

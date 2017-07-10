@@ -1,5 +1,6 @@
 // 封装参考官方API，http://developer.baidu.com/map/reference/index.php
 import { EventEmitter, Injectable } from '@angular/core';
+import * as _ from 'lodash';
 import { baiduMapLoader } from './baidu-map-loader';
 import {
   BaiduMapOptions,
@@ -33,7 +34,11 @@ export class BaiduMapController {
 
         this._map = new BMap.Map(ele);
         setTimeout(() => {
-          this._map.centerAndZoom(new BMap.Point(opts.center.lng, opts.center.lat), opts.zoom);
+          if (_.isString(opts.center)) {
+            this._map.centerAndZoom(opts.center, opts.zoom);
+          } else {
+            this._map.centerAndZoom(new BMap.Point(opts.center.lng, opts.center.lat), opts.zoom);
+          }
           if (opts.navCtrl) {
             this._map.addControl(new BMap.NavigationControl());
           }
