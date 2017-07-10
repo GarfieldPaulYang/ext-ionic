@@ -15,7 +15,11 @@ var BMAP_POINT_SHAPE_CIRCLE: any;
 
 @Injectable()
 export class BaiduMapController {
-  private map: any;
+  private _map: any;
+
+  get map() {
+    return this._map;
+  }
 
   init(opts?: BaiduMapOptions, ele?: HTMLElement): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -27,22 +31,25 @@ export class BaiduMapController {
           return;
         }
 
-        this.map = new BMap.Map(ele);
+        this._map = new BMap.Map(ele);
         setTimeout(() => {
-          this.map.centerAndZoom(new BMap.Point(opts.center.lng, opts.center.lat), opts.zoom);
+          if (opts.center) {
+            this._map.panTo(new BMap.Point(opts.center.lng, opts.center.lat));
+          }
+          this._map.setZoom(opts.zoom);
           if (opts.navCtrl) {
-            this.map.addControl(new BMap.NavigationControl());
+            this._map.addControl(new BMap.NavigationControl());
           }
           if (opts.scaleCtrl) {
-            this.map.addControl(new BMap.ScaleControl());
+            this._map.addControl(new BMap.ScaleControl());
           }
           if (opts.overviewCtrl) {
-            this.map.addControl(new BMap.OverviewMapControl());
+            this._map.addControl(new BMap.OverviewMapControl());
           }
           if (opts.enableScrollWheelZoom) {
-            this.map.enableScrollWheelZoom();
+            this._map.enableScrollWheelZoom();
           }
-          this.map.setCurrentCity(opts.city);
+          this._map.setCurrentCity(opts.city);
           resolve();
         });
       }, reject);
@@ -77,11 +84,11 @@ export class BaiduMapController {
   }
 
   clearOverlays() {
-    this.map.clearOverlays();
+    this._map.clearOverlays();
   }
 
   panTo(point: any) {
-    this.map.panTo(point);
+    this._map.panTo(point);
   }
 
   geoLocationAndCenter(): Promise<any> {
@@ -94,7 +101,7 @@ export class BaiduMapController {
   }
 
   addEventListener(event: string, handler: EventEmitter<any>) {
-    this.map.addEventListener(event, (e: any) => {
+    this._map.addEventListener(event, (e: any) => {
       handler.emit(e);
     });
   }
@@ -111,7 +118,7 @@ export class BaiduMapController {
         clickHandler.emit(e);
       });
     }
-    this.map.addOverlay(marker);
+    this._map.addOverlay(marker);
     return marker;
   }
 
@@ -158,7 +165,7 @@ export class BaiduMapController {
         pointCollection.addEventListener('click', (e: any) => {
           clickHandler.emit(e);
         });
-        this.map.addOverlay(pointCollection);
+        this._map.addOverlay(pointCollection);
         resolve();
       });
     });
@@ -170,7 +177,7 @@ export class BaiduMapController {
       result.forEach(marker => {
         points.push(marker.getPosition());
       });
-      this.map.addOverlay(new BMap.Polyline(points, {
+      this._map.addOverlay(new BMap.Polyline(points, {
         strokeColor: 'blue',
         strokeWeight: 3,
         strokeOpacity: 0.5
