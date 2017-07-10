@@ -33,10 +33,7 @@ export class BaiduMapController {
 
         this._map = new BMap.Map(ele);
         setTimeout(() => {
-          if (opts.center) {
-            this._map.panTo(new BMap.Point(opts.center.lng, opts.center.lat));
-          }
-          this._map.setZoom(opts.zoom);
+          this._map.centerAndZoom(new BMap.Point(opts.center.lng, opts.center.lat), opts.zoom);
           if (opts.navCtrl) {
             this._map.addControl(new BMap.NavigationControl());
           }

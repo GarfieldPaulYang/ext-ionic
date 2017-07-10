@@ -49,9 +49,9 @@ export class BaiduMap implements AfterViewInit, OnChanges {
       this._elementRef.nativeElement
     ).then(() => {
       this.baiduMapCtrl.addEventListener('click', this.onMapClick);
-      this.reDraw(opts);
-      this.onMapLoaded.emit();
+      this.draw(opts.markers);
       this.mapLoaded = true;
+      this.onMapLoaded.emit();
     }, e => {
       this.opacity = 1;
       this.onMapLoadFialed.emit(e);
@@ -74,9 +74,7 @@ export class BaiduMap implements AfterViewInit, OnChanges {
   }
 
   private reDraw(opts: BaiduMapOptions) {
-    if (opts.center) {
-      this.baiduMapCtrl.panTo(new BMap.Point(opts.center.lng, opts.center.lat));
-    }
+    this.baiduMapCtrl.panTo(new BMap.Point(opts.center.lng, opts.center.lat));
     this.draw(opts.markers);
   }
 
