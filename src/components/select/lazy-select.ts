@@ -15,7 +15,7 @@ import * as _ from 'lodash';
   `],
   template: `
     <ion-select [(ngModel)]="value" interface="popover" [placeholder]="placeholder">
-      <ion-option value="" *ngIf="chooseTextField">全部</ion-option>
+      <ion-option value="" *ngIf="chooseTextField">{{chooseText}}</ion-option>
       <ion-option value="{{option[valueField]}}" *ngFor="let option of options">{{option[textField]}}</ion-option>
     </ion-select>
   `,
@@ -34,6 +34,9 @@ export class LazySelect extends BaseInput<any> implements OnInit {
 
   @Input()
   chooseTextField: boolean = false;
+
+  @Input()
+  chooseText: string = '全部';
 
   @Input()
   url: string;
