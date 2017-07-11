@@ -101,7 +101,6 @@ export interface NavButton {
     </div>
   </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavButtonBar implements OnInit, OnDestroy {
   @Input()
