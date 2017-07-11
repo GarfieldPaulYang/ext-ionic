@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Page } from 'ionic-angular/navigation/nav-util';
 import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs/Subscription';
