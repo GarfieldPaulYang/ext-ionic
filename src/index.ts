@@ -49,6 +49,8 @@ export {
 } from './providers/http/http';
 export { FileUploder, FileUploderOptions } from './providers/http/file-uploader';
 export * from './providers/geog/geog';
+export * from './providers/geog/geolocation';
+export * from './providers/geog/map-app-launch';
 
 import './rxjs-extensions';
 
