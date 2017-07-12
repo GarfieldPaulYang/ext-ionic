@@ -1,7 +1,7 @@
 
 import { EventEmitter, Injectable, NgZone } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
-import { Transfer } from '@ionic-native/transfer';
+import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { ExtLocalNotifications } from '../../native/local-notifications';
 import { isPresent } from '../../utils/util';
@@ -36,7 +36,7 @@ export class DownloadManagerController {
 
   constructor(
     private platform: Platform,
-    private transfer: Transfer,
+    private transfer: FileTransfer,
     private file: File,
     private localNotifications: ExtLocalNotifications,
     private ngZone: NgZone

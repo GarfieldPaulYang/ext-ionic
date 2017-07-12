@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Transfer } from '@ionic-native/transfer';
+import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 
@@ -17,7 +17,7 @@ export class HotUpdater {
     private config: ConfigProvider,
     private hotCodePush: HotCodePush,
     private localNotifications: ExtLocalNotifications,
-    private transfer: Transfer,
+    private transfer: FileTransfer,
     private file: File,
     private fileOpener: FileOpener
   ) { }
