@@ -1,7 +1,8 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Optional, Output } from '@angular/core';
 import { Page } from 'ionic-angular/navigation/nav-util';
 import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs/Subscription';
+import { ViewController } from 'ionic-angular';
 
 export interface NavButton {
   label: string;
@@ -118,11 +119,17 @@ export class NavButtonBar implements OnInit, OnDestroy {
 
   contentStyle: any;
 
-  constructor(private elRef: ElementRef) {
+  constructor(
+    private elRef: ElementRef,
+    @Optional() public viewCtrl: ViewController
+  ) {
     let obsToMerge: Observable<any>[] = [
       Observable.fromEvent(window, 'orientationchange'),
       Observable.fromEvent(window, 'resize')
     ];
+    if (viewCtrl) {
+      obsToMerge.push(viewCtrl.didEnter);
+    }
     this.watches.push(Observable.merge.apply(
       this,
       obsToMerge
@@ -145,6 +152,7 @@ export class NavButtonBar implements OnInit, OnDestroy {
 
   calculate(): void {
     let width = this.elRef.nativeElement.firstElementChild.clientWidth;
+    if (width === 0) return;
     let num = window.screen.width > window.screen.height ? 8 : 4;
     let gpx = width / num + 'px';
     this.boxStyle.width = gpx;
