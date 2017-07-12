@@ -52,7 +52,7 @@ export * from './providers/geog/geog';
 
 import './rxjs-extensions';
 
-import { Transfer } from '@ionic-native/transfer';
+import { FileTransfer } from '@ionic-native/file-transfer';
 import { FileOpener } from '@ionic-native/file-opener';
 import { File } from '@ionic-native/file';
 import { Device } from '@ionic-native/device';
@@ -96,7 +96,7 @@ import { LazySelectModule } from './components/select/lazy-select.module';
 import { AutoCompleteModule } from './components/auto-complete/auto-complete.module';
 
 const PROVIDERS: Array<any> = [
-  Transfer,
+  FileTransfer,
   File,
   FileOpener,
   Device,

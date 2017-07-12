@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Transfer } from '@ionic-native/transfer';
+import { FileTransfer } from '@ionic-native/file-transfer';
 import { File, FileEntry, FileError, Metadata } from '@ionic-native/file';
 
 import * as _ from 'lodash';
@@ -32,7 +32,7 @@ export class ImageLoaderController {
 
   constructor(
     private platform: Platform,
-    private transfer: Transfer,
+    private transfer: FileTransfer,
     private file: File,
     private config: ConfigProvider
   ) {
@@ -47,7 +47,7 @@ export class ImageLoaderController {
   }
 
   get nativeAvailable(): boolean {
-    return File.installed() && Transfer.installed();
+    return File.installed() && FileTransfer.installed();
   }
 
   preload(imageUrl: string): Promise<string> {
