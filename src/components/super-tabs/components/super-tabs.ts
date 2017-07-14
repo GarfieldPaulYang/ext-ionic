@@ -60,6 +60,8 @@ export interface SuperTabsConfig {
   providers: [{ provide: RootNode, useExisting: forwardRef(() => SuperTabs) }]
 })
 export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDestroy, RootNode, NavigationContainer {
+  @Input() name: string;
+
   /**
    * Color of the toolbar behind the tab buttons
    */
@@ -242,13 +244,13 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   }
 
   ngAfterViewInit() {
-    const tabsSegment = this.linker.getSegmentByNavId(this.id);
+    const tabsSegment = this.linker.getSegmentByNavIdOrName(this.id, this.name);
 
     if (tabsSegment) {
       this.selectedTabIndex = this.getTabIndexById(tabsSegment.id);
     }
 
-    this.linker.navChange(this.id, DIRECTION_SWITCH);
+    this.linker.navChange(DIRECTION_SWITCH);
 
     if (!this.hasTitles && !this.hasIcons) this._isToolbarVisible = false;
 
@@ -401,7 +403,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
       }
 
       this.selectedTabIndex = index;
-      this.linker.navChange(this.id, DIRECTION_SWITCH);
+      this.linker.navChange(DIRECTION_SWITCH);
       this.refreshTabStates();
 
       activeView = this.getActiveTab().getActive();
@@ -541,6 +543,11 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
 
   getTabIndexById(tabId: string): number {
     return this._tabs.findIndex((tab: SuperTab) => tab.tabId === tabId);
+  }
+
+  getActiveChildNavs(): SuperTab[] {
+    const selected = this.getActiveTab();
+    return selected ? [selected] : [];
   }
 
   getTabById(tabId: string): SuperTab {
