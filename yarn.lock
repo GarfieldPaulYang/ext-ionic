@@ -282,9 +282,9 @@ inline-process-browser@^1.0.0:
     falafel "^1.0.1"
     through2 "^0.6.5"
 
-ionic-angular@3.5.2:
-  version "3.5.2"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/ionic-angular/-/ionic-angular-3.5.2.tgz#11214cd4d052a4871d43cd6fe504e228720999fe"
+ionic-angular@3.5.3:
+  version "3.5.3"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/ionic-angular/-/ionic-angular-3.5.3.tgz#31e2616fa91ca72ee59ce3c11da9ebdced59791a"
 
 ionicons@3.0.0:
   version "3.0.0"

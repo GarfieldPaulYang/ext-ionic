@@ -141,6 +141,6 @@ export class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
   }
 
   goToRoot(opts: NavOptions): Promise<any> {
-    return this.setRoot(this.root, this.rootParams, opts);
+    return this.setRoot(this.root, this.rootParams, opts, null);
   }
 }

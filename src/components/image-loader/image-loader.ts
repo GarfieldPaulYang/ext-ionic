@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { FileTransfer } from '@ionic-native/file-transfer';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File, FileEntry, FileError, Metadata } from '@ionic-native/file';
 
 import * as _ from 'lodash';
@@ -28,11 +28,12 @@ export class ImageLoaderController {
   private indexed: boolean = false;
   private currentCacheSize: number = 0;
   private queue: QueueItem[] = [];
+  private transferInstances: FileTransferObject[] = [];
   private cacheIndex: IndexItem[] = [];
 
   constructor(
     private platform: Platform,
-    private transfer: FileTransfer,
+    private fileTransfer: FileTransfer,
     private file: File,
     private config: ConfigProvider
   ) {
@@ -90,6 +91,10 @@ export class ImageLoaderController {
   }
 
   getImagePath(imageUrl: string): Promise<string> {
+    if (typeof imageUrl !== 'string' || imageUrl.length <= 0) {
+      return Promise.reject('The image url provided was empty or invalid.');
+    }
+
     return new Promise<string>((resolve, reject) => {
       if (!this.needDownload(imageUrl)) {
         resolve(imageUrl);
@@ -144,11 +149,6 @@ export class ImageLoaderController {
         });
       }
     });
-  }
-
-  private downloadImage(imageUrl: string, localPath: string): Promise<any> {
-    const transfer = this.transfer.create();
-    return transfer.download(imageUrl, localPath, true);
   }
 
   private needDownload(imageUrl: string): boolean {
@@ -246,24 +246,31 @@ export class ImageLoaderController {
 
     this.processing++;
 
-    const currentItem = this.queue.splice(0, 1)[0];
+    const currentItem: QueueItem = this.queue.splice(0, 1)[0];
+
+    if (this.transferInstances.length === 0) {
+      this.transferInstances.push(this.fileTransfer.create());
+    }
+
+    const transfer: FileTransferObject = this.transferInstances.splice(0, 1)[0];
 
     if (this.canProcess) this.processQueue();
 
     const done = () => {
       this.processing--;
+      this.transferInstances.push(transfer);
       this.processQueue();
     };
 
     const localPath = this.cacheDirectory + '/' + this.createFileName(currentItem.imageUrl);
-    this.downloadImage(currentItem.imageUrl, localPath).then((file: FileEntry) => {
+    transfer.download(currentItem.imageUrl, localPath).then((file: FileEntry) => {
       if (this.shouldIndex) {
         this.addFileToIndex(file).then(this.maintainCacheSize.bind(this));
       }
-      this.getCachedImagePath(currentItem.imageUrl).then((localUrl) => {
-        currentItem.resolve(localUrl);
-        done();
-      });
+      return this.getCachedImagePath(currentItem.imageUrl);
+    }).then(localUrl => {
+      currentItem.resolve(localUrl);
+      done();
     }).catch((e) => {
       currentItem.reject();
       this.throwError(e);

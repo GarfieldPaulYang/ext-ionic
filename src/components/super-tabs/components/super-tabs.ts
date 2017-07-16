@@ -314,8 +314,9 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     return this.onToolbarTabSelect(indexOrId);
   }
 
-  getActiveChildNav() {
-    return this._tabs[this.selectedTabIndex];
+  getActiveChildNavs(): NavigationContainer[] {
+    const selected = this.getActiveTab();
+    return selected ? [selected] : [];
   }
 
   addTab(tab: SuperTab) {
@@ -543,11 +544,6 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
 
   getTabIndexById(tabId: string): number {
     return this._tabs.findIndex((tab: SuperTab) => tab.tabId === tabId);
-  }
-
-  getActiveChildNavs(): SuperTab[] {
-    const selected = this.getActiveTab();
-    return selected ? [selected] : [];
   }
 
   getTabById(tabId: string): SuperTab {
