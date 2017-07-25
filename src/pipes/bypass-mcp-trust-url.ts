@@ -18,8 +18,8 @@ export class TrustMcpUrl implements PipeTransform {
     const params: string = [
       '__cors-request__=true',
       '__app-key__=' + this.config.get().login.appKey,
-      '__dev-mode__' + this.config.get().devMode,
-      '__ticket__' + this.http.ticket
+      '__dev-mode__=' + this.config.get().devMode,
+      '__ticket__=' + this.http.ticket
     ].join('&');
 
     if (value.indexOf('?') === -1) {
