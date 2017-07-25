@@ -33,6 +33,7 @@ export * from './components/nav-button-bar/nav-button-bar.module';
 export * from './components/gallery/gallery.module';
 export * from './components/select/lazy-select.module';
 export * from './components/auto-complete/auto-complete.module';
+export * from './components/img-src-fallback/img-src-fallback.module';
 
 export { StringUtils } from './utils/string';
 export { isTrueProperty, isPresent, flattenObject, unFlattenObject, dateFormat } from './utils/util';
@@ -96,6 +97,7 @@ import { NavButtonBarModule } from './components/nav-button-bar/nav-button-bar.m
 import { GalleryModule } from './components/gallery/gallery.module';
 import { LazySelectModule } from './components/select/lazy-select.module';
 import { AutoCompleteModule } from './components/auto-complete/auto-complete.module';
+import { ImgFallbackModule } from './components/img-src-fallback/img-src-fallback.module';
 
 const PROVIDERS: Array<any> = [
   FileTransfer,
@@ -138,7 +140,8 @@ const PROVIDERS: Array<any> = [
     NavButtonBarModule.forRoot(),
     GalleryModule.forRoot(),
     LazySelectModule.forRoot(),
-    AutoCompleteModule.forRoot()
+    AutoCompleteModule.forRoot(),
+    ImgFallbackModule.forRoot()
   ],
   exports: [
     AlphaScrollModule,
@@ -153,7 +156,8 @@ const PROVIDERS: Array<any> = [
     NavButtonBarModule,
     GalleryModule,
     LazySelectModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    ImgFallbackModule
   ]
 })
 export class ExtIonicModule {
