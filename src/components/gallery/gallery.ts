@@ -1,10 +1,12 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Optional, Output } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { ImageLoaderController } from '../image-loader/image-loader';
+import { ViewController } from 'ionic-angular';
 
 export interface GalleryOptions {
-  colWidth: number;
+  colWidth?: number;
+  colNum?: number;
   urlKey?: string;
   thumbKey?: string;
   thumbnailTitleKey?: string;
@@ -56,11 +58,18 @@ export class Gallery implements OnInit, OnDestroy {
 
   private watches: Subscription[] = [];
 
-  constructor(private elementRef: ElementRef, private imgCtrl: ImageLoaderController) {
+  constructor(
+    private elementRef: ElementRef,
+    private imgCtrl: ImageLoaderController,
+    @Optional() public viewCtrl: ViewController
+  ) {
     let obsToMerge: Observable<any>[] = [
       Observable.fromEvent(window, 'orientationchange'),
       Observable.fromEvent(window, 'resize')
     ];
+    if (viewCtrl) {
+      obsToMerge.push(viewCtrl.didEnter);
+    }
     this.watches.push(Observable.merge.apply(
       this,
       obsToMerge
@@ -85,10 +94,16 @@ export class Gallery implements OnInit, OnDestroy {
   }
 
   calculateCol() {
-    let row = this.elementRef.nativeElement.firstElementChild;
-    let width = row.clientWidth;
+    const width = this.elementRef.nativeElement.firstElementChild.clientWidth;
+    if (width === 0) {
+      return;
+    }
+
     let colWidth = this.options.colWidth;
     let col = Math.trunc(width / colWidth);
+    if (this.options.colNum) {
+      col = this.options.colNum;
+    }
     if (col <= 1) col = 1;
     let percent = 100 / col + '%';
     this.colStyle.flexBasis = percent;
