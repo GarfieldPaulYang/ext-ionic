@@ -70,3 +70,12 @@ export function dateFormat(date: Date | number, format: string = 'yyyy-MM-dd'): 
     .replace(/s/ig, String(time.second))
     .replace(/fff/ig, String(time.millisecond));
 }
+
+export function numberFormat(num: number | string): string {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+}
+
+export function currencyFormat(num: number, prefix?: string): string {
+  prefix = prefix || '￥';
+  return prefix + numberFormat(num.toFixed(2));
+}
