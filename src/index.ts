@@ -36,7 +36,7 @@ export * from './components/auto-complete/auto-complete.module';
 export * from './components/img-src-fallback/img-src-fallback.module';
 
 export { StringUtils } from './utils/string';
-export { isTrueProperty, isPresent, flattenObject, unFlattenObject, dateFormat } from './utils/util';
+export * from './utils/util';
 export { Dialog } from './utils/dialog';
 export {
   HttpProviderOptionsArgs,
