@@ -36,7 +36,6 @@ export interface GalleryOptions {
       padding: 5px;
       width: 100%;
       flex-flow: row wrap;
-      color: red;
 		}
 		.row .col {
       display: block;
