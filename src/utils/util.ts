@@ -72,6 +72,7 @@ export function dateFormat(date: Date | number, format: string = 'yyyy-MM-dd'): 
 }
 
 export function numberFormat(num: number | string): string {
+  num = num || 0;
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 }
 
