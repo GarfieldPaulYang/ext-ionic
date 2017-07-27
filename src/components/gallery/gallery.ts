@@ -10,6 +10,7 @@ export interface GalleryOptions {
   urlKey?: string;
   thumbKey?: string;
   thumbnailTitleKey?: string;
+  fallbackUrl?: string;
 }
 
 @Component({
@@ -18,7 +19,7 @@ export interface GalleryOptions {
 		<div class="row">
 		  <div *ngFor="let item of items;let i = index;" tappable (click)="itemTapped(item, i)" (press)="itemTappedPress(item, i)" [ngStyle]="colStyle" class="col">
 		    <div class="thumbnal">
-					<ion-image-loader src="{{item[options.thumbKey]}}"></ion-image-loader>
+					<ion-image-loader src="{{item[options.thumbKey]}}" fallback="{{options.fallbackUrl}}"></ion-image-loader>
 		      <div *ngIf="options.thumbnailTitleKey" class="thumbnailTitle">{{item[options.thumbnailTitleKey]}} </div>
 		    </div>
 		  </div>
