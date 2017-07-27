@@ -62,11 +62,11 @@ export class ConfigProvider {
   }
 
   init(config: Config) {
-    this._config = _.isUndefined(config) ? defaultConfig : { ...defaultConfig, ...config };
+    this._config = _.isUndefined(config) ? defaultConfig : _.defaultsDeep(config, defaultConfig);
   }
 }
 
-export function setupConfig(userConfig: Config): Config {
+export function setupConfig(userConfig: Config): ConfigProvider {
   const conifg = new ConfigProvider();
   conifg.init(userConfig);
   return conifg;
