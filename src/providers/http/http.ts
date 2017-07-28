@@ -289,9 +289,6 @@ export class CorsHttpProvider {
     return this.http.requestWithError<T>(url, options, foundCacheCallback).then(result => {
       return result;
     }).catch(err => {
-      if (err && _.isString(err.data) && err.data.toString() === ticket_expired) {
-        this.events.publish(ticket_expired);
-      }
       if (err && ((_.isString(err) && err.toString() === ticket_expired) ||
         (_.isString(err.data) && err.data.toString() === ticket_expired))) {
         this.events.publish(ticket_expired);
