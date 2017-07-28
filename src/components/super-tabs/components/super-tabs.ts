@@ -319,6 +319,10 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     return selected ? [selected] : [];
   }
 
+  getAllChildNavs(): any[] {
+    return this._tabs;
+  }
+
   addTab(tab: SuperTab) {
     tab.rootParams = tab.rootParams || {};
     tab.rootParams.rootNavCtrl = this.parent;
