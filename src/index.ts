@@ -33,7 +33,6 @@ export * from './components/nav-button-bar/nav-button-bar.module';
 export * from './components/gallery/gallery.module';
 export * from './components/select/lazy-select.module';
 export * from './components/auto-complete/auto-complete.module';
-export * from './components/img-src-fallback/img-src-fallback.module';
 
 export { StringUtils } from './utils/string';
 export * from './utils/util';
