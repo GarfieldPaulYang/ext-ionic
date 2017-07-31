@@ -97,7 +97,6 @@ import { NavButtonBarModule } from './components/nav-button-bar/nav-button-bar.m
 import { GalleryModule } from './components/gallery/gallery.module';
 import { LazySelectModule } from './components/select/lazy-select.module';
 import { AutoCompleteModule } from './components/auto-complete/auto-complete.module';
-import { ImgFallbackModule } from './components/img-src-fallback/img-src-fallback.module';
 
 const PROVIDERS: Array<any> = [
   FileTransfer,
@@ -140,8 +139,7 @@ const PROVIDERS: Array<any> = [
     NavButtonBarModule.forRoot(),
     GalleryModule.forRoot(),
     LazySelectModule.forRoot(),
-    AutoCompleteModule.forRoot(),
-    ImgFallbackModule.forRoot()
+    AutoCompleteModule.forRoot()
   ],
   exports: [
     AlphaScrollModule,
@@ -156,8 +154,7 @@ const PROVIDERS: Array<any> = [
     NavButtonBarModule,
     GalleryModule,
     LazySelectModule,
-    AutoCompleteModule,
-    ImgFallbackModule
+    AutoCompleteModule
   ]
 })
 export class ExtIonicModule {
