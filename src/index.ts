@@ -37,6 +37,8 @@ export * from './components/auto-complete/auto-complete.module';
 export { StringUtils } from './utils/string';
 export * from './utils/util';
 export { Dialog } from './utils/dialog';
+export { CoordTransform } from './utils/coord-transform';
+
 export {
   HttpProviderOptionsArgs,
   HttpProviderOptions,
