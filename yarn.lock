@@ -51,33 +51,33 @@
   dependencies:
     tsickle "^0.21.0"
 
-"@ionic-native/core@4.0.0":
-  version "4.0.0"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/core/-/core-4.0.0.tgz#2ab3535b3dbc3889fef709ff92056ff720984d5b"
+"@ionic-native/core@4.1.0":
+  version "4.1.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/core/-/core-4.1.0.tgz#603610a9b79636d991e612316b14c3c2d3e9bcf3"
 
-"@ionic-native/device@4.0.0":
-  version "4.0.0"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/device/-/device-4.0.0.tgz#fb2fc7a5d1f79457e33ef15fa5aafdbbd8af38b6"
+"@ionic-native/device@4.1.0":
+  version "4.1.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/device/-/device-4.1.0.tgz#fa547ee52306bdbcc7e989ef79292a52127b398d"
 
-"@ionic-native/file-opener@4.0.0":
-  version "4.0.0"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file-opener/-/file-opener-4.0.0.tgz#9faf5f0054015aeee4a41473af885db020f83c08"
+"@ionic-native/file-opener@4.1.0":
+  version "4.1.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file-opener/-/file-opener-4.1.0.tgz#71a4c72ada4ed197ff567a0713b77742addf35cd"
 
-"@ionic-native/file-transfer@4.0.0":
-  version "4.0.0"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file-transfer/-/file-transfer-4.0.0.tgz#625b3adfd4e20312f8d0a4c549179a613070c029"
+"@ionic-native/file-transfer@4.1.0":
+  version "4.1.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file-transfer/-/file-transfer-4.1.0.tgz#5d35484b056b4d8f681a1ebd73fc306c3f3a13f9"
 
-"@ionic-native/file@4.0.0":
-  version "4.0.0"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file/-/file-4.0.0.tgz#fc03a1575a94ac916cf1cb055cdbbef62e1729f6"
+"@ionic-native/file@4.1.0":
+  version "4.1.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file/-/file-4.1.0.tgz#d51cfc4f44a7b8ecd5a6c3c377e35eaf7eac7787"
 
-"@ionic-native/geolocation@4.0.0":
-  version "4.0.0"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/geolocation/-/geolocation-4.0.0.tgz#3f9571b073f44c81d8dc4fff22ca8c47188c60e2"
+"@ionic-native/geolocation@4.1.0":
+  version "4.1.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/geolocation/-/geolocation-4.1.0.tgz#a5f50a80ab2889a1535801ff9954d8f4690e4e26"
 
-"@ionic-native/local-notifications@4.0.0":
-  version "4.0.0"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/local-notifications/-/local-notifications-4.0.0.tgz#449c6e54d8dc32ccefc03d820be08ead7b3b9078"
+"@ionic-native/local-notifications@4.1.0":
+  version "4.1.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/local-notifications/-/local-notifications-4.1.0.tgz#2c0b102262ba5820cc6cedec84ecff22b5a15323"
 
 "@ionic/storage@2.0.1":
   version "2.0.1"

@@ -11,7 +11,7 @@ export interface Geocoder extends GpsPoint {
 export interface Suggestion {
   keyword: string;
   region?: string;
-  coordType?: 'wgs84' | 'wgs84' | 'gcj02' | 'bd09';
+  coordType?: 'wgs84' | 'gcj02' | 'bd09';
   retCoordType?: 'gcj02ll' | 'gcj02' | 'bd09';
   location?: string;
 }
