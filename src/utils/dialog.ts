@@ -42,7 +42,7 @@ export class Dialog {
   toast(message: string, position: string = 'top') {
     let toast = this.toastCtrl.create({
       message: message,
-      duration: 5000,
+      duration: 3000,
       position: position
     });
     toast.present();
