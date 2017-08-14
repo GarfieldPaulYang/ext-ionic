@@ -34,7 +34,7 @@ export class CoordTransform {
     const sqrtmagic = Math.sqrt(magic);
     dlat = (dlat * 180.0) / ((A * (1 - EE)) / (magic * sqrtmagic) * PI);
     dlng = (dlng * 180.0) / (A / sqrtmagic * Math.cos(radlat) * PI);
-    return { lng: point.lat + dlat, lat: point.lng + dlng };
+    return { lat: point.lat + dlat, lng: point.lng + dlng };
   }
 
   static gcj02_to_wgs84(point: GpsPoint): GpsPoint {
