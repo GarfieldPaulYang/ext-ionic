@@ -10,7 +10,10 @@ export class GeolocationProvider {
   constructor(private geolocation: Geolocation) { }
 
   start() {
-    this.watch = this.geolocation.watchPosition().subscribe((data) => {
+    this.watch = this.geolocation.watchPosition({
+      enableHighAccuracy: true,
+      timeout: 20000
+    }).subscribe((data) => {
       this.coordinates = data.coords;
     });
   }
