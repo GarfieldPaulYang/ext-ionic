@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Geolocation } from '@ionic-native/geolocation';
+import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation';
 import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
@@ -9,11 +9,8 @@ export class GeolocationProvider {
 
   constructor(private geolocation: Geolocation) { }
 
-  start() {
-    this.watch = this.geolocation.watchPosition({
-      enableHighAccuracy: true,
-      timeout: 20000
-    }).subscribe((data) => {
+  start(options: GeolocationOptions = { enableHighAccuracy: true, timeout: 20000 }) {
+    this.watch = this.geolocation.watchPosition(options).filter((p) => p.coords !== undefined).subscribe((data) => {
       this.coordinates = data.coords;
     });
   }
