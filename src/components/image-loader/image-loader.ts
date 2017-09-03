@@ -336,7 +336,7 @@ export class ImageLoaderController {
   }
 
   private get isWKWebView(): boolean {
-    return this.platform.is('ios') && (<any>window).webkit;
+    return this.platform.is('ios') && (<any>window).webkit && (<any>window).webkit.messageHandlers;
   }
 
   private cacheDirectoryExists(directory: string): Promise<boolean> {
@@ -368,7 +368,7 @@ export class ImageLoaderController {
   }
 
   private get isIonicWKWebView(): boolean {
-    return this.isWKWebView && location.host === 'localhost:8080';
+    return this.isWKWebView && (location.host === 'localhost:8080' || (<any>window).LiveReload);
   }
 
   private createCacheDirectory(replace: boolean = false): Promise<any> {

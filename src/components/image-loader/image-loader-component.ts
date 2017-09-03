@@ -1,12 +1,23 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { isTrueProperty } from '../../utils/util';
 
 import { ImageLoaderController } from './image-loader';
 import { ConfigProvider } from '../../config/config';
 
+const propMap: any = {
+  display: 'display',
+  height: 'height',
+  width: 'width',
+  backgroundSize: 'background-size',
+  backgroundRepeat: 'background-repeat'
+};
+
 @Component({
   selector: 'ion-image-loader',
-  template: '<ion-spinner *ngIf="spinner && isLoading && !fallbackAsPlaceholder" [name]="spinnerName" [color]="spinnerColor"></ion-spinner>',
+  template: `
+    <ion-spinner *ngIf="spinner && isLoading && !fallbackAsPlaceholder" [name]="spinnerName" [color]="spinnerColor"></ion-spinner>
+    <ng-content></ng-content>
+  `,
   styles: [`
     ion-spinner {
       float: none;
@@ -50,7 +61,7 @@ export class ImageLoaderCmp implements OnInit {
 
   constructor(
     private elementRef: ElementRef,
-    private renderer: Renderer,
+    private renderer: Renderer2,
     private imageLoader: ImageLoaderController,
     private config: ConfigProvider
   ) { }
@@ -99,38 +110,26 @@ export class ImageLoaderCmp implements OnInit {
 
     if (this.useImg) {
       if (!this.element) {
-        this.element = this.renderer.createElement(this.elementRef.nativeElement, 'img');
+        this.element = this.renderer.createElement('img');
+        this.renderer.appendChild(this.elementRef.nativeElement, this.element);
       }
       if (this.fallbackUrl && !this.imageLoader.nativeAvailable) {
         this.renderer.listen(this.element, 'error', () => {
           this.imageLoader.removeCacheFile(imageUrl);
-          this.renderer.setElementAttribute(this.element, 'src', this.fallbackUrl);
+          this.renderer.setAttribute(this.element, 'src', this.fallbackUrl);
         });
       }
-      this.renderer.setElementAttribute(this.element, 'src', imageUrl);
+      this.renderer.setAttribute(this.element, 'src', imageUrl);
     } else {
       this.element = this.elementRef.nativeElement;
-      if (this.display) {
-        this.renderer.setElementStyle(this.element, 'display', this.display);
+
+      for (let prop in propMap) {
+        if (this[prop]) {
+          this.renderer.setStyle(this.element, propMap[prop], this[prop]);
+        }
       }
 
-      if (this.height) {
-        this.renderer.setElementStyle(this.element, 'height', this.height);
-      }
-
-      if (this.width) {
-        this.renderer.setElementStyle(this.element, 'width', this.width);
-      }
-
-      if (this.backgroundSize) {
-        this.renderer.setElementStyle(this.element, 'background-size', this.backgroundSize);
-      }
-
-      if (this.backgroundRepeat) {
-        this.renderer.setElementStyle(this.element, 'background-repeat', this.backgroundRepeat);
-      }
-
-      this.renderer.setElementStyle(this.element, 'background-image', 'url(\'' + (imageUrl || this.fallbackUrl) + '\')');
+      this.renderer.setStyle(this.element, 'background-image', 'url(\'' + (imageUrl || this.fallbackUrl) + '\')');
     }
     this.load.emit(this);
   }
