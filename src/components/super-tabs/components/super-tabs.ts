@@ -3,7 +3,7 @@ import {
   OnInit, Optional, Output, Renderer2, ViewChild, ViewEncapsulation, forwardRef
 } from '@angular/core';
 import { SuperTab } from './super-tab';
-import { App, DeepLinker, DomController, NavController, NavControllerBase, RootNode, ViewController } from 'ionic-angular';
+import { App, DeepLinker, DomController, NavController, NavControllerBase, Platform, RootNode, ViewController } from 'ionic-angular';
 import { NavigationContainer } from 'ionic-angular/navigation/navigation-container';
 import { DIRECTION_SWITCH } from 'ionic-angular/navigation/nav-util';
 import { Observable } from 'rxjs/Observable';
@@ -179,7 +179,8 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     private rnd: Renderer2,
     private superTabsCtrl: SuperTabsController,
     private linker: DeepLinker,
-    private domCtrl: DomController
+    private domCtrl: DomController,
+    private _plt: Platform
   ) {
     this.parent = <NavControllerBase>parent;
 
@@ -192,20 +193,20 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
       this._app.registerRootNav(this);
     }
 
-    let obsToMerge: Observable<any>[] = [
+    const obsToMerge: Observable<any>[] = [
       Observable.fromEvent(window, 'orientationchange'),
       Observable.fromEvent(window, 'resize')
     ];
 
     if (viewCtrl) {
       obsToMerge.push(viewCtrl.didEnter);
+      viewCtrl._setContent(this);
+      viewCtrl._setContentRef(el);
     }
 
     // re-adjust the height of the slider when the orientation changes
-    this.watches.push(Observable.merge.apply(
-      this,
-      obsToMerge
-    ).debounceTime(10).subscribe(() => {
+    const $windowResize = Observable.merge.apply(this, obsToMerge).debounceTime(10);
+    const windowResizeSub = $windowResize.subscribe(() => {
       this.setMaxIndicatorPosition();
       this.updateTabWidth();
       this.setFixedIndicatorWidth();
@@ -214,7 +215,8 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
       this.tabsContainer.slideTo(this.selectedTabIndex);
       this.alignIndicatorPosition();
       this.refreshContainerHeight();
-    }));
+    });
+    this.watches.push(windowResizeSub);
   }
 
   ngOnInit() {
@@ -400,6 +402,14 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
    * @param index
    */
   onTabChange(index: number) {
+    if (index === this.selectedTabIndex) {
+      this.tabSelect.emit({
+        index,
+        id: this._tabs[index].tabId,
+        changed: false
+      });
+    }
+
     if (index <= this._tabs.length) {
       let activeView: ViewController = this.getActiveTab().getActive();
       if (activeView) {
@@ -419,7 +429,8 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
 
       this.tabSelect.emit({
         index,
-        id: this._tabs[index].tabId
+        id: this._tabs[index].tabId,
+        changed: true
       });
     }
   }
@@ -467,9 +478,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
 
   private refreshTabWidths() {
     const width: number = this.el.nativeElement.offsetWidth;
-    this._tabs.forEach((tab: SuperTab) => {
-      tab.setWidth(width);
-    });
+    this._tabs.forEach((tab: SuperTab) => tab.setWidth(width));
   }
 
   private alignTabButtonsContainer(animate?: boolean) {
@@ -477,6 +486,8 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
       iw: number = this.toolbar.indicatorWidth, // indicator width
       ip: number = this.toolbar.indicatorPosition, // indicatorPosition
       sp: number = this.toolbar.segmentPosition; // segment position
+
+    if (mw === 0) return;
 
     if (this.toolbar.segmentWidth <= mw) {
       if (this.toolbar.segmentPosition !== 0) {
@@ -486,17 +497,16 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     }
 
     let pos;
-
     if (ip + iw + (mw / 2 - iw / 2) > mw + sp) {
       // we need to move the segment container to the left
-      let delta = (ip + iw + (mw / 2 - iw / 2)) - mw - sp;
+      const delta = (ip + iw + (mw / 2 - iw / 2)) - mw - sp,
+        max = this.toolbar.segmentWidth - mw;
       pos = sp + delta;
-      let max = this.toolbar.segmentWidth - mw;
       pos = pos < max ? pos : max;
     } else if (ip - (mw / 2 - iw / 2) < sp) {
       // we need to move the segment container to the right
       pos = ip - (mw / 2 - iw / 2);
-      pos = pos >= 0 ? pos : 0;
+      pos = pos < 0 ? 0 : pos > ip ? (ip - mw + iw) : pos;
     } else return; // no need to move the segment container
 
     this.toolbar.setSegmentPosition(pos, animate);
@@ -571,6 +581,11 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   getSelected() { }
 
   setTabbarPosition() { }
+
+  // update segment button widths manually
+  indexSegmentButtonWidths() {
+    this._plt.raf(() => this.toolbar.indexSegmentButtonWidths());
+  }
 }
 
 let superTabsIds = -1;

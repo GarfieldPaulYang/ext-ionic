@@ -14,7 +14,7 @@ import { SuperTabButton } from './super-tab-button';
       <div class="tab-buttons-container" #tabButtonsContainer>
         <div *ngIf="tabsPlacement === 'bottom'" class="indicator {{ 'button-md-' + indicatorColor }}" #indicator></div>
         <div class="tab-buttons" #tabButtons>
-           <ion-super-tab-button *ngFor="let tab of tabs; let i = index" (select)="selectedTab !== i && onTabSelect(i)" [title]="tab.title" [icon]="tab.icon" [badge]="tab.badge" [selected]="selectedTab === i" [color]="tabsColor" [badgeColor]="badgeColor"></ion-super-tab-button>
+           <ion-super-tab-button *ngFor="let tab of tabs; let i = index" (select)="onTabSelect(i)" [title]="tab.title" [icon]="tab.icon" [badge]="tab.badge" [selected]="selectedTab === i" [color]="tabsColor" [badgeColor]="badgeColor"></ion-super-tab-button>
         </div>
         <div *ngIf="tabsPlacement === 'top'" class="indicator {{ 'button-md-' + indicatorColor }}" #indicator></div>
       </div>
@@ -151,6 +151,21 @@ export class SuperTabsToolbar implements AfterViewInit, OnDestroy {
   }
 
   /**
+   * Indexes the segment button widths
+   */
+  indexSegmentButtonWidths() {
+    let index = [], total = 0;
+
+    this.tabButtons.forEach((btn: SuperTabButton, i: number) => {
+      index[i] = btn.getNativeElement().offsetWidth;
+      total += index[i];
+    });
+
+    this.segmentButtonWidths = index;
+    this.segmentWidth = total;
+  }
+
+  /**
    * Enables/disables animation
    * @param el
    * @param animate
@@ -168,20 +183,5 @@ export class SuperTabsToolbar implements AfterViewInit, OnDestroy {
     const value: string = animate ? `all ${this.config.transitionDuration}ms ${this.config.transitionEase}` : 'initial';
 
     this.rnd.setStyle(_el, this.plt.Css.transition, value);
-  }
-
-  /**
-   * Indexes the segment button widths
-   */
-  private indexSegmentButtonWidths() {
-    let index = [], total = 0;
-
-    this.tabButtons.forEach((btn: SuperTabButton, i: number) => {
-      index[i] = btn.getNativeElement().offsetWidth;
-      total += index[i];
-    });
-
-    this.segmentButtonWidths = index;
-    this.segmentWidth = total;
   }
 }
