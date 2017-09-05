@@ -80,3 +80,43 @@ export function currencyFormat(num: number, prefix?: string): string {
   prefix = prefix || '￥';
   return prefix + numberFormat(num.toFixed(2));
 }
+
+export enum DateType {
+  Day = 0,
+  Week = 1,
+  Year = 2
+}
+
+export function getFirstDateOfWeek(date: Date) {
+  return new Date(new Date(date).setDate(date.getDate() - date.getDay() + 1));
+}
+
+export function getLastDateOfWeek(date: Date) {
+  return new Date(new Date(date).setDate(date.getDate() - date.getDay() + 7));
+}
+
+export function addDate(date: Date, offset: number, dateType: DateType) {
+  let result = new Date(date);
+  switch (dateType) {
+    case (DateType.Day):
+      result.setDate(result.getDate() + offset);
+      break;
+    case (DateType.Week):
+      result.setDate(result.getDate() + offset * 7);
+      break;
+    case (DateType.Year):
+      const year: number = date.getFullYear() - 1;
+      const month: number = date.getMonth();
+      let day: number = date.getDate();
+      if (month === 2 && day === 29 && !leapYear(year)) {
+        day = 28;
+      }
+      result = new Date(year, month, day);
+      break;
+  }
+  return result;
+}
+
+export function leapYear(year) {
+  return !(year % (year % 100 ? 4 : 400));
+}
