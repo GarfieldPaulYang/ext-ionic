@@ -120,3 +120,10 @@ export function addDate(date: Date, offset: number, dateType: DateType) {
 export function leapYear(year) {
   return !(year % (year % 100 ? 4 : 400));
 }
+
+export function division(dividend: number, divisor: number, toFixed?: number) {
+  if (divisor === 0) {
+    return 0;
+  }
+  return (dividend / divisor).toFixed(toFixed ? toFixed : 2);
+}
