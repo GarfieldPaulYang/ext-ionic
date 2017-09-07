@@ -13,7 +13,7 @@ import { URLParamsBuilder } from '../../utils/http/url-params-builder';
     }
   `],
   template: `
-    <ion-select [(ngModel)]="value" interface="popover" [placeholder]="placeholder">
+    <ion-select [(ngModel)]="value" interface="popover" [placeholder]="placeholder" [disabled]="disabled">
       <ion-option value="" *ngIf="chooseTextField">{{chooseText}}</ion-option>
       <ion-option value="{{option[valueField]}}" *ngFor="let option of options">{{option[textField]}}</ion-option>
     </ion-select>
@@ -48,6 +48,9 @@ export class LazySelect extends BaseInput<any> implements OnInit {
 
   @Input()
   textField: string = 'name';
+
+  @Input()
+  disabled: boolean = false;
 
   constructor(
     config: Config,
