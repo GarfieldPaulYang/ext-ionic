@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer } from '@angular/core';
 import { isTrueProperty } from '../../utils/util';
 
 import { ImageLoaderController } from './image-loader';
@@ -61,7 +61,7 @@ export class ImageLoaderCmp implements OnInit {
 
   constructor(
     private elementRef: ElementRef,
-    private renderer: Renderer2,
+    private renderer: Renderer,
     private imageLoader: ImageLoaderController,
     private config: ConfigProvider
   ) { }
@@ -110,26 +110,25 @@ export class ImageLoaderCmp implements OnInit {
 
     if (this.useImg) {
       if (!this.element) {
-        this.element = this.renderer.createElement('img');
-        this.renderer.appendChild(this.elementRef.nativeElement, this.element);
+        this.element = this.renderer.createElement(this.elementRef.nativeElement, 'img');
       }
       if (this.fallbackUrl && !this.imageLoader.nativeAvailable) {
         this.renderer.listen(this.element, 'error', () => {
           this.imageLoader.removeCacheFile(imageUrl);
-          this.renderer.setAttribute(this.element, 'src', this.fallbackUrl);
+          this.renderer.setElementAttribute(this.element, 'src', this.fallbackUrl);
         });
       }
-      this.renderer.setAttribute(this.element, 'src', imageUrl);
+      this.renderer.setElementAttribute(this.element, 'src', imageUrl);
     } else {
       this.element = this.elementRef.nativeElement;
 
       for (let prop in propMap) {
         if (this[prop]) {
-          this.renderer.setStyle(this.element, propMap[prop], this[prop]);
+          this.renderer.setElementStyle(this.element, propMap[prop], this[prop]);
         }
       }
 
-      this.renderer.setStyle(this.element, 'background-image', 'url(\'' + (imageUrl || this.fallbackUrl) + '\')');
+      this.renderer.setElementStyle(this.element, 'background-image', 'url(\'' + (imageUrl || this.fallbackUrl) + '\')');
     }
     this.load.emit(this);
   }

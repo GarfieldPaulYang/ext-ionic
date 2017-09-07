@@ -3,7 +3,7 @@ import { Platform } from 'ionic-angular';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File, FileEntry, FileError, Metadata } from '@ionic-native/file';
 
-import * as _ from 'lodash';
+import { Observable } from 'rxjs/Observable';
 
 import { ConfigProvider } from '../../config/config';
 import { StringUtils } from '../../utils/string';
@@ -37,14 +37,23 @@ export class ImageLoaderController {
     private file: File,
     private config: ConfigProvider
   ) {
-    platform.ready().then(() => {
-      if (this.nativeAvailable) {
-        this.initCache();
-      } else {
-        this.isInit = true;
-        this.throwWarning('You are running on a browser or using livereload, IonicImageLoader will not function, falling back to browser loading.');
-      }
-    });
+    if (!platform.is('cordova')) {
+      // we are running on a browser, or using livereload
+      // plugin will not function in this case
+      this.isInit = true;
+      this.throwWarning('You are running on a browser or using livereload, IonicImageLoader will not function, falling back to browser loading.');
+    } else {
+      Observable.fromEvent(document, 'deviceready').first().subscribe(res => {
+        if (this.nativeAvailable) {
+          this.initCache();
+        } else {
+          // we are running on a browser, or using livereload
+          // plugin will not function in this case
+          this.isInit = true;
+          this.throwWarning('You are running on a browser or using livereload, IonicImageLoader will not function, falling back to browser loading.');
+        }
+      });
+    }
   }
 
   get nativeAvailable(): boolean {
@@ -198,7 +207,7 @@ export class ImageLoaderController {
       this.cacheRootDirectory,
       this.cacheDirectoryName
     ).then(files => Promise.all(files.map(this.addFileToIndex.bind(this)))).then(() => {
-      this.cacheIndex = _.sortBy(this.cacheIndex, 'modificationTime');
+      this.cacheIndex = this.cacheIndex.sort((a: IndexItem, b: IndexItem): number => a > b ? -1 : a < b ? 1 : 0);
       this.indexed = true;
       return Promise.resolve();
     }).catch(e => {
