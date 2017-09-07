@@ -43,7 +43,7 @@ export class ImageLoaderController {
       this.isInit = true;
       this.throwWarning('You are running on a browser or using livereload, IonicImageLoader will not function, falling back to browser loading.');
     } else {
-      Observable.fromEvent(document, 'deviceready').first().subscribe(res => {
+      Observable.fromEvent(document, 'deviceready').first().subscribe(() => {
         if (this.nativeAvailable) {
           this.initCache();
         } else {
