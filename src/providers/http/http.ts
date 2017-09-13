@@ -78,6 +78,7 @@ const defaultRequestOptions: HttpProviderOptions = new HttpProviderOptions({
   showLoading: true,
   loadingContent: '正在加载...',
   showErrorAlert: true,
+  withCredentials: true,
   cache: false,
   cacheOnly: false,
   memCache: false,
