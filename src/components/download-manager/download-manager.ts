@@ -4,11 +4,11 @@ import { NavController, Platform } from 'ionic-angular';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { ExtLocalNotifications } from '../../native/local-notifications';
-import { isPresent } from '../../utils/util';
+import { isPresent, guid } from '../../utils/util';
 import { DownloadManagerCmp } from './download-manager-component';
 
 export interface DownloadOptions {
-  fileName: string;
+  fileName?: string;
   filePath?: string;
   url: string;
 }
@@ -51,6 +51,9 @@ export class DownloadManagerController {
   }
 
   download(option: DownloadOptions): Promise<any> {
+    if (!option.fileName) {
+      option.fileName = guid();
+    }
     if (!isPresent(option.filePath)) {
       option.filePath = '';
     }
