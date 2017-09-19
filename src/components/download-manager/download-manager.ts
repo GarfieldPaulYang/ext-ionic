@@ -4,7 +4,7 @@ import { NavController, Platform } from 'ionic-angular';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { ExtLocalNotifications } from '../../native/local-notifications';
-import { isPresent, guid } from '../../utils/util';
+import { guid, isPresent } from '../../utils/util';
 import { DownloadManagerCmp } from './download-manager-component';
 
 export interface DownloadOptions {
