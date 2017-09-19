@@ -84,6 +84,7 @@ export function currencyFormat(num: number, prefix?: string): string {
 export enum DateType {
   Day = 0,
   Week = 1,
+  Month = 3,
   Year = 2
 }
 
@@ -95,6 +96,14 @@ export function getLastDateOfWeek(date: Date) {
   return new Date(new Date(date).setDate(date.getDate() - date.getDay() + 7));
 }
 
+export function getLastDateOfMonth(date: Date) {
+  const result = new Date(date);
+  result.setDate(1);
+  result.setMonth(result.getMonth() + 1);
+  result.setDate(result.getDate() - 1);
+  return result;
+}
+
 export function addDate(date: Date, offset: number, dateType: DateType) {
   let result = new Date(date);
   switch (dateType) {
@@ -103,6 +112,9 @@ export function addDate(date: Date, offset: number, dateType: DateType) {
       break;
     case (DateType.Week):
       result.setDate(result.getDate() + offset * 7);
+      break;
+    case (DateType.Month):
+      result.setMonth(result.getMonth() + offset);
       break;
     case (DateType.Year):
       const year: number = date.getFullYear() - 1;
