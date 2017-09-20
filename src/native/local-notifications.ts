@@ -11,7 +11,7 @@ export interface ExtILocalNotification extends ILocalNotification {
 
 @Plugin({
   pluginName: 'LocalNotifications',
-  plugin: 'de.appplant.cordova.plugin.local-notification',
+  plugin: 'cordova-plugin-local-notifications',
   pluginRef: 'cordova.plugins.notification.local',
   repo: 'https://github.com/squallliu/cordova-plugin-local-notifications',
   platforms: ['Android', 'iOS', 'Windows']
