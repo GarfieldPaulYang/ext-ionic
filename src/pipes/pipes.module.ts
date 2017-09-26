@@ -9,6 +9,7 @@ export { MapToIterable } from './map-to-iterable';
 export { OrderBy } from './order-by';
 export { TrustResourceUrl } from './bypass-trust-res-url';
 export { TrustMcpUrl } from './bypass-mcp-trust-url';
+export { DateFormat } from './date-format';
 
 @NgModule({
   exports: [
