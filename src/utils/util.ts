@@ -32,6 +32,10 @@ export function unFlattenObject(params: any) {
 }
 
 export function dateFormat(date: Date | number, format: string = 'yyyy-MM-dd'): string {
+  if (_.isString(date)) {
+    return date;
+  }
+
   const d = _.isNumber(date) ? new Date(date) : date;
   const month = d.getMonth() + 1;
   let time = {

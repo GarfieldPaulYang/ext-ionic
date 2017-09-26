@@ -3,6 +3,7 @@ import { MapToIterable } from './map-to-iterable';
 import { OrderBy } from './order-by';
 import { TrustResourceUrl } from './bypass-trust-res-url';
 import { TrustMcpUrl } from './bypass-mcp-trust-url';
+import { DateFormat } from './date-format';
 
 export { MapToIterable } from './map-to-iterable';
 export { OrderBy } from './order-by';
@@ -14,13 +15,15 @@ export { TrustMcpUrl } from './bypass-mcp-trust-url';
     MapToIterable,
     OrderBy,
     TrustResourceUrl,
-    TrustMcpUrl
+    TrustMcpUrl,
+    DateFormat
   ],
   declarations: [
     MapToIterable,
     OrderBy,
     TrustResourceUrl,
-    TrustMcpUrl
+    TrustMcpUrl,
+    DateFormat
   ]
 })
 export class PipesModule {
@@ -31,7 +34,8 @@ export class PipesModule {
         MapToIterable,
         OrderBy,
         TrustResourceUrl,
-        TrustMcpUrl
+        TrustMcpUrl,
+        DateFormat
       ]
     };
   }
