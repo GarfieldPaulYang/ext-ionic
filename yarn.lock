@@ -2,82 +2,97 @@
 # yarn lockfile v1
 
 
-"@angular/common@4.1.3":
-  version "4.1.3"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/common/-/common-4.1.3.tgz#e7c4791e32131cf74c239428c2a67daab2eef017"
-
-"@angular/compiler-cli@4.1.3":
-  version "4.1.3"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/compiler-cli/-/compiler-cli-4.1.3.tgz#c2362ffdf65756471481f839fab675bcac213f96"
+"@angular/common@4.4.3":
+  version "4.4.3"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/common/-/common-4.4.3.tgz#f92ac68b02bec5f0e6d3603a843294dc96c96074"
   dependencies:
-    "@angular/tsc-wrapped" "4.1.3"
+    tslib "^1.7.1"
+
+"@angular/compiler-cli@4.4.3":
+  version "4.4.3"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/compiler-cli/-/compiler-cli-4.4.3.tgz#183af81f141186b8d660b06429592d40b7540a4a"
+  dependencies:
+    "@angular/tsc-wrapped" "4.4.3"
     minimist "^1.2.0"
     reflect-metadata "^0.1.2"
 
-"@angular/compiler@4.1.3":
-  version "4.1.3"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/compiler/-/compiler-4.1.3.tgz#d2dd30853b0cf4a54758b4a314632c231f9c94c3"
+"@angular/compiler@4.4.3":
+  version "4.4.3"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/compiler/-/compiler-4.4.3.tgz#8f01163dad7db3408497d99d387554b6b185ad66"
+  dependencies:
+    tslib "^1.7.1"
 
-"@angular/core@4.1.3":
-  version "4.1.3"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/core/-/core-4.1.3.tgz#285498eb86ab7d0b6f982f8f9f487ef610013b35"
+"@angular/core@4.4.3":
+  version "4.4.3"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/core/-/core-4.4.3.tgz#e71d2b07beaacbab48ab7f51d4e2286ea5d70e15"
+  dependencies:
+    tslib "^1.7.1"
 
-"@angular/forms@4.1.3":
-  version "4.1.3"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/forms/-/forms-4.1.3.tgz#380ab4c3af84c5d1d748c2a7d04151c7dc8e4982"
+"@angular/forms@4.4.3":
+  version "4.4.3"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/forms/-/forms-4.4.3.tgz#25b41bbab58bf1da872411c8517c10d7c5373d8e"
+  dependencies:
+    tslib "^1.7.1"
 
-"@angular/http@4.1.3":
-  version "4.1.3"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/http/-/http-4.1.3.tgz#eb9d1c302a0172815f9a573310d9be0bdeb845ae"
+"@angular/http@4.4.3":
+  version "4.4.3"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/http/-/http-4.4.3.tgz#b557ed24144aacc44b136cd477e84d2f57808903"
+  dependencies:
+    tslib "^1.7.1"
 
-"@angular/platform-browser-dynamic@4.1.3":
-  version "4.1.3"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/platform-browser-dynamic/-/platform-browser-dynamic-4.1.3.tgz#3c13fdcf591d487f6efdc1d46913f280c6d8c2ec"
+"@angular/platform-browser-dynamic@4.4.3":
+  version "4.4.3"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/platform-browser-dynamic/-/platform-browser-dynamic-4.4.3.tgz#e41ddd8252432775310eab5940cdd8df0618f084"
+  dependencies:
+    tslib "^1.7.1"
 
-"@angular/platform-browser@4.1.3":
-  version "4.1.3"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/platform-browser/-/platform-browser-4.1.3.tgz#4fa1db5119dd178b315ddae5b329bee1a932a5bd"
+"@angular/platform-browser@4.4.3":
+  version "4.4.3"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/platform-browser/-/platform-browser-4.4.3.tgz#23f9a45bd3dc7f44d97877fbf8e6032decfc9dcb"
+  dependencies:
+    tslib "^1.7.1"
 
-"@angular/platform-server@4.1.3":
-  version "4.1.3"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/platform-server/-/platform-server-4.1.3.tgz#bbfae42b15730357751da0e145d686f925a94431"
+"@angular/platform-server@4.4.3":
+  version "4.4.3"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/platform-server/-/platform-server-4.4.3.tgz#e65dce9de54d6ca6649cc9894c5c7a3247baaf4c"
   dependencies:
     parse5 "^3.0.1"
+    tslib "^1.7.1"
     xhr2 "^0.1.4"
 
-"@angular/tsc-wrapped@4.1.3":
-  version "4.1.3"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/tsc-wrapped/-/tsc-wrapped-4.1.3.tgz#2d6372c9187bf1621eacd960b94b39c4f95293cd"
+"@angular/tsc-wrapped@4.4.3":
+  version "4.4.3"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/tsc-wrapped/-/tsc-wrapped-4.4.3.tgz#2d3f38210a1d4db03fc86dcf1e095812b85cd119"
   dependencies:
     tsickle "^0.21.0"
 
-"@ionic-native/core@4.1.0":
-  version "4.1.0"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/core/-/core-4.1.0.tgz#603610a9b79636d991e612316b14c3c2d3e9bcf3"
+"@ionic-native/core@4.3.0":
+  version "4.3.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/core/-/core-4.3.0.tgz#0d613bb6c8779146949514299ca1c02611e308a9"
 
-"@ionic-native/device@4.1.0":
-  version "4.1.0"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/device/-/device-4.1.0.tgz#fa547ee52306bdbcc7e989ef79292a52127b398d"
+"@ionic-native/device@4.3.0":
+  version "4.3.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/device/-/device-4.3.0.tgz#126ab6a7fdef8b654deadea048c68f91aa5857f8"
 
-"@ionic-native/file-opener@4.1.0":
-  version "4.1.0"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file-opener/-/file-opener-4.1.0.tgz#71a4c72ada4ed197ff567a0713b77742addf35cd"
+"@ionic-native/file-opener@4.3.0":
+  version "4.3.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file-opener/-/file-opener-4.3.0.tgz#65e7af5082d78ee57670128fbb87106f6da96825"
 
-"@ionic-native/file-transfer@4.1.0":
-  version "4.1.0"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file-transfer/-/file-transfer-4.1.0.tgz#5d35484b056b4d8f681a1ebd73fc306c3f3a13f9"
+"@ionic-native/file-transfer@4.3.0":
+  version "4.3.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file-transfer/-/file-transfer-4.3.0.tgz#fdd9b0b4c11e0f45f7f0e6727db47b033e81331c"
 
-"@ionic-native/file@4.1.0":
-  version "4.1.0"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file/-/file-4.1.0.tgz#d51cfc4f44a7b8ecd5a6c3c377e35eaf7eac7787"
+"@ionic-native/file@4.3.0":
+  version "4.3.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/file/-/file-4.3.0.tgz#fa2c51752149d2139271f356f91955976dba7955"
 
-"@ionic-native/geolocation@4.1.0":
-  version "4.1.0"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/geolocation/-/geolocation-4.1.0.tgz#a5f50a80ab2889a1535801ff9954d8f4690e4e26"
+"@ionic-native/geolocation@4.3.0":
+  version "4.3.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/geolocation/-/geolocation-4.3.0.tgz#9d90d6abb956beb5cfad4115559771ed317d6bf2"
 
-"@ionic-native/local-notifications@4.1.0":
-  version "4.1.0"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/local-notifications/-/local-notifications-4.1.0.tgz#2c0b102262ba5820cc6cedec84ecff22b5a15323"
+"@ionic-native/local-notifications@4.3.0":
+  version "4.3.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@ionic-native/local-notifications/-/local-notifications-4.3.0.tgz#25b1f2aa6ccc8dd4ff83ded020d1fdc434649527"
 
 "@ionic/storage@2.0.1":
   version "2.0.1"
@@ -282,9 +297,9 @@ inline-process-browser@^1.0.0:
     falafel "^1.0.1"
     through2 "^0.6.5"
 
-ionic-angular@3.6.1:
-  version "3.6.1"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/ionic-angular/-/ionic-angular-3.6.1.tgz#a2b568f79d52050c19f9cee157de60bc058d09c2"
+ionic-angular@3.7.0:
+  version "3.7.0"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/ionic-angular/-/ionic-angular-3.7.0.tgz#eafaeadddcb88adb6f04d37fda6b94cf9808b603"
 
 ionicons@3.0.0:
   version "3.0.0"
@@ -410,9 +425,9 @@ resolve@^1.3.2:
   dependencies:
     path-parse "^1.0.5"
 
-rxjs@5.4.0:
-  version "5.4.0"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/rxjs/-/rxjs-5.4.0.tgz#a7db14ab157f9d7aac6a56e655e7a3860d39bf26"
+rxjs@5.4.3:
+  version "5.4.3"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/rxjs/-/rxjs-5.4.3.tgz#0758cddee6033d68e0fd53676f0f3596ce3d483f"
   dependencies:
     symbol-observable "^1.0.1"
 
@@ -541,6 +556,6 @@ xhr2@^0.1.4:
   version "4.0.1"
   resolved "http://registry.npm.taobao.org/xtend/download/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
 
-zone.js@0.8.12:
-  version "0.8.12"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/zone.js/-/zone.js-0.8.12.tgz#86ff5053c98aec291a0bf4bbac501d694a05cfbb"
+zone.js@0.8.17:
+  version "0.8.17"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/zone.js/-/zone.js-0.8.17.tgz#4c5e5185a857da8da793daf3919371c5a36b2a0b"
