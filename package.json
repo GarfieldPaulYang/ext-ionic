@@ -1,6 +1,6 @@
 {
   "name": "ext-ionic",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "description": "ionic2 扩展库",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -54,12 +54,12 @@
     "@angular/platform-server": "4.4.3",
     "@ionic-native/core": "4.3.0",
     "@ionic/storage": "2.0.1",
-    "ionic-angular": "3.7.0",
+    "ionic-angular": "3.7.1",
     "ionicons": "3.0.0",
     "rxjs": "5.4.3",
     "tslint": "^5.4.3",
     "tslint-ionic-rules": "0.0.11",
     "typescript": "2.3.4",
-    "zone.js": "0.8.17"
+    "zone.js": "0.8.18"
   }
 }
