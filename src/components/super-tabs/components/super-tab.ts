@@ -53,7 +53,7 @@ export class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
   }
 
   set swipeBackEnabled(val: boolean) {
-    this._sbEnabled = !!val;
+    this._sbEnabled = Boolean(val);
     this._swipeBackCheck();
   }
 

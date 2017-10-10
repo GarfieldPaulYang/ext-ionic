@@ -120,9 +120,11 @@ export class SuperTabsContainer implements AfterViewInit, OnDestroy {
 
       // move container if we changed position
       if (position !== this.containerPosition) {
-        this.plt.raf(() => {
-          this.moveContainer(true, position, () => this.ngZone.run(() => this.setSelectedTab(tabIndex)));
-        });
+        this.plt.raf(() =>
+          this.moveContainer(true, position).then(() =>
+            this.ngZone.run(() => this.setSelectedTab(tabIndex))
+          )
+        );
       } else this.setSelectedTab(tabIndex);
     };
   }
@@ -150,7 +152,7 @@ export class SuperTabsContainer implements AfterViewInit, OnDestroy {
     });
   }
 
-  private moveContainer(animate: boolean = false, positionX?: number, callback: Function = () => { }) {
+  private async moveContainer(animate: boolean = false, positionX?: number) {
     const el: HTMLElement = this.container.nativeElement;
     if (animate) {
       if (el.style[this.plt.Css.transform].indexOf('all') === -1) {
@@ -173,7 +175,6 @@ export class SuperTabsContainer implements AfterViewInit, OnDestroy {
 
       this.rnd.setStyle(el, this.plt.Css.transform, `translate3d(${-1 * this.containerPosition}px, 0, 0)`);
     }
-    callback();
   }
 
   private refreshMinMax(): void {

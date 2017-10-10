@@ -308,9 +308,13 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     this.refreshContainerHeight();
   }
 
-  slideTo(indexOrId: string | number): Promise<void> {
+  slideTo(indexOrId: string | number, fireEvent: boolean = true): Promise<void> {
     if (typeof indexOrId === 'string') {
       indexOrId = this.getTabIndexById(indexOrId);
+    }
+
+    if (!fireEvent) {
+      return Promise.resolve();
     }
 
     return this.onToolbarTabSelect(indexOrId);
@@ -402,12 +406,14 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
    * @param index
    */
   onTabChange(index: number) {
+    index = Number(index);
     if (index === this.selectedTabIndex) {
       this.tabSelect.emit({
         index,
         id: this._tabs[index].tabId,
         changed: false
       });
+      return;
     }
 
     if (index <= this._tabs.length) {
@@ -436,9 +442,13 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   }
 
   onToolbarTabSelect(index: number): Promise<void> {
-    return this.tabsContainer.slideTo(index).then(() => {
-      this.onTabChange(index);
-    });
+    if (index !== this.selectedTabIndex) {
+      return this.tabsContainer.slideTo(index).then(() => {
+        this.onTabChange(index);
+      });
+    }
+    this.onTabChange(index);
+    return Promise.resolve();
   }
 
   onContainerTabSelect(ev: { index: number; changed: boolean }) {
