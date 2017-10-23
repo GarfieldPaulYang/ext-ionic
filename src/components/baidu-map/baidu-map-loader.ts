@@ -1,6 +1,13 @@
+let baiduMapIsLoaded = false;
 export const baiduMapLoader = (): Promise<void> => {
   return new Promise<void>((resolve, reject) => {
+    if (baiduMapIsLoaded) {
+      resolve();
+      return;
+    }
+
     window['baiduMapLoaded'] = () => {
+      baiduMapIsLoaded = true;
       resolve();
     };
 
