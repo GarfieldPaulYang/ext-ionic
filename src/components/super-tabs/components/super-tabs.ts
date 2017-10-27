@@ -451,6 +451,11 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     this.alignIndicatorPosition(true);
   }
 
+  resize() {
+    const tab = this.getActiveTab();
+    tab && tab.resize();
+  }
+
   private fireLifecycleEvent(events: string[]) {
     const activeView = this.getActiveTab().getActive();
     events.forEach((event: string) => {
