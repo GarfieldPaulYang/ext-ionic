@@ -207,14 +207,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     // re-adjust the height of the slider when the orientation changes
     const $windowResize = Observable.merge.apply(this, obsToMerge).debounceTime(10);
     const windowResizeSub = $windowResize.subscribe(() => {
-      this.setMaxIndicatorPosition();
-      this.updateTabWidth();
-      this.setFixedIndicatorWidth();
-      this.refreshTabWidths();
-      this.tabsContainer.refreshDimensions();
-      this.tabsContainer.slideTo(this.selectedTabIndex);
-      this.alignIndicatorPosition();
-      this.refreshContainerHeight();
+      this.resize();
     });
     this.watches.push(windowResizeSub);
   }
@@ -452,8 +445,14 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   }
 
   resize() {
-    const tab = this.getActiveTab();
-    tab && tab.resize();
+    this.setMaxIndicatorPosition();
+    this.updateTabWidth();
+    this.setFixedIndicatorWidth();
+    this.refreshTabWidths();
+    this.tabsContainer.refreshDimensions();
+    this.tabsContainer.slideTo(this.selectedTabIndex);
+    this.alignIndicatorPosition();
+    this.refreshContainerHeight();
   }
 
   private fireLifecycleEvent(events: string[]) {
