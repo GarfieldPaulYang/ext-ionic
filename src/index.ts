@@ -33,6 +33,7 @@ export * from './components/nav-button-bar/nav-button-bar.module';
 export * from './components/gallery/gallery.module';
 export * from './components/select/lazy-select.module';
 export * from './components/auto-complete/auto-complete.module';
+export * from './components/signature-pad/signature-pad.module';
 
 export { StringUtils } from './utils/string';
 export * from './utils/util';
@@ -98,6 +99,7 @@ import { NavButtonBarModule } from './components/nav-button-bar/nav-button-bar.m
 import { GalleryModule } from './components/gallery/gallery.module';
 import { LazySelectModule } from './components/select/lazy-select.module';
 import { AutoCompleteModule } from './components/auto-complete/auto-complete.module';
+import { SignaturePadModule } from './components/signature-pad/signature-pad.module';
 
 const PROVIDERS: Array<any> = [
   FileTransfer,
@@ -140,7 +142,8 @@ const PROVIDERS: Array<any> = [
     NavButtonBarModule.forRoot(),
     GalleryModule.forRoot(),
     LazySelectModule.forRoot(),
-    AutoCompleteModule.forRoot()
+    AutoCompleteModule.forRoot(),
+    SignaturePadModule.forRoot()
   ],
   exports: [
     AlphaScrollModule,
