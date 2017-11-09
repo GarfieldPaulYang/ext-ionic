@@ -1,7 +1,10 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Optional, Output } from '@angular/core';
 import { Page } from 'ionic-angular/navigation/nav-util';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/operator/debounceTime';
 import { ViewController } from 'ionic-angular';
 
 export interface NavButton {

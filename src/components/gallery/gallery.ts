@@ -1,8 +1,11 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Optional, Output } from '@angular/core';
+import { ViewController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/operator/debounceTime';
 import { ImageLoaderController } from '../image-loader/image-loader';
-import { ViewController } from 'ionic-angular';
 
 export interface GalleryOptions {
   colWidth?: number;

@@ -55,8 +55,6 @@ export * from './providers/geog/geog';
 export * from './providers/geog/geolocation';
 export * from './providers/geog/map-app-launch';
 
-import './rxjs-extensions';
-
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { FileOpener } from '@ionic-native/file-opener';
 import { File } from '@ionic-native/file';

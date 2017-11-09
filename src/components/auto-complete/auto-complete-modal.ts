@@ -16,8 +16,8 @@ export interface AutoCompleteModalOptions {
     <ion-header>
       <ion-toolbar color="primary">
         <ion-buttons left>
-          <button ion-button icon-only (click)="dismiss()">
-          <ion-icon name="arrow-back"></ion-icon>
+          <button ion-button icon-only (click)="dismiss($event)">
+            <ion-icon name="arrow-back"></ion-icon>
           </button>
         </ion-buttons>
         <ion-searchbar type="text"
@@ -32,7 +32,7 @@ export interface AutoCompleteModalOptions {
     <ion-content>
       <ion-list>
         <ion-item *ngFor="let item of items" (click)="dismiss(item)">
-          <ng-template [ngTemplateOutlet]="options.template" [ngOutletContext]="{'item': item}"></ng-template>
+          <ng-container *ngTemplateOutlet="options.template; context: {'item': item}"></ng-container>
         </ion-item>
       </ion-list>
     </ion-content>

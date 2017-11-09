@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Jsonp } from '@angular/http';
 import { ActionSheetController, Platform } from 'ionic-angular';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map';
 import * as _ from 'lodash';
 import { AppLauncher, AppLauncherOptions } from '../../native/app-launcher';
 import { Dialog } from '../../utils/dialog';

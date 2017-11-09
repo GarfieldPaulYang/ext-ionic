@@ -4,6 +4,8 @@ import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File, FileEntry, FileError, Metadata } from '@ionic-native/file';
 
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/operator/first';
 
 import { ConfigProvider } from '../../config/config';
 import { StringUtils } from '../../utils/string';

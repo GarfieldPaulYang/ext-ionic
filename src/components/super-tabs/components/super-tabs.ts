@@ -8,6 +8,10 @@ import { NavigationContainer } from 'ionic-angular/navigation/navigation-contain
 import { DIRECTION_SWITCH } from 'ionic-angular/navigation/nav-util';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/operator/debounceTime';
+
 import { SuperTabsToolbar } from './super-tabs-toolbar';
 import { SuperTabsContainer } from './super-tabs-container';
 import { SuperTabsController } from '../providers/super-tabs-controller';
@@ -52,7 +56,7 @@ export interface SuperTabsConfig {
                         [badgeColor]="badgeColor" [scrollTabs]="scrollTabs" [selectedTab]="selectedTabIndex"
                         (tabSelect)="onToolbarTabSelect($event)"></ion-super-tabs-toolbar>
     <ion-super-tabs-container [config]="config" [tabsCount]="_tabs.length" [selectedTabIndex]="selectedTabIndex"
-                          (tabSelect)="onContainerTabSelect($event)" (onDrag)="onDrag($event)">
+                          (tabSelect)="onContainerTabSelect($event)" (onDrag)="onDrag()">
       <ng-content></ng-content>
     </ion-super-tabs-container>
   `,

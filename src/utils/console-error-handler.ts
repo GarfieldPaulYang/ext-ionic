@@ -2,7 +2,7 @@ import { ErrorHandler } from '@angular/core';
 
 export class ConsoleErrorHandler extends ErrorHandler {
   constructor() {
-    super(false);
+    super();
   }
 
   handleError(err: any): void {

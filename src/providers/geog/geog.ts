@@ -1,5 +1,7 @@
 import { Jsonp } from '@angular/http';
 import { Injectable } from '@angular/core';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map';
 import { GpsPoint } from '../../commons/type/geog';
 
 export interface Geocoder extends GpsPoint {

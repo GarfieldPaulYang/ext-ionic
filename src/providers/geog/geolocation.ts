@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/filter';
 
 const defaultOptions: GeolocationOptions = {
   enableHighAccuracy: true,
