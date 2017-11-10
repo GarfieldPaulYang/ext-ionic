@@ -13,6 +13,7 @@ export interface LoginConfig {
 export interface Config {
   color?: string;
   hotUpdateUrl?: any;
+  ticket?: string;
   devMode?: boolean;
   login?: LoginConfig;
   openUrlModal?: OpenUrlModalOptions;
@@ -59,6 +60,10 @@ export class ConfigProvider {
 
   get(): Config {
     return this._config;
+  }
+
+  set(key: string, value: string) {
+    _.set(this._config, key, value);
   }
 
   init(config: Config) {
