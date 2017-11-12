@@ -1,9 +1,5 @@
 #!/bin/sh
 
-mv dist/src/* dist/
-rm -Rf dist/src
-rm -Rf dist/node_modules
-
 cp src/components/alpha-scroll/*.scss dist/components/alpha-scroll/
 cp src/components/baidu-map/*.scss dist/components/baidu-map/
 cp src/components/ribbon/*.scss dist/components/ribbon/

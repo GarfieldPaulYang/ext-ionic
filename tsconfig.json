@@ -15,7 +15,8 @@
       "dom",
       "es2015"
     ],
-    "outDir": "dist"
+    "outDir": "dist",
+    "rootDir": "src"
   },
   "angularCompilerOptions": {
     "genDir": "aot"

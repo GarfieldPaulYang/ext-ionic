@@ -11,3 +11,5 @@ tslint.json
 aot
 deploy-debug*
 yarn.lock
+*.ngfactory.*
+*.ngsummary.*
