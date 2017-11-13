@@ -13,6 +13,8 @@ import { Content } from 'ionic-angular';
 
 import { OrderBy } from '../../pipes/order-by';
 
+const ALPHABETS: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
 @Component({
   selector: 'ion-alpha-scroll',
   template: `
@@ -65,8 +67,9 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
       let letter: any = _.get(item, this.key);
       return letter.toUpperCase().charAt(0);
     });
-    this.sortedItems = this.unwindGroup(groupItems);
-    this.alphabet = this.iterateAlphabet(groupItems);
+    const iteratedObj = this.iterateAlphabet(groupItems);
+    this.sortedItems = iteratedObj.sortedItems;
+    this.alphabet = iteratedObj.alphabets;
   }
 
   ngOnDestroy() {
@@ -131,22 +134,28 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     }, 50));
   }
 
-  private unwindGroup(groupItems: any): Array<any> {
-    let result: Array<any> = [];
-    for (let letter in groupItems) {
-      result = result.concat([{ isDivider: true, letter: letter }].concat(groupItems[letter]));
-    }
-    return result;
-  }
+  private iterateAlphabet(groupItems: any): { alphabets: Array<any>, sortedItems: Array<any> } {
+    let result = { alphabets: [], sortedItems: [] };
+    for (let i = 0; i < ALPHABETS.length; i++) {
+      const letter = ALPHABETS.charAt(i);
+      const isActive = groupItems[letter] ? true : false;
+      result.alphabets.push({ letter: letter, isActive: isActive });
 
-  private iterateAlphabet(alphabet: any): Array<any> {
-    let str: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let result: Array<any> = [];
-    for (let i = 0; i < str.length; i++) {
-      let letter = str.charAt(i);
-      let isActive = alphabet[letter] ? true : false;
-      result.push({ letter: letter, isActive: isActive });
+      if (!isActive) continue;
+
+      result.sortedItems = result.sortedItems.concat([{ isDivider: true, letter: letter }].concat(groupItems[letter]));
     }
+
+    let otherItems = [{ isDivider: true, letter: '其它' }];
+    for (let letter in groupItems) {
+      if (ALPHABETS.indexOf(letter) !== -1) continue;
+      otherItems = otherItems.concat(groupItems[letter]);
+    }
+
+    if (otherItems.length > 1) {
+      result.sortedItems = result.sortedItems.concat(otherItems);
+    }
+
     return result;
   }
 }
