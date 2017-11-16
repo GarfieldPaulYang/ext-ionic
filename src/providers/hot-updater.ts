@@ -70,9 +70,7 @@ export class HotUpdater {
     this.localNotifications.schedule({
       id: 1000,
       title: '正在更新...',
-      progress: true,
-      maxProgress: 100,
-      currentProgress: 0
+      progressBar: { enabled: true, maxValue: 100, value: 0 }
     });
     let transfer = this.transfer.create();
     transfer.onProgress(event => {
@@ -80,9 +78,8 @@ export class HotUpdater {
       this.localNotifications.update({
         id: 1000,
         title: '正在更新...',
-        progress: true,
-        maxProgress: 100,
-        currentProgress: Math.round(Number(progress))
+        sound: null,
+        progressBar: { enabled: true, maxValue: 100, value: Math.round(Number(progress)) }
       });
     });
     transfer.download(this.config.get().hotUpdateUrl.android, targetPath).then(() => {

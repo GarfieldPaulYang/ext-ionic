@@ -116,9 +116,7 @@ export class DownloadManagerController {
       this.localNotifications.schedule({
         id: id,
         title: fileName + ' 开始下载...',
-        progress: this.platform.is('android'),
-        maxProgress: 100,
-        currentProgress: 0
+        progressBar: { enabled: this.platform.is('android'), maxValue: 100, value: 0 }
       });
       return id;
     });
@@ -128,10 +126,8 @@ export class DownloadManagerController {
     this.localNotifications.update({
       id: id,
       title: fileName + '下载中...',
-      progress: this.platform.is('android'),
-      maxProgress: 100,
-      currentProgress: progress,
-      sound: null
+      sound: null,
+      progressBar: { enabled: this.platform.is('android'), maxValue: 100, value: progress }
     });
   }
 }
