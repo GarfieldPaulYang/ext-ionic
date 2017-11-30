@@ -1,8 +1,6 @@
-import { Jsonp } from '@angular/http';
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/map';
 import { GpsPoint } from '../../commons/type/geog';
+import { HttpProvider } from '../http/http';
 
 export interface Geocoder extends GpsPoint {
   coordType?: 'bd09ll' | 'bd09mc' | 'gcj02ll' | 'wgs84ll' | 'wgs84';
@@ -22,7 +20,7 @@ export interface Suggestion {
 export class BaiduGeogProvider {
   private appKey: string = '12c17c924871a04f1dbac75e1824edb7';
 
-  constructor(private jsonp: Jsonp) {
+  constructor(private http: HttpProvider) {
   }
 
   geocoder(params: Geocoder): Promise<any> {
@@ -33,7 +31,7 @@ export class BaiduGeogProvider {
       ...params
     };
     const url = `http://api.map.baidu.com/geocoder/v2/?coordtype=${params.coordType}&radius=${params.radius}&location=${params.lat},${params.lng}&output=json&pois=${params.pois}&ak=${this.appKey}`;
-    return this.jsonp.get(url, { params: { 'callback': 'JSONP_CALLBACK' } }).map(r => r.json()).toPromise().then(r => {
+    return this.http.jsonp<any>(url, 'callback').then(r => {
       if (r.status !== 0) {
         return Promise.reject(r.message);
       }
@@ -50,7 +48,7 @@ export class BaiduGeogProvider {
       ...params
     };
     const url = `http://api.map.baidu.com/place/v2/suggestion?q=${params.keyword}&region=${params.region}&location=${params.location}&city_limit=true&coord_type=${params.coordType}&ret_coordtype=${params.retCoordType}&output=json&ak=${this.appKey}`;
-    return this.jsonp.get(url, { params: { 'callback': 'JSONP_CALLBACK' } }).map(r => r.json()).toPromise().then(r => {
+    return this.http.jsonp<any>(url, 'callback').then(r => {
       if (r.status !== 0) {
         return Promise.reject(r.message);
       }
@@ -64,7 +62,7 @@ export class BaiduGeogProvider {
       coordsStrs.push(coords.lng + ',' + coords.lat);
     });
     const url = `http://api.map.baidu.com/geoconv/v1/?output=json&from=1&to=5&ak=${this.appKey}&coords=${coordsStrs.join(';')}`;
-    return this.jsonp.get(url, { params: { 'callback': 'JSONP_CALLBACK' } }).map(r => r.json()).toPromise().then(r => {
+    return this.http.jsonp<any>(url, 'callback').then(r => {
       if (r.status !== 0) {
         return Promise.reject<any>('转换 gps 失败');
       }

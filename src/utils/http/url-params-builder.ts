@@ -29,14 +29,8 @@ const buildParams = (params: any, result: any): any => {
   return result;
 };
 
-export const HttpParamsBuilder = {
+export const URLParamsBuilder = {
   build: (params: any): HttpParams => {
     return buildParams(params, new HttpParams());
-  },
-};
-
-export const URLParamsBuilder = {
-  build: (params: any): URLSearchParams => {
-    return buildParams(params, new URLSearchParams());
   },
 };

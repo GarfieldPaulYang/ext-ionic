@@ -1,34 +1,24 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
+import { Events, Loading } from 'ionic-angular';
+import { Device } from '@ionic-native/device';
+
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
-import {
-  Headers,
-  Http,
-  Request,
-  RequestMethod,
-  RequestOptions,
-  RequestOptionsArgs,
-  Response,
-  ResponseContentType,
-  URLSearchParams
-} from '@angular/http';
-import { Events, Loading } from 'ionic-angular';
-import { Device } from '@ionic-native/device';
+
 import * as _ from 'lodash';
 
-import { ConfigProvider } from '../../config/config';
-import { Dialog } from '../../utils/dialog';
 import { isPresent } from '../../utils/util';
-import { ResponseResult } from '../../utils/http/response/response-result';
-import { URLParamsBuilder } from '../../utils/http/url-params-builder';
 import { StringUtils } from '../../utils/string';
+import { URLParamsBuilder } from '../../utils/http/url-params-builder';
+import { ResponseResult } from '../../utils/http/response/response-result';
+import { Dialog } from '../../utils/dialog';
 import { JsonFileStorage } from '../storage/json-file-storage';
 import { MemoryStorage } from '../storage/mem-storage';
+import { ConfigProvider } from '../../config/config';
 
-export const ticket_expired: string = 'ticket-expired';
-
-export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
+export interface HttpProviderOptionsArgs {
   showLoading?: boolean;
   loadingContent?: string;
   showErrorAlert?: boolean;
@@ -36,58 +26,74 @@ export interface HttpProviderOptionsArgs extends RequestOptionsArgs {
   cacheOnly?: boolean;
   memCache?: boolean;
   maxCacheAge?: number;
+
+  url?: string;
+  body?: any | null;
+  headers?: HttpHeaders;
+  reportProgress?: boolean;
+  withCredentials?: boolean;
+  responseType?: 'arraybuffer' | 'blob' | 'json' | 'text';
+  method?: string;
+  params?: HttpParams;
+  search?: HttpParams;
 }
 
-export class HttpProviderOptions extends RequestOptions {
-  showLoading: boolean;
-  loadingContent: string;
-  showErrorAlert: boolean;
-  cache: boolean;
-  cacheOnly: boolean;
-  memCache: boolean;
-  maxCacheAge: number;
+export class HttpProviderOptions implements HttpProviderOptionsArgs {
+  url: string;
+  body: any | null = null;
+  headers: HttpHeaders = new HttpHeaders();
+  reportProgress: boolean = false;
+  withCredentials: boolean = true;
+  responseType: 'arraybuffer' | 'blob' | 'json' | 'text' = 'json';
+  method: string;
+  params: HttpParams = new HttpParams();
+  search: HttpParams;
 
-  constructor(options: HttpProviderOptionsArgs) {
-    super(options);
+  showLoading: boolean = true;
+  loadingContent: string = '正在加载...';
+  showErrorAlert: boolean = true;
+  cache: boolean = false;
+  cacheOnly: boolean = false;
+  memCache: boolean = false;
+  maxCacheAge: number = 1000 * 60 * 60 * 6;
 
-    this.showLoading = options.showLoading;
-    this.loadingContent = options.loadingContent;
-    this.showErrorAlert = options.showErrorAlert;
-    this.cache = options.cache;
-    this.cacheOnly = options.cacheOnly;
-    this.memCache = options.memCache;
-    this.maxCacheAge = options.maxCacheAge;
+  constructor(url: string, method: 'DELETE' | 'GET' | 'HEAD' | 'JSONP' | 'OPTIONS' | 'POST' | 'PUT' | 'PATCH' = 'GET') {
+    this.url = url;
+    this.method = method;
   }
 
   merge(options?: HttpProviderOptionsArgs): HttpProviderOptions {
-    let result = <HttpProviderOptions>super.merge(options);
+    this.url = isPresent(options.url) ? options.url : this.url;
+    this.body = isPresent(options.body) ? options.body : this.body;
+    this.headers = isPresent(options.headers) ? options.headers : this.headers;
+    this.reportProgress = isPresent(options.reportProgress) ? options.reportProgress : this.reportProgress;
+    this.withCredentials = isPresent(options.withCredentials) ? options.withCredentials : this.withCredentials;
+    this.responseType = isPresent(options.responseType) ? options.responseType : this.responseType;
+    this.method = isPresent(options.method) ? options.method : this.method;
+    this.params = isPresent(options.params) ? options.params : this.params;
+    this.search = isPresent(options.search) ? options.search : this.search;
 
-    result.showLoading = isPresent(options.showLoading) ? options.showLoading : this.showLoading;
-    result.showErrorAlert = isPresent(options.showErrorAlert) ? options.showErrorAlert : this.showErrorAlert;
-    result.loadingContent = options.loadingContent ? options.loadingContent : this.loadingContent;
-    result.cache = isPresent(options.cache) ? options.cache : this.cache;
-    result.cacheOnly = isPresent(options.cacheOnly) ? options.cacheOnly : this.cacheOnly;
-    result.memCache = isPresent(options.memCache) ? options.memCache : this.memCache;
-    result.maxCacheAge = isPresent(options.maxCacheAge) ? options.maxCacheAge : this.maxCacheAge;
+    this.showLoading = isPresent(options.showLoading) ? options.showLoading : this.showLoading;
+    this.showErrorAlert = isPresent(options.showErrorAlert) ? options.showErrorAlert : this.showErrorAlert;
+    this.loadingContent = options.loadingContent ? options.loadingContent : this.loadingContent;
+    this.cache = isPresent(options.cache) ? options.cache : this.cache;
+    this.cacheOnly = isPresent(options.cacheOnly) ? options.cacheOnly : this.cacheOnly;
+    this.memCache = isPresent(options.memCache) ? options.memCache : this.memCache;
+    this.maxCacheAge = isPresent(options.maxCacheAge) ? options.maxCacheAge : this.maxCacheAge;
 
-    return result;
+    return this;
+  }
+
+  build(): HttpRequest<any> {
+    return new HttpRequest(this.method, this.url, this.body, {
+      headers: this.headers,
+      reportProgress: this.reportProgress,
+      params: this.params || this.search,
+      responseType: this.responseType,
+      withCredentials: this.withCredentials
+    });
   }
 }
-
-const HTTP_CACHE_DIR = 'whc';
-
-const defaultRequestOptions: HttpProviderOptions = new HttpProviderOptions({
-  showLoading: true,
-  loadingContent: '正在加载...',
-  showErrorAlert: true,
-  withCredentials: true,
-  cache: false,
-  cacheOnly: false,
-  memCache: false,
-  maxCacheAge: 1000 * 60 * 60 * 6,
-  method: RequestMethod.Get,
-  responseType: ResponseContentType.Json
-});
 
 export interface LoginOptions {
   username: string;
@@ -108,17 +114,20 @@ export interface LoginResult {
 }
 
 const APP_JSON_TYPE = 'application/json';
+const HTTP_CACHE_DIR = 'whc';
+
+export const ticket_expired: string = 'ticket-expired';
 
 @Injectable()
 export class HttpProvider {
   constructor(
-    private _http: Http,
+    private _http: HttpClient,
     private jsonCache: JsonFileStorage,
     private memCache: MemoryStorage,
     private dialog: Dialog
   ) { }
 
-  get http(): Http {
+  get http(): HttpClient {
     return this._http;
   }
 
@@ -127,9 +136,8 @@ export class HttpProvider {
     options?: HttpProviderOptionsArgs,
     foundCacheCallback: (result: T) => void = (_result: T) => { }
   ): Promise<T> {
-    options = options ? defaultRequestOptions.merge(options) : defaultRequestOptions;
-
-    let cache = options.memCache ? this.memCache : this.jsonCache;
+    let opts: HttpProviderOptions = new HttpProviderOptions(url).merge(options);
+    const cache = opts.memCache ? this.memCache : this.jsonCache;
 
     let innerRequest = (url: string, options?: HttpProviderOptionsArgs): Promise<T> => {
       return this.request<T>(url, options).then((result: ResponseResult<T>) => {
@@ -143,7 +151,7 @@ export class HttpProvider {
           return Promise.reject(result.msg);
         }
 
-        if (options.cache && options.method === RequestMethod.Get && cacheKey) {
+        if (options.cache && options.method === 'GET' && cacheKey) {
           cache.save({ dirname: HTTP_CACHE_DIR, filename: cacheKey, content: result.data });
         }
 
@@ -154,13 +162,13 @@ export class HttpProvider {
     };
 
     let cacheKey;
-    if (options.cache && options.method === RequestMethod.Get) {
-      cacheKey = this.hashUrl(url, <URLSearchParams>(options.params || options.search));
+    if (opts.cache && opts.method === 'GET') {
+      cacheKey = this.hashUrl(url, opts.params || opts.search);
 
-      if (options.cacheOnly) {
+      if (opts.cacheOnly) {
         return cache.load<T>(
-          { dirname: HTTP_CACHE_DIR, filename: cacheKey, maxAge: options.maxCacheAge }
-        ).catch(() => { return innerRequest(url, options); });
+          { dirname: HTTP_CACHE_DIR, filename: cacheKey, maxAge: opts.maxCacheAge }
+        ).catch(() => { return innerRequest(url, opts); });
       }
 
       cache.load<T>({ dirname: HTTP_CACHE_DIR, filename: cacheKey }).then(result => {
@@ -168,61 +176,58 @@ export class HttpProvider {
       }).catch(error => console.log(error));
     }
 
-    return innerRequest(url, options);
+    return innerRequest(url, opts);
   }
 
   request<T>(url: string, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
-    options = options || defaultRequestOptions;
+    let opts: HttpProviderOptions = new HttpProviderOptions(url).merge(options);
     let loading: Loading;
-    if (options.showLoading) {
-      loading = this.dialog.loading(options.loadingContent);
+    if (opts.showLoading) {
+      loading = this.dialog.loading(opts.loadingContent);
       loading.present();
     }
-    return this.ajax(url, options).toPromise().then(result => {
+    return this.ajax(url, opts).toPromise().then(result => {
       if (loading) loading.dismiss().catch(() => { });
-      return result;
+      if (result.type === HttpEventType.Response) {
+        return new ResponseResult<T>((<HttpResponse<any>>result).body);
+      }
+      return new ResponseResult<T>(null, result);
     }).catch(err => {
       if (loading) loading.dismiss().catch(() => { });
       return Promise.reject(err);
     });
   }
 
-  ajax<T>(url: string | Request, options?: HttpProviderOptionsArgs): Observable<ResponseResult<T>> {
-    options = options || defaultRequestOptions;
-    let params = URLParamsBuilder.build({ '__cors-request__': true });
-    if (options.search) {
-      params.replaceAll(<URLSearchParams>options.search);
-    }
-    if (options.params) {
-      params.replaceAll(<URLSearchParams>options.params);
-    }
-    options.params = params;
+  jsonp<T>(url: string, callbackParam: string): Promise<T> {
+    return this.http.jsonp<T>(url, callbackParam).toPromise();
+  }
 
-    if (options.method === RequestMethod.Post && !(options.body instanceof FormData)) {
-      options.body = options.body || {};
-      options.headers = options.headers || new Headers();
+  ajax<T>(url: string, options?: HttpProviderOptionsArgs): Observable<HttpEvent<T>> {
+    let opts: HttpProviderOptions = new HttpProviderOptions(url).merge(options);
+    opts.params = opts.params || opts.search;
 
-      let contentType = options.headers.get('Content-Type');
+    if (opts.method === 'POST' && !(opts.body instanceof FormData)) {
+      opts.body = opts.body || {};
+
+      let contentType = opts.headers.get('Content-Type');
       if (!contentType) {
         contentType = APP_JSON_TYPE;
-        options.headers.set('Content-Type', contentType);
+        opts.headers.set('Content-Type', contentType);
       }
 
-      if (!_.isString(options.body)) {
+      if (!_.isString(opts.body)) {
         if (APP_JSON_TYPE === contentType.toLowerCase()) {
-          options.body = JSON.stringify(options.body);
+          opts.body = JSON.stringify(opts.body);
         } else {
-          options.body = URLParamsBuilder.build(options.body).toString();
+          opts.body = URLParamsBuilder.build(opts.body).toString();
         }
       }
     }
 
-    return this.http.request(url, options).map(
-      (r: Response) => new ResponseResult<T>(r.json())
-    );
+    return this.http.request<T>(opts.build());
   }
 
-  private hashUrl(url: string, params: URLSearchParams): string {
+  private hashUrl(url: string, params: HttpParams): string {
     let q = params ? params.toString() : '';
     return StringUtils.hash(url + q).toString();
   }
@@ -253,13 +258,13 @@ export class CorsHttpProvider {
 
   login(options: LoginOptions): Promise<LoginResult> {
     return this.request<LoginResult>(this.config.get().login.url, {
-      headers: new Headers({
+      headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
         '__login__': 'true',
         '__uuid__': this.device.uuid,
         '__model__': this.device.model
       }),
-      method: RequestMethod.Post,
+      method: 'POST',
       showErrorAlert: false,
       body: options
     });
@@ -268,7 +273,7 @@ export class CorsHttpProvider {
   logout(): Promise<string> {
     return this.request<string>(this.config.get().login.url, {
       cache: false,
-      headers: new Headers({
+      headers: new HttpHeaders({
         '__logout__': 'true'
       })
     }).then(result => {
@@ -283,7 +288,10 @@ export class CorsHttpProvider {
     foundCacheCallback: (result: T) => void = (_result: T) => { }
   ): Promise<T> {
     options = options || {};
-    options.headers = options.headers || new Headers();
+    options.params = options.params || new HttpParams();
+    options.headers = options.headers || new HttpHeaders();
+
+    options.params.set('__cors-request__', 'true');
 
     options.headers.set('__app-key__', this.config.get().login.appKey);
     options.headers.set('__dev-mode__', this.config.get().devMode + '');

@@ -3,9 +3,17 @@ import * as _ from 'lodash';
 export class ResponseResult<T> {
   status: number;
   msg: string;
-  data: T | any;
+  data: T | any | null;
 
-  constructor(httpResponse: any) {
+  constructor(httpResponse?: any, data?: any) {
+    if (data) {
+      this.data = data;
+    }
+
+    if (!httpResponse) {
+      return;
+    }
+
     this.status = httpResponse.status;
     this.msg = httpResponse.msg;
     this.data = httpResponse.data;

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Jsonp } from '@angular/http';
 import { ActionSheetController, Platform } from 'ionic-angular';
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/map';
 import * as _ from 'lodash';
+
+import { HttpProvider } from '../http/http';
 import { AppLauncher, AppLauncherOptions } from '../../native/app-launcher';
 import { Dialog } from '../../utils/dialog';
 import { BaiduGeogProvider } from './geog';
@@ -25,7 +24,7 @@ class AmapGeogService implements GeogService {
   private appKey: string = '32adf46617be0d1a6a5658cce57cf9e0';
 
   constructor(
-    private jsonp: Jsonp,
+    private http: HttpProvider,
   ) { }
 
   transformGps(points: GpsPoint[]): Promise<GpsPoint[]> {
@@ -34,9 +33,7 @@ class AmapGeogService implements GeogService {
       pointsStrs.push(coords.lng + ',' + coords.lat);
     });
     let url = `http://restapi.amap.com/v3/assistant/coordinate/convert?callback=JSONP_CALLBACK&coordsys=gps&output=json&key=${this.appKey}&locations=${pointsStrs.join('|')}`;
-    return <Promise<GpsPoint[]>>this.jsonp.get(url).map(
-      (r => r.json())
-    ).toPromise().then(o => {
+    return <Promise<GpsPoint[]>>this.http.jsonp<any>(url, 'callback').then(o => {
       let location: string[] = _.split(o.locations, ';');
       let result: GpsPoint[] = [];
       location.forEach(v => {
@@ -57,11 +54,11 @@ export class GeogProvider {
   private serviceMap: Map<MapType, GeogService> = new Map();
 
   constructor(
-    private jsonp: Jsonp,
+    private http: HttpProvider,
     private geog: BaiduGeogProvider
   ) {
     this.serviceMap.set(MapType.BAIDU, new BaiDuGeogService(this.geog));
-    this.serviceMap.set(MapType.AMAP, new AmapGeogService(this.jsonp));
+    this.serviceMap.set(MapType.AMAP, new AmapGeogService(this.http));
   }
 
   transformGps(points: GpsPoint[], mapType?: MapType): Promise<GpsPoint[]> {
