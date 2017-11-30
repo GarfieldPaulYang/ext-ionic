@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { RequestMethod } from '@angular/http';
 import { File, FileEntry } from '@ionic-native/file';
 
 import { CorsHttpProvider } from './http';
@@ -16,7 +15,7 @@ export class FileUploder {
 
   upload(url: string, files: Array<string>, options: FileUploderOptions): Promise<Array<string>> {
     return this.formData(files, options).then(formData => {
-      return this.http.request<Array<string>>(url, { method: RequestMethod.Post, body: formData });
+      return this.http.request<Array<string>>(url, { method: 'POST', body: formData });
     }).catch(e => Promise.reject(e));
   }
 

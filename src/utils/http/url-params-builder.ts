@@ -1,4 +1,3 @@
-import { URLSearchParams } from '@angular/http';
 import { HttpParams } from '@angular/common/http';
 import * as _ from 'lodash';
 

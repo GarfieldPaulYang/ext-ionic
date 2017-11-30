@@ -295,7 +295,7 @@ export class CorsHttpProvider {
 
     options.headers.set('__app-key__', this.config.get().login.appKey);
     options.headers.set('__dev-mode__', this.config.get().devMode + '');
-    options.headers.set('__ticket__', this.ticket);
+    options.headers.set('__ticket__', this.ticket || this.config.get().ticket);
 
     return this.http.requestWithError<T>(url, options, foundCacheCallback).then(result => {
       return result;
