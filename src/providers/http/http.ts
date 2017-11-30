@@ -198,7 +198,7 @@ export class HttpProvider {
     });
   }
 
-  jsonp<T>(url: string, callbackParam: string): Promise<T> {
+  jsonp<T>(url: string, callbackParam: string = 'callback'): Promise<T> {
     return this.http.jsonp<T>(url, callbackParam).toPromise();
   }
 

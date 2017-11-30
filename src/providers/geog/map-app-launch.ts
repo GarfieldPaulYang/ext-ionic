@@ -33,7 +33,7 @@ class AmapGeogService implements GeogService {
       pointsStrs.push(coords.lng + ',' + coords.lat);
     });
     let url = `http://restapi.amap.com/v3/assistant/coordinate/convert?callback=JSONP_CALLBACK&coordsys=gps&output=json&key=${this.appKey}&locations=${pointsStrs.join('|')}`;
-    return <Promise<GpsPoint[]>>this.http.jsonp<any>(url, 'callback').then(o => {
+    return <Promise<GpsPoint[]>>this.http.jsonp<any>(url).then(o => {
       let location: string[] = _.split(o.locations, ';');
       let result: GpsPoint[] = [];
       location.forEach(v => {
