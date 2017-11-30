@@ -18,6 +18,17 @@ import { JsonFileStorage } from '../storage/json-file-storage';
 import { MemoryStorage } from '../storage/mem-storage';
 import { ConfigProvider } from '../../config/config';
 
+export const RequestMethod = {
+  Get: 'GET',
+  Delete: 'DELETE',
+  Head: 'HEAD',
+  Jsonp: 'JSONP',
+  Options: 'OPTIONS',
+  Post: 'POST',
+  Put: 'PUT',
+  Patch: 'PATCH'
+};
+
 export interface HttpProviderOptionsArgs {
   showLoading?: boolean;
   loadingContent?: string;
@@ -57,7 +68,7 @@ export class HttpProviderOptions implements HttpProviderOptionsArgs {
   memCache: boolean = false;
   maxCacheAge: number = 1000 * 60 * 60 * 6;
 
-  constructor(url: string, method: 'DELETE' | 'GET' | 'HEAD' | 'JSONP' | 'OPTIONS' | 'POST' | 'PUT' | 'PATCH' = 'GET') {
+  constructor(url: string, method: string = RequestMethod.Get) {
     this.url = url;
     this.method = method;
   }
@@ -151,7 +162,7 @@ export class HttpProvider {
           return Promise.reject(result.msg);
         }
 
-        if (options.cache && options.method === 'GET' && cacheKey) {
+        if (options.cache && options.method === RequestMethod.Get && cacheKey) {
           cache.save({ dirname: HTTP_CACHE_DIR, filename: cacheKey, content: result.data });
         }
 
@@ -162,7 +173,7 @@ export class HttpProvider {
     };
 
     let cacheKey;
-    if (opts.cache && opts.method === 'GET') {
+    if (opts.cache && opts.method === RequestMethod.Get) {
       cacheKey = this.hashUrl(url, opts.params || opts.search);
 
       if (opts.cacheOnly) {
@@ -206,7 +217,7 @@ export class HttpProvider {
     let opts: HttpProviderOptions = new HttpProviderOptions(url).merge(options);
     opts.params = opts.params || opts.search;
 
-    if (opts.method === 'POST' && !(opts.body instanceof FormData)) {
+    if (opts.method === RequestMethod.Post && !(opts.body instanceof FormData)) {
       opts.body = opts.body || {};
 
       let contentType = opts.headers.get('Content-Type');
@@ -264,7 +275,7 @@ export class CorsHttpProvider {
         '__uuid__': this.device.uuid,
         '__model__': this.device.model
       }),
-      method: 'POST',
+      method: RequestMethod.Post,
       showErrorAlert: false,
       body: options
     });

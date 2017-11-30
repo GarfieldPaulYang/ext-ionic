@@ -41,6 +41,7 @@ export { Dialog } from './utils/dialog';
 export { CoordTransform } from './utils/coord-transform';
 
 export {
+  RequestMethod,
   HttpProviderOptionsArgs,
   HttpProviderOptions,
   LoginOptions,
