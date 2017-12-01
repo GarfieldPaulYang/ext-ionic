@@ -15,7 +15,7 @@ export class FileUploder {
 
   upload(url: string, files: Array<string>, options: FileUploderOptions): Promise<Array<string>> {
     return this.formData(files, options).then(formData => {
-      return this.http.request<Array<string>>(url, { method: 'POST', body: formData });
+      return this.http.post<Array<string>>(url, { body: formData });
     }).catch(e => Promise.reject(e));
   }
 

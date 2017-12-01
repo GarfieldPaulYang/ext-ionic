@@ -142,6 +142,18 @@ export class HttpProvider {
     return this._http;
   }
 
+  get<T>(url: string,
+    options?: HttpProviderOptionsArgs,
+    foundCacheCallback: (result: T) => void = (_result: T) => { }
+  ): Promise<T> {
+    return this.requestWithError<T>(url, options, foundCacheCallback);
+  }
+
+  post<T>(url: string, options?: HttpProviderOptionsArgs): Promise<T> {
+    options = { ...options, method: RequestMethod.Post };
+    return this.requestWithError<T>(url, options);
+  }
+
   requestWithError<T>(
     url: string,
     options?: HttpProviderOptionsArgs,
@@ -246,16 +258,6 @@ export class HttpProvider {
 
 @Injectable()
 export class CorsHttpProvider {
-  private _ticket: string = null;
-
-  get ticket(): string {
-    return this._ticket;
-  }
-
-  set ticket(t: string) {
-    this._ticket = t;
-  }
-
   get httpProvider(): HttpProvider {
     return this.http;
   }
@@ -268,29 +270,40 @@ export class CorsHttpProvider {
   ) { }
 
   login(options: LoginOptions): Promise<LoginResult> {
-    return this.request<LoginResult>(this.config.get().login.url, {
+    return this.post<LoginResult>(this.config.get().login.url, {
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
         '__login__': 'true',
         '__uuid__': this.device.uuid,
         '__model__': this.device.model
       }),
-      method: RequestMethod.Post,
       showErrorAlert: false,
       body: options
     });
   }
 
   logout(): Promise<string> {
-    return this.request<string>(this.config.get().login.url, {
+    return this.get<string>(this.config.get().login.url, {
       cache: false,
       headers: new HttpHeaders({
         '__logout__': 'true'
       })
     }).then(result => {
-      this.ticket = null;
+      this.config.set('ticket', null);
       return result;
     });
+  }
+
+  get<T>(url: string,
+    options?: HttpProviderOptionsArgs,
+    foundCacheCallback: (result: T) => void = (_result: T) => { }
+  ): Promise<T> {
+    return this.request<T>(url, options, foundCacheCallback);
+  }
+
+  post<T>(url: string, options?: HttpProviderOptionsArgs): Promise<T> {
+    options = { ...options, method: RequestMethod.Post };
+    return this.request<T>(url, options);
   }
 
   request<T>(
@@ -306,7 +319,7 @@ export class CorsHttpProvider {
 
     options.headers.set('__app-key__', this.config.get().login.appKey);
     options.headers.set('__dev-mode__', this.config.get().devMode + '');
-    options.headers.set('__ticket__', this.ticket || this.config.get().ticket);
+    options.headers.set('__ticket__', this.config.get().ticket);
 
     return this.http.requestWithError<T>(url, options, foundCacheCallback).then(result => {
       return result;

@@ -1,6 +1,5 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { ConfigProvider } from '../config/config';
-import { CorsHttpProvider } from '../providers/http/http';
 
 @Pipe({
   name: 'trustMcpUrl',
@@ -8,7 +7,7 @@ import { CorsHttpProvider } from '../providers/http/http';
 })
 @Injectable()
 export class TrustMcpUrl implements PipeTransform {
-  constructor(private config: ConfigProvider, private http: CorsHttpProvider) { }
+  constructor(private config: ConfigProvider) { }
 
   transform(value: string, ..._args: any[]): any {
     if (!value) {
@@ -19,7 +18,7 @@ export class TrustMcpUrl implements PipeTransform {
       '__cors-request__=true',
       '__app-key__=' + this.config.get().login.appKey,
       '__dev-mode__=' + this.config.get().devMode,
-      '__ticket__=' + this.http.ticket
+      '__ticket__=' + this.config.get().ticket
     ].join('&');
 
     if (value.indexOf('?') === -1) {
