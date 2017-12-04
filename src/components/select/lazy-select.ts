@@ -66,7 +66,7 @@ export class LazySelect extends BaseInput<any> implements OnInit {
   ngOnInit(): void {
     this.http.get<Array<any>>(
       this.url,
-      { cache: true, cacheOnly: true, memCache: true, search: URLParamsBuilder.build(this.params), showLoading: false }
+      { cache: true, cacheOnly: true, memCache: true, params: URLParamsBuilder.build(this.params), showLoading: false }
     ).then((data: Array<any>) => {
       this.options = data;
     }).catch(e => {
