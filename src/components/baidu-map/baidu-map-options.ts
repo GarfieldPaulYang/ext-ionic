@@ -14,7 +14,7 @@ export interface MarkerInfoWindow {
 export interface MarkerOptions {
   point: GpsPoint;
   icon?: string;
-  title?: string;
+  label?: { content?: string, styles?: any };
   size?: MarkerSize;
   infoWindow?: MarkerInfoWindow;
 }

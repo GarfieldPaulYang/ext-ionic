@@ -219,14 +219,25 @@ export class BaiduMapController {
   }
 
   private createMarker(marker: MarkerOptions): any {
-    let icon = this.createIcon(marker);
-    let pt = new BMap.Point(marker.point.lng, marker.point.lat);
+    const icon = this.createIcon(marker);
+    const pt = new BMap.Point(marker.point.lng, marker.point.lat);
     let result = new BMap.Marker(pt);
     if (icon) {
       result.setIcon(icon);
     }
-    if (marker.title) {
-      result.setTitle(marker.title);
+    if (marker.label) {
+      let label = new BMap.Label(marker.label.content);
+      marker.label.styles = marker.label.styles || {};
+      label.setStyle({
+        border: '0px',
+        background: 'transparent',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        width: marker.size.width + 'px',
+        ...marker.label.styles
+      });
+      label.setOffsest(new BMap.Size(0, marker.size.height));
+      result.setLabel(label);
     }
     return result;
   }
