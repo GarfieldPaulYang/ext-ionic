@@ -236,7 +236,7 @@ export class BaiduMapController {
         width: marker.size.width + 'px',
         ...marker.label.styles
       });
-      label.setOffsest(new BMap.Size(0, marker.size.height));
+      label.setOffset(new BMap.Size(0, marker.size.height));
       result.setLabel(label);
     }
     return result;
