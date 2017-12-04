@@ -46,7 +46,6 @@ export interface HttpProviderOptionsArgs {
   responseType?: 'arraybuffer' | 'blob' | 'json' | 'text';
   method?: string;
   params?: HttpParams;
-  search?: HttpParams;
 }
 
 export class HttpProviderOptions implements HttpProviderOptionsArgs {
@@ -58,7 +57,6 @@ export class HttpProviderOptions implements HttpProviderOptionsArgs {
   responseType: 'arraybuffer' | 'blob' | 'json' | 'text' = 'json';
   method: string;
   params: HttpParams = new HttpParams();
-  search: HttpParams;
 
   showLoading: boolean = true;
   loadingContent: string = '正在加载...';
@@ -82,7 +80,6 @@ export class HttpProviderOptions implements HttpProviderOptionsArgs {
     this.responseType = isPresent(options.responseType) ? options.responseType : this.responseType;
     this.method = isPresent(options.method) ? options.method : this.method;
     this.params = isPresent(options.params) ? options.params : this.params;
-    this.search = isPresent(options.search) ? options.search : this.search;
 
     this.showLoading = isPresent(options.showLoading) ? options.showLoading : this.showLoading;
     this.showErrorAlert = isPresent(options.showErrorAlert) ? options.showErrorAlert : this.showErrorAlert;
@@ -99,7 +96,7 @@ export class HttpProviderOptions implements HttpProviderOptionsArgs {
     return new HttpRequest(this.method, this.url, this.body, {
       headers: this.headers,
       reportProgress: this.reportProgress,
-      params: this.params || this.search,
+      params: this.params,
       responseType: this.responseType,
       withCredentials: this.withCredentials
     });
@@ -186,7 +183,7 @@ export class HttpProvider {
 
     let cacheKey;
     if (opts.cache && opts.method === RequestMethod.Get) {
-      cacheKey = this.hashUrl(url, opts.params || opts.search);
+      cacheKey = this.hashUrl(url, opts.params);
 
       if (opts.cacheOnly) {
         return cache.load<T>(
@@ -227,7 +224,6 @@ export class HttpProvider {
 
   ajax<T>(url: string, options?: HttpProviderOptionsArgs): Observable<HttpEvent<T>> {
     let opts: HttpProviderOptions = new HttpProviderOptions(url).merge(options);
-    opts.params = opts.params || opts.search;
 
     if (opts.method === RequestMethod.Post && !(opts.body instanceof FormData)) {
       opts.body = opts.body || {};
