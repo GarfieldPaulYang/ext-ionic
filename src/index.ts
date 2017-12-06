@@ -1,4 +1,4 @@
-export { GpsPoint } from './commons/type/geog';
+export { GeogProvider, GpsPoint, MapType } from './commons/type/geog';
 
 export { Immerse } from './native/immerse-plugin';
 export { ExtILocalNotification, ExtLocalNotifications } from './native/local-notifications';
@@ -81,7 +81,7 @@ import { TextFileStorage } from './providers/storage/file-storage';
 import { JsonFileStorage } from './providers/storage/json-file-storage';
 
 import { BaiduGeogProvider } from './providers/geog/geog';
-import { GeogProvider, MapLaunchProvider } from './providers/geog/map-app-launch';
+import { GeogProviderFactory, MapLaunchProvider } from './providers/geog/map-app-launch';
 import { GeolocationProvider } from './providers/geog/geolocation';
 
 import { PipesModule } from './pipes/pipes.module';
@@ -117,7 +117,7 @@ const PROVIDERS: Array<any> = [
   TextFileStorage,
   JsonFileStorage,
   BaiduGeogProvider,
-  GeogProvider,
+  GeogProviderFactory,
 
   Immerse,
   HotCodePush,

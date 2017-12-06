@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GpsPoint } from '../../commons/type/geog';
+import { GeogProvider, GpsPoint } from '../../commons/type/geog';
 import { HttpProvider } from '../http/http';
 
 export interface Geocoder extends GpsPoint {
@@ -17,7 +17,7 @@ export interface Suggestion {
 }
 
 @Injectable()
-export class BaiduGeogProvider {
+export class BaiduGeogProvider implements GeogProvider {
   private appKey: string = '12c17c924871a04f1dbac75e1824edb7';
 
   constructor(private http: HttpProvider) {
@@ -73,5 +73,33 @@ export class BaiduGeogProvider {
       });
       return result;
     }).catch(e => Promise.reject(e));
+  }
+}
+
+@Injectable()
+export class AmapGeogProvider implements GeogProvider {
+  private appKey: string = '32adf46617be0d1a6a5658cce57cf9e0';
+
+  constructor(
+    private http: HttpProvider,
+  ) { }
+
+  transformGps(points: GpsPoint[]): Promise<GpsPoint[]> {
+    const pointsStrs = [];
+    points.forEach(coords => {
+      pointsStrs.push(coords.lng + ',' + coords.lat);
+    });
+    const url = `http://restapi.amap.com/v3/assistant/coordinate/convert?callback=JSONP_CALLBACK&coordsys=gps&output=json&key=${this.appKey}&locations=${pointsStrs.join('|')}`;
+    return <Promise<GpsPoint[]>>this.http.jsonp<any>(url).then(o => {
+      const location: string[] = o.locations.split(';');
+      const result: GpsPoint[] = [];
+      location.forEach(v => {
+        const p = v.split(',');
+        result.push({ lng: +p[0], lat: +p[1] });
+      });
+      return result;
+    }).catch(e => {
+      Promise.reject(e);
+    });
   }
 }

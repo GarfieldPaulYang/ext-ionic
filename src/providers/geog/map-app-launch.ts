@@ -1,69 +1,26 @@
 import { Injectable } from '@angular/core';
 import { ActionSheetController, Platform } from 'ionic-angular';
-import * as _ from 'lodash';
 
 import { HttpProvider } from '../http/http';
 import { AppLauncher, AppLauncherOptions } from '../../native/app-launcher';
 import { Dialog } from '../../utils/dialog';
-import { BaiduGeogProvider } from './geog';
-import { GpsPoint } from '../../commons/type/geog';
-
-interface GeogService {
-  transformGps(points: GpsPoint[]): Promise<GpsPoint[]>;
-}
-
-class BaiDuGeogService implements GeogService {
-  constructor(private geog: BaiduGeogProvider) { }
-
-  transformGps(points: GpsPoint[]): Promise<GpsPoint[]> {
-    return this.geog.transformGps(points);
-  }
-}
-
-class AmapGeogService implements GeogService {
-  private appKey: string = '32adf46617be0d1a6a5658cce57cf9e0';
-
-  constructor(
-    private http: HttpProvider,
-  ) { }
-
-  transformGps(points: GpsPoint[]): Promise<GpsPoint[]> {
-    let pointsStrs = [];
-    points.forEach(coords => {
-      pointsStrs.push(coords.lng + ',' + coords.lat);
-    });
-    let url = `http://restapi.amap.com/v3/assistant/coordinate/convert?callback=JSONP_CALLBACK&coordsys=gps&output=json&key=${this.appKey}&locations=${pointsStrs.join('|')}`;
-    return <Promise<GpsPoint[]>>this.http.jsonp<any>(url).then(o => {
-      let location: string[] = _.split(o.locations, ';');
-      let result: GpsPoint[] = [];
-      location.forEach(v => {
-        let p = _.split(v, ',');
-        result.push({ lng: +p[0], lat: +p[1] });
-      });
-      return result;
-    }).catch(e => {
-      Promise.reject(e);
-    });
-  }
-}
-
-export const　enum MapType { BAIDU, AMAP }
+import { AmapGeogProvider, BaiduGeogProvider } from './geog';
+import { GeogProvider, GpsPoint, MapType } from '../../commons/type/geog';
 
 @Injectable()
-export class GeogProvider {
-  private serviceMap: Map<MapType, GeogService> = new Map();
+export class GeogProviderFactory {
+  private serviceMap: Map<MapType, GeogProvider> = new Map();
 
   constructor(
     private http: HttpProvider,
-    private geog: BaiduGeogProvider
+    private baiduGeogProvider: BaiduGeogProvider
   ) {
-    this.serviceMap.set(MapType.BAIDU, new BaiDuGeogService(this.geog));
-    this.serviceMap.set(MapType.AMAP, new AmapGeogService(this.http));
+    this.serviceMap.set(MapType.BAIDU, this.baiduGeogProvider);
+    this.serviceMap.set(MapType.AMAP, new AmapGeogProvider(this.http));
   }
 
-  transformGps(points: GpsPoint[], mapType?: MapType): Promise<GpsPoint[]> {
-    let geogService = this.serviceMap.get(mapType ? mapType : MapType.BAIDU);
-    return geogService.transformGps(points);
+  create(mapType?: MapType): GeogProvider {
+    return this.serviceMap.get(mapType ? mapType : MapType.BAIDU);
   }
 }
 
@@ -77,7 +34,7 @@ interface MapLaunchService {
   getName(): string;
 }
 
-class BaiDuMapLaunchService implements MapLaunchService {
+class BaiduMapLaunchService implements MapLaunchService {
   constructor(
     private platform: Platform,
     private appLauncher: AppLauncher
@@ -161,11 +118,11 @@ export class MapLaunchProvider {
   constructor(
     platform: Platform,
     appLauncher: AppLauncher,
-    private geoProvider: GeogProvider,
+    private geogProviderFactory: GeogProviderFactory,
     private dialog: Dialog,
     private actionSheetCtrl: ActionSheetController
   ) {
-    this.services.push(new BaiDuMapLaunchService(platform, appLauncher));
+    this.services.push(new BaiduMapLaunchService(platform, appLauncher));
     this.services.push(new AmapMapLaunchService(platform, appLauncher));
   }
 
@@ -210,8 +167,9 @@ export class MapLaunchProvider {
   }
 
   private _launch(point: GpsPoint, index: number): Promise<any> {
-    let service = this.services[index];
-    return this.geoProvider.transformGps([point], service.getMapType()).then(result => {
+    const service = this.services[index];
+    const geoProvider = this.geogProviderFactory.create(service.getMapType());
+    return geoProvider.transformGps([point]).then(result => {
       service.launch(result[0]);
     }).catch(e => {
       return Promise.reject(e);
