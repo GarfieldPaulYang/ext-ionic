@@ -12,10 +12,9 @@ export class GeogProviderFactory {
   private serviceMap: Map<MapType, GeogProvider> = new Map();
 
   constructor(
-    private http: HttpProvider,
-    private baiduGeogProvider: BaiduGeogProvider
+    private http: HttpProvider
   ) {
-    this.serviceMap.set(MapType.BAIDU, this.baiduGeogProvider);
+    this.serviceMap.set(MapType.BAIDU, new BaiduGeogProvider(this.http));
     this.serviceMap.set(MapType.AMAP, new AmapGeogProvider(this.http));
   }
 
