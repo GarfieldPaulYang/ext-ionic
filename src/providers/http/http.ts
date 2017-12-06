@@ -29,6 +29,26 @@ export const RequestMethod = {
   Patch: 'PATCH'
 };
 
+function buildParams(params: HttpParams | { [key: string]: any | any[] } | null | string): HttpParams {
+  let result = params;
+  if (!(params instanceof HttpParams)) {
+    if (_.isString(params)) {
+      result = new HttpParams({ fromString: params });
+    } else {
+      result = new HttpParams({ fromObject: params });
+    }
+  }
+  return <HttpParams>result;
+}
+
+function buildHeaders(headers: HttpHeaders | { [key: string]: any | any[] } | null | string): HttpHeaders {
+  let result = headers;
+  if (!(headers instanceof HttpHeaders)) {
+    result = new HttpHeaders(headers);
+  }
+  return <HttpHeaders>result;
+}
+
 export interface HttpProviderOptionsArgs {
   showLoading?: boolean;
   loadingContent?: string;
@@ -40,23 +60,23 @@ export interface HttpProviderOptionsArgs {
 
   url?: string;
   body?: any | null;
-  headers?: HttpHeaders;
+  headers?: HttpHeaders | { [key: string]: any | any[] } | null | string;
   reportProgress?: boolean;
   withCredentials?: boolean;
   responseType?: 'arraybuffer' | 'blob' | 'json' | 'text';
   method?: string;
-  params?: HttpParams;
+  params?: HttpParams | { [key: string]: any | any[] } | null | string;
 }
 
 export class HttpProviderOptions implements HttpProviderOptionsArgs {
   url: string;
   body: any | null = null;
-  headers: HttpHeaders = new HttpHeaders();
+  headers: HttpHeaders | { [key: string]: any | any[] } | null | string = new HttpHeaders();
   reportProgress: boolean = false;
   withCredentials: boolean = true;
   responseType: 'arraybuffer' | 'blob' | 'json' | 'text' = 'json';
   method: string;
-  params: HttpParams = new HttpParams();
+  params: HttpParams | { [key: string]: any | any[] } | null | string = new HttpParams();
 
   showLoading: boolean = true;
   loadingContent: string = '正在加载...';
@@ -74,12 +94,13 @@ export class HttpProviderOptions implements HttpProviderOptionsArgs {
   merge(options?: HttpProviderOptionsArgs): HttpProviderOptions {
     this.url = isPresent(options.url) ? options.url : this.url;
     this.body = isPresent(options.body) ? options.body : this.body;
-    this.headers = isPresent(options.headers) ? options.headers : this.headers;
+
+    this.headers = buildHeaders(isPresent(options.headers) ? options.headers : this.headers);
     this.reportProgress = isPresent(options.reportProgress) ? options.reportProgress : this.reportProgress;
     this.withCredentials = isPresent(options.withCredentials) ? options.withCredentials : this.withCredentials;
     this.responseType = isPresent(options.responseType) ? options.responseType : this.responseType;
     this.method = isPresent(options.method) ? options.method : this.method;
-    this.params = isPresent(options.params) ? options.params : this.params;
+    this.params = buildParams(isPresent(options.params) ? options.params : this.params);
 
     this.showLoading = isPresent(options.showLoading) ? options.showLoading : this.showLoading;
     this.showErrorAlert = isPresent(options.showErrorAlert) ? options.showErrorAlert : this.showErrorAlert;
@@ -94,9 +115,9 @@ export class HttpProviderOptions implements HttpProviderOptionsArgs {
 
   build(): HttpRequest<any> {
     return new HttpRequest(this.method, this.url, this.body, {
-      headers: this.headers,
+      headers: <HttpHeaders>this.headers,
       reportProgress: this.reportProgress,
-      params: this.params,
+      params: <HttpParams>this.params,
       responseType: this.responseType,
       withCredentials: this.withCredentials
     });
@@ -183,7 +204,7 @@ export class HttpProvider {
 
     let cacheKey;
     if (opts.cache && opts.method === RequestMethod.Get) {
-      cacheKey = this.hashUrl(url, opts.params);
+      cacheKey = this.hashUrl(url, <HttpParams>opts.params);
 
       if (opts.cacheOnly) {
         return cache.load<T>(
@@ -227,11 +248,11 @@ export class HttpProvider {
 
     if (opts.method === RequestMethod.Post && !(opts.body instanceof FormData)) {
       opts.body = opts.body || {};
-
-      let contentType = opts.headers.get('Content-Type');
+      let headers = <HttpHeaders>opts.headers;
+      let contentType = headers.get('Content-Type');
       if (!contentType) {
         contentType = APP_JSON_TYPE;
-        opts.headers.set('Content-Type', contentType);
+        headers.set('Content-Type', contentType);
       }
 
       if (!_.isString(opts.body)) {
@@ -308,14 +329,14 @@ export class CorsHttpProvider {
     foundCacheCallback: (result: T) => void = (_result: T) => { }
   ): Promise<T> {
     options = options || {};
-    options.params = options.params || new HttpParams();
-    options.headers = options.headers || new HttpHeaders();
+    options.params = buildParams(options.params || new HttpParams());
+    options.headers = buildHeaders(options.headers || new HttpHeaders());
 
-    options.params.set('__cors-request__', 'true');
+    (<HttpParams>options.params).set('__cors-request__', 'true');
 
-    options.headers.set('__app-key__', this.config.get().login.appKey);
-    options.headers.set('__dev-mode__', this.config.get().devMode + '');
-    options.headers.set('__ticket__', this.config.get().ticket);
+    (<HttpHeaders>options.headers).set('__app-key__', this.config.get().login.appKey);
+    (<HttpHeaders>options.headers).set('__dev-mode__', this.config.get().devMode + '');
+    (<HttpHeaders>options.headers).set('__ticket__', this.config.get().ticket);
 
     return this.http.requestWithError<T>(url, options, foundCacheCallback).then(result => {
       return result;
