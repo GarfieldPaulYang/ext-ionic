@@ -69,7 +69,7 @@ export class BaiduGeogProvider implements GeogProvider {
 
       let result: GpsPoint[] = [];
       r.result.forEach(p => {
-        result.push({ lng: p.y, lat: p.x });
+        result.push({ lng: p.x, lat: p.y });
       });
       return result;
     }).catch(e => Promise.reject(e));
