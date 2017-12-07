@@ -77,12 +77,12 @@ export interface HttpProviderOptionsArgs {
 export class HttpProviderOptions implements HttpProviderOptionsArgs {
   url: string;
   body: any | null = null;
-  headers: HttpHeaders | { [key: string]: any | any[] } | null | string = new HttpHeaders();
+  headers: HttpHeaders | { [key: string]: any | any[] } | null | string;
   reportProgress: boolean = false;
   withCredentials: boolean = true;
   responseType: 'arraybuffer' | 'blob' | 'json' | 'text' = 'json';
   method: string;
-  params: HttpParams | { [key: string]: any | any[] } | null | string = new HttpParams();
+  params: HttpParams | { [key: string]: any | any[] } | null | string;
 
   showLoading: boolean = true;
   loadingContent: string = '正在加载...';
@@ -254,6 +254,7 @@ export class HttpProvider {
 
     if (opts.method === RequestMethod.Post && !(opts.body instanceof FormData)) {
       opts.body = opts.body || {};
+      opts.headers = opts.headers || new HttpHeaders({ 'Content-Type': APP_JSON_TYPE });
       if (!(<HttpHeaders>opts.headers).has('Content-Type')) {
         opts.headers = (<HttpHeaders>opts.headers).set('Content-Type', APP_JSON_TYPE);
       }
@@ -335,13 +336,9 @@ export class CorsHttpProvider {
     foundCacheCallback: (result: T) => void = (_result: T) => { }
   ): Promise<T> {
     options = options || {};
-    options.params = buildParams(options.params || new HttpParams());
-    options.headers = buildHeaders(options.headers || new HttpHeaders());
-
-    options.params = (<HttpParams>options.params).set('__cors-request__', 'true');
-
-    options.headers = (<HttpHeaders>options.headers).set('__app-key__', this.config.get().login.appKey);
-    options.headers = (<HttpHeaders>options.headers).set('__dev-mode__', this.config.get().devMode + '');
+    options.params = buildParams(options.params || new HttpParams()).set('__cors-request__', 'true');
+    options.headers = buildHeaders(options.headers || new HttpHeaders()).set('__app-key__', this.config.get().login.appKey)
+      .set('__dev-mode__', this.config.get().devMode + '');
 
     if (this.config.get().ticket) {
       options.headers = (<HttpHeaders>options.headers).set('__ticket__', this.config.get().ticket);
