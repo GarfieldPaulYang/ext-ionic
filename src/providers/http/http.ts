@@ -44,7 +44,13 @@ function buildParams(params: HttpParams | { [key: string]: any | any[] } | null 
 function buildHeaders(headers: HttpHeaders | { [key: string]: any | any[] } | null | string): HttpHeaders {
   let result = headers;
   if (!(headers instanceof HttpHeaders)) {
-    result = new HttpHeaders(headers);
+    if (_.isObject(headers)) {
+      result = new HttpHeaders(_.pickBy(headers, (value) => {
+        return isPresent(value);
+      }));
+    } else {
+      result = new HttpHeaders(headers);
+    }
   }
   return <HttpHeaders>result;
 }
@@ -288,12 +294,12 @@ export class CorsHttpProvider {
 
   login(options: LoginOptions): Promise<LoginResult> {
     return this.post<LoginResult>(this.config.get().login.url, {
-      headers: new HttpHeaders({
+      headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         '__login__': 'true',
         '__uuid__': this.device.uuid,
         '__model__': this.device.model
-      }),
+      },
       showErrorAlert: false,
       body: options
     });
@@ -302,9 +308,9 @@ export class CorsHttpProvider {
   logout(): Promise<string> {
     return this.get<string>(this.config.get().login.url, {
       cache: false,
-      headers: new HttpHeaders({
+      headers: {
         '__logout__': 'true'
-      })
+      }
     }).then(result => {
       this.config.set('ticket', null);
       return result;
