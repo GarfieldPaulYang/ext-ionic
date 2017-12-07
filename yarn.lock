@@ -35,12 +35,6 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/http@5.0.5":
-  version "5.0.5"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/http/-/http-5.0.5.tgz#701cf7a8d917ed602747bb02c5fef3529b48f2a9"
-  dependencies:
-    tslib "^1.7.1"
-
 "@angular/platform-browser-dynamic@5.0.5":
   version "5.0.5"
   resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/platform-browser-dynamic/-/platform-browser-dynamic-5.0.5.tgz#d7ac74c5ffd4c9a133ba90af160402266e92351d"
