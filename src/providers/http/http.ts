@@ -254,15 +254,12 @@ export class HttpProvider {
 
     if (opts.method === RequestMethod.Post && !(opts.body instanceof FormData)) {
       opts.body = opts.body || {};
-      let headers = <HttpHeaders>opts.headers;
-      let contentType = headers.get('Content-Type');
-      if (!contentType) {
-        contentType = APP_JSON_TYPE;
-        opts.headers = headers.set('Content-Type', contentType);
+      if (!(<HttpHeaders>opts.headers).has('Content-Type')) {
+        opts.headers = (<HttpHeaders>opts.headers).set('Content-Type', APP_JSON_TYPE);
       }
 
       if (!_.isString(opts.body)) {
-        if (APP_JSON_TYPE === contentType.toLowerCase()) {
+        if (APP_JSON_TYPE === (<HttpHeaders>opts.headers).get('Content-Type').toLowerCase()) {
           opts.body = JSON.stringify(opts.body);
         } else {
           opts.body = URLParamsBuilder.build(opts.body).toString();
@@ -345,7 +342,10 @@ export class CorsHttpProvider {
 
     options.headers = (<HttpHeaders>options.headers).set('__app-key__', this.config.get().login.appKey);
     options.headers = (<HttpHeaders>options.headers).set('__dev-mode__', this.config.get().devMode + '');
-    options.headers = (<HttpHeaders>options.headers).set('__ticket__', this.config.get().ticket);
+
+    if (this.config.get().ticket) {
+      options.headers = (<HttpHeaders>options.headers).set('__ticket__', this.config.get().ticket);
+    }
 
     return this.http.requestWithError<T>(url, options, foundCacheCallback).then(result => {
       return result;
