@@ -258,7 +258,7 @@ export class HttpProvider {
       let contentType = headers.get('Content-Type');
       if (!contentType) {
         contentType = APP_JSON_TYPE;
-        headers.set('Content-Type', contentType);
+        opts.headers = headers.set('Content-Type', contentType);
       }
 
       if (!_.isString(opts.body)) {
@@ -302,6 +302,9 @@ export class CorsHttpProvider {
       },
       showErrorAlert: false,
       body: options
+    }).then(result => {
+      this.config.set('ticket', result.successToken);
+      return result;
     });
   }
 
@@ -338,11 +341,11 @@ export class CorsHttpProvider {
     options.params = buildParams(options.params || new HttpParams());
     options.headers = buildHeaders(options.headers || new HttpHeaders());
 
-    (<HttpParams>options.params).set('__cors-request__', 'true');
+    options.params = (<HttpParams>options.params).set('__cors-request__', 'true');
 
-    (<HttpHeaders>options.headers).set('__app-key__', this.config.get().login.appKey);
-    (<HttpHeaders>options.headers).set('__dev-mode__', this.config.get().devMode + '');
-    (<HttpHeaders>options.headers).set('__ticket__', this.config.get().ticket);
+    options.headers = (<HttpHeaders>options.headers).set('__app-key__', this.config.get().login.appKey);
+    options.headers = (<HttpHeaders>options.headers).set('__dev-mode__', this.config.get().devMode + '');
+    options.headers = (<HttpHeaders>options.headers).set('__ticket__', this.config.get().ticket);
 
     return this.http.requestWithError<T>(url, options, foundCacheCallback).then(result => {
       return result;
