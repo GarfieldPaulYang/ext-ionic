@@ -45,7 +45,7 @@ function buildHeaders(headers: HttpHeaders | { [key: string]: any | any[] } | nu
   let result = headers;
   if (!(headers instanceof HttpHeaders)) {
     if (_.isObject(headers)) {
-      result = new HttpHeaders(_.pickBy(headers, (value) => {
+      result = new HttpHeaders(_.pickBy(<any>headers, (value) => {
         return isPresent(value);
       }));
     } else {
