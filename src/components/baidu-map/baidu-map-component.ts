@@ -69,7 +69,7 @@ export class BaiduMap implements AfterViewInit, OnChanges {
     }
 
     if (options && !_.isEqual(options.previousValue, options.currentValue)) {
-      this.reDraw(this.getOptions());
+      this.reDraw(options.currentValue);
     }
   }
 
