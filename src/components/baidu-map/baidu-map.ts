@@ -108,6 +108,10 @@ export class BaiduMapController {
     });
   }
 
+  removeOverlay(overlay: any) {
+    this._map.removeOverlay(overlay);
+  }
+
   addMarker(markerOpts: MarkerOptions, clickHandler: EventEmitter<any>) {
     let marker = this.createMarker(markerOpts);
     let infoWindow = this.createInfoWindow(markerOpts);

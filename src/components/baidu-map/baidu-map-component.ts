@@ -64,7 +64,7 @@ export class BaiduMap implements AfterViewInit, OnChanges {
     }
 
     let options: SimpleChange = changes['options'];
-    if (options.isFirstChange) {
+    if (options.isFirstChange()) {
       return;
     }
 
