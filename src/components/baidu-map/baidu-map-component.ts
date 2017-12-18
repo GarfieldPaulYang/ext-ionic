@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   Output,
   SimpleChange,
   SimpleChanges
@@ -24,7 +25,7 @@ import { BMap, BaiduMapController } from './baidu-map';
     </div>
   `
 })
-export class BaiduMap implements AfterViewInit, OnChanges {
+export class BaiduMap implements AfterViewInit, OnChanges, OnDestroy {
   @Input() options: BaiduMapOptions;
 
   @Output() onMapLoaded: EventEmitter<void> = new EventEmitter<void>();
@@ -67,6 +68,10 @@ export class BaiduMap implements AfterViewInit, OnChanges {
     if (options && !options.isFirstChange()) {
       this.reDraw(options.currentValue);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.baiduMapCtrl.clearOverlays();
   }
 
   private reDraw(opts: BaiduMapOptions) {
