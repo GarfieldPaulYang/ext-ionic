@@ -204,8 +204,6 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
 
     if (viewCtrl) {
       obsToMerge.push(viewCtrl.didEnter);
-      viewCtrl._setContent(this);
-      viewCtrl._setContentRef(el);
     }
 
     // re-adjust the height of the slider when the orientation changes
@@ -449,6 +447,8 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   }
 
   resize() {
+    if (this.el.nativeElement.offsetParent === null) return;
+
     this.setMaxIndicatorPosition();
     this.updateTabWidth();
     this.setFixedIndicatorWidth();
