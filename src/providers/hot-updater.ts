@@ -62,7 +62,7 @@ export class HotUpdater {
   }
 
   updateIos() {
-    window.location.href = this.config.get().hotUpdateUrl.ios;
+    this.dialog.alert('更新通知', '程序有新版本发布，请卸载当前应用，扫码二维码重新安装本应用。');
   }
 
   updateAndroid() {
