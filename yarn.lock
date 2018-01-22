@@ -1282,9 +1282,9 @@ tslint-eslint-rules@^4.1.1:
     tslib "^1.0.0"
     tsutils "^1.4.0"
 
-tslint-ionic-rules@0.0.11:
-  version "0.0.11"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/tslint-ionic-rules/-/tslint-ionic-rules-0.0.11.tgz#279327b1991bbc5b9f92430191cb821ca6bfbbc7"
+tslint-ionic-rules@0.0.13:
+  version "0.0.13"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/tslint-ionic-rules/-/tslint-ionic-rules-0.0.13.tgz#984ecc4960365cde781b1c78f4c62ceb4e249665"
   dependencies:
     tslint-eslint-rules "^4.1.1"
 
