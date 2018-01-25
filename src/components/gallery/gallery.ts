@@ -66,7 +66,7 @@ export class Gallery implements OnInit, OnDestroy {
     private imgCtrl: ImageLoaderController,
     @Optional() public viewCtrl: ViewController
   ) {
-    let obsToMerge: Observable<any>[] = [
+    const obsToMerge: Observable<any>[] = [
       Observable.fromEvent(window, 'orientationchange'),
       Observable.fromEvent(window, 'resize')
     ];
@@ -102,13 +102,13 @@ export class Gallery implements OnInit, OnDestroy {
       return;
     }
 
-    let colWidth = this.options.colWidth;
+    const colWidth = this.options.colWidth;
     let col = Math.trunc(width / colWidth);
     if (this.options.colNum) {
       col = this.options.colNum;
     }
     if (col <= 1) col = 1;
-    let percent = 100 / col + '%';
+    const percent = 100 / col + '%';
     this.colStyle.flexBasis = percent;
     this.colStyle.maxWidth = percent;
   }

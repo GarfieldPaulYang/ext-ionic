@@ -57,12 +57,12 @@ export class DownloadManagerController {
     if (!isPresent(option.filePath)) {
       option.filePath = '';
     }
-    let filePath = this.downloadDirectory + option.filePath;
+    const filePath = this.downloadDirectory + option.filePath;
     let notificationId: number;
     let notification: boolean = false;
     let first = true;
     let downloadProgress: number = 0;
-    let transfer = this.transfer.create();
+    const transfer = this.transfer.create();
     transfer.onProgress(event => {
       if (first) {
         first = false;
@@ -74,7 +74,7 @@ export class DownloadManagerController {
         }
         return;
       }
-      let progress = Math.round((event.loaded / event.total) * 100);
+      const progress = Math.round((event.loaded / event.total) * 100);
       if (progress > downloadProgress) {
         downloadProgress = progress;
         if (notification && notificationId) {

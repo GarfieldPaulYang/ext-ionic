@@ -1,7 +1,7 @@
 export const StringUtils = {
   startsWith: (str: string, searchStrings: Array<string>): boolean => {
     for (let i = 0; i < searchStrings.length; i++) {
-      let searchString = searchStrings[i];
+      const searchString = searchStrings[i];
       if (str.startsWith(searchString)) {
         return true;
       }
@@ -13,7 +13,7 @@ export const StringUtils = {
     if (str.length === 0) return hash;
 
     for (let i = 0; i < str.length; i++) {
-      let char: number = str.charCodeAt(i);
+      const char: number = str.charCodeAt(i);
       hash = ((hash << 5) - hash) + char;
       hash = hash & hash;
     }

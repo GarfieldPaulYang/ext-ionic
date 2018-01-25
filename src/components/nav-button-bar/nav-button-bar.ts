@@ -126,7 +126,7 @@ export class NavButtonBar implements OnInit, OnDestroy {
     private elRef: ElementRef,
     @Optional() public viewCtrl: ViewController
   ) {
-    let obsToMerge: Observable<any>[] = [
+    const obsToMerge: Observable<any>[] = [
       Observable.fromEvent(window, 'orientationchange'),
       Observable.fromEvent(window, 'resize')
     ];
@@ -154,13 +154,13 @@ export class NavButtonBar implements OnInit, OnDestroy {
   }
 
   calculate(): void {
-    let width = this.elRef.nativeElement.firstElementChild.clientWidth;
+    const width = this.elRef.nativeElement.firstElementChild.clientWidth;
     if (width === 0) return;
-    let num = window.screen.width > window.screen.height ? 8 : 4;
-    let gpx = width / num + 'px';
+    const num = window.screen.width > window.screen.height ? 8 : 4;
+    const gpx = width / num + 'px';
     this.boxStyle.width = gpx;
     this.boxStyle.height = gpx;
-    let bpx = (width / num) / 1.5 + 'px';
+    const bpx = (width / num) / 1.5 + 'px';
     this.contentStyle.width = bpx;
     this.contentStyle.height = bpx;
   }

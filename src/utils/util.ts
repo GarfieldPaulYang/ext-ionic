@@ -15,7 +15,7 @@ export function isPresent(val: any): boolean {
 export function flattenObject(obj: any) {
   return _.transform(obj, function (result, value, key) {
     if (_.isObject(value) && !_.isArray(value)) {
-      let flatMap = _.mapKeys(flattenObject(value), (_mvalue, mkey) => {
+      const flatMap = _.mapKeys(flattenObject(value), (_mvalue, mkey) => {
         return `${key}.${mkey}`;
       });
       _.assign(result, flatMap);
@@ -38,7 +38,7 @@ export function dateFormat(date: Date | number, format: string = 'yyyy-MM-dd'): 
 
   const d = _.isNumber(date) ? new Date(date) : date;
   const month = d.getMonth() + 1;
-  let time = {
+  const time = {
     year: d.getFullYear(),
     tyear: String(d.getFullYear()).substr(2),
     month: month,
@@ -147,7 +147,7 @@ export function division(dividend: number, divisor: number, toFixed?: number) {
 export function guid() {
   const d = new Date().getTime();
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = (d + Math.random() * 16) % 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+    const r = (d + Math.random() * 16) % 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
 }

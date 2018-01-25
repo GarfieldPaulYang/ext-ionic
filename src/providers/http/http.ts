@@ -183,10 +183,10 @@ export class HttpProvider {
     options?: HttpProviderOptionsArgs,
     foundCacheCallback: (result: T) => void = (_result: T) => { }
   ): Promise<T> {
-    let opts: HttpProviderOptions = new HttpProviderOptions(url).merge(options);
+    const opts: HttpProviderOptions = new HttpProviderOptions(url).merge(options);
     const cache = opts.memCache ? this.memCache : this.jsonCache;
 
-    let innerRequest = (url: string, options?: HttpProviderOptionsArgs): Promise<T> => {
+    const innerRequest = (url: string, options?: HttpProviderOptionsArgs): Promise<T> => {
       return this.request<T>(url, options).then((result: ResponseResult<T>) => {
         if (result.status === 1) {
           if (options.showErrorAlert) {
@@ -227,7 +227,7 @@ export class HttpProvider {
   }
 
   request<T>(url: string, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
-    let opts: HttpProviderOptions = new HttpProviderOptions(url).merge(options);
+    const opts: HttpProviderOptions = new HttpProviderOptions(url).merge(options);
     let loading: Loading;
     if (opts.showLoading) {
       loading = this.dialog.loading(opts.loadingContent);
@@ -250,7 +250,7 @@ export class HttpProvider {
   }
 
   ajax<T>(url: string, options?: HttpProviderOptionsArgs): Observable<HttpEvent<T>> {
-    let opts: HttpProviderOptions = new HttpProviderOptions(url).merge(options);
+    const opts: HttpProviderOptions = new HttpProviderOptions(url).merge(options);
 
     if (opts.method === RequestMethod.Post && !(opts.body instanceof FormData)) {
       opts.body = opts.body || {};
@@ -272,7 +272,7 @@ export class HttpProvider {
   }
 
   private hashUrl(url: string, params: HttpParams): string {
-    let q = params ? params.toString() : '';
+    const q = params ? params.toString() : '';
     return StringUtils.hash(url + q).toString();
   }
 }

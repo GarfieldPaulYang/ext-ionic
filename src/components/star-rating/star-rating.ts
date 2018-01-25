@@ -84,7 +84,7 @@ export class StarRatingCmp extends BaseInput<number> implements OnInit, OnDestro
     });
 
     this.hammer.on('panleft panright', _.throttle((e: any) => {
-      let closestEle: Element = document.elementFromPoint(e.center.x, e.center.y);
+      const closestEle: Element = document.elementFromPoint(e.center.x, e.center.y);
       if (closestEle && ['LI'].indexOf(closestEle.tagName) > -1) {
         this.rate(Number(closestEle.getAttribute('index')));
       }
@@ -92,7 +92,7 @@ export class StarRatingCmp extends BaseInput<number> implements OnInit, OnDestro
   }
 
   private fullStates(): void {
-    let states: Array<number> = [];
+    const states: Array<number> = [];
     for (let i = 0; i < this.max; i++) {
       if (this.value > i && this.value < i + 1) {
         states[i] = 2;

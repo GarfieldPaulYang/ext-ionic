@@ -57,7 +57,7 @@ export class BaiduGeogProvider implements GeogProvider {
   }
 
   transformGps(points: GpsPoint[]): Promise<GpsPoint[]> {
-    let coordsStrs = [];
+    const coordsStrs = [];
     points.forEach(coords => {
       coordsStrs.push(coords.lng + ',' + coords.lat);
     });
@@ -67,7 +67,7 @@ export class BaiduGeogProvider implements GeogProvider {
         return Promise.reject<any>('转换 gps 失败');
       }
 
-      let result: GpsPoint[] = [];
+      const result: GpsPoint[] = [];
       r.result.forEach(p => {
         result.push({ lng: p.x, lat: p.y });
       });

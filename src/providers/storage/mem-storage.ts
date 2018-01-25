@@ -15,7 +15,7 @@ export class MemoryStorage implements Storage {
   }
 
   load<T>(options: LoadOptions): Promise<T> {
-    let content = this.localStorage[this.getKey(options.filename, options.dirname)];
+    const content = this.localStorage[this.getKey(options.filename, options.dirname)];
     if (!content) {
       return Promise.reject('file not found.');
     }

@@ -66,15 +66,15 @@ export class HotUpdater {
   }
 
   updateAndroid() {
-    var targetPath = this.file.externalApplicationStorageDirectory + '/app/app.apk';
+    const targetPath = this.file.externalApplicationStorageDirectory + '/app/app.apk';
     this.localNotifications.schedule({
       id: 1000,
       title: '正在更新...',
       progressBar: { enabled: true, maxValue: 100, value: 0 }
     });
-    let transfer = this.transfer.create();
+    const transfer = this.transfer.create();
     transfer.onProgress(event => {
-      let progress = ((event.loaded / event.total) * 100).toFixed(2);
+      const progress = ((event.loaded / event.total) * 100).toFixed(2);
       this.localNotifications.update({
         id: 1000,
         title: '正在更新...',

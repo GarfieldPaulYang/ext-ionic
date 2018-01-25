@@ -10,7 +10,7 @@ export class Dialog {
   ) { }
 
   alert(title: string, message: string): void {
-    let alert = this.alertCtrl.create({
+    const alert = this.alertCtrl.create({
       title: title,
       message: message,
       buttons: ['确定']
@@ -19,7 +19,7 @@ export class Dialog {
   }
 
   confirm(title: string, message: string, handler: (value: any) => boolean | void) {
-    let alert = this.alertCtrl.create({
+    const alert = this.alertCtrl.create({
       title: title,
       message: message,
       buttons: [{
@@ -40,7 +40,7 @@ export class Dialog {
   }
 
   toast(message: string, position: string = 'top') {
-    let toast = this.toastCtrl.create({
+    const toast = this.toastCtrl.create({
       message: message,
       duration: 3000,
       position: position

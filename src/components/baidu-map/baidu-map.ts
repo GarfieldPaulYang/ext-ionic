@@ -9,10 +9,10 @@ import {
 } from './baidu-map-options';
 import { GpsPoint } from '../../commons/type/geog';
 
-export var BMap: any;
-var BMAP_STATUS_SUCCESS: any;
-var BMAP_POINT_SIZE_SMALL: any;
-var BMAP_POINT_SHAPE_CIRCLE: any;
+export let BMap: any;
+let BMAP_STATUS_SUCCESS: any;
+let BMAP_POINT_SIZE_SMALL: any;
+let BMAP_POINT_SHAPE_CIRCLE: any;
 
 @Injectable()
 export class BaiduMapController {
@@ -60,19 +60,19 @@ export class BaiduMapController {
 
   translateGps(gpsData: Array<GpsPoint> = []): Promise<any> {
     return new Promise<any>(resolve => {
-      let points: Array<any> = [];
+      const points: Array<any> = [];
       gpsData.forEach(value => {
         points.push(new BMap.Point(value.lng, value.lat));
       });
 
-      let convertor = new BMap.Convertor();
+      const convertor = new BMap.Convertor();
       convertor.translate(points, 1, 5, resolve);
     });
   }
 
   geoLocation(): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      let location = new BMap.Geolocation();
+      const location = new BMap.Geolocation();
       location.getCurrentPosition((result: any) => {
         if (location.getStatus() === BMAP_STATUS_SUCCESS) {
           resolve(result);
@@ -113,8 +113,8 @@ export class BaiduMapController {
   }
 
   addMarker(markerOpts: MarkerOptions, clickHandler: EventEmitter<any>) {
-    let marker = this.createMarker(markerOpts);
-    let infoWindow = this.createInfoWindow(markerOpts);
+    const marker = this.createMarker(markerOpts);
+    const infoWindow = this.createInfoWindow(markerOpts);
     if (infoWindow) {
       marker.addEventListener('click', () => {
         marker.openInfoWindow(infoWindow);
@@ -138,7 +138,7 @@ export class BaiduMapController {
         }
 
         this.clearOverlays();
-        let result = [];
+        const result = [];
         markers.forEach(marker => {
           result.push(this.addMarker(marker, clickHandler));
         });
@@ -157,12 +157,12 @@ export class BaiduMapController {
 
         this.clearOverlays();
 
-        let points: Array<any> = [];
+        const points: Array<any> = [];
         markers.forEach(marker => {
           points.push(new BMap.Point(marker.point.lng, marker.point.lat));
         });
 
-        let pointCollection = new BMap.PointCollection(points, {
+        const pointCollection = new BMap.PointCollection(points, {
           size: BMAP_POINT_SIZE_SMALL,
           shape: BMAP_POINT_SHAPE_CIRCLE,
           color: '#d340c3',
@@ -179,7 +179,7 @@ export class BaiduMapController {
 
   drawLine(markers: Array<MarkerOptions>, clickHandler: EventEmitter<any>): Promise<any> {
     return this.drawMarkers(markers, clickHandler).then(result => {
-      let points = [];
+      const points = [];
       result.forEach(marker => {
         points.push(marker.getPosition());
       });
@@ -212,7 +212,7 @@ export class BaiduMapController {
 
   private createInfoWindow(marker: MarkerOptions): any {
     if (marker.infoWindow) {
-      let msg = '<p>' + marker.infoWindow.title + '</p><p>' + marker.infoWindow.content + '</p>';
+      const msg = '<p>' + marker.infoWindow.title + '</p><p>' + marker.infoWindow.content + '</p>';
       return new BMap.InfoWindow(msg, {
         enableMessage: !!marker.infoWindow.enableMessage,
         enableCloseOnClick: true
@@ -225,12 +225,12 @@ export class BaiduMapController {
   private createMarker(marker: MarkerOptions): any {
     const icon = this.createIcon(marker);
     const pt = new BMap.Point(marker.point.lng, marker.point.lat);
-    let result = new BMap.Marker(pt);
+    const result = new BMap.Marker(pt);
     if (icon) {
       result.setIcon(icon);
     }
     if (marker.label) {
-      let label = new BMap.Label(marker.label.content);
+      const label = new BMap.Label(marker.label.content);
       marker.label.styles = marker.label.styles || {};
       label.setStyle({
         border: '0px',

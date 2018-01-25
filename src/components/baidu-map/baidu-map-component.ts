@@ -44,7 +44,7 @@ export class BaiduMap implements AfterViewInit, OnChanges, OnDestroy {
   ) { }
 
   ngAfterViewInit() {
-    let opts: BaiduMapOptions = this.getOptions();
+    const opts: BaiduMapOptions = this.getOptions();
     this.baiduMapCtrl.init(
       opts,
       this._elementRef.nativeElement
@@ -84,7 +84,7 @@ export class BaiduMap implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   private draw(markers: Array<MarkerOptions>) {
-    let opts: BaiduMapOptions = this.getOptions();
+    const opts: BaiduMapOptions = this.getOptions();
     if (opts.mass.enabled) {
       this.baiduMapCtrl.drawMassPoints(markers, opts.mass.options, this.onMarkerClick);
       return;

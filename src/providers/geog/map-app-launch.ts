@@ -54,7 +54,7 @@ class BaiduMapLaunchService implements MapLaunchService {
   }
 
   canLaunch(): Promise<any> {
-    let opt: AppLauncherOptions = {};
+    const opt: AppLauncherOptions = {};
     if (this.platform.is('ios')) {
       opt.uri = 'baidumap://';
     } else {
@@ -84,19 +84,19 @@ class AmapMapLaunchService implements MapLaunchService {
   }
 
   launch(point: GpsPoint): Promise<any> {
-    let o = {
+    const o = {
       platform: this.platform.is('android') ? 'android' : 'ios',
       dev: this.platform.is('android') ? 0 : 1,
       ...point,
     };
-    let uri = `${o.platform}amap://viewReGeo?sourceApplication=myApp&dev=${o.dev}&lon=${o.lng}&lat=${o.lat}`;
+    const uri = `${o.platform}amap://viewReGeo?sourceApplication=myApp&dev=${o.dev}&lon=${o.lng}&lat=${o.lat}`;
     return this.appLauncher.launch({
       uri: uri
     });
   }
 
   canLaunch(): Promise<any> {
-    let opt: AppLauncherOptions = {};
+    const opt: AppLauncherOptions = {};
     if (this.platform.is('ios')) {
       opt.uri = 'iosamap://';
     } else {
@@ -126,11 +126,11 @@ export class MapLaunchProvider {
   }
 
   launch(point: GpsPoint): Promise<any> {
-    let promises: Promise<any>[] = [];
+    const promises: Promise<any>[] = [];
     this.services.forEach(service => {
       promises.push(service.canLaunch());
     });
-    let indexs: number[] = [];
+    const indexs: number[] = [];
     return Promise.all(promises).then(results => {
       results.forEach((v, index) => {
         if (v === true) {
@@ -150,7 +150,7 @@ export class MapLaunchProvider {
   }
 
   private show(point: GpsPoint, index: number[]) {
-    let buttons = [];
+    const buttons = [];
     index.forEach(v => {
       buttons.push({
         text: this.services[v].getName(),
@@ -159,7 +159,7 @@ export class MapLaunchProvider {
         }
       });
     });
-    let actionSheet = this.actionSheetCtrl.create({
+    const actionSheet = this.actionSheetCtrl.create({
       buttons: buttons
     });
     actionSheet.present();

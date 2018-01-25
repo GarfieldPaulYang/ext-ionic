@@ -43,7 +43,7 @@ export class Ribbon implements OnInit {
       this.ribbonOption.heightAmend = 0;
     }
     this.renderer.setElementClass(this.elementRef.nativeElement, 'ribbon-bar', true);
-    let height = this.elementRef.nativeElement.offsetHeight + this.ribbonOption.heightAmend;
+    const height = this.elementRef.nativeElement.offsetHeight + this.ribbonOption.heightAmend;
     this.riangleStyleOne = { borderTop: height * 0.52 + 'px solid ' + this.ribbonOption.ribbonColor, borderLeft: height * 0.52 + 'px solid transparent' };
     this.triangleStyleTwo = { borderTop: height * 0.2 + 'px solid ' + this.ribbonOption.backgroundColor, borderLeft: height * 0.2 + 'px solid transparent' };
     this.textStyle = { width: height * 0.52 + 'px', height: height * 0.23 + 'px', top: height * 0.07 + 'px', right: '-' + height * 0.09 + 'px' };

@@ -24,8 +24,8 @@ export class FileUploder {
       return Promise.reject('没有要上传的文件');
     }
 
-    let formData = new FormData();
-    for (let key in options) {
+    const formData = new FormData();
+    for (const key in options) {
       formData.append(key, options[key]);
     }
 
@@ -40,7 +40,7 @@ export class FileUploder {
   }
 
   private readFiles(filepaths: Array<string> = []): Promise<Array<{ blob: Blob, name: string }>> {
-    let promises = [];
+    const promises = [];
     filepaths.forEach(filepath => {
       if (!filepath.startsWith('file://')) {
         filepath = 'file://' + filepath;

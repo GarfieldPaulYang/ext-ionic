@@ -26,6 +26,10 @@ export interface SuperTabsConfig {
    */
   dragThreshold?: number;
   /**
+   * Allows elements inside tabs to be dragged, defaults to false
+   */
+  allowElementScroll?: boolean;
+  /**
    * Defaults to ease-in-out
    */
   transitionEase?: string;
@@ -217,6 +221,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   ngOnInit() {
     const defaultConfig: SuperTabsConfig = {
       dragThreshold: 10,
+      allowElementScroll: false,
       maxDragAngle: 40,
       sideMenuThreshold: 50,
       transitionDuration: 300,
@@ -225,6 +230,12 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     };
 
     this.config = { ...defaultConfig, ...this.config };
+
+    if (this.config.allowElementScroll === true) {
+      if (this.config.dragThreshold < 110) {
+        this.config.dragThreshold = 110;
+      }
+    }
 
     this.id = this.id || `ion-super-tabs-${++superTabsIds}`;
     this.superTabsCtrl.registerInstance(this);
@@ -496,7 +507,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   private refreshContainerHeight() {
     let heightOffset: number = 0;
 
-    if (this._isToolbarVisible) {
+    if (!this._isToolbarVisible) {
       if (this.hasTitles && this.hasIcons) {
         heightOffset = 60;
       } else {
@@ -554,7 +565,7 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   }
 
   private getAbsoluteIndicatorPosition(): number {
-    let position: number = this.selectedTabIndex * this.tabsContainer.tabWidth / this._tabs.length;
+    const position: number = this.selectedTabIndex * this.tabsContainer.tabWidth / this._tabs.length;
     return position <= this.maxIndicatorPosition ? position : this.maxIndicatorPosition;
   }
 

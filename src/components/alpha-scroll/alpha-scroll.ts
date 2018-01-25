@@ -49,7 +49,7 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   constructor(private elementRef: ElementRef, private orderBy: OrderBy, @Host() private content: Content) {
     this.letterIndicatorEle = document.createElement('div');
     this.letterIndicatorEle.className = 'ion-alpha-letter-indicator';
-    let body = document.getElementsByTagName('body')[0];
+    const body = document.getElementsByTagName('body')[0];
     body.appendChild(this.letterIndicatorEle);
   }
 
@@ -62,9 +62,9 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges() {
-    let sortedListData: Array<any> = this.orderBy.transform(this.listData, [this.key]);
-    let groupItems: any = _.groupBy(sortedListData, item => {
-      let letter: any = _.get(item, this.key);
+    const sortedListData: Array<any> = this.orderBy.transform(this.listData, [this.key]);
+    const groupItems: any = _.groupBy(sortedListData, item => {
+      const letter: any = _.get(item, this.key);
       return letter.toUpperCase().charAt(0);
     });
     const iteratedObj = this.iterateAlphabet(groupItems);
@@ -94,14 +94,14 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   }
 
   alphaScrollGoToList(letter: any) {
-    let ele: any = this.elementRef.nativeElement.querySelector(`#scroll-letter-${letter}`);
+    const ele: any = this.elementRef.nativeElement.querySelector(`#scroll-letter-${letter}`);
     if (ele) {
       this.content.scrollTo(0, ele.offsetTop);
     }
   }
 
   private setupHammerHandlers() {
-    let sidebarEle: HTMLElement = this.elementRef.nativeElement.querySelector('.ion-alpha-sidebar');
+    const sidebarEle: HTMLElement = this.elementRef.nativeElement.querySelector('.ion-alpha-sidebar');
 
     if (!sidebarEle) return;
 
@@ -122,11 +122,11 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     });
 
     this.hammer.on('panup pandown', _.throttle((e: any) => {
-      let closestEle: any = document.elementFromPoint(e.center.x, e.center.y);
+      const closestEle: any = document.elementFromPoint(e.center.x, e.center.y);
       if (closestEle && ['LI', 'A'].indexOf(closestEle.tagName) > -1) {
-        let letter = closestEle.innerText;
+        const letter = closestEle.innerText;
         this.letterIndicatorEle.innerText = letter;
-        let letterDivider: any = this.elementRef.nativeElement.querySelector(`#scroll-letter-${letter}`);
+        const letterDivider: any = this.elementRef.nativeElement.querySelector(`#scroll-letter-${letter}`);
         if (letterDivider) {
           this.content.scrollTo(0, letterDivider.offsetTop);
         }
@@ -135,7 +135,7 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   }
 
   private iterateAlphabet(groupItems: any): { alphabets: Array<any>, sortedItems: Array<any> } {
-    let result = { alphabets: [], sortedItems: [] };
+    const result = { alphabets: [], sortedItems: [] };
     for (let i = 0; i < ALPHABETS.length; i++) {
       const letter = ALPHABETS.charAt(i);
       const isActive = groupItems[letter] ? true : false;
@@ -147,7 +147,7 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     }
 
     let otherItems = [{ isDivider: true, letter: '其它' }];
-    for (let letter in groupItems) {
+    for (const letter in groupItems) {
       if (ALPHABETS.indexOf(letter) !== -1) continue;
       otherItems = otherItems.concat(groupItems[letter]);
     }

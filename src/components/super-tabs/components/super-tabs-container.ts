@@ -130,7 +130,7 @@ export class SuperTabsContainer implements AfterViewInit, OnDestroy {
   }
 
   private setSelectedTab(index: number) {
-    let tab = this.tabs[index];
+    const tab = this.tabs[index];
     tab.load().then(() => {
       this.tabSelect.emit({ index, changed: index !== this.selectedTabIndex });
       this.selectedTabIndex = index;
@@ -146,7 +146,7 @@ export class SuperTabsContainer implements AfterViewInit, OnDestroy {
   }
 
   slideTo(index: number, animate: boolean = true): Promise<void> {
-    let tab = this.tabs[index];
+    const tab = this.tabs[index];
     return tab.load().then(() => {
       this.plt.raf(() => this.moveContainer(animate, index * this.tabWidth));
     });

@@ -101,7 +101,7 @@ export class SuperTabsToolbar implements AfterViewInit, OnDestroy {
     this.gesture.onMove = (delta: number) => {
       let newCPos = this.segmentPosition + delta;
 
-      let mw: number = this.el.nativeElement.offsetWidth,
+      const mw: number = this.el.nativeElement.offsetWidth,
         cw: number = this.segmentWidth;
 
       newCPos = Math.max(0, Math.min(newCPos, cw - mw));
@@ -154,7 +154,8 @@ export class SuperTabsToolbar implements AfterViewInit, OnDestroy {
    * Indexes the segment button widths
    */
   indexSegmentButtonWidths() {
-    let index = [], total = 0;
+    const index = [];
+    let total = 0;
 
     this.tabButtons.forEach((btn: SuperTabButton, i: number) => {
       index[i] = btn.getNativeElement().offsetWidth;

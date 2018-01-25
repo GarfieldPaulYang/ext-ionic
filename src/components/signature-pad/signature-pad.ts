@@ -24,9 +24,9 @@ export class SignaturePad {
   }
 
   convertBase64UrlToBlob(urlData): Blob {
-    let bsStr = atob(urlData.split(',')[1]);
-    var ab = new ArrayBuffer(bsStr.length);
-    let u8Array = new Uint8Array(ab);
+    const bsStr = atob(urlData.split(',')[1]);
+    const ab = new ArrayBuffer(bsStr.length);
+    const u8Array = new Uint8Array(ab);
     for (let i = 0; i < bsStr.length; i++) {
       u8Array[i] = bsStr.charCodeAt(i);
     }

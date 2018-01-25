@@ -92,7 +92,7 @@ export class DownloadManagerCmp implements OnInit, OnDestroy, OnChanges {
   }
 
   update(event: DownloadEvent) {
-    let file: DownloadEvent = _.find(this.downloadManager.downloadingList,
+    const file: DownloadEvent = _.find(this.downloadManager.downloadingList,
       { fileName: event.fileName, filePath: event.filePath });
     if (isPresent(file)) {
       if (file.progress === 100) {
@@ -115,7 +115,7 @@ export class DownloadManagerCmp implements OnInit, OnDestroy, OnChanges {
       if (push) {
         this.breadcrumbs.push(directory);
       }
-      let reader: DirectoryReader = directory.createReader();
+      const reader: DirectoryReader = directory.createReader();
       this.downloadManager.fileList.length = 0;
       reader.readEntries(entries => {
         this.ngZone.run(() => {
@@ -134,7 +134,7 @@ export class DownloadManagerCmp implements OnInit, OnDestroy, OnChanges {
   }
 
   breadcrubCheck(entry: DirectoryEntry) {
-    let index = _.findIndex(this.breadcrumbs, { fullPath: entry.fullPath });
+    const index = _.findIndex(this.breadcrumbs, { fullPath: entry.fullPath });
     if (this.breadcrumbs.length - 1 !== index) {
       this.breadcrumbs.length = index + 1;
     }

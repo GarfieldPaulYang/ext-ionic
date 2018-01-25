@@ -122,7 +122,7 @@ export class ImageLoaderCmp implements OnInit {
     } else {
       this.element = this.elementRef.nativeElement;
 
-      for (let prop in propMap) {
+      for (const prop in propMap) {
         if (this[prop]) {
           this.renderer.setElementStyle(this.element, propMap[prop], this[prop]);
         }
