@@ -32,10 +32,21 @@ export class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
    */
   @Input() root: any;
 
+  private _rootParams: any;
+  rootNavCtrl: NavControllerBase;
+
   /**
    * @input {object} Any nav-params to pass to the root page of this tab.
    */
-  @Input() rootParams: any;
+  @Input()
+  set rootParams(params: any) {
+    params.rootNavCtrl = this.rootNavCtrl;
+    this._rootParams = params;
+  }
+
+  get rootParams(): any {
+    return this._rootParams;
+  }
 
   @Input('id')
   tabId: string;
@@ -110,7 +121,7 @@ export class SuperTab extends NavControllerBase implements OnInit, OnDestroy {
       return Promise.resolve();
     }
 
-    return this.push(this.root, this.rootParams, { animate: false }).then(() => {
+    return this.setRoot(this.root, this.rootParams, { animate: false }).then(() => {
       this.loaded = true;
       this._dom.read(() => {
         this.resize();

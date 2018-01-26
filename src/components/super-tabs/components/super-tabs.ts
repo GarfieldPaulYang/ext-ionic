@@ -338,8 +338,8 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   }
 
   addTab(tab: SuperTab) {
+    tab.rootNavCtrl = this.parent;
     tab.rootParams = tab.rootParams || {};
-    tab.rootParams.rootNavCtrl = this.parent;
 
     tab.tabId = tab.tabId || `ion-super-tabs-${this.id}-tab-${this._tabs.length}`;
 
