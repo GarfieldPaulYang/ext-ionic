@@ -76,7 +76,7 @@ export class Gallery implements OnInit, OnDestroy {
     this.watches.push(Observable.merge.apply(
       this,
       obsToMerge
-    ).debounceTime(10).subscribe(() => {
+    ).debounceTime(100).subscribe(() => {
       this.calculateCol();
     }));
   }
