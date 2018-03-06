@@ -15,10 +15,10 @@ export class TrustMcpUrl implements PipeTransform {
     }
 
     const params: string = [
-      '__cors-request__=true',
-      '__app-key__=' + this.config.get().login.appKey,
-      '__dev-mode__=' + this.config.get().devMode,
-      '__ticket__=' + this.config.get().ticket
+      'lx-cors-request=true',
+      'lx-app-key=' + this.config.get().login.appKey,
+      'lx-dev-mode=' + this.config.get().devMode,
+      'lx-ticket=' + this.config.get().ticket
     ].join('&');
 
     if (value.indexOf('?') === -1) {

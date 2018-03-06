@@ -294,9 +294,9 @@ export class CorsHttpProvider {
     return this.post<LoginResult>(this.config.get().login.url, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        '__login__': 'true',
-        '__uuid__': this.device.uuid,
-        '__model__': this.device.model
+        'lx-login': 'true',
+        'lx-uuid': this.device.uuid,
+        'lx-model': this.device.model
       },
       showErrorAlert: false,
       body: options
@@ -310,7 +310,7 @@ export class CorsHttpProvider {
     return this.get<string>(this.config.get().login.url, {
       cache: false,
       headers: {
-        '__logout__': 'true'
+        'lx-logout': 'true'
       }
     }).then(result => {
       this.config.set('ticket', null);
@@ -336,12 +336,12 @@ export class CorsHttpProvider {
     foundCacheCallback: (result: T) => void = (_result: T) => { }
   ): Promise<T> {
     options = options || {};
-    options.params = buildParams(options.params || new HttpParams()).set('__cors-request__', 'true');
-    options.headers = buildHeaders(options.headers || new HttpHeaders()).set('__app-key__', this.config.get().login.appKey)
-      .set('__dev-mode__', this.config.get().devMode + '');
+    options.params = buildParams(options.params || new HttpParams()).set('lx-cors-request', 'true');
+    options.headers = buildHeaders(options.headers || new HttpHeaders()).set('lx-app-key', this.config.get().login.appKey)
+      .set('lx-dev-mode', this.config.get().devMode + '');
 
     if (this.config.get().ticket) {
-      options.headers = (<HttpHeaders>options.headers).set('__ticket__', this.config.get().ticket);
+      options.headers = (<HttpHeaders>options.headers).set('lx-ticket', this.config.get().ticket);
     }
 
     return this.http.requestWithError<T>(url, options, foundCacheCallback).then(result => {
