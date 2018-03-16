@@ -34,6 +34,7 @@ export * from './components/gallery/gallery.module';
 export * from './components/select/lazy-select.module';
 export * from './components/auto-complete/auto-complete.module';
 export * from './components/signature-pad/signature-pad.module';
+export * from './components/file-button/file-button-module';
 
 export { StringUtils } from './utils/string';
 export * from './utils/util';
@@ -99,6 +100,7 @@ import { GalleryModule } from './components/gallery/gallery.module';
 import { LazySelectModule } from './components/select/lazy-select.module';
 import { AutoCompleteModule } from './components/auto-complete/auto-complete.module';
 import { SignaturePadModule } from './components/signature-pad/signature-pad.module';
+import { FileButtonModule } from './components/file-button/file-button-module';
 
 const PROVIDERS: Array<any> = [
   FileTransfer,
@@ -142,7 +144,8 @@ const PROVIDERS: Array<any> = [
     GalleryModule.forRoot(),
     LazySelectModule.forRoot(),
     AutoCompleteModule.forRoot(),
-    SignaturePadModule.forRoot()
+    SignaturePadModule.forRoot(),
+    FileButtonModule.forRoot()
   ],
   exports: [
     AlphaScrollModule,
@@ -157,7 +160,8 @@ const PROVIDERS: Array<any> = [
     NavButtonBarModule,
     GalleryModule,
     LazySelectModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    FileButtonModule
   ]
 })
 export class ExtIonicModule {
