@@ -1,4 +1,4 @@
-import { Attribute, ChangeDetectionStrategy, Component, ElementRef, Input, Renderer, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Attribute, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, NgZone, Output, Renderer, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Button, Config } from 'ionic-angular';
 
 @Component({
@@ -11,8 +11,8 @@ import { Button, Config } from 'ionic-angular';
     <input type="file"
           style="display: none"
        (change)="doChange($event)"
-       [accept]="_accept"
-     [multiple]="_allowMultiple" #inputFile/>
+       [accept]="accept"
+     [multiple]="allowMultiple" #inputFile/>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -22,39 +22,21 @@ export class FileButton extends Button {
   @ViewChild('inputFile')
   private nativeInputFile: ElementRef;
 
-  private _fileChange: Function;
+  @Output()
+  fileChange = new EventEmitter<any>();
 
   @Input()
-  set fileChange(fn: Function) {
-    this._fileChange = fn;
-  }
-
-  _capture: string;
+  accept: string;
 
   @Input()
-  set capture(v: string) {
-    this._capture = v;
-  }
-
-  _accept: string;
-
-  @Input()
-  set accept(v: string) {
-    this._accept = v;
-  }
-
-  _allowMultiple: boolean;
-
-  @Input()
-  set allowMultiple(v: boolean) {
-    this._allowMultiple = v;
-  }
+  allowMultiple: boolean;
 
   constructor(
     @Attribute('ion-file-button') ionButton: string,
     config: Config,
     elementRef: ElementRef,
-    renderer: Renderer) {
+    renderer: Renderer,
+    private ngZone: NgZone) {
     super(ionButton, config, elementRef, renderer);
   }
 
@@ -67,10 +49,8 @@ export class FileButton extends Button {
   }
 
   doChange(e: Event) {
-    const input: any = e.target;
-    const files: FileList = input.files;
-    if (files.length > 0) {
-      this._fileChange(files);
-    }
+    this.ngZone.run(() => {
+      this.fileChange.emit(e);
+    });
   }
 }
