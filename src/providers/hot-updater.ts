@@ -3,8 +3,8 @@ import { Platform } from 'ionic-angular';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
+import { ErrorCode, HotCodePush } from '@ionic-native/hot-code-push';
 
-import { HotCodePush } from '../native/hot-code-push';
 import { ConfigProvider } from '../config/config';
 import { Dialog } from '../utils/dialog';
 import { ExtLocalNotifications } from '../native/local-notifications';
@@ -23,23 +23,19 @@ export class HotUpdater {
   ) { }
 
   start() {
-    this.hotCodePush.isUpdateAvailableForInstallation((error) => {
-      if (!error) {
-        this.hotCodePush.installUpdate().then(error => {
-          console.log(error);
-        });
-        return;
-      }
-      this.hotCodePush.fetchUpdate((error) => {
-        if (!error) {
-          this.dialog.confirm('更新通知', '新版本更新成功,是否现在重启应用?', () => {
-            this.hotCodePush.installUpdate().then(e => {
-              console.log(e);
-            });
+    this.hotCodePush.isUpdateAvailableForInstallation().then(() => {
+      this.hotCodePush.installUpdate().catch((error) => {
+        console.log(error);
+      });
+    }, () => {
+      this.hotCodePush.fetchUpdate().then(() => {
+        this.dialog.confirm('更新通知', '新版本更新成功,是否现在重启应用?', () => {
+          this.hotCodePush.installUpdate().catch((error) => {
+            console.log(error);
           });
-          return;
-        }
-        if (error.code === HotCodePush.error.APPLICATION_BUILD_VERSION_TOO_LOW) {
+        });
+      }, (error) => {
+        if (error.code === ErrorCode.APPLICATION_BUILD_VERSION_TOO_LOW) {
           this.updateApp();
           return;
         }

@@ -2,7 +2,6 @@ export { GeogProvider, GpsPoint, MapType } from './commons/type/geog';
 
 export { Immerse } from './native/immerse-plugin';
 export { ExtILocalNotification, ExtLocalNotifications } from './native/local-notifications';
-export { HotCodePushConifg, HotCodePushOptions, HotCodeCallback, HotCodePush } from './native/hot-code-push';
 export { AppLauncher, AppLauncherOptions, ExtraOptions } from './native/app-launcher';
 export { GeolocationProvider } from './providers/geog/geolocation';
 
@@ -62,8 +61,8 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { File } from '@ionic-native/file';
 import { Device } from '@ionic-native/device';
 import { Geolocation } from '@ionic-native/geolocation';
+import { HotCodePush } from '@ionic-native/hot-code-push';
 import { Immerse } from './native/immerse-plugin';
-import { HotCodePush } from './native/hot-code-push';
 import { ExtLocalNotifications } from './native/local-notifications';
 import { AppLauncher } from './native/app-launcher';
 
@@ -108,6 +107,7 @@ const PROVIDERS: Array<any> = [
   FileOpener,
   Device,
   Geolocation,
+  HotCodePush,
 
   Dialog,
   HttpProvider,
@@ -122,7 +122,6 @@ const PROVIDERS: Array<any> = [
   GeogProviderFactory,
 
   Immerse,
-  HotCodePush,
   ExtLocalNotifications,
   GeolocationProvider,
   MapLaunchProvider,
