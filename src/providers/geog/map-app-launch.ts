@@ -49,7 +49,7 @@ class BaiduMapLaunchService implements MapLaunchService {
 
   launch(point: GpsPoint): Promise<any> {
     return this.appLauncher.launch({
-      uri: `baidumap://map/geocoder?location=${point.lng},${point.lat}&src=webapp.rgeo.whcyit.myApp`
+      uri: `baidumap://map/geocoder?location=${point.lat},${point.lng}&src=webapp.rgeo.whcyit.myApp`
     });
   }
 
