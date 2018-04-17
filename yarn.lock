@@ -1382,6 +1382,6 @@ xhr2@^0.1.4:
   version "4.0.1"
   resolved "http://10.68.34.178/nexus3/repository/npm-group/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
 
-zone.js@0.8.20:
-  version "0.8.20"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/zone.js/-/zone.js-0.8.20.tgz#a218c48db09464b19ff6fc8f0d4bb5b1046e185d"
+zone.js@0.8.26:
+  version "0.8.26"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/zone.js/-/zone.js-0.8.26.tgz#7bdd72f7668c5a7ad6b118148b4ea39c59d08d2d"
