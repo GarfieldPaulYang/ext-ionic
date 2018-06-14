@@ -2,54 +2,54 @@
 # yarn lockfile v1
 
 
-"@angular/common@5.2.10":
-  version "5.2.10"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/common/-/common-5.2.10.tgz#828308df8505a31f219a6895ff91dbb178ebac98"
+"@angular/common@5.2.11":
+  version "5.2.11"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/common/-/common-5.2.11.tgz#ee7520b02510a2868f30b1f91897102d48324edf"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/compiler-cli@5.2.10":
-  version "5.2.10"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/compiler-cli/-/compiler-cli-5.2.10.tgz#7e9dead0730dc20f7658e110a558b557b60e7be2"
+"@angular/compiler-cli@5.2.11":
+  version "5.2.11"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/compiler-cli/-/compiler-cli-5.2.11.tgz#71a2885ac394a3c7a407c6ba0b920b52d73add99"
   dependencies:
     chokidar "^1.4.2"
     minimist "^1.2.0"
     reflect-metadata "^0.1.2"
     tsickle "^0.27.2"
 
-"@angular/compiler@5.2.10":
-  version "5.2.10"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/compiler/-/compiler-5.2.10.tgz#1cd9914436f0707957823531c4418ce5b7e6a130"
+"@angular/compiler@5.2.11":
+  version "5.2.11"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/compiler/-/compiler-5.2.11.tgz#ca2c38cda6ddde52b5948b8cff6551ff19d5e9de"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/core@5.2.10":
-  version "5.2.10"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/core/-/core-5.2.10.tgz#a6eba06cae7267efbd2666e3fa5e42b84c2261de"
+"@angular/core@5.2.11":
+  version "5.2.11"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/core/-/core-5.2.11.tgz#0e38fdf4fa038a3c168c72952682f2ee3721f1a3"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/forms@5.2.10":
-  version "5.2.10"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/forms/-/forms-5.2.10.tgz#6a4cf9c87b57005599c0ec59a79b7f1b06375591"
+"@angular/forms@5.2.11":
+  version "5.2.11"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/forms/-/forms-5.2.11.tgz#712534fa317e194caa452d0c1a8efc72f5e040d6"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser-dynamic@5.2.10":
-  version "5.2.10"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/platform-browser-dynamic/-/platform-browser-dynamic-5.2.10.tgz#bec4c0ca9fb16c34adee851caa187989953216ca"
+"@angular/platform-browser-dynamic@5.2.11":
+  version "5.2.11"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/platform-browser-dynamic/-/platform-browser-dynamic-5.2.11.tgz#1b2a9de4af207bee7040400f61c01a44e929c308"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser@5.2.10":
-  version "5.2.10"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/platform-browser/-/platform-browser-5.2.10.tgz#92883803de7362e635748a440dd5f6172fc2394a"
+"@angular/platform-browser@5.2.11":
+  version "5.2.11"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/platform-browser/-/platform-browser-5.2.11.tgz#5be379f96d74b4ebe84a447633ed5279cb7e641e"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-server@5.2.10":
-  version "5.2.10"
-  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/platform-server/-/platform-server-5.2.10.tgz#36185a8ce137c1b65d74186f4b21566bcdb791b3"
+"@angular/platform-server@5.2.11":
+  version "5.2.11"
+  resolved "http://10.68.34.178/nexus3/repository/npm-group/@angular/platform-server/-/platform-server-5.2.11.tgz#0f2f9a0052fd8380cf4b3f89115bc8e3e10db85a"
   dependencies:
     domino "^1.0.29"
     tslib "^1.7.1"
