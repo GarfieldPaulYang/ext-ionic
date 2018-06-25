@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform, normalizeURL } from 'ionic-angular';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File, FileEntry, FileError, Metadata } from '@ionic-native/file';
 
@@ -312,7 +312,8 @@ export class ImageLoaderController {
         // in this case only the tempDirectory is accessible,
         // therefore the file needs to be copied into that directory first!
         if (this.isIonicWKWebView) {
-          resolve(fileEntry.nativeURL.replace('file:///', 'http://localhost:8080/'));
+          // Use Ionic normalizeUrl to generate the right URL for Ionic WKWebView
+          resolve(normalizeURL(fileEntry.nativeURL));
         } else if (this.isWKWebView) {
           // check if file already exists in temp directory
           this.file.resolveLocalFilesystemUrl(this.cacheTempDirectory + '/' + fileName).then((tempFileEntry: FileEntry) => {
