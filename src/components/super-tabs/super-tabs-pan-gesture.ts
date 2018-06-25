@@ -50,6 +50,20 @@ export class SuperTabsPanGesture {
   }
 
   private _onStart(ev: TouchEvent) {
+    // check avoid this element
+    let avoid = false;
+    let element: any = ev.target;
+    if (element) {
+      do {
+        if (element.getAttribute && element.getAttribute('avoid-super-tabs')) avoid = true;
+        element = element.parentElement;
+      } while (element && !avoid);
+    }
+    if (avoid) {
+      this.shouldCapture = false;
+      return;
+    }
+
     const coords: PointerCoordinates = pointerCoord(ev),
       vw = this.plt.width();
 
@@ -119,6 +133,8 @@ export class SuperTabsPanGesture {
   }
 
   private checkGesture(newCoords: PointerCoordinates) {
+    if (!this.initialCoords) return;
+
     const radians = this.config.maxDragAngle * (Math.PI / 180),
       maxCosine = Math.cos(radians),
       deltaX = newCoords.x - this.initialCoords.x,
