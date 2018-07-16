@@ -211,8 +211,6 @@ export class ImageLoaderController {
   }
 
   private indexCache(): Promise<void> {
-    if (!this.shouldIndex) return Promise.resolve();
-
     this.cacheIndex = [];
     return this.file.listDir(
       this.cacheRootDirectory,
@@ -294,16 +292,17 @@ export class ImageLoaderController {
         const fileName = this.createFileName(currentItem.imageUrl);
         this.http.get(currentItem.imageUrl, { responseType: 'blob' }).then((data: Blob) => {
           this.file.writeFile(localDir, fileName, data, { replace: true }).then((file: FileEntry) => {
-            if (this.shouldIndex) {
-              this.addFileToIndex(file).then(() => {
-                this.getCachedImagePath(currentItem.imageUrl).then((localUrl) => {
-                  currentItem.resolve(localUrl);
-                  resolve();
-                  done();
-                  this.maintainCacheSize();
-                });
-              });
+            if (this.isCacheSpaceExceeded) {
+              this.maintainCacheSize();
             }
+            this.addFileToIndex(file).then(() => {
+              this.getCachedImagePath(currentItem.imageUrl).then((localUrl) => {
+                currentItem.resolve(localUrl);
+                resolve();
+                done();
+                this.maintainCacheSize();
+              });
+            });
           }).catch((e) => {
             // Could not write image
             error(e);
@@ -419,8 +418,8 @@ export class ImageLoaderController {
     return this.cacheTempRootDirectory + this.cacheDirectoryName;
   }
 
-  private get shouldIndex() {
-    return (this.config.get().imageLoader.maxCacheAge > -1) || (this.config.get().imageLoader.maxCacheSize > -1);
+  private get isCacheSpaceExceeded() {
+    return (this.config.get().imageLoader.maxCacheSize > -1) && this.currentCacheSize > this.config.get().imageLoader.maxCacheSize;
   }
 
   private get isIonicWKWebView(): boolean {
