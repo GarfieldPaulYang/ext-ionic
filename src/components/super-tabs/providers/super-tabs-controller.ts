@@ -27,8 +27,6 @@ export class SuperTabsController {
 
   /**
    * Enables/disables swiping on a specific tabs instance
-   * @param enable
-   * @param [tabsId]
    */
   enableTabsSwipe(enable: boolean, tabsId?: string) {
     const instance = this.getInstance(tabsId);
@@ -37,9 +35,6 @@ export class SuperTabsController {
 
   /**
    * Enables/disables swiping when this tab is active
-   * @param tabId
-   * @param enable
-   * @param [tabsId]
    */
   enableTabSwipe(tabId: string, enable: boolean, tabsId?: string) {
     const instance = this.getInstance(tabsId);
@@ -56,20 +51,15 @@ export class SuperTabsController {
     return instance && instance.slideTo(tabIndexOrId);
   }
 
-  /**
-   * @private
-   */
   registerInstance(instance: SuperTabs) {
     this.instances.push(instance);
   }
 
-  /**
-   * @private
-   */
   unregisterInstance(id: string) {
     const instanceIndex = this.getInstanceIndex(id);
-    if (instanceIndex > -1)
+    if (instanceIndex > -1) {
       this.instances.splice(instanceIndex, 1);
+    }
   }
 
   private getInstanceIndex(id: string): number {

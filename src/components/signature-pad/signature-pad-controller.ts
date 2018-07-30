@@ -22,7 +22,7 @@ export class SignaturePadController {
   }
 
   show(options: SignaturePadOptions) {
-    this.pop = this.popoverCtrl.create(SignaturePadCmp, { options: options }, { cssClass: 'signature-popover' });
+    this.pop = this.popoverCtrl.create(SignaturePadCmp, { options }, { cssClass: 'signature-popover' });
     this.pop.present();
     this.pop.onDidDismiss((signature: Signature) => {
       if (signature) {

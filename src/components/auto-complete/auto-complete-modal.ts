@@ -42,7 +42,7 @@ export class AutoCompleteModalCmp implements AfterViewInit {
   @ViewChild(Searchbar)
   private searchbar: Searchbar;
 
-  items: Array<any> = [];
+  items: any[] = [];
   options: AutoCompleteModalOptions;
 
   constructor(private navParams: NavParams, private viewCtrl: ViewController) {

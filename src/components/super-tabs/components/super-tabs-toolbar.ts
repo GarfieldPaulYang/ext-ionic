@@ -65,9 +65,6 @@ export class SuperTabsToolbar implements AfterViewInit, OnDestroy {
   @ViewChild('tabButtons')
   private tabButtonsBar: ElementRef;
 
-  /**
-   * @private
-   */
   segmentPosition: number = 0;
 
   /**
@@ -168,15 +165,16 @@ export class SuperTabsToolbar implements AfterViewInit, OnDestroy {
 
   /**
    * Enables/disables animation
-   * @param el
-   * @param animate
    */
   private toggleAnimation(el: 'indicator' | 'segment', animate: boolean) {
-    if (!this.config || this.config.transitionDuration === 0)
+    if (!this.config || this.config.transitionDuration === 0) {
       return;
+    }
 
     // only change style if the value changed
-    if (this.animationState[el] === animate) return;
+    if (this.animationState[el] === animate) {
+      return;
+    }
 
     this.animationState[el] = animate;
 

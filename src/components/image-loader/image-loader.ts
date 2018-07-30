@@ -18,8 +18,8 @@ interface IndexItem {
 
 interface QueueItem {
   imageUrl: string;
-  resolve: Function;
-  reject: Function;
+  resolve: (_) => void;
+  reject: () => void;
 }
 
 @Injectable()
@@ -229,7 +229,7 @@ export class ImageLoaderController {
     if (this.config.get().imageLoader.maxCacheSize > -1 && this.indexed) {
       const maintain = () => {
         if (this.currentCacheSize > this.config.get().imageLoader.maxCacheSize) {
-          const next: Function = () => {
+          const next: () => void = () => {
             this.currentCacheSize -= file.size;
             maintain();
           };
@@ -387,7 +387,7 @@ export class ImageLoaderController {
   }
 
   private get isWKWebView(): boolean {
-    return this.platform.is('ios') && (<any>window).webkit && (<any>window).webkit.messageHandlers;
+    return this.platform.is('ios') && (window as any).webkit && (window as any).webkit.messageHandlers;
   }
 
   private get isDevServer(): boolean {
@@ -423,7 +423,7 @@ export class ImageLoaderController {
   }
 
   private get isIonicWKWebView(): boolean {
-    return this.isWKWebView && (location.host === 'localhost:8080' || (<any>window).LiveReload);
+    return this.isWKWebView && (location.host === 'localhost:8080' || (window as any).LiveReload);
   }
 
   private createCacheDirectory(replace: boolean = false): Promise<any> {

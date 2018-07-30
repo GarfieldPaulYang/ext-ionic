@@ -82,9 +82,9 @@ export class DownloadManagerController {
         }
         this.ngZone.run(() => {
           this._event.emit({
-            progress: progress,
+            progress,
             fileName: option.fileName,
-            filePath: filePath
+            filePath
           });
         });
       }
@@ -114,7 +114,7 @@ export class DownloadManagerController {
   private createNotification(fileName: string): Promise<number> {
     return this.createId().then(id => {
       this.localNotifications.schedule({
-        id: id,
+        id,
         title: fileName + ' 开始下载...',
         progressBar: { enabled: this.platform.is('android'), maxValue: 100, value: 0 }
       });
@@ -124,7 +124,7 @@ export class DownloadManagerController {
 
   private updateLocalNotification(fileName: string, id: number, progress: number) {
     this.localNotifications.update({
-      id: id,
+      id,
       title: fileName + '下载中...',
       sound: null,
       progressBar: { enabled: this.platform.is('android'), maxValue: 100, value: progress }

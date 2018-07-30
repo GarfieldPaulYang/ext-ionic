@@ -111,7 +111,7 @@ export class NavButtonBar implements OnInit, OnDestroy {
   type: string = 'icon';
 
   @Input()
-  items: Array<NavButton>;
+  items: NavButton[];
 
   @Output()
   itemClick: EventEmitter<NavButton> = new EventEmitter<NavButton>();

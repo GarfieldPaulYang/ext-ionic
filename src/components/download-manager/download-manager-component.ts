@@ -5,8 +5,8 @@ import * as _ from 'lodash';
 import { isPresent } from '../../utils/util';
 
 export interface DownloadManager {
-  downloadingList: Array<DownloadEvent>;
-  fileList: Array<Entry>;
+  downloadingList: DownloadEvent[];
+  fileList: Entry[];
 }
 
 @Component({
@@ -62,7 +62,7 @@ export interface DownloadManager {
 })
 export class DownloadManagerCmp implements OnInit, OnDestroy, OnChanges {
   downloadManager: DownloadManager;
-  breadcrumbs: Array<DirectoryEntry>;
+  breadcrumbs: DirectoryEntry[];
   segmentValue: string = 'downloading';
   private destroy: boolean;
 

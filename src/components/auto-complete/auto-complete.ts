@@ -7,7 +7,7 @@ import { AutoCompleteModalCmp } from './auto-complete-modal';
 
 export interface AutoCompleteDataProvider {
   init(params: any): Promise<any>;
-  loadItems(params: any): Promise<Array<any>>;
+  loadItems(params: any): Promise<any[]>;
 }
 
 @Component({
@@ -79,7 +79,7 @@ export class AutoCompleteCmp extends BaseInput<any> {
 
       if (_.isObject(item)) {
         if (this.textField) {
-          this.keyword = <string>_.get(item, this.textField);
+          this.keyword = _.get(item, this.textField) as string;
         }
         if (this.valueField) {
           this.value = _.get(item, this.valueField);

@@ -38,21 +38,21 @@ function buildParams(params: HttpParams | { [key: string]: any | any[] } | null 
       result = new HttpParams({ fromObject: params });
     }
   }
-  return <HttpParams>result;
+  return result as HttpParams;
 }
 
 function buildHeaders(headers: HttpHeaders | { [key: string]: any | any[] } | null | string): HttpHeaders {
   let result = headers;
   if (!(headers instanceof HttpHeaders)) {
     if (_.isObject(headers)) {
-      result = new HttpHeaders(_.pickBy(<any>headers, (value) => {
+      result = new HttpHeaders(_.pickBy(headers as any, (value) => {
         return isPresent(value);
       }));
     } else {
       result = new HttpHeaders(headers);
     }
   }
-  return <HttpHeaders>result;
+  return result as HttpHeaders;
 }
 
 export interface HttpProviderOptionsArgs {
@@ -121,9 +121,9 @@ export class HttpProviderOptions implements HttpProviderOptionsArgs {
 
   build(): HttpRequest<any> {
     return new HttpRequest(this.method, this.url, this.body, {
-      headers: <HttpHeaders>this.headers,
+      headers: this.headers as HttpHeaders,
       reportProgress: this.reportProgress,
-      params: <HttpParams>this.params,
+      params: this.params as HttpParams,
       responseType: this.responseType,
       withCredentials: this.withCredentials
     });
@@ -145,7 +145,7 @@ export interface SubAcount {
 
 export interface LoginResult {
   successToken?: string;
-  subAccounts?: Array<SubAcount>;
+  subAccounts?: SubAcount[];
 }
 
 const APP_JSON_TYPE = 'application/json';
@@ -210,12 +210,12 @@ export class HttpProvider {
 
     let cacheKey;
     if (opts.cache && opts.method === RequestMethod.Get) {
-      cacheKey = this.hashUrl(url, <HttpParams>opts.params);
+      cacheKey = this.hashUrl(url, opts.params as HttpParams);
 
       if (opts.cacheOnly) {
         return cache.load<T>(
           { dirname: HTTP_CACHE_DIR, filename: cacheKey, maxAge: opts.maxCacheAge }
-        ).catch(() => { return innerRequest(url, opts); });
+        ).catch(() => innerRequest(url, opts));
       }
 
       cache.load<T>({ dirname: HTTP_CACHE_DIR, filename: cacheKey }).then(result => {
@@ -236,7 +236,7 @@ export class HttpProvider {
     return this.ajax(url, opts).toPromise().then(result => {
       if (loading) loading.dismiss().catch(() => { });
       if (result.type === HttpEventType.Response) {
-        return new ResponseResult<T>((<HttpResponse<any>>result).body);
+        return new ResponseResult<T>((result as HttpResponse<any>).body);
       }
       return new ResponseResult<T>(null, result);
     }).catch(err => {
@@ -255,12 +255,12 @@ export class HttpProvider {
     if (opts.method === RequestMethod.Post && !(opts.body instanceof FormData)) {
       opts.body = opts.body || {};
       opts.headers = opts.headers || new HttpHeaders({ 'Content-Type': APP_JSON_TYPE });
-      if (!(<HttpHeaders>opts.headers).has('Content-Type')) {
-        opts.headers = (<HttpHeaders>opts.headers).set('Content-Type', APP_JSON_TYPE);
+      if (!(opts.headers as HttpHeaders).has('Content-Type')) {
+        opts.headers = (opts.headers as HttpHeaders).set('Content-Type', APP_JSON_TYPE);
       }
 
       if (!_.isString(opts.body)) {
-        if (APP_JSON_TYPE === (<HttpHeaders>opts.headers).get('Content-Type').toLowerCase()) {
+        if (APP_JSON_TYPE === (opts.headers as HttpHeaders).get('Content-Type').toLowerCase()) {
           opts.body = JSON.stringify(opts.body);
         } else {
           opts.body = URLParamsBuilder.build(opts.body).toString();
@@ -341,7 +341,7 @@ export class CorsHttpProvider {
       .set('lx-dev-mode', this.config.get().devMode + '');
 
     if (this.config.get().ticket) {
-      options.headers = (<HttpHeaders>options.headers).set('lx-ticket', this.config.get().ticket);
+      options.headers = (options.headers as HttpHeaders).set('lx-ticket', this.config.get().ticket);
     }
 
     return this.http.requestWithError<T>(url, options, foundCacheCallback).then(result => {

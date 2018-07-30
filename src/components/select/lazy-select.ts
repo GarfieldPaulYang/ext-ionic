@@ -26,7 +26,7 @@ import { URLParamsBuilder } from '../../utils/http/url-params-builder';
 })
 export class LazySelect extends BaseInput<any> implements OnInit {
 
-  options: Array<any> = [];
+  options: any[] = [];
 
   @Input()
   placeholder: string;
@@ -64,10 +64,10 @@ export class LazySelect extends BaseInput<any> implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get<Array<any>>(
+    this.http.get<any[]>(
       this.url,
       { cache: true, cacheOnly: true, memCache: true, params: URLParamsBuilder.build(this.params), showLoading: false }
-    ).then((data: Array<any>) => {
+    ).then((data: any[]) => {
       this.options = data;
     }).catch(e => {
       Promise.reject(e);

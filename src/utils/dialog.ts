@@ -11,8 +11,8 @@ export class Dialog {
 
   alert(title: string, message: string): void {
     const alert = this.alertCtrl.create({
-      title: title,
-      message: message,
+      title,
+      message,
       buttons: ['确定']
     });
     alert.present();
@@ -20,14 +20,15 @@ export class Dialog {
 
   confirm(title: string, message: string, handler: (value: any) => boolean | void) {
     const alert = this.alertCtrl.create({
-      title: title,
-      message: message,
+      title,
+      message,
       buttons: [{
         text: '取消',
         role: 'cancel'
+        // tslint:disable-next-line:align
       }, {
         text: '确定',
-        handler: handler
+        handler
       }]
     });
     alert.present();
@@ -35,15 +36,15 @@ export class Dialog {
 
   loading(content: string): Loading {
     return this.loadingCtrl.create({
-      content: content
+      content
     });
   }
 
   toast(message: string, position: string = 'top') {
     const toast = this.toastCtrl.create({
-      message: message,
+      message,
       duration: 3000,
-      position: position
+      position
     });
     toast.present();
   }

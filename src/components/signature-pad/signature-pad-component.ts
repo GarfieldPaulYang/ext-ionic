@@ -85,8 +85,8 @@ export class SignaturePadCmp implements AfterViewInit {
     const blob = this.spad.convertBase64UrlToBlob(dataUrl);
     formData.append('signature', blob, 'signature.png');
     this.viewCtrl.dismiss({
-      dataUrl: dataUrl,
-      formData: formData
+      dataUrl,
+      formData
     });
   }
 }

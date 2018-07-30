@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 })
 @Injectable()
 export class OrderBy implements PipeTransform {
-  transform(input: any, orderConfigs: string | Array<string> = '+'): any {
+  transform(input: any, orderConfigs: string | string[] = '+'): any {
     if (!Array.isArray(input)) {
       return input;
     }
@@ -24,7 +24,7 @@ export class OrderBy implements PipeTransform {
       return _.orderBy(input, [config.property], [config.order]);
     }
 
-    const configs = this.parseProperties(<string[]>orderConfigs);
+    const configs = this.parseProperties(orderConfigs as string[]);
     return _.orderBy(input, configs.properties, configs.orders);
   }
 
@@ -39,7 +39,7 @@ export class OrderBy implements PipeTransform {
     return { order: isDesc ? 'desc' : 'asc', property: hasOrder ? config.substr(1) : config };
   }
 
-  private parseProperties(configs: Array<string>): { orders: Array<string>, properties: Array<string> } {
+  private parseProperties(configs: string[]): { orders: string[], properties: string[] } {
     const result = { orders: [], properties: [] };
     configs.forEach(configStr => {
       const config = this.parseProperty(configStr);

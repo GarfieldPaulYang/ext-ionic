@@ -13,13 +13,13 @@ export interface FileUploderOptions {
 export class FileUploder {
   constructor(private http: CorsHttpProvider, private file: File) { }
 
-  upload(url: string, files: Array<string>, options: FileUploderOptions): Promise<Array<string>> {
+  upload(url: string, files: string[], options: FileUploderOptions): Promise<string[]> {
     return this.formData(files, options).then(formData => {
-      return this.http.post<Array<string>>(url, { body: formData });
+      return this.http.post<string[]>(url, { body: formData });
     }).catch(e => Promise.reject(e));
   }
 
-  private formData(files: Array<string>, options: FileUploderOptions): Promise<FormData> {
+  private formData(files: string[], options: FileUploderOptions): Promise<FormData> {
     if (files.length === 0) {
       return Promise.reject('没有要上传的文件');
     }
@@ -39,7 +39,7 @@ export class FileUploder {
     });
   }
 
-  private readFiles(filepaths: Array<string> = []): Promise<Array<{ blob: Blob, name: string }>> {
+  private readFiles(filepaths: string[] = []): Promise<{ blob: Blob, name: string }[]> {
     const promises = [];
     filepaths.forEach(filepath => {
       if (!filepath.startsWith('file://')) {
@@ -55,14 +55,14 @@ export class FileUploder {
   private readFile(filepath: string): Promise<{ blob: Blob, name: string }> {
     return new Promise<{ blob: Blob, name: string }>((resolve, reject) => {
       this.file.resolveLocalFilesystemUrl(filepath).then(entry => {
-        (<FileEntry>entry).file(file => {
+        (entry as FileEntry).file(file => {
           const reader = new FileReader();
           reader.onerror = (e) => {
             reject(e);
           };
           reader.onloadend = () => {
             const blob = new Blob([reader.result], { type: file.type });
-            resolve({ blob: blob, name: file.name });
+            resolve({ blob, name: file.name });
           };
           reader.readAsArrayBuffer(file);
         });

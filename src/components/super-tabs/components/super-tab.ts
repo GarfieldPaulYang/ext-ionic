@@ -1,11 +1,10 @@
 import {
-  ChangeDetectorRef, Component, ComponentFactoryResolver, ElementRef, Input, NgZone, OnDestroy,
+  ChangeDetectorRef, Component, ComponentFactoryResolver, ElementRef, ErrorHandler, Input, NgZone, OnDestroy,
   OnInit, Optional, Renderer, ViewChild, ViewContainerRef, ViewEncapsulation
 } from '@angular/core';
 import { App, Config, DeepLinker, DomController, GestureController, NavControllerBase, NavOptions, Platform, ViewController } from 'ionic-angular';
 import { TransitionController } from 'ionic-angular/transitions/transition-controller';
 import { SuperTabs } from './super-tabs';
-import { ErrorHandler } from '@angular/core';
 
 @Component({
   selector: 'ion-super-tab',

@@ -101,7 +101,7 @@ export class ImageLoaderCmp implements OnInit {
   }
 
   private updateImage(imageUrl: string) {
-    this.imageLoader.getImagePath(imageUrl).then((imageUrl: string) => this.setImage(imageUrl))
+    this.imageLoader.getImagePath(imageUrl).then((url: string) => this.setImage(url))
       .catch(() => this.setImage(this.fallbackUrl || imageUrl));
   }
 

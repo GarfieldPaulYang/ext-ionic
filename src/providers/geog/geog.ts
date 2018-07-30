@@ -90,7 +90,7 @@ export class AmapGeogProvider implements GeogProvider {
       pointsStrs.push(coords.lng + ',' + coords.lat);
     });
     const url = `http://restapi.amap.com/v3/assistant/coordinate/convert?callback=JSONP_CALLBACK&coordsys=gps&output=json&key=${this.appKey}&locations=${pointsStrs.join('|')}`;
-    return <Promise<GpsPoint[]>>this.http.jsonp<any>(url).then(o => {
+    return this.http.jsonp<any>(url).then(o => {
       const location: string[] = o.locations.split(';');
       const result: GpsPoint[] = [];
       location.forEach(v => {
@@ -100,6 +100,6 @@ export class AmapGeogProvider implements GeogProvider {
       return result;
     }).catch(e => {
       Promise.reject(e);
-    });
+    }) as Promise<GpsPoint[]>;
   }
 }

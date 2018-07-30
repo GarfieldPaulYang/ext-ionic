@@ -13,7 +13,7 @@ export function isPresent(val: any): boolean {
 }
 
 export function flattenObject(obj: any) {
-  return _.transform(obj, function (result, value, key) {
+  return _.transform(obj, (result, value, key) => {
     if (_.isObject(value) && !_.isArray(value)) {
       const flatMap = _.mapKeys(flattenObject(value), (_mvalue, mkey) => {
         return `${key}.${mkey}`;
@@ -28,7 +28,7 @@ export function flattenObject(obj: any) {
 }
 
 export function unFlattenObject(params: any) {
-  return _.reduce(params, (result, value, key) => { return _.set(result, key, value); }, {});
+  return _.reduce(params, (result, value, key) => _.set(result, key, value), {});
 }
 
 export function dateFormat(date: Date | number, format: string = 'yyyy-MM-dd'): string {
@@ -41,7 +41,7 @@ export function dateFormat(date: Date | number, format: string = 'yyyy-MM-dd'): 
   const time = {
     year: d.getFullYear(),
     tyear: String(d.getFullYear()).substr(2),
-    month: month,
+    month,
     tmonth: month < 10 ? '0' + month : String(month),
     day: d.getDate(),
     tday: d.getDate() < 10 ? '0' + d.getDate() : String(d.getDate()),
@@ -146,7 +146,7 @@ export function division(dividend: number, divisor: number, toFixed?: number) {
 
 export function guid() {
   const d = new Date().getTime();
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     const r = (d + Math.random() * 16) % 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });

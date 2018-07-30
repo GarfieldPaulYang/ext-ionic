@@ -83,7 +83,7 @@ export class BaiduMap implements AfterViewInit, OnChanges, OnDestroy {
     this.draw(opts.markers);
   }
 
-  private draw(markers: Array<MarkerOptions>) {
+  private draw(markers: MarkerOptions[]) {
     const opts: BaiduMapOptions = this.getOptions();
     if (opts.mass.enabled) {
       this.baiduMapCtrl.drawMassPoints(markers, opts.mass.options, this.onMarkerClick);

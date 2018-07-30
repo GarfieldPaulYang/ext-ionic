@@ -34,7 +34,7 @@ export class Pagination {
   totalCount: number;
   pageCount: number;
   hasNextPage: boolean;
-  items: Array<any> = [];
+  items: any[] = [];
 
   constructor(data: any) {
     this.assign(data);

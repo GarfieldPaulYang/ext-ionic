@@ -20,7 +20,7 @@ export class StarRatingCmp extends BaseInput<number> implements OnInit, OnDestro
   @Input() max: number = 5;
   @Input() readonly: boolean = false;
 
-  range: Array<number>;
+  range: number[];
   private hammer: HammerManager;
 
   constructor(
@@ -92,7 +92,7 @@ export class StarRatingCmp extends BaseInput<number> implements OnInit, OnDestro
   }
 
   private fullStates(): void {
-    const states: Array<number> = [];
+    const states: number[] = [];
     for (let i = 0; i < this.max; i++) {
       if (this.value > i && this.value < i + 1) {
         states[i] = 2;

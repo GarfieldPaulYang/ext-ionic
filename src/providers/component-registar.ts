@@ -19,14 +19,14 @@ export class ComponentRegistar {
     delete this.components[component.name];
   }
 
-  registerComponents(components: Array<any>) {
+  registerComponents(components: any[]) {
     if (!isPresent(components)) {
       return;
     }
     components.forEach(component => this.registerComponent(component));
   }
 
-  unregisterComponents(components: Array<any>) {
+  unregisterComponents(components: any[]) {
     if (!isPresent(components)) {
       return;
     }

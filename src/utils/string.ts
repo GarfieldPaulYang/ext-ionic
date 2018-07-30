@@ -1,5 +1,5 @@
 export const StringUtils = {
-  startsWith: (str: string, searchStrings: Array<string>): boolean => {
+  startsWith: (str: string, searchStrings: string[]): boolean => {
     for (let i = 0; i < searchStrings.length; i++) {
       const searchString = searchStrings[i];
       if (str.startsWith(searchString)) {

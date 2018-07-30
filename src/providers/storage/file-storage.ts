@@ -85,7 +85,7 @@ export class TextFileStorage implements Storage {
 
   private readFile<T>(options: LoadOptions): Promise<T> {
     return this.file.readAsText(this.getFilepath(options.dirname), options.filename).then(value => {
-      return this.deserialize(<string>value);
+      return this.deserialize(value as string);
     }).catch(reason => {
       return Promise.reject(reason);
     });

@@ -58,9 +58,9 @@ export class BaiduMapController {
     });
   }
 
-  translateGps(gpsData: Array<GpsPoint> = []): Promise<any> {
+  translateGps(gpsData: GpsPoint[] = []): Promise<any> {
     return new Promise<any>(resolve => {
-      const points: Array<any> = [];
+      const points: any[] = [];
       gpsData.forEach(value => {
         points.push(new BMap.Point(value.lng, value.lat));
       });
@@ -128,7 +128,7 @@ export class BaiduMapController {
     return marker;
   }
 
-  drawMarkers(markers: Array<MarkerOptions>, clickHandler: EventEmitter<any>): Promise<any> {
+  drawMarkers(markers: MarkerOptions[], clickHandler: EventEmitter<any>): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       setTimeout(() => {
         // 判断是否含有定位点
@@ -147,7 +147,7 @@ export class BaiduMapController {
     });
   }
 
-  drawMassPoints(markers: Array<MarkerOptions>, opts: PointCollectionOptions, clickHandler: EventEmitter<any>): Promise<void> {
+  drawMassPoints(markers: MarkerOptions[], opts: PointCollectionOptions, clickHandler: EventEmitter<any>): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       setTimeout(() => {
         if (!markers || markers.length === 0) {
@@ -157,7 +157,7 @@ export class BaiduMapController {
 
         this.clearOverlays();
 
-        const points: Array<any> = [];
+        const points: any[] = [];
         markers.forEach(marker => {
           points.push(new BMap.Point(marker.point.lng, marker.point.lat));
         });
@@ -177,7 +177,7 @@ export class BaiduMapController {
     });
   }
 
-  drawLine(markers: Array<MarkerOptions>, clickHandler: EventEmitter<any>): Promise<any> {
+  drawLine(markers: MarkerOptions[], clickHandler: EventEmitter<any>): Promise<any> {
     return this.drawMarkers(markers, clickHandler).then(result => {
       const points = [];
       result.forEach(marker => {

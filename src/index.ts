@@ -101,7 +101,7 @@ import { AutoCompleteModule } from './components/auto-complete/auto-complete.mod
 import { SignaturePadModule } from './components/signature-pad/signature-pad.module';
 import { FileButtonModule } from './components/file-button/file-button-module';
 
-const PROVIDERS: Array<any> = [
+const PROVIDERS: any[] = [
   FileTransfer,
   File,
   FileOpener,

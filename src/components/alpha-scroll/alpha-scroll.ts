@@ -37,7 +37,7 @@ const ALPHABETS: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   @Input() listData: any;
   @Input() key: string;
-  @Input() itemTemplate: TemplateRef<Object>;
+  @Input() itemTemplate: TemplateRef<any>;
   @Input() currentPageClass: any;
   private letterIndicatorEle: HTMLElement;
   private indicatorHeight: number;
@@ -62,7 +62,7 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges() {
-    const sortedListData: Array<any> = this.orderBy.transform(this.listData, [this.key]);
+    const sortedListData: any[] = this.orderBy.transform(this.listData, [this.key]);
     const groupItems: any = _.groupBy(sortedListData, item => {
       const letter: any = _.get(item, this.key);
       return letter.toUpperCase().charAt(0);
@@ -134,16 +134,16 @@ export class AlphaScroll implements OnInit, OnChanges, OnDestroy {
     }, 50));
   }
 
-  private iterateAlphabet(groupItems: any): { alphabets: Array<any>, sortedItems: Array<any> } {
+  private iterateAlphabet(groupItems: any): { alphabets: any[], sortedItems: any[] } {
     const result = { alphabets: [], sortedItems: [] };
     for (let i = 0; i < ALPHABETS.length; i++) {
       const letter = ALPHABETS.charAt(i);
       const isActive = groupItems[letter] ? true : false;
-      result.alphabets.push({ letter: letter, isActive: isActive });
+      result.alphabets.push({ letter, isActive });
 
       if (!isActive) continue;
 
-      result.sortedItems = result.sortedItems.concat([{ isDivider: true, letter: letter }].concat(groupItems[letter]));
+      result.sortedItems = result.sortedItems.concat([{ isDivider: true, letter }].concat(groupItems[letter]));
     }
 
     let otherItems = [{ isDivider: true, letter: '其它' }];

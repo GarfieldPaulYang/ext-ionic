@@ -120,7 +120,6 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
 
   /**
    * The initial selected tab index
-   * @param val {number} tab index
    */
   @Input()
   set selectedTabIndex(val: number) {
@@ -147,14 +146,8 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   @Output()
   tabSelect: EventEmitter<any> = new EventEmitter<any>();
 
-  /**
-   * @private
-   */
   _isToolbarVisible: boolean = true;
 
-  /**
-   * @private
-   */
   _tabs: SuperTab[] = [];
 
   @ViewChild(SuperTabsToolbar)
@@ -190,12 +183,12 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
     private domCtrl: DomController,
     private _plt: Platform
   ) {
-    this.parent = <NavControllerBase>parent;
+    this.parent = parent as NavControllerBase;
 
     if (this.parent) {
       this.parent.registerChildNav(this);
     } else if (viewCtrl && viewCtrl.getNav()) {
-      this.parent = <any>viewCtrl.getNav();
+      this.parent = viewCtrl.getNav() as any;
       this.parent.registerChildNav(this);
     } else if (this._app) {
       this._app.registerRootNav(this);
@@ -358,7 +351,6 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
 
   /**
    * We listen to drag events to move the "slide" thingy along with the slides
-   * @param ev
    */
   onDrag() {
     if (!this._isToolbarVisible) return;
@@ -411,7 +403,6 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
 
   /**
    * Runs when the user clicks on a segment button
-   * @param index
    */
   async onTabChange(index: number) {
     index = Number(index);

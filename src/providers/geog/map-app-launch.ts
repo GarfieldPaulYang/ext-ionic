@@ -91,7 +91,7 @@ class AmapMapLaunchService implements MapLaunchService {
     };
     const uri = `${o.platform}amap://viewReGeo?sourceApplication=myApp&dev=${o.dev}&lon=${o.lng}&lat=${o.lat}`;
     return this.appLauncher.launch({
-      uri: uri
+      uri
     });
   }
 
@@ -160,7 +160,7 @@ export class MapLaunchProvider {
       });
     });
     const actionSheet = this.actionSheetCtrl.create({
-      buttons: buttons
+      buttons
     });
     actionSheet.present();
   }

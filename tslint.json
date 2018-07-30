@@ -1,11 +1,16 @@
 {
   "extends": "tslint-ionic-rules",
   "rules": {
+    "align": false,
     "eofline": false,
     "no-empty": false,
     "no-import-side-effect": false,
     "no-inferrable-types": false,
+    "no-shadowed-variable": false,
     "prefer-conditional-expression": false,
+    "await-promise": false,
+    "deprecation": false,
+    "member-access": false,
     "no-consecutive-blank-lines": true
   }
 }

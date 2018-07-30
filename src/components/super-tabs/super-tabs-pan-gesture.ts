@@ -22,7 +22,7 @@ export class SuperTabsPanGesture {
 
   private lastPosX: number;
 
-  private listeners: Function[] = [];
+  private listeners: (() => void)[] = [];
 
   constructor(
     private plt: Platform,
@@ -83,9 +83,10 @@ export class SuperTabsPanGesture {
     const coords: PointerCoordinates = pointerCoord(ev);
 
     if (!this.isDragging) {
-      if (typeof this.shouldCapture !== 'boolean')
+      if (typeof this.shouldCapture !== 'boolean') {
         // we haven't decided yet if we want to capture this gesture
         this.checkGesture(coords);
+      }
 
       if (this.shouldCapture === true) {
         // gesture is good, let's capture all next onTouchMove events
