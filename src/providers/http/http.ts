@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Events, Loading } from 'ionic-angular';
+import { Events } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
 
 import { Observable } from 'rxjs/Observable';
@@ -17,6 +17,7 @@ import { Dialog } from '../../utils/dialog';
 import { JsonFileStorage } from '../storage/json-file-storage';
 import { MemoryStorage } from '../storage/mem-storage';
 import { ConfigProvider } from '../../config/config';
+import { HttpLoadingProvider } from './HttpLoadingProvider';
 
 export const RequestMethod = {
   Get: 'GET',
@@ -157,6 +158,7 @@ export const ticket_expired: string = 'ticket-expired';
 export class HttpProvider {
   constructor(
     private _http: HttpClient,
+    private httpLoading: HttpLoadingProvider,
     private jsonCache: JsonFileStorage,
     private memCache: MemoryStorage,
     private dialog: Dialog
@@ -228,19 +230,15 @@ export class HttpProvider {
 
   request<T>(url: string, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
     const opts: HttpProviderOptions = new HttpProviderOptions(url).merge(options);
-    let loading: Loading;
-    if (opts.showLoading) {
-      loading = this.dialog.loading(opts.loadingContent);
-      loading.present();
-    }
+    this.httpLoading.onStarted(opts);
     return this.ajax(url, opts).toPromise().then(result => {
-      if (loading) loading.dismiss().catch(() => { });
+      this.httpLoading.onFinished(opts);
       if (result.type === HttpEventType.Response) {
         return new ResponseResult<T>((result as HttpResponse<any>).body);
       }
       return new ResponseResult<T>(null, result);
     }).catch(err => {
-      if (loading) loading.dismiss().catch(() => { });
+      this.httpLoading.onFinished(opts);
       return Promise.reject(err);
     });
   }
