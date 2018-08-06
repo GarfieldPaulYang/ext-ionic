@@ -17,7 +17,7 @@ import { Dialog } from '../../utils/dialog';
 import { JsonFileStorage } from '../storage/json-file-storage';
 import { MemoryStorage } from '../storage/mem-storage';
 import { ConfigProvider } from '../../config/config';
-import { HttpLoadingProvider } from './HttpLoadingProvider';
+import { HttpLoadingProvider } from './http-loading';
 
 export const RequestMethod = {
   Get: 'GET',
