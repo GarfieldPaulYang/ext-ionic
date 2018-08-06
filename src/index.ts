@@ -70,6 +70,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import { Config, ConfigProvider, EXT_IONIC_CONFIG, setupConfig } from './config/config';
 import { Dialog } from './utils/dialog';
+import { HttpLoadingProvider } from './providers/http/http-loading';
 import { CorsHttpProvider, HttpProvider } from './providers/http/http';
 import { FileUploder } from './providers/http/file-uploader';
 
@@ -110,6 +111,7 @@ const PROVIDERS: any[] = [
   HotCodePush,
 
   Dialog,
+  HttpLoadingProvider,
   HttpProvider,
   CorsHttpProvider,
   FileUploder,
