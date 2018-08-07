@@ -290,7 +290,7 @@ export class ImageLoaderController {
 
         const localDir = this.file.cacheDirectory + '/';
         const fileName = this.createFileName(currentItem.imageUrl);
-        this.http.get(currentItem.imageUrl, { responseType: 'blob' }).then((data: Blob) => {
+        this.http.get(currentItem.imageUrl, { responseType: 'blob' }).subscribe((data: Blob) => {
           this.file.writeFile(localDir, fileName, data, { replace: true }).then((file: FileEntry) => {
             if (this.isCacheSpaceExceeded) {
               this.maintainCacheSize();
@@ -307,10 +307,7 @@ export class ImageLoaderController {
             // Could not write image
             error(e);
           });
-        }).catch((e) => {
-          // Could not get image via httpClient
-          error(e);
-        });
+        }, e => error(e));
       });
       return;
     }

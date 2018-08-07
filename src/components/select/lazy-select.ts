@@ -67,11 +67,8 @@ export class LazySelect extends BaseInput<any> implements OnInit {
     this.http.get<any[]>(
       this.url,
       { cache: true, cacheOnly: true, memCache: true, params: URLParamsBuilder.build(this.params), showLoading: false }
-    ).then((data: any[]) => {
+    ).subscribe((data: any[]) => {
       this.options = data;
-    }).catch(e => {
-      Promise.reject(e);
     });
   }
-
 }

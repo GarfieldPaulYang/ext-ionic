@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { GeogProvider, GpsPoint } from '../../commons/type/geog';
 import { HttpProvider } from '../http/http';
 
+import 'rxjs/add/operator/toPromise';
+
 export interface Geocoder extends GpsPoint {
   coordType?: 'bd09ll' | 'bd09mc' | 'gcj02ll' | 'wgs84ll' | 'wgs84';
   pois?: '0' | '1';
@@ -31,7 +33,7 @@ export class BaiduGeogProvider implements GeogProvider {
       ...params
     };
     const url = `http://api.map.baidu.com/geocoder/v2/?coordtype=${params.coordType}&radius=${params.radius}&location=${params.lat},${params.lng}&output=json&pois=${params.pois}&ak=${this.appKey}`;
-    return this.http.jsonp<any>(url).then(r => {
+    return this.http.jsonp<any>(url).toPromise().then(r => {
       if (r.status !== 0) {
         return Promise.reject(r.message);
       }
@@ -48,7 +50,7 @@ export class BaiduGeogProvider implements GeogProvider {
       ...params
     };
     const url = `http://api.map.baidu.com/place/v2/suggestion?q=${params.keyword}&region=${params.region}&location=${params.location}&city_limit=true&coord_type=${params.coordType}&ret_coordtype=${params.retCoordType}&output=json&ak=${this.appKey}`;
-    return this.http.jsonp<any>(url).then(r => {
+    return this.http.jsonp<any>(url).toPromise().then(r => {
       if (r.status !== 0) {
         return Promise.reject(r.message);
       }
@@ -62,7 +64,7 @@ export class BaiduGeogProvider implements GeogProvider {
       coordsStrs.push(coords.lng + ',' + coords.lat);
     });
     const url = `http://api.map.baidu.com/geoconv/v1/?output=json&from=1&to=5&ak=${this.appKey}&coords=${coordsStrs.join(';')}`;
-    return this.http.jsonp<any>(url).then(r => {
+    return this.http.jsonp<any>(url).toPromise().then(r => {
       if (r.status !== 0) {
         return Promise.reject<any>('转换 gps 失败');
       }
@@ -90,7 +92,7 @@ export class AmapGeogProvider implements GeogProvider {
       pointsStrs.push(coords.lng + ',' + coords.lat);
     });
     const url = `http://restapi.amap.com/v3/assistant/coordinate/convert?callback=JSONP_CALLBACK&coordsys=gps&output=json&key=${this.appKey}&locations=${pointsStrs.join('|')}`;
-    return this.http.jsonp<any>(url).then(o => {
+    return this.http.jsonp<any>(url).toPromise().then(o => {
       const location: string[] = o.locations.split(';');
       const result: GpsPoint[] = [];
       location.forEach(v => {

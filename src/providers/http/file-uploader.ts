@@ -3,6 +3,8 @@ import { File, FileEntry } from '@ionic-native/file';
 
 import { CorsHttpProvider } from './http';
 
+import 'rxjs/add/operator/toPromise';
+
 export interface FileUploderOptions {
   dir: string;
   notemp?: boolean;
@@ -15,7 +17,7 @@ export class FileUploder {
 
   upload(url: string, files: string[], options: FileUploderOptions): Promise<string[]> {
     return this.formData(files, options).then(formData => {
-      return this.http.post<string[]>(url, { body: formData });
+      return this.http.post<string[]>(url, { body: formData }).toPromise();
     }).catch(e => Promise.reject(e));
   }
 

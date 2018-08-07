@@ -4,8 +4,10 @@ import { Events } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
 
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/finally';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/do';
 
 import * as _ from 'lodash';
 
@@ -168,83 +170,72 @@ export class HttpProvider {
     return this._http;
   }
 
-  get<T>(url: string,
-    options?: HttpProviderOptionsArgs,
-    foundCacheCallback: (result: T) => void = (_result: T) => { }
-  ): Promise<T> {
-    return this.requestWithError<T>(url, options, foundCacheCallback);
+  get<T>(url: string, options?: HttpProviderOptionsArgs): Observable<T> {
+    return this.requestWithError<T>(url, options);
   }
 
-  post<T>(url: string, options?: HttpProviderOptionsArgs): Promise<T> {
+  post<T>(url: string, options?: HttpProviderOptionsArgs): Observable<T> {
     options = { ...options, method: RequestMethod.Post };
     return this.requestWithError<T>(url, options);
   }
 
-  requestWithError<T>(
-    url: string,
-    options?: HttpProviderOptionsArgs,
-    foundCacheCallback: (result: T) => void = (_result: T) => { }
-  ): Promise<T> {
+  requestWithError<T>(url: string, options?: HttpProviderOptionsArgs): Observable<T> {
     const opts: HttpProviderOptions = new HttpProviderOptions(url).merge(options);
     const cache = opts.memCache ? this.memCache : this.jsonCache;
+    const isGet = options.method === RequestMethod.Get;
+    const cacheKey = options.cache && isGet ? this.hashUrl(url, opts.params as HttpParams) : null;
 
-    const innerRequest = (url: string, options?: HttpProviderOptionsArgs): Promise<T> => {
-      return this.request<T>(url, options).then((result: ResponseResult<T>) => {
+    return Observable.create(observer => {
+      if (cacheKey) {
+        cache.load<T>({ dirname: HTTP_CACHE_DIR, filename: cacheKey, maxAge: opts.maxCacheAge }).then(result => {
+          observer.next(result);
+        }).catch(error => {
+          if (opts.cacheOnly) {
+            observer.error(error);
+            return;
+          }
+          console.log(error);
+        });
+      }
+
+      this.request<T>(url, options).subscribe((result: ResponseResult<T>) => {
         if (result.status === 1) {
           if (options.showErrorAlert) {
             this.dialog.alert('系统提示', result.msg);
           }
           if (isPresent(result.data) && !_.isEqual({}, result.data)) {
-            return Promise.reject(result);
+            observer.error(result);
+            return;
           }
-          return Promise.reject(result.msg);
+          observer.error(result.msg);
+          return;
         }
 
-        if (options.cache && options.method === RequestMethod.Get && cacheKey) {
+        if (cacheKey) {
           cache.save({ dirname: HTTP_CACHE_DIR, filename: cacheKey, content: result.data });
         }
 
-        return result.data;
-      }).catch(err => {
-        return Promise.reject(err);
+        observer.next(result.data);
+        observer.complete();
+      }, (error) => {
+        observer.error(error);
       });
-    };
-
-    let cacheKey;
-    if (opts.cache && opts.method === RequestMethod.Get) {
-      cacheKey = this.hashUrl(url, opts.params as HttpParams);
-
-      if (opts.cacheOnly) {
-        return cache.load<T>(
-          { dirname: HTTP_CACHE_DIR, filename: cacheKey, maxAge: opts.maxCacheAge }
-        ).catch(() => innerRequest(url, opts));
-      }
-
-      cache.load<T>({ dirname: HTTP_CACHE_DIR, filename: cacheKey }).then(result => {
-        foundCacheCallback(result);
-      }).catch(error => console.log(error));
-    }
-
-    return innerRequest(url, opts);
+    });
   }
 
-  request<T>(url: string, options?: HttpProviderOptionsArgs): Promise<ResponseResult<T>> {
+  request<T>(url: string, options?: HttpProviderOptionsArgs): Observable<ResponseResult<T>> {
     const opts: HttpProviderOptions = new HttpProviderOptions(url).merge(options);
     this.httpLoading.onStarted(opts);
-    return this.ajax(url, opts).toPromise().then(result => {
-      this.httpLoading.onFinished(opts);
+    return this.ajax(url, opts).map(result => {
       if (result.type === HttpEventType.Response) {
         return new ResponseResult<T>((result as HttpResponse<any>).body);
       }
       return new ResponseResult<T>(null, result);
-    }).catch(err => {
-      this.httpLoading.onFinished(opts);
-      return Promise.reject(err);
-    });
+    }).finally(() => this.httpLoading.onFinished(opts));
   }
 
-  jsonp<T>(url: string, callbackParam: string = 'callback'): Promise<T> {
-    return this.http.jsonp<T>(url, callbackParam).toPromise();
+  jsonp<T>(url: string, callbackParam: string = 'callback'): Observable<T> {
+    return this.http.jsonp<T>(url, callbackParam);
   }
 
   ajax<T>(url: string, options?: HttpProviderOptionsArgs): Observable<HttpEvent<T>> {
@@ -288,7 +279,7 @@ export class CorsHttpProvider {
     private device: Device
   ) { }
 
-  login(options: LoginOptions): Promise<LoginResult> {
+  login(options: LoginOptions): Observable<LoginResult> {
     return this.post<LoginResult>(this.config.get().login.url, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -298,41 +289,32 @@ export class CorsHttpProvider {
       },
       showErrorAlert: false,
       body: options
-    }).then(result => {
+    }).do(result => {
       this.config.set('ticket', result.successToken);
-      return result;
     });
   }
 
-  logout(): Promise<string> {
+  logout(): Observable<string> {
     return this.get<string>(this.config.get().login.url, {
       cache: false,
       headers: {
         'lx-logout': 'true'
       }
-    }).then(result => {
+    }).do(() => {
       this.config.set('ticket', null);
-      return result;
     });
   }
 
-  get<T>(url: string,
-    options?: HttpProviderOptionsArgs,
-    foundCacheCallback: (result: T) => void = (_result: T) => { }
-  ): Promise<T> {
-    return this.request<T>(url, options, foundCacheCallback);
+  get<T>(url: string, options?: HttpProviderOptionsArgs): Observable<T> {
+    return this.request<T>(url, options);
   }
 
-  post<T>(url: string, options?: HttpProviderOptionsArgs): Promise<T> {
+  post<T>(url: string, options?: HttpProviderOptionsArgs): Observable<T> {
     options = { ...options, method: RequestMethod.Post };
     return this.request<T>(url, options);
   }
 
-  request<T>(
-    url: string,
-    options?: HttpProviderOptionsArgs,
-    foundCacheCallback: (result: T) => void = (_result: T) => { }
-  ): Promise<T> {
+  request<T>(url: string, options?: HttpProviderOptionsArgs): Observable<T> {
     options = options || {};
     options.params = buildParams(options.params || new HttpParams()).set('lx-cors-request', 'true');
     options.headers = buildHeaders(options.headers || new HttpHeaders()).set('lx-app-key', this.config.get().login.appKey)
@@ -342,14 +324,12 @@ export class CorsHttpProvider {
       options.headers = (options.headers as HttpHeaders).set('lx-ticket', this.config.get().ticket);
     }
 
-    return this.http.requestWithError<T>(url, options, foundCacheCallback).then(result => {
-      return result;
-    }).catch(err => {
+    return this.http.requestWithError<T>(url, options).catch(err => {
       if (err && ((_.isString(err) && err.toString() === ticket_expired) ||
         (_.isString(err.data) && err.data.toString() === ticket_expired))) {
         this.events.publish(ticket_expired);
       }
-      return Promise.reject(err);
+      return Observable.throw(err);
     });
   }
 }
