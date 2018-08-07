@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { GeogProvider, GpsPoint } from '../../commons/type/geog';
 import { HttpProvider } from '../http/http';
 
-import 'rxjs/add/operator/toPromise';
-
 export interface Geocoder extends GpsPoint {
   coordType?: 'bd09ll' | 'bd09mc' | 'gcj02ll' | 'wgs84ll' | 'wgs84';
   pois?: '0' | '1';

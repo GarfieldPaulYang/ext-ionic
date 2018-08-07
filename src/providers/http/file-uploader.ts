@@ -3,8 +3,6 @@ import { File, FileEntry } from '@ionic-native/file';
 
 import { CorsHttpProvider } from './http';
 
-import 'rxjs/add/operator/toPromise';
-
 export interface FileUploderOptions {
   dir: string;
   notemp?: boolean;
