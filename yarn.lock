@@ -103,7 +103,7 @@
   version "0.0.30"
   resolved "http://10.68.34.178/nexus3/repository/npm-group/@types/localforage/-/localforage-0.0.30.tgz#3d60a6bf6dda38e3f8a469611598379f1f649509"
 
-"@types/lodash@^4.14.61":
+"@types/lodash@^4.14.116":
   version "4.14.116"
   resolved "http://10.68.34.178/nexus3/repository/npm-group/@types/lodash/-/lodash-4.14.116.tgz#5ccf215653e3e8c786a58390751033a9adca0eb9"
 
