@@ -322,8 +322,10 @@ export class SuperTabs implements OnInit, AfterContentInit, AfterViewInit, OnDes
   }
 
   getActiveChildNavs(): NavigationContainer[] {
-    const selected = this.getActiveTab();
-    return selected ? [selected] : [];
+    if (this.selectedTabIndex < 0) {
+      this.selectedTabIndex = 0;
+    }
+    return [this.getActiveTab()];
   }
 
   getAllChildNavs(): any[] {
